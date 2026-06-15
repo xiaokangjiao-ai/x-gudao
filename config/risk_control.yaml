@@ -1,0 +1,54 @@
+# X-Gudao 风控规则
+# 对标 Macrotrends 的金融数据安全规范
+
+rules:
+  # 数据安全
+  - name: "no_real_trading"
+    description: "禁止执行真实交易操作"
+    pattern: ".*"
+    action: "block"
+    scope: ["trading", "order", "buy", "sell", "execute"]
+    
+  # 敏感信息保护
+  - name: "protect_pii"
+    description: "保护用户隐私信息"
+    pattern: ".*(password|secret|token|api_key|private_key).*"
+    action: "mask"
+    
+  # 投资建议免责
+  - name: "disclaimer_required"
+    description: "所有投资分析必须包含免责声明"
+    trigger: "analysis_report|investment_advice"
+    action: "append_disclaimer"
+    disclaimer: "⚠️ 本报告仅供参考，不构成投资建议。过往表现不代表未来收益。"
+
+  # 模型输出限制
+  - name: "output_length_limit"
+    description: "限制单次输出长度"
+    max_tokens: 6000
+    
+  # 数据源限流
+  - name: "rate_limit_yfinance"
+    description: "Yahoo Finance API 限流保护"
+    max_requests_per_minute: 30
+    backoff_seconds: 60
+
+# 风险等级定义
+risk_levels:
+  LOW:
+    description: "低风险 - 只读数据分析"
+    allowed: ["fetch_data", "analyze", "visualize", "report"]
+  MEDIUM:
+    description: "中风险 - 包含 AI 推理"
+    allowed: ["ai_insight", "forecast", "compare"]
+    requires_confirmation: true
+  HIGH:
+    description: "高风险 - 涉及资金相关"
+    allowed: []
+    blocked: true
+
+# 强制性安全提示
+mandatory_warnings:
+  - "历史数据不保证未来表现"
+  - "市场有风险，投资需谨慎"
+  - "AI 分析仅供参考"
