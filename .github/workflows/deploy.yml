@@ -21,82 +21,84 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-          
       - name: Generate static site
         run: |
-          mkdir -p _site
-          # 复制静态资源
-          cp -r output/* _site/ 2>/dev/null || true
+          mkdir -p _site/reports
+          
+          # 复制已有报告
+          cp -r output/reports/* _site/reports/ 2>/dev/null || echo 'No reports yet'
+          cp -r output/*.html _site/ 2>/dev/null || true
+          
           # 生成首页
-          python -c "
-import json
-from src.reporter import ReportGenerator
-from src.system_prompt import SYSTEM_PROMPT
-
-# 创建示例报告
-gen = ReportGenerator()
-content = '''
-# X-Gudao 股道奇货
-
-> AI驱动的ETF深度分析平台 | 本地部署 | 隐私优先
-
-## 核心功能
-
-- 📊 **多资产对比**: VOO/QQQ/SPY 等主流ETF一键对比
-- 🤖 **AI洞察**: 本地Ollama模型生成智能分析
-- 📈 **技术分析**: MA/RSI/MACD 指标自动计算
-- ⚠️ **风控内置**: 投资风险提示 + 免责声明
-
-## 最新分析
-
-- [VOO vs QQQ vs SPY 深度对比](./reports/voo_qqq_spy_comparison.html)
-
-## 技术栈
-
-- Python 3.12 + yfinance + plotly
-- Ollama 本地大模型 (qwen2:7b-64k)
-- GitHub Actions 自动部署
-
----
-*免责声明：本网站内容仅供参考，不构成投资建议。投资有风险，入市需谨慎。*
-'''
-with open('_site/index.html', 'w', encoding='utf-8') as f:
-    f.write(f'''<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X-Gudao 股道奇货 - AI ETF分析</title>
-    <style>
-        body {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; color: #333; }}
-        h1 {{ color: #1a73e8; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }}
-        h2 {{ color: #444; margin-top: 30px; }}
-        blockquote {{ border-left: 4px solid #1a73e8; padding-left: 20px; color: #666; font-style: italic; }}
-        code {{ background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }}
-        pre {{ background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }}
-        a {{ color: #1a73e8; text-decoration: none; }}
-        a:hover {{ text-decoration: underline; }}
-        .warning {{ background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 5px; margin-top: 30px; }}
-    </style>
-</head>
-<body>
-    {content}
-    <div class="warning">
-        <strong>⚠️ 免责声明</strong><br>
-        本网站内容基于历史数据和公开信息，由AI生成，仅供参考，不构成投资建议。
-        过往表现不代表未来收益。市场有风险，投资需谨慎。
-    </div>
-</body>
-</html>''')
-          "
+          cat > _site/index.html << 'HTMLEOF'
+          <!DOCTYPE html>
+          <html lang="zh-CN">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>X-Gudao 股道奇货 - AI ETF分析</title>
+              <style>
+                  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 40px 20px; line-height: 1.6; color: #333; }
+                  h1 { color: #1a73e8; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
+                  h2 { color: #444; margin-top: 30px; }
+                  blockquote { border-left: 4px solid #1a73e8; padding-left: 20px; color: #666; font-style: italic; }
+                  code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+                  pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+                  a { color: #1a73e8; text-decoration: none; }
+                  a:hover { text-decoration: underline; }
+                  .warning { background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 5px; margin-top: 30px; }
+                  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0; }
+                  .feature-card { background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #1a73e8; }
+              </style>
+          </head>
+          <body>
+              <h1>🚀 X-Gudao 股道奇货</h1>
+              <blockquote>AI驱动的ETF深度分析平台 | 本地部署 | 隐私优先</blockquote>
+              
+              <h2>核心功能</h2>
+              <div class="feature-grid">
+                  <div class="feature-card">
+                      <strong>📊 多资产对比</strong><br>
+                      VOO/QQQ/SPY 等主流ETF一键对比
+                  </div>
+                  <div class="feature-card">
+                      <strong>🤖 AI洞察</strong><br>
+                      本地Ollama模型生成智能分析
+                  </div>
+                  <div class="feature-card">
+                      <strong>📈 技术分析</strong><br>
+                      MA/RSI/MACD 指标自动计算
+                  </div>
+                  <div class="feature-card">
+                      <strong>⚠️ 风控内置</strong><br>
+                      投资风险提示 + 免责声明
+                  </div>
+              </div>
+              
+              <h2>最新分析</h2>
+              <ul>
+                  <li><a href="./reports/voo_qqq_spy_comparison.html">VOO vs QQQ vs SPY 深度对比</a></li>
+              </ul>
+              
+              <h2>技术栈</h2>
+              <ul>
+                  <li>Python 3.12 + yfinance + plotly</li>
+                  <li>Ollama 本地大模型 (qwen2:7b-64k)</li>
+                  <li>GitHub Actions 自动部署</li>
+              </ul>
+              
+              <div class="warning">
+                  <strong>⚠️ 免责声明</strong><br>
+                  本网站内容基于历史数据和公开信息，由AI生成，仅供参考，不构成投资建议。
+                  过往表现不代表未来收益。市场有风险，投资需谨慎。
+              </div>
+              
+              <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 14px;">
+                  <p>© 2026 X-Gudao 股道奇货 | <a href="https://github.com/xiaokangjiao-ai/x-gudao">GitHub</a></p>
+              </footer>
+          </body>
+          </html>
+          HTMLEOF
           
       - name: Setup Pages
         uses: actions/configure-pages@v5
