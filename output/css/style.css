@@ -469,6 +469,100 @@ a:hover { text-decoration: underline; }
 }
 .section-header .icon { font-size: 20px; }
 
+/* ---- Hero Stats ---- */
+.hero-sub { color: var(--text-secondary); font-size: 18px; max-width: 600px; margin: 0 auto; }
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-light);
+}
+.hero-stat { text-align: center; }
+.hero-stat-value { font-size: 24px; font-weight: 700; color: var(--accent-blue); }
+.hero-stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+/* ---- Index Grid ---- */
+.index-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.index-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  transition: all 0.15s;
+}
+.index-card:hover { border-color: var(--accent-blue); background: var(--bg-hover); }
+.index-name { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
+.index-price { font-size: 22px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.index-change { font-size: 13px; font-weight: 600; }
+.index-change.up { color: var(--accent-green); }
+.index-change.down { color: var(--accent-red); }
+.index-sparkline { margin-top: 8px; }
+
+/* ---- Mini Charts in Stock Cards ---- */
+.stock-card-mini-chart { margin-top: 8px; }
+
+/* ---- Compare Grid ---- */
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.compare-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 20px;
+  transition: all 0.15s;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.compare-card:hover { border-color: var(--accent-blue); background: var(--bg-hover); transform: translateY(-1px); }
+.compare-card-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+.compare-card-desc { font-size: 13px; color: var(--text-secondary); margin-top: 6px; line-height: 1.5; }
+.compare-card-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.tag {
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+/* ---- Tools Grid ---- */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.tool-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 24px 16px;
+  text-align: center;
+  transition: all 0.15s;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+.tool-card:hover { border-color: var(--accent-blue); background: var(--bg-hover); transform: translateY(-2px); }
+.tool-icon { font-size: 32px; margin-bottom: 8px; }
+.tool-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.tool-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+/* ---- Footer Links ---- */
+.footer-links { margin-bottom: 8px; }
+.footer-links a { margin: 0 4px; }
+
 /* ---- Responsive ---- */
 @media (max-width: 900px) {
   .main-content { flex-direction: column; }
