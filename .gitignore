@@ -1,5 +1,5 @@
-__pycache__/
-output/
+# output/ - static site files, must be tracked for GitHub Pages
+# __pycache__/
 *.pyc
 .env
 .venv/

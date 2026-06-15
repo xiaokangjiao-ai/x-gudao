@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>股道奇货 - AI驱动的金融数据分析平台</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="description" content="对标Macrotrends的中文金融数据分析平台，AI驱动的股票、ETF、指数深度分析">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="/" class="navbar-brand">📈 股道奇货 <span>X-Gudao</span></a>
+  <div class="navbar-links">
+    <a href="/" class="active">首页</a>
+    <a href="/stocks/VOO.html">ETF</a>
+    <a href="/compare/voo_qqq_spy.html">对比</a>
+    <a href="/about.html">关于</a>
+  </div>
+  <div class="navbar-search">
+    <input type="text" placeholder="搜索股票 / ETF..." id="searchInput">
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>📈 股道奇货</h1>
+    <p>AI驱动的金融数据分析平台 · 深度历史数据 · 智能洞察</p>
+    <div class="hero-search">
+      <input type="text" placeholder="输入股票代码，如 VOO、AAPL、QQQ" id="heroSearch">
+      <button onclick="doSearch()">分析</button>
+    </div>
+  </div>
+
+  <!-- Popular ETFs -->
+  <div class="section-header"><span class="icon">🔥</span> 热门ETF</div>
+  <div class="stocks-grid">
+    <a href="/stocks/VOO.html" class="stock-card">
+      <div class="stock-card-symbol">VOO</div>
+      <div class="stock-card-name">Vanguard S&P 500 ETF</div>
+      <div class="stock-card-price">$489.32</div>
+      <div class="stock-card-change up">+1.24 (+0.25%)</div>
+    </a>
+    <a href="/stocks/QQQ.html" class="stock-card">
+      <div class="stock-card-symbol">QQQ</div>
+      <div class="stock-card-name">Invesco QQQ Trust</div>
+      <div class="stock-card-price">$532.18</div>
+      <div class="stock-card-change up">+2.56 (+0.48%)</div>
+    </a>
+    <a href="/stocks/SPY.html" class="stock-card">
+      <div class="stock-card-symbol">SPY</div>
+      <div class="stock-card-name">SPDR S&P 500 ETF</div>
+      <div class="stock-card-price">$592.47</div>
+      <div class="stock-card-change up">+0.87 (+0.15%)</div>
+    </a>
+    <a href="/stocks/VTI.html" class="stock-card">
+      <div class="stock-card-symbol">VTI</div>
+      <div class="stock-card-name">Vanguard Total Stock Market</div>
+      <div class="stock-card-price">$298.65</div>
+      <div class="stock-card-change up">+0.93 (+0.31%)</div>
+    </a>
+    <a href="/stocks/IWM.html" class="stock-card">
+      <div class="stock-card-symbol">IWM</div>
+      <div class="stock-card-name">iShares Russell 2000</div>
+      <div class="stock-card-price">$221.34</div>
+      <div class="stock-card-change down">-1.12 (-0.50%)</div>
+    </a>
+    <a href="/stocks/GLD.html" class="stock-card">
+      <div class="stock-card-symbol">GLD</div>
+      <div class="stock-card-name">SPDR Gold Shares</div>
+      <div class="stock-card-price">$295.80</div>
+      <div class="stock-card-change up">+3.45 (+1.18%)</div>
+    </a>
+    <a href="/stocks/TLT.html" class="stock-card">
+      <div class="stock-card-symbol">TLT</div>
+      <div class="stock-card-name">iShares 20+ Year Treasury</div>
+      <div class="stock-card-price">$92.15</div>
+      <div class="stock-card-change down">-0.38 (-0.41%)</div>
+    </a>
+    <a href="/stocks/BND.html" class="stock-card">
+      <div class="stock-card-symbol">BND</div>
+      <div class="stock-card-name">Vanguard Total Bond Market</div>
+      <div class="stock-card-price">$71.82</div>
+      <div class="stock-card-change down">-0.12 (-0.17%)</div>
+    </a>
+  </div>
+
+  <!-- Sector Performance -->
+  <div class="section-header"><span class="icon">📊</span> 行业板块</div>
+  <div class="card">
+    <div class="card-body" style="padding:0">
+      <table class="data-table">
+        <thead>
+          <tr><th>板块</th><th class="num">今日涨跌</th><th class="num">近1周</th><th class="num">近1月</th><th class="num">近1年</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="label-cell">🖥️ 信息技术</td><td class="num positive">+1.12%</td><td class="num positive">+2.34%</td><td class="num positive">+5.67%</td><td class="num positive">+28.45%</td></tr>
+          <tr><td class="label-cell">🏥 医疗保健</td><td class="num positive">+0.45%</td><td class="num positive">+1.12%</td><td class="num positive">+3.21%</td><td class="num positive">+15.32%</td></tr>
+          <tr><td class="label-cell">🏦 金融</td><td class="num negative">-0.23%</td><td class="num positive">+0.89%</td><td class="num positive">+2.56%</td><td class="num positive">+18.76%</td></tr>
+          <tr><td class="label-cell">🛒 可选消费</td><td class="num positive">+0.78%</td><td class="num positive">+1.56%</td><td class="num positive">+4.12%</td><td class="num positive">+22.18%</td></tr>
+          <tr><td class="label-cell">📡 通信服务</td><td class="num positive">+0.56%</td><td class="num positive">+1.89%</td><td class="num positive">+6.34%</td><td class="num positive">+31.56%</td></tr>
+          <tr><td class="label-cell">🏭 工业</td><td class="num negative">-0.12%</td><td class="num positive">+0.45%</td><td class="num positive">+1.89%</td><td class="num positive">+12.45%</td></tr>
+          <tr><td class="label-cell">🛍️ 必需消费</td><td class="num positive">+0.23%</td><td class="num negative">-0.12%</td><td class="num positive">+1.23%</td><td class="num positive">+8.56%</td></tr>
+          <tr><td class="label-cell">⛽ 能源</td><td class="num negative">-0.89%</td><td class="num negative">-1.23%</td><td class="num negative">-2.45%</td><td class="num positive">+5.67%</td></tr>
+          <tr><td class="label-cell">🏠 房地产</td><td class="num negative">-0.34%</td><td class="num negative">-0.56%</td><td class="num positive">+0.78%</td><td class="num positive">+6.89%</td></tr>
+          <tr><td class="label-cell">⚡ 公用事业</td><td class="num positive">+0.12%</td><td class="num negative">-0.23%</td><td class="num positive">+0.56%</td><td class="num positive">+4.23%</td></tr>
+          <tr><td class="label-cell">🔬 材料</td><td class="num negative">-0.45%</td><td class="num negative">-0.78%</td><td class="num positive">+1.12%</td><td class="num positive">+7.89%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- AI Insight -->
+  <div class="ai-insight">
+    <div class="ai-insight-header">🤖 AI 市场洞察 — Qwen2 本地分析</div>
+    <div class="ai-insight-body">
+      <strong>市场概况 (2026-06-15)</strong>：美国市场整体呈现科技股领涨格局，纳斯达克100受益于AI产业持续催化，近一年涨幅达24.6%。标普500指数表现稳健，年化收益约17.8%。值得关注的是，小盘股（IWM）近期承压，反映市场风险偏好有所分化。<br><br>
+      <strong>策略建议</strong>：建议采用核心-卫星策略，以VOO为核心仓位(70%)，QQQ为卫星仓位(30%)，每半年再平衡一次。当前环境下，科技股估值偏高，不宜过度集中。
+    </div>
+  </div>
+
+  <!-- Featured Comparison -->
+  <div class="section-header"><span class="icon">⚔️</span> 热门对比</div>
+  <div class="card">
+    <div class="card-body" style="padding:0">
+      <table class="data-table">
+        <thead>
+          <tr><th>对比</th><th class="num">近1年</th><th class="num">近5年</th><th class="num">波动率</th><th class="num">费率</th><th>推荐</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="label-cell"><a href="/compare/voo_qqq_spy.html">VOO vs QQQ vs SPY</a></td>
+            <td class="num">18% / 25% / 17%</td>
+            <td class="num positive">17.8% / 24.6% / 16.5%</td>
+            <td class="num">17.2% / 24.9% / 16.3%</td>
+            <td class="num">0.03% / 0.20% / 0.09%</td>
+            <td>长期持有选VOO</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer">
+    ⚠️ <strong>免责声明</strong>：本网站内容基于历史数据和公开信息，由AI辅助生成，仅供参考，不构成投资建议。过往表现不代表未来收益。市场有风险，投资需谨慎。
+  </div>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>© 2026 股道奇货 X-Gudao | AI驱动 · 本地部署 · 隐私优先 | <a href="https://github.com/xiaokangjiao-ai/x-gudao">GitHub</a></p>
+  <p style="margin-top:4px">数据来源：Yahoo Finance · AI模型：Ollama Qwen2-7B</p>
+</div>
+
+<script>
+function doSearch() {
+  const q = document.getElementById('heroSearch').value.trim().toUpperCase();
+  if (q) window.location.href = '/stocks/' + q + '.html';
+}
+document.getElementById('heroSearch').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doSearch();
+});
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const q = e.target.value.trim().toUpperCase();
+    if (q) window.location.href = '/stocks/' + q + '.html';
+  }
+});
+</script>
+
+</body>
+</html>
