@@ -1,4 +1,4 @@
-name: Build SSG Static Site
+name: Build and Deploy SSG Static Site
 
 on:
   schedule:
@@ -7,15 +7,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: https://x.gudaoqihuo.com
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 需要完整的git历史来push
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -25,36 +28,26 @@ jobs:
       - name: Install dependencies
         run: pip install jinja2 yfinance numpy pandas
 
-      - name: Build static site
+      - name: Generate static site
         run: python src/generate_static.py
+        env:
+          # 确保UTF-8输出
+          PYTHONIOENCODING: utf-8
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-pages
-          path: _site/
+      - name: Create gh-pages branch if not exists
+        run: |
+          git checkout --orphan gh-pages 2>/dev/null || true
+          # 删除所有内容（全新分支）
+          git rm -rf --cached . 2>/dev/null || true
+          rm -rf .git/index 2>/dev/null || true
+          # 从生成的内容初始化
+          cp -r _site/* .
+          rm -rf _site/
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: https://x.gudaoqihuo.com
-
-    permissions:
-      contents: none
-      pages: write
-      id-token: write
-
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: github-pages
-          path: _site/
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload to Pages
-        uses: actions/deploy-pages@v4
+      - name: Commit and push to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "deploy: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || exit 0
+          git push origin gh-pages --force
