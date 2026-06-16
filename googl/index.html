@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GOOGL - Alphabet Inc. (Google) | 股道奇货</title>
-    <meta name="description" content="Alphabet Inc. (Google)（GOOGL）历史价格、K线图、财务指标、AI分析 - 股道奇货">
-    <meta name="keywords" content="GOOGL, Alphabet Inc. (Google), ETF, 股票, 历史数据, K线图">
-    <link rel="canonical" href="https://x.gudaoqihuo.com/googl/">
+    <title>GOOGL - Alphabet Inc. | 股道奇货</title>
+    <meta name="description" content="Alphabet Inc.（GOOGL）历史价格、K线图、财务指标、AI分析 - 股道奇货">
+    <meta name="keywords" content="GOOGL, Alphabet Inc., ETF, 股票, 历史数据, K线图">
+    <link rel="canonical" href="https://x.gudaoqihuo.com/<built-in method lower of str object at 0x0000026E7FC74720>/">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,11 +23,9 @@
         a:hover { text-decoration: underline; }
         .up { color: var(--green) !important; }
         .down { color: var(--red) !important; }
-        .trend-up { color: var(--green); font-weight: 700; }
-        .trend-down { color: var(--red); font-weight: 700; }
-        .label-positive { color: var(--green); }
-        .label-negative { color: var(--red); }
+        .neutral { color: var(--text-secondary) !important; }
 
+        /* Header */
         header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
         .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
         .logo { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
@@ -36,9 +34,12 @@
         nav a { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
         nav a:hover { color: var(--text-primary); text-decoration: none; }
 
+        /* Breadcrumb */
         .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 16px 24px; font-size: 13px; color: var(--text-secondary); }
         .breadcrumb a { color: var(--text-secondary); }
+        .breadcrumb a:hover { color: var(--text-primary); text-decoration: none; }
 
+        /* Hero */
         .hero { max-width: 1400px; margin: 0 auto; padding: 8px 24px 24px; }
         .stock-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
         .stock-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
@@ -52,18 +53,18 @@
         .stock-right { text-align: right; }
         .current-price { font-size: 36px; font-weight: 700; }
         .price-change { font-size: 15px; margin-top: 4px; }
-        .stock-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-top: 10px; max-width: 700px; }
+        .stock-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-top: 8px; max-width: 700px; }
 
+        /* Stats row */
         .stats-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
         .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; flex: 1; min-width: 130px; }
         .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); margin-bottom: 4px; }
         .stat-value { font-size: 17px; font-weight: 600; }
 
+        /* Main content layout */
         .content-wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px 48px; display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
-        @media (max-width: 900px) { .content-wrap { grid-template-columns: 1fr; } }
 
-        .main-area { min-width: 0; }
-
+        /* Chart */
         .chart-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); overflow: hidden; margin-bottom: 20px; }
         .chart-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); }
         .chart-title { font-size: 14px; font-weight: 600; }
@@ -72,9 +73,12 @@
         .period-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
         #main-chart { width: 100%; height: 380px; }
 
+        /* Section cards */
         .section-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); margin-bottom: 20px; overflow: hidden; }
         .section-header { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
+        .section-body { padding: 0; }
 
+        /* Tables */
         .data-table { width: 100%; border-collapse: collapse; }
         .data-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); text-align: right; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg-card); }
         .data-table th:first-child { text-align: left; }
@@ -82,34 +86,64 @@
         .data-table td:first-child { text-align: left; color: var(--text-secondary); font-size: 13px; }
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .trend-up { color: var(--green); font-weight: 700; }
+        .trend-down { color: var(--red); font-weight: 700; }
+        .label-positive { color: var(--green); }
+        .label-negative { color: var(--red); }
 
+        /* Sector bars */
         .sector-bar { display: flex; height: 28px; border-radius: 6px; overflow: hidden; margin: 14px 20px 0; gap: 2px; }
         .sector-bar-item { display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 500; overflow: hidden; white-space: nowrap; min-width: 0; }
         .sector-bar-item span { overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
 
-        .ai-insight-body { padding: 16px 20px; font-size: 14px; line-height: 1.8; color: var(--text-primary); }
-        .ai-insight-body strong { color: var(--gold); }
+        /* AI insight */
+        .ai-insight { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); margin-bottom: 20px; }
+        .ai-header { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
+        .ai-body { padding: 20px; }
+        .ai-body strong { color: var(--gold); font-size: 14px; }
+        .ai-body p { margin-bottom: 12px; line-height: 1.7; font-size: 13px; }
+        .ai-body p:last-child { margin-bottom: 0; }
+        .ai-pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+        .pros-box, .cons-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px 14px; }
+        .pros-box { border-left: 3px solid var(--green); }
+        .cons-box { border-left: 3px solid var(--red); }
+        .pros-box h4 { font-size: 12px; color: var(--green); margin-bottom: 8px; font-weight: 600; }
+        .cons-box h4 { font-size: 12px; color: var(--red); margin-bottom: 8px; font-weight: 600; }
+        .pros-box ul, .cons-box ul { padding-left: 16px; font-size: 12px; color: var(--text-secondary); line-height: 1.8; }
+        .ai-suggestion { margin-top: 12px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.7; }
+        .ai-suggestion strong { color: var(--accent); }
 
-        .sidebar { display: flex; flex-direction: column; gap: 16px; }
+        /* Sidebar */
+        .sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 72px; }
         .side-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: 18px; }
-        .side-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--text-primary); }
-        .indicator-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
+        .side-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+        .indicator-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
         .indicator-row:last-child { border-bottom: none; }
         .indicator-name { color: var(--text-secondary); }
         .indicator-value { font-weight: 600; }
-        .indicator-value.up { color: var(--green); }
-        .indicator-value.down { color: var(--red); }
-
+        .similar-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
+        .similar-item:last-child { border-bottom: none; }
+        .similar-item a { font-weight: 600; }
         .compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
         .compare-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
         .compare-table th:first-child { text-align: left; }
-        .compare-table td { font-size: 12px; padding: 6px 8px; text-align: right; }
-        .compare-table td:first-child { text-align: left; font-weight: 500; color: var(--text-secondary); }
-        .compare-table td.compare-best { color: var(--green); font-weight: 700; }
+        .compare-table td { padding: 7px 8px; text-align: right; color: var(--text-primary); }
+        .compare-table td:first-child { text-align: left; font-weight: 500; }
         .compare-table tr:hover td { background: rgba(255,255,255,0.03); }
+        .compare-best { color: var(--green) !important; font-weight: 700; }
 
+        /* Footer */
         footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
         footer a { color: var(--text-secondary); }
+        footer a:hover { color: var(--text-primary); text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .content-wrap { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .ai-pros-cons { grid-template-columns: 1fr; }
+            .stats-row { gap: 8px; }
+        }
     </style>
 </head>
 <body>
@@ -119,116 +153,159 @@
             <nav>
                 <a href="/">首页</a>
                 <a href="/screener.html">全部列表</a>
-                <a href="/privacy-policy.html">隐私政策</a>
-                <a href="/disclaimer.html">免责声明</a>
             </nav>
         </div>
     </header>
 
-    <div class="breadcrumb"><a href="/">首页</a> › Alphabet Inc. (Google)（GOOGL）</div>
+    <div class="breadcrumb">
+        <a href="/">首页</a>
+        <span>›</span>
+        <a href="/screener.html">股票</a>
+        <span>›</span>
+        GOOGL
+    </div>
 
     <div class="hero">
         <div class="stock-header">
-            <div class="stock-left">
-                <span class="ticker-badge">GOOGL</span>
-                <div>
-                    <div class="stock-name">Alphabet Inc. (Google)</div>
-                    <span class="stock-category stock">股票</span>
+            <div>
+                <div class="stock-left">
+                    <span class="ticker-badge">GOOGL</span>
+                    <div>
+                        <div class="stock-name">Alphabet Inc.</div>
+                        <span class="stock-category etf">股票</span>
+                    </div>
                 </div>
+                
+                <div class="stock-desc">谷歌母公司，搜索广告+YouTube+云计算三足鼎立，AI大模型Gemini引领技术前沿。</div>
+                
             </div>
             <div class="stock-right">
-                <div class="current-price">$180.00</div>
-                <div class="price-change up">+1.20 (+0.67%)</div>
+                <div class="current-price">$369.35</div>
+                <div class="price-change up">
+                    ▲ +9.67 (2.69%)
+                </div>
             </div>
         </div>
-        <div class='stock-desc'>全球搜索霸主，YouTube+云业务+AI，Alphabet核心资产。</div>
+
         <div class="stats-row">
-            <div class="stat-card"><div class="stat-label">52周最高</div><div class="stat-value">$200.00</div></div>
-            <div class="stat-card"><div class="stat-label">52周最低</div><div class="stat-value">$155.00</div></div>
-            <div class="stat-card"><div class="stat-label">年化收益(5Y)</div><div class="stat-value trend-up">+180.0%</div></div>
-            <div class="stat-card"><div class="stat-label">波动率</div><div class="stat-value">22.0%</div></div>
+            <div class="stat-card"><div class="stat-label">52周最高</div><div class="stat-value">$408.61</div></div>
+            <div class="stat-card"><div class="stat-label">52周最低</div><div class="stat-value">$346.36</div></div>
+            <div class="stat-card"><div class="stat-label">年化收益</div><div class="stat-value down">-13.42%</div></div>
+            <div class="stat-card"><div class="stat-label">波动率</div><div class="stat-value">27.96%</div></div>
+            <div class="stat-card"><div class="stat-label">夏普比率</div><div class="stat-value">-0.48</div></div>
+            <div class="stat-card"><div class="stat-label">最大回撤</div><div class="stat-value down">-10.22%</div></div>
         </div>
     </div>
 
     <div class="content-wrap">
-        <div class="main-area">
+        <!-- Left column -->
+        <div class="content-main">
+
+            <!-- Chart -->
             <div class="chart-section">
                 <div class="chart-header">
                     <div class="chart-title">📊 价格走势（K线 + 均线）</div>
                     <div>
                         <button class="period-btn" data-period="1y">1年</button>
-                        <button class="period-btn active" data-period="5y">5年</button>
+                        <button class="period-btn" data-period="5y">5年</button>
                         <button class="period-btn" data-period="all">全部</button>
                     </div>
                 </div>
                 <div id="main-chart"></div>
             </div>
 
-            
+            <!-- Key Financial Metrics -->
             <div class="section-card">
                 <div class="section-header">📊 关键财务指标</div>
-                <table class="data-table">
-                    <thead><tr><th>指标</th><th class="num">当前值</th><th class="num">5年均值</th><th class="num">趋势</th></tr></thead>
-                    <tbody><tr><td>市盈率 (P/E)</td><td class="num">24.0</td><td class="num">25.0</td><td class="num"><span class="trend-down">↓</span></td></tr><tr><td>市净率 (P/B)</td><td class="num">6.50</td><td class="num">6.00</td><td class="num"><span class="trend-up">↑</span></td></tr><tr><td>股息率</td><td class="num">0.50%</td><td class="num">—</td><td class="num"><span class="trend-up">↑</span></td></tr><tr><td>费率 (Expense Ratio)</td><td class="num">N/A</td><td class="num">—</td><td class="num"><span>—</span></td></tr><tr><td>净资产规模</td><td class="num">$2.2万亿</td><td class="num">—</td><td class="num"><span>—</span></td></tr><tr><td>日均成交量</td><td class="num">2500万</td><td class="num">—</td><td class="num"><span>—</span></td></tr><tr><td>Beta</td><td class="num">1.05</td><td class="num">—</td><td class="num"><span>—</span></td></tr></tbody>
-                </table>
-            </div>
-            
-            <div class="section-card">
-                <div class="section-header">📈 历史收益表现</div>
-                <table class="data-table">
-                    <thead><tr><th>周期</th><th class="num">收益率</th><th class="num">年化</th><th class="num">最大回撤</th><th class="num">夏普比率</th></tr></thead>
-                    <tbody><tr><td>近1月</td><td class="num trend-up">+3.50%</td><td class="num trend-up">—</td><td class="num trend-down">-2.0%</td><td class="num">—</td></tr><tr><td>近3月</td><td class="num trend-up">+8.00%</td><td class="num trend-up">—</td><td class="num trend-down">-4.0%</td><td class="num">—</td></tr><tr><td>近1年</td><td class="num trend-up">+15.0%</td><td class="num trend-up">+15.0%</td><td class="num trend-down">-9.0%</td><td class="num">0.88</td></tr><tr><td>近3年</td><td class="num trend-up">+60.0%</td><td class="num trend-up">+17.0%</td><td class="num trend-down">-25.0%</td><td class="num">0.82</td></tr><tr><td>近5年</td><td class="num trend-up">+180.0%</td><td class="num trend-up">+22.8%</td><td class="num trend-down">-30.0%</td><td class="num">1.00</td></tr><tr><td>近10年</td><td class="num trend-up">+300.0%</td><td class="num trend-up">+14.8%</td><td class="num trend-down">-30.0%</td><td class="num">0.95</td></tr></tbody>
-                </table>
-            </div>
-            
-            <div class="section-card">
-                <div class="section-header">🏭 行业分布</div>
-                <div class="sector-bar" style="margin:14px 20px 0"><div class="sector-bar-item" style="flex:100;background:#4fc3f7"><span>通信服务 100%</span></div></div>
-                <table class="data-table" style="margin-top:12px">
-                    <thead><tr><th>行业</th><th>权重</th><th>近1年涨跌</th></tr></thead>
-                    <tbody><tr><td>📡 通信服务</td><td class="num">100%</td><td class="num trend-up">+22.0%</td></tr></tbody>
-                </table>
-            </div>
-            
-            <div class="section-card">
-                <div class="section-header">🤖 AI 智能分析 — Qwen2 本地推理</div>
-                <div class="ai-insight-body">
-                    <strong>核心观点</strong>：Google搜索仍是全球互联网入口，YouTube和云业务持续增长。Gemini AI正在追赶ChatGPT，AI投入巨大但商业化路径尚不清晰。<br><br>
-                    <strong>优势</strong>：①搜索市场份额80%+；②YouTube广告增长强劲；③Google Cloud高速增长；④AI投入巨大（Gemini、TPU）。<br><br>
-                    <strong>风险</strong>：①AI竞争落后于微软/OpenAI；②数字广告市场整体增速放缓；③监管风险（反垄断）；④自动驾驶商业化进度慢。<br><br>
-                    <strong>建议</strong>：核心互联网持仓，但估值修复需等待AI商业化突破。长期投资者可持有。
+                <div class="section-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>当前值</th>
+                                <th>5年均值</th>
+                                <th>趋势</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            
+                            
+                            
+                            
+                            <tr><td>费率 (Expense Ratio)</td><td>N/A</td><td>N/A</td><td>—</td></tr>
+                            <tr><td>净资产规模</td><td>N/A</td><td>—</td><td>—</td></tr>
+                            <tr><td>日均成交量</td><td></td><td></td><td>—</td></tr>
+                            
+                            
+                            
+                            
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+            <!-- Historical Performance -->
+            <div class="section-card">
+                <div class="section-header">📈 历史收益表现</div>
+                <div class="section-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>周期</th><th>收益率</th><th>年化</th><th>最大回撤</th><th>夏普比率</th></tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sector / Holding Distribution -->
+            
+
+            <!-- AI Insight -->
+            
+
         </div>
 
-        
+        <!-- Sidebar -->
         <div class="sidebar">
+
             <!-- Basic Info -->
             <div class="side-card">
                 <div class="side-title">📋 基本信息</div>
-                <div class="indicator-row"><span class="indicator-name">全称</span><span class="indicator-value">Alphabet Inc.</span></div><div class="indicator-row"><span class="indicator-name">跟踪指数</span><span class="indicator-value">纳斯达克100 / 标普500</span></div><div class="indicator-row"><span class="indicator-name">成立日期</span><span class="indicator-value">2004-08-19</span></div><div class="indicator-row"><span class="indicator-name">费率</span><span class="indicator-value">—</span></div><div class="indicator-row"><span class="indicator-name">资产规模</span><span class="indicator-value">$2.2万亿</span></div><div class="indicator-row"><span class="indicator-name">成分股</span><span class="indicator-value">—</span></div><div class="indicator-row"><span class="indicator-name">派息频率</span><span class="indicator-value">—</span></div><div class="indicator-row"><span class="indicator-name">发行商</span><span class="indicator-value">NASDAQ: GOOGL</span></div>
+                <div class="indicator-row"><span class="indicator-name">全称</span><span class="indicator-value">Alphabet Inc.</span></div>
+                
+                
+                <div class="indicator-row"><span class="indicator-name">费率</span><span class="indicator-value">N/A</span></div>
+                <div class="indicator-row"><span class="indicator-name">资产规模</span><span class="indicator-value">N/A</span></div>
+                
+                
+                
+                
             </div>
 
             <!-- Risk Metrics -->
             <div class="side-card">
                 <div class="side-title">⚠️ 风险指标</div>
-                <div class="indicator-row"><span class="indicator-name">年化波动率</span><span class='indicator-value'>22.0%</span></div><div class="indicator-row"><span class="indicator-name">Beta</span><span class='indicator-value'>1.05</span></div><div class="indicator-row"><span class="indicator-name">夏普比率</span><span class='indicator-value up'>1.00</span></div><div class="indicator-row"><span class="indicator-name">最大回撤</span><span class='indicator-value down'>-30.0%</span></div><div class="indicator-row"><span class="indicator-name">索提诺比率</span><span class='indicator-value up'>1.10</span></div><div class="indicator-row"><span class="indicator-name">信息比率</span><span class='indicator-value'>N/A</span></div>
+                <div class="indicator-row"><span class="indicator-name">年化波动率</span><span class="indicator-value">28.0%</span></div>
+                
+                <div class="indicator-row"><span class="indicator-name">夏普比率</span><span class="indicator-value">-0.48</span></div>
+                <div class="indicator-row"><span class="indicator-name">最大回撤</span><span class="indicator-value down">-10.2%</span></div>
+                
+                
+                <div class="indicator-row"><span class="indicator-name">信息比率</span><span class="indicator-value"></span></div>
+                
+                
+                
             </div>
 
             <!-- Similar ETFs -->
-            <div class="side-card">
-                <div class="side-title">🔀 同类标的</div>
-                <div class="indicator-row"><span class="indicator-name"><a href="https://x.gudaoqihuo.com/msft/">MSFT</a></span><span class="indicator-value">$420.00</span></div><div class="indicator-row"><span class="indicator-name"><a href="https://x.gudaoqihuo.com/meta/">META</a></span><span class="indicator-value">$520.00</span></div>
-            </div>
+            
 
             <!-- Quick Compare -->
-            <div class="side-card">
-                <div class="side-title">⚔️ 快速对比</div>
-                <table class="compare-table">
-                    <thead><tr><th></th><th>GOOGL</th><th>MSFT</th><th>META</th></tr></thead>
-                    <tbody><tr><td>费率</td><td class="">24.0x</td><td class="compare-best">35.0x</td><td class="">25.0x</td></tr><tr><td>近5年收益</td><td class="">+180%</td><td class="">+280%</td><td class="compare-best">+350%</td></tr><tr><td>流动性</td><td class="">2.2万亿</td><td class="">3.1万亿</td><td class="">1.3万亿</td></tr></tbody>
-                </table>
-            </div>
+            
+
         </div>
     </div>
 
@@ -243,10 +320,7 @@
     </footer>
 
     <script>
-    const CHART_DATA = [{"date": "2024-06-17", "o": 175.46, "h": 178.36, "l": 174.81, "c": 177.24, "v": 19618497}, {"date": "2024-06-18", "o": 177.14, "h": 177.385, "l": 174.1042, "c": 175.09, "v": 21869857}, {"date": "2024-06-20", "o": 175.37, "h": 177.29, "l": 174.99, "c": 176.3, "v": 20160085}, {"date": "2024-06-21", "o": 177.0, "h": 180.85, "l": 176.61, "c": 179.63, "v": 58582743}, {"date": "2024-06-24", "o": 180.16, "h": 180.89, "l": 178.67, "c": 179.22, "v": 18298012}, {"date": "2024-06-25", "o": 179.62, "h": 184.29, "l": 179.42, "c": 184.03, "v": 23235589}, {"date": "2024-06-26", "o": 182.63, "h": 184.51, "l": 182.48, "c": 183.88, "v": 19838972}, {"date": "2024-06-27", "o": 184.18, "h": 186.05, "l": 184.02, "c": 185.41, "v": 18848884}, {"date": "2024-06-28", "o": 184.32, "h": 185.13, "l": 181.96, "c": 182.15, "v": 29156644}, {"date": "2024-07-01", "o": 183.03, "h": 183.88, "l": 181.3, "c": 182.99, "v": 16006128}, {"date": "2024-07-02", "o": 182.05, "h": 185.57, "l": 181.56, "c": 185.24, "v": 17372485}, {"date": "2024-07-03", "o": 184.85, "h": 186.09, "l": 184.0, "c": 185.82, "v": 10242126}, {"date": "2024-07-05", "o": 185.855, "h": 190.86, "l": 185.8, "c": 190.6, "v": 20967450}, {"date": "2024-07-08", "o": 189.895, "h": 190.17, "l": 187.78, "c": 189.03, "v": 21035886}, {"date": "2024-07-09", "o": 190.31, "h": 191.36, "l": 188.72, "c": 188.98, "v": 15141312}, {"date": "2024-07-10", "o": 189.15, "h": 191.75, "l": 189.03, "c": 191.18, "v": 15952454}, {"date": "2024-07-11", "o": 189.845, "h": 190.86, "l": 185.08, "c": 185.57, "v": 25625784}, {"date": "2024-07-12", "o": 185.08, "h": 187.11, "l": 184.49, "c": 185.07, "v": 22898406}, {"date": "2024-07-15", "o": 184.92, "h": 188.24, "l": 184.92, "c": 186.53, "v": 16474043}, {"date": "2024-07-16", "o": 187.36, "h": 188.68, "l": 183.3736, "c": 183.92, "v": 18290722}, {"date": "2024-07-17", "o": 182.965, "h": 183.55, "l": 179.9, "c": 181.02, "v": 20734071}, {"date": "2024-07-18", "o": 181.93, "h": 182.5, "l": 176.47, "c": 177.69, "v": 25315727}, {"date": "2024-07-19", "o": 178.88, "h": 180.29, "l": 177.13, "c": 177.66, "v": 18881885}, {"date": "2024-07-22", "o": 180.59, "h": 182.7, "l": 180.23, "c": 181.67, "v": 24100345}, {"date": "2024-07-23", "o": 182.05, "h": 183.61, "l": 181.54, "c": 181.79, "v": 36352714}, {"date": "2024-07-24", "o": 173.6, "h": 176.19, "l": 171.82, "c": 172.63, "v": 49585203}, {"date": "2024-07-25", "o": 172.52, "h": 173.42, "l": 167.19, "c": 167.28, "v": 44851973}, {"date": "2024-07-26", "o": 167.15, "h": 168.09, "l": 164.06, "c": 167.0, "v": 41336886}, {"date": "2024-07-29", "o": 168.83, "h": 170.43, "l": 167.99, "c": 169.53, "v": 20293822}, {"date": "2024-07-30", "o": 170.24, "h": 171.2299, "l": 168.44, "c": 170.29, "v": 18959686}, {"date": "2024-07-31", "o": 173.24, "h": 174.245, "l": 170.01, "c": 171.54, "v": 25729090}, {"date": "2024-08-01", "o": 170.25, "h": 174.05, "l": 168.88, "c": 170.76, "v": 24531392}, {"date": "2024-08-02", "o": 166.44, "h": 168.51, "l": 164.67, "c": 166.66, "v": 29130102}, {"date": "2024-08-05", "o": 155.5, "h": 164.43, "l": 154.93, "c": 159.25, "v": 53630673}, {"date": "2024-08-06", "o": 159.33, "h": 160.57, "l": 156.41, "c": 158.29, "v": 49004561}, {"date": "2024-08-07", "o": 161.25, "h": 162.98, "l": 158.47, "c": 158.94, "v": 25138573}, {"date": "2024-08-08", "o": 160.51, "h": 163.69, "l": 160.21, "c": 162.03, "v": 25578839}, {"date": "2024-08-09", "o": 160.01, "h": 163.79, "l": 159.06, "c": 163.67, "v": 28602285}, {"date": "2024-08-12", "o": 164.35, "h": 164.9, "l": 161.84, "c": 162.29, "v": 15895286}, {"date": "2024-08-13", "o": 163.41, "h": 164.73, "l": 162.97, "c": 164.16, "v": 18551690}, {"date": "2024-08-14", "o": 162.4, "h": 163.22, "l": 157.71, "c": 160.37, "v": 40591126}, {"date": "2024-08-15", "o": 160.5, "h": 161.635, "l": 159.61, "c": 161.3, "v": 31524252}, {"date": "2024-08-16", "o": 161.47, "h": 165.06, "l": 161.13, "c": 162.96, "v": 24208647}, {"date": "2024-08-19", "o": 165.28, "h": 166.69, "l": 164.26, "c": 166.67, "v": 22416185}, {"date": "2024-08-20", "o": 166.9, "h": 168.64, "l": 166.82, "c": 167.18, "v": 18341533}, {"date": "2024-08-21", "o": 165.15, "h": 166.85, "l": 164.67, "c": 165.85, "v": 22901997}, {"date": "2024-08-22", "o": 167.26, "h": 167.59, "l": 163.31, "c": 163.8, "v": 22493275}, {"date": "2024-08-23", "o": 164.72, "h": 166.18, "l": 163.83, "c": 165.62, "v": 13955741}, {"date": "2024-08-26", "o": 166.38, "h": 167.55, "l": 164.455, "c": 166.16, "v": 14190417}, {"date": "2024-08-27", "o": 165.835, "h": 166.4426, "l": 164.46, "c": 164.68, "v": 11821941}, {"date": "2024-08-28", "o": 165.035, "h": 165.6, "l": 161.5284, "c": 162.85, "v": 16407444}, {"date": "2024-08-29", "o": 164.31, "h": 165.97, "l": 160.25, "c": 161.78, "v": 19699767}, {"date": "2024-08-30", "o": 162.615, "h": 163.66, "l": 161.6925, "c": 163.38, "v": 22123811}, {"date": "2024-09-03", "o": 161.72, "h": 161.85, "l": 156.48, "c": 157.36, "v": 38945301}, {"date": "2024-09-04", "o": 156.655, "h": 159.0, "l": 155.9616, "c": 156.45, "v": 19353759}, {"date": "2024-09-05", "o": 156.3, "h": 159.45, "l": 155.9805, "c": 157.24, "v": 18688747}, {"date": "2024-09-06", "o": 157.3, "h": 157.83, "l": 150.55, "c": 150.92, "v": 37912130}, {"date": "2024-09-09", "o": 152.51, "h": 153.4, "l": 147.215, "c": 148.71, "v": 39260451}, {"date": "2024-09-10", "o": 150.45, "h": 151.27, "l": 148.34, "c": 148.66, "v": 31118765}, {"date": "2024-09-11", "o": 149.92, "h": 151.5, "l": 147.52, "c": 151.16, "v": 29607693}, {"date": "2024-09-12", "o": 153.8, "h": 154.82, "l": 152.65, "c": 154.69, "v": 29695048}, {"date": "2024-09-13", "o": 155.43, "h": 158.38, "l": 155.21, "c": 157.46, "v": 29591152}, {"date": "2024-09-16", "o": 157.31, "h": 158.25, "l": 156.6, "c": 158.06, "v": 18379775}, {"date": "2024-09-17", "o": 159.02, "h": 160.55, "l": 158.375, "c": 159.32, "v": 20715612}, {"date": "2024-09-18", "o": 159.86, "h": 160.5, "l": 158.595, "c": 159.81, "v": 23677315}, {"date": "2024-09-19", "o": 163.71, "h": 163.79, "l": 161.34, "c": 162.14, "v": 26587733}, {"date": "2024-09-20", "o": 163.5, "h": 163.73, "l": 162.06, "c": 163.59, "v": 40896438}, {"date": "2024-09-23", "o": 164.35, "h": 165.49, "l": 161.67, "c": 161.85, "v": 24150852}, {"date": "2024-09-24", "o": 163.03, "h": 163.2158, "l": 160.69, "c": 162.29, "v": 23332147}, {"date": "2024-09-25", "o": 161.47, "h": 162.81, "l": 161.3, "c": 161.49, "v": 18869199}, {"date": "2024-09-26", "o": 163.64, "h": 164.08, "l": 162.28, "c": 162.73, "v": 20319336}, {"date": "2024-09-27", "o": 162.81, "h": 165.7, "l": 162.6261, "c": 163.95, "v": 21101307}, {"date": "2024-09-30", "o": 163.32, "h": 166.15, "l": 163.26, "c": 165.85, "v": 20481303}, {"date": "2024-10-01", "o": 167.685, "h": 169.16, "l": 164.58, "c": 166.99, "v": 28338123}, {"date": "2024-10-02", "o": 166.42, "h": 167.52, "l": 164.73, "c": 165.86, "v": 17760179}, {"date": "2024-10-03", "o": 164.41, "h": 166.64, "l": 163.923, "c": 165.86, "v": 15073101}, {"date": "2024-10-04", "o": 168.06, "h": 168.23, "l": 165.48, "c": 167.06, "v": 19093724}, {"date": "2024-10-07", "o": 167.72, "h": 168.48, "l": 162.75, "c": 162.98, "v": 22463140}, {"date": "2024-10-08", "o": 163.94, "h": 164.725, "l": 162.87, "c": 164.38, "v": 23072733}, {"date": "2024-10-09", "o": 163.45, "h": 164.84, "l": 159.74, "c": 161.86, "v": 31181774}, {"date": "2024-10-10", "o": 160.87, "h": 163.07, "l": 160.395, "c": 162.08, "v": 14144068}, {"date": "2024-10-11", "o": 162.13, "h": 163.9, "l": 161.235, "c": 163.24, "v": 15344251}, {"date": "2024-10-14", "o": 163.64, "h": 166.226, "l": 163.4, "c": 164.96, "v": 19016141}, {"date": "2024-10-15", "o": 165.785, "h": 167.68, "l": 164.625, "c": 165.46, "v": 20247195}, {"date": "2024-10-16", "o": 164.53, "h": 165.8, "l": 163.74, "c": 165.16, "v": 16406030}, {"date": "2024-10-17", "o": 165.73, "h": 166.37, "l": 162.76, "c": 162.93, "v": 21453395}, {"date": "2024-10-18", "o": 163.19, "h": 164.71, "l": 163.08, "c": 163.42, "v": 19757661}, {"date": "2024-10-21", "o": 162.95, "h": 164.5, "l": 162.62, "c": 164.07, "v": 20946455}, {"date": "2024-10-22", "o": 162.98, "h": 165.77, "l": 162.98, "c": 165.14, "v": 16568121}, {"date": "2024-10-23", "o": 164.76, "h": 165.82, "l": 161.925, "c": 162.78, "v": 18280518}, {"date": "2024-10-24", "o": 162.83, "h": 163.33, "l": 161.01, "c": 162.72, "v": 22412527}, {"date": "2024-10-25", "o": 163.67, "h": 165.59, "l": 163.42, "c": 165.27, "v": 19828884}, {"date": "2024-10-28", "o": 168.75, "h": 168.75, "l": 163.95, "c": 166.72, "v": 32138641}, {"date": "2024-10-29", "o": 167.73, "h": 170.38, "l": 167.0896, "c": 169.68, "v": 42169025}, {"date": "2024-10-30", "o": 180.68, "h": 182.02, "l": 174.0599, "c": 174.46, "v": 68890787}, {"date": "2024-10-31", "o": 173.13, "h": 176.82, "l": 171.0, "c": 171.11, "v": 44768981}, {"date": "2024-11-01", "o": 170.07, "h": 172.32, "l": 168.88, "c": 171.29, "v": 31796477}, {"date": "2024-11-04", "o": 169.93, "h": 170.73, "l": 168.011, "c": 169.24, "v": 21492744}, {"date": "2024-11-05", "o": 169.43, "h": 170.53, "l": 168.84, "c": 169.74, "v": 18242050}, {"date": "2024-11-06", "o": 173.8, "h": 176.94, "l": 173.5, "c": 176.51, "v": 33695538}, {"date": "2024-11-07", "o": 177.41, "h": 181.08, "l": 177.19, "c": 180.75, "v": 25352939}, {"date": "2024-11-08", "o": 180.645, "h": 180.9, "l": 178.08, "c": 178.35, "v": 22006182}, {"date": "2024-11-11", "o": 178.58, "h": 180.545, "l": 178.47, "c": 180.35, "v": 17450354}, {"date": "2024-11-12", "o": 179.82, "h": 182.49, "l": 179.39, "c": 181.62, "v": 25134905}, {"date": "2024-11-13", "o": 180.46, "h": 180.96, "l": 178.54, "c": 178.88, "v": 23184003}, {"date": "2024-11-14", "o": 178.28, "h": 178.82, "l": 174.3218, "c": 175.58, "v": 31007457}, {"date": "2024-11-15", "o": 173.73, "h": 174.14, "l": 171.22, "c": 172.49, "v": 32504649}, {"date": "2024-11-18", "o": 173.42, "h": 175.438, "l": 172.9, "c": 175.3, "v": 20206613}, {"date": "2024-11-19", "o": 173.72, "h": 178.87, "l": 173.56, "c": 178.12, "v": 23434925}, {"date": "2024-11-20", "o": 177.34, "h": 177.675, "l": 173.78, "c": 175.98, "v": 18997111}, {"date": "2024-11-21", "o": 173.9, "h": 174.13, "l": 163.7, "c": 167.63, "v": 59734379}, {"date": "2024-11-22", "o": 165.85, "h": 166.46, "l": 163.9, "c": 164.76, "v": 38604587}, {"date": "2024-11-25", "o": 166.09, "h": 168.63, "l": 165.6072, "c": 167.65, "v": 33135263}, {"date": "2024-11-26", "o": 167.63, "h": 169.82, "l": 167.58, "c": 169.12, "v": 20486720}, {"date": "2024-11-27", "o": 169.0, "h": 169.4832, "l": 168.02, "c": 169.23, "v": 19266511}, {"date": "2024-11-29", "o": 168.5, "h": 169.43, "l": 167.16, "c": 168.95, "v": 14257244}, {"date": "2024-12-02", "o": 168.765, "h": 172.075, "l": 168.57, "c": 171.49, "v": 23789084}, {"date": "2024-12-03", "o": 171.49, "h": 172.68, "l": 170.85, "c": 171.34, "v": 22248705}, {"date": "2024-12-04", "o": 171.145, "h": 174.91, "l": 171.06, "c": 174.37, "v": 31615137}, {"date": "2024-12-05", "o": 175.36, "h": 176.06, "l": 172.33, "c": 172.64, "v": 21356243}, {"date": "2024-12-06", "o": 172.03, "h": 175.08, "l": 171.86, "c": 174.71, "v": 21462393}, {"date": "2024-12-09", "o": 173.96, "h": 176.26, "l": 173.65, "c": 175.37, "v": 25389631}, {"date": "2024-12-10", "o": 182.845, "h": 186.36, "l": 181.05, "c": 185.17, "v": 54813022}, {"date": "2024-12-11", "o": 185.31, "h": 195.61, "l": 184.85, "c": 195.4, "v": 67894071}, {"date": "2024-12-12", "o": 195.0, "h": 195.18, "l": 191.71, "c": 191.96, "v": 34817486}, {"date": "2024-12-13", "o": 191.01, "h": 192.73, "l": 189.64, "c": 189.82, "v": 25143495}, {"date": "2024-12-16", "o": 192.87, "h": 199.0, "l": 192.62, "c": 196.66, "v": 44934901}, {"date": "2024-12-17", "o": 197.25, "h": 201.42, "l": 194.98, "c": 195.42, "v": 43504025}, {"date": "2024-12-18", "o": 195.22, "h": 197.0, "l": 187.74, "c": 188.4, "v": 34166074}, {"date": "2024-12-19", "o": 191.625, "h": 193.03, "l": 188.38, "c": 188.51, "v": 32265241}, {"date": "2024-12-20", "o": 185.78, "h": 192.89, "l": 185.22, "c": 191.41, "v": 63462934}, {"date": "2024-12-23", "o": 192.62, "h": 195.1, "l": 190.15, "c": 194.63, "v": 25675014}, {"date": "2024-12-24", "o": 194.84, "h": 196.11, "l": 193.78, "c": 196.11, "v": 10403259}, {"date": "2024-12-26", "o": 195.15, "h": 196.748, "l": 194.375, "c": 195.6, "v": 12057210}, {"date": "2024-12-27", "o": 194.95, "h": 195.32, "l": 190.65, "c": 192.76, "v": 18891362}, {"date": "2024-12-30", "o": 189.8, "h": 192.55, "l": 189.12, "c": 191.24, "v": 14264659}, {"date": "2024-12-31", "o": 191.075, "h": 191.96, "l": 188.51, "c": 189.3, "v": 17466919}, {"date": "2025-01-02", "o": 190.65, "h": 192.0, "l": 187.5, "c": 189.43, "v": 20370828}, {"date": "2025-01-03", "o": 191.37, "h": 193.21, "l": 189.975, "c": 191.79, "v": 18596159}, {"date": "2025-01-06", "o": 193.98, "h": 198.2222, "l": 193.85, "c": 196.87, "v": 29563638}, {"date": "2025-01-07", "o": 197.11, "h": 201.0, "l": 194.6, "c": 195.49, "v": 26487244}, {"date": "2025-01-08", "o": 192.57, "h": 196.29, "l": 192.38, "c": 193.95, "v": 24864766}, {"date": "2025-01-10", "o": 194.295, "h": 196.52, "l": 190.31, "c": 192.04, "v": 26665206}, {"date": "2025-01-13", "o": 190.07, "h": 191.18, "l": 187.36, "c": 191.01, "v": 21823699}, {"date": "2025-01-14", "o": 191.24, "h": 191.98, "l": 188.3082, "c": 189.66, "v": 17174854}, {"date": "2025-01-15", "o": 193.09, "h": 196.36, "l": 191.86, "c": 195.55, "v": 21775969}, {"date": "2025-01-16", "o": 194.14, "h": 195.48, "l": 192.81, "c": 192.91, "v": 17815432}, {"date": "2025-01-17", "o": 196.53, "h": 197.23, "l": 193.75, "c": 196.0, "v": 27735089}, {"date": "2025-01-21", "o": 199.07, "h": 202.29, "l": 197.87, "c": 198.05, "v": 29971292}, {"date": "2025-01-22", "o": 199.06, "h": 200.48, "l": 197.53, "c": 198.37, "v": 26200617}, {"date": "2025-01-23", "o": 198.14, "h": 200.3, "l": 195.2, "c": 197.98, "v": 26951357}, {"date": "2025-01-24", "o": 198.1, "h": 200.9, "l": 198.0, "c": 200.21, "v": 23877521}, {"date": "2025-01-27", "o": 192.41, "h": 196.88, "l": 190.73, "c": 191.81, "v": 41728893}, {"date": "2025-01-28", "o": 192.745, "h": 195.48, "l": 190.68, "c": 195.3, "v": 24157929}, {"date": "2025-01-29", "o": 195.555, "h": 196.785, "l": 193.43, "c": 195.41, "v": 18218256}, {"date": "2025-01-30", "o": 198.0, "h": 201.4, "l": 197.67, "c": 200.87, "v": 24354684}, {"date": "2025-01-31", "o": 202.0, "h": 205.48, "l": 201.8, "c": 204.02, "v": 32041952}, {"date": "2025-02-03", "o": 200.69, "h": 203.75, "l": 200.1, "c": 201.23, "v": 27838348}, {"date": "2025-02-04", "o": 203.39, "h": 207.05, "l": 202.81, "c": 206.38, "v": 43856425}, {"date": "2025-02-05", "o": 191.07, "h": 192.75, "l": 188.03, "c": 191.33, "v": 70461770}, {"date": "2025-02-06", "o": 189.5, "h": 192.1, "l": 188.72, "c": 191.6, "v": 29297442}, {"date": "2025-02-07", "o": 191.05, "h": 191.18, "l": 183.24, "c": 185.34, "v": 49314961}, {"date": "2025-02-10", "o": 187.35, "h": 188.2, "l": 185.86, "c": 186.47, "v": 23105649}, {"date": "2025-02-11", "o": 185.03, "h": 186.94, "l": 184.28, "c": 185.32, "v": 21239519}, {"date": "2025-02-12", "o": 183.22, "h": 185.11, "l": 181.83, "c": 183.61, "v": 22072559}, {"date": "2025-02-13", "o": 184.32, "h": 186.28, "l": 183.14, "c": 186.14, "v": 21402523}, {"date": "2025-02-14", "o": 185.055, "h": 186.4, "l": 184.32, "c": 185.23, "v": 20448437}, {"date": "2025-02-18", "o": 185.6, "h": 185.96, "l": 181.7401, "c": 183.77, "v": 29916675}, {"date": "2025-02-19", "o": 184.07, "h": 185.46, "l": 183.59, "c": 185.27, "v": 19549396}, {"date": "2025-02-20", "o": 184.8, "h": 185.31, "l": 182.72, "c": 184.56, "v": 20441462}, {"date": "2025-02-21", "o": 185.15, "h": 185.34, "l": 179.08, "c": 179.66, "v": 35199239}, {"date": "2025-02-24", "o": 181.99, "h": 183.12, "l": 178.885, "c": 179.25, "v": 29854206}, {"date": "2025-02-25", "o": 178.04, "h": 178.74, "l": 174.6939, "c": 175.42, "v": 41913411}, {"date": "2025-02-26", "o": 175.07, "h": 176.08, "l": 171.5807, "c": 172.73, "v": 35431268}, {"date": "2025-02-27", "o": 173.99, "h": 174.56, "l": 167.94, "c": 168.5, "v": 39991015}, {"date": "2025-02-28", "o": 168.68, "h": 170.61, "l": 166.77, "c": 170.28, "v": 48130565}, {"date": "2025-03-03", "o": 171.925, "h": 173.37, "l": 165.93, "c": 167.01, "v": 40770451}, {"date": "2025-03-04", "o": 166.24, "h": 173.2946, "l": 165.8, "c": 170.92, "v": 45387996}, {"date": "2025-03-05", "o": 170.52, "h": 173.78, "l": 169.06, "c": 173.02, "v": 30954922}, {"date": "2025-03-06", "o": 170.53, "h": 174.81, "l": 170.5, "c": 172.35, "v": 28301953}, {"date": "2025-03-07", "o": 171.26, "h": 174.97, "l": 170.27, "c": 173.86, "v": 27385813}, {"date": "2025-03-10", "o": 168.26, "h": 168.46, "l": 163.69, "c": 165.87, "v": 43604027}, {"date": "2025-03-11", "o": 164.91, "h": 166.75, "l": 161.37, "c": 164.04, "v": 39587414}, {"date": "2025-03-12", "o": 166.58, "h": 167.6399, "l": 163.53, "c": 167.11, "v": 28372396}, {"date": "2025-03-13", "o": 166.035, "h": 166.13, "l": 162.11, "c": 162.76, "v": 31756214}, {"date": "2025-03-14", "o": 163.27, "h": 166.49, "l": 162.45, "c": 165.49, "v": 31995894}, {"date": "2025-03-17", "o": 165.03, "h": 166.3, "l": 163.67, "c": 164.29, "v": 31184335}, {"date": "2025-03-18", "o": 163.675, "h": 164.25, "l": 156.72, "c": 160.67, "v": 42074751}, {"date": "2025-03-19", "o": 161.76, "h": 165.87, "l": 161.0, "c": 163.89, "v": 34275582}, {"date": "2025-03-20", "o": 161.57, "h": 164.89, "l": 160.96, "c": 162.8, "v": 28138464}, {"date": "2025-03-21", "o": 161.205, "h": 164.24, "l": 160.8901, "c": 163.99, "v": 36625764}, {"date": "2025-03-24", "o": 167.065, "h": 168.32, "l": 165.14, "c": 167.68, "v": 30879129}, {"date": "2025-03-25", "o": 168.98, "h": 170.63, "l": 168.315, "c": 170.56, "v": 24174373}, {"date": "2025-03-26", "o": 169.0, "h": 169.61, "l": 164.84, "c": 165.06, "v": 28939326}, {"date": "2025-03-27", "o": 164.63, "h": 165.42, "l": 162.0, "c": 162.24, "v": 24508273}, {"date": "2025-03-28", "o": 160.49, "h": 161.82, "l": 153.63, "c": 154.33, "v": 48669335}, {"date": "2025-03-31", "o": 153.11, "h": 155.54, "l": 150.662, "c": 154.64, "v": 54603464}, {"date": "2025-04-01", "o": 153.62, "h": 158.1, "l": 153.62, "c": 157.07, "v": 30672899}, {"date": "2025-04-02", "o": 155.15, "h": 158.4052, "l": 154.7, "c": 157.04, "v": 25041730}, {"date": "2025-04-03", "o": 151.11, "h": 152.7799, "l": 150.39, "c": 150.72, "v": 46883371}, {"date": "2025-04-04", "o": 148.01, "h": 151.07, "l": 145.38, "c": 145.6, "v": 62259539}, {"date": "2025-04-07", "o": 141.55, "h": 152.85, "l": 140.53, "c": 146.75, "v": 76794136}, {"date": "2025-04-08", "o": 151.22, "h": 152.24, "l": 143.03, "c": 144.7, "v": 52200208}, {"date": "2025-04-09", "o": 144.415, "h": 159.55, "l": 143.905, "c": 158.71, "v": 70406232}, {"date": "2025-04-10", "o": 156.54, "h": 157.72, "l": 149.93, "c": 152.82, "v": 48021972}, {"date": "2025-04-11", "o": 152.9, "h": 157.67, "l": 152.82, "c": 157.14, "v": 33636239}, {"date": "2025-04-14", "o": 159.995, "h": 161.72, "l": 157.56, "c": 159.07, "v": 30332957}, {"date": "2025-04-15", "o": 159.125, "h": 159.65, "l": 155.21, "c": 156.31, "v": 27551534}, {"date": "2025-04-16", "o": 153.1, "h": 155.89, "l": 151.51, "c": 153.33, "v": 28187421}, {"date": "2025-04-17", "o": 154.29, "h": 154.68, "l": 148.5, "c": 151.16, "v": 33046576}, {"date": "2025-04-21", "o": 148.88, "h": 148.945, "l": 146.1, "c": 147.67, "v": 26049115}, {"date": "2025-04-22", "o": 148.89, "h": 152.19, "l": 148.54, "c": 151.47, "v": 26971774}, {"date": "2025-04-23", "o": 155.61, "h": 157.525, "l": 153.81, "c": 155.35, "v": 31128833}, {"date": "2025-04-24", "o": 156.15, "h": 159.59, "l": 155.79, "c": 159.28, "v": 45893951}, {"date": "2025-04-25", "o": 165.07, "h": 166.1, "l": 161.04, "c": 161.96, "v": 56033995}, {"date": "2025-04-28", "o": 162.425, "h": 163.15, "l": 158.6, "c": 160.61, "v": 29745782}, {"date": "2025-04-29", "o": 160.325, "h": 160.74, "l": 157.52, "c": 160.16, "v": 26808958}, {"date": "2025-04-30", "o": 157.975, "h": 159.27, "l": 155.4, "c": 158.8, "v": 34981059}, {"date": "2025-05-01", "o": 160.45, "h": 161.95, "l": 158.91, "c": 161.3, "v": 30203248}, {"date": "2025-05-02", "o": 163.405, "h": 164.97, "l": 161.87, "c": 164.03, "v": 25715005}, {"date": "2025-05-05", "o": 163.0, "h": 165.39, "l": 162.72, "c": 164.21, "v": 21341814}, {"date": "2025-05-06", "o": 162.17, "h": 164.8, "l": 161.19, "c": 163.23, "v": 21277210}, {"date": "2025-05-07", "o": 164.08, "h": 165.0, "l": 147.84, "c": 151.38, "v": 127747554}, {"date": "2025-05-08", "o": 155.0, "h": 155.93, "l": 152.9, "c": 154.28, "v": 57498692}, {"date": "2025-05-09", "o": 154.17, "h": 155.05, "l": 152.2, "c": 152.75, "v": 32435281}, {"date": "2025-05-12", "o": 157.485, "h": 159.1, "l": 156.25, "c": 158.46, "v": 44138818}, {"date": "2025-05-13", "o": 158.79, "h": 160.57, "l": 156.16, "c": 159.53, "v": 42382126}, {"date": "2025-05-14", "o": 159.96, "h": 167.0, "l": 159.61, "c": 165.37, "v": 48755869}, {"date": "2025-05-15", "o": 165.84, "h": 166.205, "l": 162.3732, "c": 163.96, "v": 33146669}, {"date": "2025-05-16", "o": 167.725, "h": 169.35, "l": 165.62, "c": 166.19, "v": 42846925}, {"date": "2025-05-19", "o": 164.51, "h": 166.64, "l": 164.22, "c": 166.54, "v": 30426097}, {"date": "2025-05-20", "o": 166.43, "h": 168.5, "l": 162.9, "c": 163.98, "v": 46607656}, {"date": "2025-05-21", "o": 163.69, "h": 173.14, "l": 163.56, "c": 168.56, "v": 73415956}, {"date": "2025-05-22", "o": 171.85, "h": 176.77, "l": 170.71, "c": 170.87, "v": 74864418}, {"date": "2025-05-23", "o": 169.055, "h": 169.96, "l": 167.89, "c": 168.47, "v": 35211439}, {"date": "2025-05-27", "o": 170.16, "h": 173.17, "l": 170.0, "c": 172.9, "v": 37995670}, {"date": "2025-05-28", "o": 173.16, "h": 175.265, "l": 171.9107, "c": 172.36, "v": 34783997}, {"date": "2025-05-29", "o": 174.0, "h": 174.4193, "l": 170.63, "c": 171.86, "v": 29373803}, {"date": "2025-05-30", "o": 171.35, "h": 172.205, "l": 167.44, "c": 171.74, "v": 52639911}, {"date": "2025-06-02", "o": 167.84, "h": 169.87, "l": 167.39, "c": 169.03, "v": 38612272}, {"date": "2025-06-03", "o": 167.49, "h": 168.475, "l": 165.28, "c": 166.18, "v": 45084903}, {"date": "2025-06-04", "o": 166.735, "h": 168.215, "l": 166.36, "c": 168.05, "v": 26900838}, {"date": "2025-06-05", "o": 170.34, "h": 170.93, "l": 167.59, "c": 168.21, "v": 36444564}, {"date": "2025-06-06", "o": 170.83, "h": 174.5, "l": 170.83, "c": 173.68, "v": 35731832}, {"date": "2025-06-09", "o": 174.54, "h": 176.47, "l": 174.37, "c": 176.09, "v": 28935906}, {"date": "2025-06-10", "o": 176.2, "h": 181.105, "l": 174.91, "c": 178.6, "v": 61766121}, {"date": "2025-06-11", "o": 179.77, "h": 180.37, "l": 176.75, "c": 177.35, "v": 31646757}, {"date": "2025-06-12", "o": 176.18, "h": 176.72, "l": 174.745, "c": 175.7, "v": 20941873}, {"date": "2025-06-13", "o": 172.44, "h": 177.13, "l": 172.385, "c": 174.67, "v": 27663107}, {"date": "2025-06-16", "o": 174.73, "h": 176.94, "l": 174.65, "c": 176.77, "v": 27389208}, {"date": "2025-06-17", "o": 175.7, "h": 177.3648, "l": 174.58, "c": 175.95, "v": 24973043}, {"date": "2025-06-18", "o": 176.01, "h": 176.56, "l": 173.2, "c": 173.32, "v": 28707524}, {"date": "2025-06-20", "o": 173.945, "h": 174.34, "l": 165.46, "c": 166.64, "v": 75659917}, {"date": "2025-06-23", "o": 166.27, "h": 167.34, "l": 162.0, "c": 165.19, "v": 57670985}, {"date": "2025-06-24", "o": 166.92, "h": 168.22, "l": 166.13, "c": 166.77, "v": 40524312}, {"date": "2025-06-25", "o": 167.63, "h": 172.36, "l": 167.55, "c": 170.68, "v": 35478989}, {"date": "2025-06-26", "o": 172.43, "h": 173.69, "l": 169.94, "c": 173.54, "v": 31796690}, {"date": "2025-06-27", "o": 173.54, "h": 178.68, "l": 171.73, "c": 178.53, "v": 108140200}, {"date": "2025-06-30", "o": 180.78, "h": 181.23, "l": 174.58, "c": 176.23, "v": 63378856}, {"date": "2025-07-01", "o": 175.735, "h": 176.09, "l": 173.53, "c": 175.84, "v": 35904526}, {"date": "2025-07-02", "o": 175.54, "h": 178.86, "l": 175.07, "c": 178.64, "v": 29128947}, {"date": "2025-07-03", "o": 178.5, "h": 179.67, "l": 177.05, "c": 179.53, "v": 21689729}, {"date": "2025-07-07", "o": 179.06, "h": 179.297, "l": 175.68, "c": 176.79, "v": 34175648}, {"date": "2025-07-08", "o": 177.85, "h": 177.95, "l": 172.81, "c": 174.36, "v": 40442535}, {"date": "2025-07-09", "o": 175.25, "h": 179.44, "l": 172.77, "c": 176.62, "v": 43025594}, {"date": "2025-07-10", "o": 175.63, "h": 178.429, "l": 174.38, "c": 177.62, "v": 29252386}, {"date": "2025-07-11", "o": 176.785, "h": 181.43, "l": 176.48, "c": 180.19, "v": 34282922}, {"date": "2025-07-14", "o": 181.01, "h": 183.67, "l": 179.68, "c": 181.56, "v": 32536632}, {"date": "2025-07-15", "o": 182.81, "h": 184.22, "l": 181.6, "c": 182.0, "v": 33448251}, {"date": "2025-07-16", "o": 183.235, "h": 184.327, "l": 182.03, "c": 182.97, "v": 33104193}, {"date": "2025-07-17", "o": 182.14, "h": 184.06, "l": 180.48, "c": 183.58, "v": 31992565}, {"date": "2025-07-18", "o": 185.4, "h": 186.42, "l": 183.71, "c": 185.06, "v": 34014509}, {"date": "2025-07-21", "o": 186.25, "h": 190.285, "l": 186.15, "c": 190.1, "v": 45803129}, {"date": "2025-07-22", "o": 191.495, "h": 191.645, "l": 187.46, "c": 191.34, "v": 44660215}, {"date": "2025-07-23", "o": 191.5, "h": 192.53, "l": 189.18, "c": 190.23, "v": 58681948}, {"date": "2025-07-24", "o": 197.03, "h": 197.95, "l": 191.0, "c": 192.17, "v": 74881687}, {"date": "2025-07-25", "o": 191.98, "h": 194.33, "l": 191.26, "c": 193.18, "v": 39785863}, {"date": "2025-07-28", "o": 193.65, "h": 194.05, "l": 190.84, "c": 192.58, "v": 38139504}, {"date": "2025-07-29", "o": 192.43, "h": 195.92, "l": 192.08, "c": 195.75, "v": 41389153}, {"date": "2025-07-30", "o": 195.6, "h": 197.5999, "l": 194.685, "c": 196.53, "v": 32445405}, {"date": "2025-07-31", "o": 195.71, "h": 195.99, "l": 191.09, "c": 191.9, "v": 51329163}, {"date": "2025-08-01", "o": 189.025, "h": 190.83, "l": 187.82, "c": 189.13, "v": 34832181}, {"date": "2025-08-04", "o": 190.29, "h": 195.27, "l": 190.12, "c": 195.04, "v": 31547350}, {"date": "2025-08-05", "o": 194.71, "h": 197.8599, "l": 193.885, "c": 194.67, "v": 31602340}, {"date": "2025-08-06", "o": 194.5, "h": 196.63, "l": 193.67, "c": 196.09, "v": 21562908}, {"date": "2025-08-07", "o": 197.06, "h": 197.54, "l": 194.33, "c": 196.52, "v": 26321811}, {"date": "2025-08-08", "o": 197.22, "h": 202.61, "l": 197.17, "c": 201.42, "v": 39161826}, {"date": "2025-08-11", "o": 200.935, "h": 201.475, "l": 199.07, "c": 201.0, "v": 25832435}, {"date": "2025-08-12", "o": 201.365, "h": 204.5, "l": 200.59, "c": 203.34, "v": 30424452}, {"date": "2025-08-13", "o": 204.13, "h": 204.53, "l": 197.5101, "c": 201.96, "v": 28342922}, {"date": "2025-08-14", "o": 201.5, "h": 204.44, "l": 201.225, "c": 202.94, "v": 25230427}, {"date": "2025-08-15", "o": 203.85, "h": 206.44, "l": 201.28, "c": 203.9, "v": 34931422}, {"date": "2025-08-18", "o": 204.2, "h": 205.265, "l": 202.49, "c": 203.5, "v": 18526594}, {"date": "2025-08-19", "o": 203.03, "h": 203.44, "l": 199.96, "c": 201.57, "v": 24240233}, {"date": "2025-08-20", "o": 200.73, "h": 201.28, "l": 196.595, "c": 199.32, "v": 28955498}, {"date": "2025-08-21", "o": 199.745, "h": 202.48, "l": 199.43, "c": 199.75, "v": 19774633}, {"date": "2025-08-22", "o": 202.73, "h": 208.54, "l": 201.3, "c": 206.09, "v": 42827040}, {"date": "2025-08-25", "o": 206.43, "h": 210.52, "l": 205.28, "c": 208.49, "v": 29928878}, {"date": "2025-08-26", "o": 207.51, "h": 207.85, "l": 205.7, "c": 207.14, "v": 28464130}, {"date": "2025-08-27", "o": 205.7, "h": 208.91, "l": 205.65, "c": 207.48, "v": 23022850}, {"date": "2025-08-28", "o": 207.25, "h": 212.22, "l": 206.9, "c": 211.64, "v": 32339307}, {"date": "2025-08-29", "o": 210.51, "h": 214.645, "l": 210.2, "c": 212.91, "v": 39728364}, {"date": "2025-09-02", "o": 208.44, "h": 211.675, "l": 206.195, "c": 211.35, "v": 47523037}, {"date": "2025-09-03", "o": 226.21, "h": 231.31, "l": 224.79, "c": 230.66, "v": 103336125}, {"date": "2025-09-04", "o": 229.65, "h": 232.37, "l": 226.11, "c": 232.3, "v": 51684167}, {"date": "2025-09-05", "o": 232.2, "h": 235.76, "l": 231.9, "c": 235.0, "v": 46588925}, {"date": "2025-09-08", "o": 235.47, "h": 238.13, "l": 233.67, "c": 234.04, "v": 32474743}, {"date": "2025-09-09", "o": 234.165, "h": 240.47, "l": 233.229, "c": 239.63, "v": 38060959}, {"date": "2025-09-10", "o": 238.9, "h": 241.66, "l": 237.85, "c": 239.17, "v": 35141074}, {"date": "2025-09-11", "o": 239.88, "h": 242.25, "l": 236.25, "c": 240.37, "v": 30599328}, {"date": "2025-09-12", "o": 240.37, "h": 242.075, "l": 238.0, "c": 240.8, "v": 26771610}, {"date": "2025-09-15", "o": 244.66, "h": 252.4099, "l": 244.66, "c": 251.61, "v": 58383796}, {"date": "2025-09-16", "o": 252.08, "h": 253.04, "l": 249.47, "c": 251.16, "v": 34109720}, {"date": "2025-09-17", "o": 251.22, "h": 251.6, "l": 246.28, "c": 249.53, "v": 34107992}, {"date": "2025-09-18", "o": 251.68, "h": 253.99, "l": 249.8, "c": 252.03, "v": 31239474}, {"date": "2025-09-19", "o": 253.25, "h": 256.0, "l": 251.81, "c": 254.72, "v": 55571424}, {"date": "2025-09-22", "o": 254.43, "h": 255.78, "l": 250.3, "c": 252.53, "v": 32290538}, {"date": "2025-09-23", "o": 253.04, "h": 254.36, "l": 250.48, "c": 251.66, "v": 26628016}, {"date": "2025-09-24", "o": 251.66, "h": 252.3501, "l": 246.44, "c": 247.14, "v": 28201003}, {"date": "2025-09-25", "o": 244.4, "h": 246.49, "l": 240.74, "c": 245.79, "v": 31020383}, {"date": "2025-09-26", "o": 247.065, "h": 249.42, "l": 245.97, "c": 246.54, "v": 18503194}, {"date": "2025-09-29", "o": 247.85, "h": 251.1486, "l": 242.77, "c": 244.05, "v": 32505777}, {"date": "2025-09-30", "o": 242.81, "h": 243.29, "l": 239.245, "c": 243.1, "v": 34724346}, {"date": "2025-10-01", "o": 240.75, "h": 246.3, "l": 238.61, "c": 244.9, "v": 31658234}, {"date": "2025-10-02", "o": 245.15, "h": 246.81, "l": 242.3, "c": 245.69, "v": 25483298}, {"date": "2025-10-03", "o": 244.49, "h": 246.3, "l": 241.655, "c": 245.35, "v": 30249559}, {"date": "2025-10-06", "o": 244.78, "h": 251.32, "l": 244.58, "c": 250.43, "v": 28894653}, {"date": "2025-10-07", "o": 248.27, "h": 250.44, "l": 245.52, "c": 245.76, "v": 23181285}, {"date": "2025-10-08", "o": 244.96, "h": 246.005, "l": 243.82, "c": 244.62, "v": 21307104}, {"date": "2025-10-09", "o": 244.47, "h": 244.76, "l": 239.15, "c": 241.53, "v": 27892086}, {"date": "2025-10-10", "o": 241.43, "h": 244.09, "l": 235.84, "c": 236.57, "v": 33180323}, {"date": "2025-10-13", "o": 240.21, "h": 244.5, "l": 239.71, "c": 244.15, "v": 24995028}, {"date": "2025-10-14", "o": 241.23, "h": 247.12, "l": 240.51, "c": 245.45, "v": 22111572}, {"date": "2025-10-15", "o": 247.245, "h": 252.11, "l": 245.99, "c": 251.03, "v": 27007690}, {"date": "2025-10-16", "o": 251.765, "h": 256.96, "l": 250.101, "c": 251.46, "v": 27997159}, {"date": "2025-10-17", "o": 250.76, "h": 254.22, "l": 247.81, "c": 253.3, "v": 29671629}, {"date": "2025-10-20", "o": 254.69, "h": 257.33, "l": 254.23, "c": 256.55, "v": 22350155}, {"date": "2025-10-21", "o": 254.74, "h": 254.88, "l": 244.15, "c": 250.46, "v": 47312098}, {"date": "2025-10-22", "o": 254.37, "h": 256.36, "l": 249.29, "c": 251.69, "v": 35029370}, {"date": "2025-10-23", "o": 252.98, "h": 255.04, "l": 251.85, "c": 253.08, "v": 19901425}, {"date": "2025-10-24", "o": 256.58, "h": 261.68, "l": 255.315, "c": 259.92, "v": 28655126}, {"date": "2025-10-27", "o": 264.815, "h": 270.14, "l": 264.28, "c": 269.27, "v": 35235231}, {"date": "2025-10-28", "o": 269.69, "h": 270.73, "l": 266.5, "c": 267.47, "v": 29738564}, {"date": "2025-10-29", "o": 267.75, "h": 275.336, "l": 267.67, "c": 274.57, "v": 43580277}, {"date": "2025-10-30", "o": 291.59, "h": 291.59, "l": 280.06, "c": 281.48, "v": 74875990}, {"date": "2025-10-31", "o": 283.21, "h": 286.0, "l": 277.03, "c": 281.19, "v": 39267945}, {"date": "2025-11-03", "o": 282.175, "h": 285.53, "l": 279.8, "c": 283.72, "v": 29785996}, {"date": "2025-11-04", "o": 276.75, "h": 281.27, "l": 276.26, "c": 277.54, "v": 30078369}, {"date": "2025-11-05", "o": 278.87, "h": 286.415, "l": 277.34, "c": 284.31, "v": 31010302}, {"date": "2025-11-06", "o": 285.33, "h": 288.35, "l": 281.14, "c": 284.75, "v": 37173648}, {"date": "2025-11-07", "o": 283.205, "h": 283.78, "l": 275.19, "c": 278.83, "v": 34479588}, {"date": "2025-11-10", "o": 284.42, "h": 290.8, "l": 282.855, "c": 290.1, "v": 29557309}, {"date": "2025-11-11", "o": 287.745, "h": 291.915, "l": 287.32, "c": 291.31, "v": 19842136}, {"date": "2025-11-12", "o": 291.675, "h": 292.005, "l": 283.69, "c": 286.71, "v": 24829923}, {"date": "2025-11-13", "o": 282.34, "h": 282.84, "l": 277.24, "c": 278.57, "v": 29494040}, {"date": "2025-11-14", "o": 271.405, "h": 278.56, "l": 270.7, "c": 276.41, "v": 31647227}, {"date": "2025-11-17", "o": 285.775, "h": 293.95, "l": 283.57, "c": 285.02, "v": 52670192}, {"date": "2025-11-18", "o": 287.915, "h": 288.8, "l": 278.2, "c": 284.28, "v": 49158743}, {"date": "2025-11-19", "o": 287.16, "h": 303.81, "l": 286.63, "c": 292.81, "v": 68198944}, {"date": "2025-11-20", "o": 304.54, "h": 306.42, "l": 288.67, "c": 289.45, "v": 62025218}, {"date": "2025-11-21", "o": 296.415, "h": 303.92, "l": 293.845, "c": 299.66, "v": 74137697}, {"date": "2025-11-24", "o": 311.13, "h": 319.48, "l": 309.595, "c": 318.58, "v": 85165123}, {"date": "2025-11-25", "o": 326.21, "h": 328.83, "l": 317.65, "c": 323.44, "v": 88632074}, {"date": "2025-11-26", "o": 320.68, "h": 324.5, "l": 316.79, "c": 319.95, "v": 51373361}, {"date": "2025-11-28", "o": 323.365, "h": 326.85, "l": 316.79, "c": 320.18, "v": 26018568}, {"date": "2025-12-01", "o": 317.7, "h": 319.85, "l": 313.89, "c": 314.89, "v": 41182956}, {"date": "2025-12-02", "o": 316.74, "h": 318.38, "l": 313.91, "c": 315.81, "v": 35854744}, {"date": "2025-12-03", "o": 315.89, "h": 321.58, "l": 314.1, "c": 319.63, "v": 41838317}, {"date": "2025-12-04", "o": 322.225, "h": 322.36, "l": 314.7, "c": 317.62, "v": 31240924}, {"date": "2025-12-05", "o": 319.49, "h": 323.16, "l": 319.165, "c": 321.27, "v": 28851705}, {"date": "2025-12-08", "o": 320.05, "h": 320.44, "l": 311.2219, "c": 313.72, "v": 33909433}, {"date": "2025-12-09", "o": 312.37, "h": 317.99, "l": 311.895, "c": 317.08, "v": 30194027}, {"date": "2025-12-10", "o": 315.83, "h": 321.31, "l": 314.68, "c": 320.21, "v": 33428923}, {"date": "2025-12-11", "o": 320.08, "h": 321.12, "l": 308.6, "c": 312.43, "v": 42353697}, {"date": "2025-12-12", "o": 313.7, "h": 314.87, "l": 305.56, "c": 309.29, "v": 35940170}, {"date": "2025-12-15", "o": 311.315, "h": 311.42, "l": 304.88, "c": 308.22, "v": 29151889}, {"date": "2025-12-16", "o": 304.945, "h": 310.77, "l": 302.59, "c": 306.57, "v": 30585020}, {"date": "2025-12-17", "o": 308.01, "h": 308.09, "l": 296.12, "c": 296.72, "v": 43930358}, {"date": "2025-12-18", "o": 301.72, "h": 303.96, "l": 299.2308, "c": 302.46, "v": 33518048}, {"date": "2025-12-19", "o": 301.73, "h": 307.25, "l": 300.97, "c": 307.16, "v": 59943239}, {"date": "2025-12-22", "o": 309.875, "h": 310.13, "l": 305.3, "c": 309.78, "v": 26429937}, {"date": "2025-12-23", "o": 309.625, "h": 314.94, "l": 309.32, "c": 314.35, "v": 25478670}, {"date": "2025-12-24", "o": 314.77, "h": 315.08, "l": 311.92, "c": 314.09, "v": 10097361}, {"date": "2025-12-26", "o": 314.48, "h": 315.085, "l": 312.275, "c": 313.51, "v": 10899017}, {"date": "2025-12-29", "o": 311.365, "h": 314.02, "l": 310.62, "c": 313.56, "v": 19621777}, {"date": "2025-12-30", "o": 312.5, "h": 316.95, "l": 312.46, "c": 313.85, "v": 17380888}, {"date": "2025-12-31", "o": 312.845, "h": 314.58, "l": 311.44, "c": 313.0, "v": 16377689}, {"date": "2026-01-02", "o": 316.9, "h": 322.5, "l": 310.33, "c": 315.15, "v": 32009385}, {"date": "2026-01-05", "o": 317.655, "h": 319.015, "l": 314.63, "c": 316.54, "v": 30195597}, {"date": "2026-01-06", "o": 316.4, "h": 320.94, "l": 311.78, "c": 314.34, "v": 31212101}, {"date": "2026-01-07", "o": 314.36, "h": 326.15, "l": 314.19, "c": 321.98, "v": 35104425}, {"date": "2026-01-08", "o": 328.965, "h": 330.3196, "l": 321.5, "c": 325.44, "v": 31896101}, {"date": "2026-01-09", "o": 327.09, "h": 330.83, "l": 325.8, "c": 328.57, "v": 26214166}, {"date": "2026-01-12", "o": 325.8, "h": 334.04, "l": 325.0, "c": 331.86, "v": 33923928}, {"date": "2026-01-13", "o": 334.95, "h": 340.49, "l": 333.62, "c": 335.97, "v": 33517607}, {"date": "2026-01-14", "o": 335.06, "h": 336.52, "l": 330.48, "c": 335.84, "v": 28525571}, {"date": "2026-01-15", "o": 337.65, "h": 337.69, "l": 330.74, "c": 332.78, "v": 28442406}, {"date": "2026-01-16", "o": 334.41, "h": 334.65, "l": 327.7, "c": 330.0, "v": 40341637}, {"date": "2026-01-20", "o": 320.87, "h": 327.73, "l": 320.43, "c": 322.0, "v": 35361045}, {"date": "2026-01-21", "o": 320.92, "h": 332.4799, "l": 319.3518, "c": 328.38, "v": 35386603}, {"date": "2026-01-22", "o": 334.45, "h": 335.15, "l": 328.75, "c": 330.54, "v": 26253640}, {"date": "2026-01-23", "o": 332.485, "h": 333.6889, "l": 327.45, "c": 327.93, "v": 27279974}, {"date": "2026-01-26", "o": 327.805, "h": 335.84, "l": 327.0, "c": 333.26, "v": 26042120}, {"date": "2026-01-27", "o": 335.365, "h": 337.91, "l": 333.48, "c": 334.55, "v": 21636164}, {"date": "2026-01-28", "o": 336.06, "h": 337.535, "l": 331.94, "c": 336.01, "v": 27434434}, {"date": "2026-01-29", "o": 340.3, "h": 342.29, "l": 326.54, "c": 338.25, "v": 39785612}, {"date": "2026-01-30", "o": 340.0, "h": 340.0, "l": 332.285, "c": 338.0, "v": 31023954}, {"date": "2026-02-02", "o": 336.22, "h": 344.83, "l": 335.63, "c": 343.69, "v": 32006052}, {"date": "2026-02-03", "o": 347.34, "h": 349.0, "l": 337.4745, "c": 339.71, "v": 36506709}, {"date": "2026-02-04", "o": 342.96, "h": 343.31, "l": 328.52, "c": 333.04, "v": 70618398}, {"date": "2026-02-05", "o": 312.22, "h": 332.69, "l": 306.46, "c": 331.25, "v": 88205849}, {"date": "2026-02-06", "o": 327.18, "h": 330.38, "l": 319.92, "c": 322.86, "v": 56380484}, {"date": "2026-02-09", "o": 320.93, "h": 327.7, "l": 317.26, "c": 324.32, "v": 39640055}, {"date": "2026-02-10", "o": 320.97, "h": 321.67, "l": 314.61, "c": 318.58, "v": 39170012}, {"date": "2026-02-11", "o": 318.97, "h": 321.06, "l": 309.66, "c": 310.96, "v": 45406405}, {"date": "2026-02-12", "o": 312.09, "h": 316.24, "l": 307.2, "c": 309.0, "v": 47761288}, {"date": "2026-02-13", "o": 307.725, "h": 308.63, "l": 303.71, "c": 305.72, "v": 38499701}, {"date": "2026-02-17", "o": 300.04, "h": 304.435, "l": 296.25, "c": 302.02, "v": 39247556}, {"date": "2026-02-18", "o": 302.09, "h": 305.38, "l": 301.25, "c": 303.33, "v": 28482075}, {"date": "2026-02-19", "o": 301.82, "h": 305.47, "l": 300.04, "c": 302.85, "v": 25834395}, {"date": "2026-02-20", "o": 304.32, "h": 316.5, "l": 303.9, "c": 314.98, "v": 53210820}, {"date": "2026-02-23", "o": 319.045, "h": 319.515, "l": 309.865, "c": 311.49, "v": 31422974.242785}, {"date": "2026-02-24", "o": 310.515, "h": 312.27, "l": 305.93, "c": 310.9, "v": 25615646.349696}, {"date": "2026-02-25", "o": 312.06, "h": 313.64, "l": 309.44, "c": 312.9, "v": 29963621.892688}, {"date": "2026-02-26", "o": 312.64, "h": 313.14, "l": 302.345, "c": 307.38, "v": 36431231.916257}, {"date": "2026-02-27", "o": 304.135, "h": 312.37, "l": 303.8, "c": 311.76, "v": 44640640.733187}, {"date": "2026-03-02", "o": 303.225, "h": 308.49, "l": 301.3, "c": 306.52, "v": 34790203.894337}, {"date": "2026-03-03", "o": 298.59, "h": 303.94, "l": 296.71, "c": 303.58, "v": 35496961.444411}, {"date": "2026-03-04", "o": 302.89, "h": 305.47, "l": 300.75, "c": 303.13, "v": 29536190.587003}, {"date": "2026-03-05", "o": 303.035, "h": 303.3, "l": 297.99, "c": 300.88, "v": 35752321.356244}, {"date": "2026-03-06", "o": 296.09, "h": 300.53, "l": 295.18, "c": 298.52, "v": 25576916.464331}, {"date": "2026-03-09", "o": 294.36, "h": 306.8, "l": 294.08, "c": 306.36, "v": 29312149.232291}, {"date": "2026-03-10", "o": 306.17, "h": 309.51, "l": 305.5704, "c": 307.04, "v": 23239684.617415}, {"date": "2026-03-11", "o": 306.75, "h": 311.42, "l": 305.92, "c": 308.7, "v": 24125714.162745}, {"date": "2026-03-12", "o": 306.82, "h": 308.94, "l": 301.03, "c": 303.55, "v": 24928347.720894}, {"date": "2026-03-13", "o": 307.01, "h": 307.69, "l": 300.44, "c": 302.28, "v": 23693092.095705}, {"date": "2026-03-16", "o": 304.35, "h": 306.4886, "l": 303.0201, "c": 305.56, "v": 23519709.663776}, {"date": "2026-03-17", "o": 305.86, "h": 311.42, "l": 305.5, "c": 310.92, "v": 21955171.147186}, {"date": "2026-03-18", "o": 309.27, "h": 312.47, "l": 306.932, "c": 307.69, "v": 20009815.852546}, {"date": "2026-03-19", "o": 304.005, "h": 308.06, "l": 302.35, "c": 307.13, "v": 25075831.032934}, {"date": "2026-03-20", "o": 305.46, "h": 306.0, "l": 298.27, "c": 301.0, "v": 44364079.99225}, {"date": "2026-03-23", "o": 302.11, "h": 305.98, "l": 300.93, "c": 302.06, "v": 29326946.346765}, {"date": "2026-03-24", "o": 299.2, "h": 299.92, "l": 290.33, "c": 290.44, "v": 36864278.442276}, {"date": "2026-03-25", "o": 293.44, "h": 296.0, "l": 289.24, "c": 290.93, "v": 29460669.502456}, {"date": "2026-03-26", "o": 287.91, "h": 287.95, "l": 278.5, "c": 280.92, "v": 39080578.803188}, {"date": "2026-03-27", "o": 277.275, "h": 279.37, "l": 273.95, "c": 274.34, "v": 35890612.090519}, {"date": "2026-03-30", "o": 276.42, "h": 277.09, "l": 272.11, "c": 273.5, "v": 35141244.03758}, {"date": "2026-03-31", "o": 278.04, "h": 288.08, "l": 277.09, "c": 287.56, "v": 43875400.938566}, {"date": "2026-04-01", "o": 290.835, "h": 300.52, "l": 290.41, "c": 297.39, "v": 37684462.326364}, {"date": "2026-04-02", "o": 290.69, "h": 298.08, "l": 289.45, "c": 295.77, "v": 21666465.003928}, {"date": "2026-04-06", "o": 295.87, "h": 300.62, "l": 295.18, "c": 299.99, "v": 16945494.891526}, {"date": "2026-04-07", "o": 302.725, "h": 305.63, "l": 297.72, "c": 305.46, "v": 23205361.66066}, {"date": "2026-04-08", "o": 320.445, "h": 322.08, "l": 315.02, "c": 317.32, "v": 33547140.176568}, {"date": "2026-04-09", "o": 315.905, "h": 319.54, "l": 311.06, "c": 318.49, "v": 23739173.387537}, {"date": "2026-04-10", "o": 320.015, "h": 321.83, "l": 316.32, "c": 317.24, "v": 19152630.443341}, {"date": "2026-04-13", "o": 317.135, "h": 321.63, "l": 315.47, "c": 321.31, "v": 18866424.352151}, {"date": "2026-04-14", "o": 324.785, "h": 333.29, "l": 323.75, "c": 332.91, "v": 27721351.564771}, {"date": "2026-04-15", "o": 332.89, "h": 337.48, "l": 330.9, "c": 337.12, "v": 24918842.04914}, {"date": "2026-04-16", "o": 338.75, "h": 339.88, "l": 334.52, "c": 336.02, "v": 20541487.619144}, {"date": "2026-04-17", "o": 337.65, "h": 342.32, "l": 336.24, "c": 341.68, "v": 25581881.330712}, {"date": "2026-04-20", "o": 340.755, "h": 341.4, "l": 336.61, "c": 337.42, "v": 18784226.435882}, {"date": "2026-04-21", "o": 337.685, "h": 339.34, "l": 331.35, "c": 332.29, "v": 23123795.929034}, {"date": "2026-04-22", "o": 337.02, "h": 339.82, "l": 335.17, "c": 339.32, "v": 20293014.988829}, {"date": "2026-04-23", "o": 341.18, "h": 341.96, "l": 336.18, "c": 338.89, "v": 18650256.807928}, {"date": "2026-04-24", "o": 338.725, "h": 345.27, "l": 335.39, "c": 344.4, "v": 26426061.780479}, {"date": "2026-04-27", "o": 345.98, "h": 353.18, "l": 342.73, "c": 350.34, "v": 28576887.100886}, {"date": "2026-04-28", "o": 348.55, "h": 352.42, "l": 346.12, "c": 349.78, "v": 27824052.575559}, {"date": "2026-04-29", "o": 347.565, "h": 355.79, "l": 344.21, "c": 349.94, "v": 35376328.172288}, {"date": "2026-04-30", "o": 374.07, "h": 385.84, "l": 365.82, "c": 384.8, "v": 72039993.633818}, {"date": "2026-05-01", "o": 381.63, "h": 386.76, "l": 379.05, "c": 385.69, "v": 30105226.990757}, {"date": "2026-05-04", "o": 385.63, "h": 387.38, "l": 379.79, "c": 383.25, "v": 26298574.753931}, {"date": "2026-05-05", "o": 386.23, "h": 392.8199, "l": 384.02, "c": 388.43, "v": 23878626.904313}, {"date": "2026-05-06", "o": 394.245, "h": 399.8499, "l": 392.76, "c": 398.04, "v": 31308476.219283}, {"date": "2026-05-07", "o": 399.92, "h": 400.1, "l": 392.68, "c": 397.99, "v": 24433490.335438}, {"date": "2026-05-08", "o": 397.0, "h": 402.0, "l": 396.36, "c": 400.8, "v": 21461849.84856}, {"date": "2026-05-11", "o": 393.645, "h": 397.44, "l": 388.47, "c": 388.64, "v": 30753738.319863}, {"date": "2026-05-12", "o": 387.34, "h": 388.52, "l": 382.77, "c": 387.35, "v": 26017488.172203}, {"date": "2026-05-13", "o": 385.595, "h": 403.7, "l": 385.0, "c": 402.62, "v": 28144555.31422}, {"date": "2026-05-14", "o": 397.28, "h": 402.93, "l": 395.84, "c": 401.07, "v": 21136716.138745}, {"date": "2026-05-15", "o": 396.315, "h": 399.5399, "l": 393.18, "c": 396.78, "v": 20309702.818813}, {"date": "2026-05-18", "o": 395.685, "h": 408.61, "l": 394.53, "c": 396.94, "v": 26837196.378217}, {"date": "2026-05-19", "o": 396.96, "h": 397.15, "l": 386.11, "c": 387.66, "v": 39545672.941587}, {"date": "2026-05-20", "o": 387.7, "h": 393.8599, "l": 382.9, "c": 388.91, "v": 31744404.183478}, {"date": "2026-05-21", "o": 385.7, "h": 392.5, "l": 383.02, "c": 387.66, "v": 24852843.499244}, {"date": "2026-05-22", "o": 387.345, "h": 388.74, "l": 381.7716, "c": 382.97, "v": 20442123.92761}, {"date": "2026-05-26", "o": 384.51, "h": 389.2599, "l": 382.6, "c": 388.88, "v": 27747388.911968}, {"date": "2026-05-27", "o": 386.665, "h": 393.88, "l": 385.9, "c": 388.83, "v": 23087287.246948}, {"date": "2026-05-28", "o": 388.0, "h": 391.87, "l": 385.16, "c": 390.13, "v": 24357455.824498}, {"date": "2026-05-29", "o": 385.24, "h": 385.24, "l": 378.46, "c": 380.34, "v": 44415846.644154}, {"date": "2026-06-01", "o": 376.52, "h": 378.56, "l": 373.52, "c": 376.37, "v": 28672120.212431}, {"date": "2026-06-02", "o": 366.59, "h": 373.54, "l": 358.44, "c": 361.85, "v": 50412300.205244}, {"date": "2026-06-03", "o": 362.03, "h": 366.45, "l": 358.08, "c": 358.99, "v": 55441583.529251}, {"date": "2026-06-04", "o": 358.9, "h": 373.2499, "l": 358.21, "c": 372.19, "v": 44055520.601694}, {"date": "2026-06-05", "o": 366.34, "h": 372.08, "l": 364.1207, "c": 368.53, "v": 37471206.697303}, {"date": "2026-06-08", "o": 365.18, "h": 366.2, "l": 360.5309, "c": 363.31, "v": 27942464.50757}, {"date": "2026-06-09", "o": 367.09, "h": 372.08, "l": 357.3, "c": 364.26, "v": 29535072.426084}, {"date": "2026-06-10", "o": 363.19, "h": 368.555, "l": 355.2, "c": 356.38, "v": 32357132.911599}, {"date": "2026-06-11", "o": 355.925, "h": 358.8, "l": 346.36, "c": 357.77, "v": 35538165.547053}, {"date": "2026-06-12", "o": 362.62, "h": 366.57, "l": 354.94, "c": 359.68, "v": 24731019.966051}];
-    const MA20_DATA = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 183.89, 184.08, 184.21, 184.28, 184.38, 184.51, 183.94, 183.11, 182.19, 181.56, 180.93, 180.24, 179.49, 178.29, 176.8, 175.27, 173.65, 172.48, 171.41, 170.2, 169.21, 168.18, 167.36, 166.62, 165.87, 165.14, 164.8, 164.63, 164.56, 164.39, 164.11, 163.67, 163.23, 163.06, 162.97, 162.88, 162.79, 162.23, 161.49, 160.81, 160.16, 159.87, 159.68, 159.43, 159.07, 158.7, 158.51, 158.5, 158.31, 158.12, 157.96, 157.95, 158.06, 158.19, 158.67, 159.14, 159.57, 160.38, 161.09, 161.88, 162.41, 162.78, 163.07, 163.41, 163.72, 163.99, 164.03, 164.02, 164.13, 164.27, 164.34, 164.34, 164.4, 164.45, 164.58, 165.01, 165.27, 165.49, 165.8, 166.07, 166.8, 167.73, 168.49, 169.26, 170.07, 170.75, 171.38, 171.84, 172.4, 173.05, 173.71, 173.95, 173.93, 173.97, 173.95, 173.69, 173.58, 173.59, 173.69, 173.92, 173.73, 173.43, 173.28, 173.52, 174.21, 174.86, 175.57, 176.78, 177.79, 178.3, 178.93, 180.12, 181.61, 183.04, 184.36, 185.54, 186.65, 187.54, 188.45, 189.32, 190.53, 191.57, 192.5, 192.84, 192.62, 192.5, 192.79, 192.6, 192.63, 193.12, 193.61, 193.94, 194.22, 194.0, 193.99, 194.12, 194.6, 195.34, 195.93, 196.66, 196.38, 196.18, 195.75, 195.47, 195.19, 194.89, 194.42, 194.03, 193.42, 192.78, 192.09, 191.18, 190.13, 189.31, 188.18, 186.83, 185.31, 183.45, 181.94, 180.27, 179.32, 178.44, 177.46, 176.34, 175.43, 174.39, 173.35, 172.31, 171.15, 170.08, 169.0, 168.21, 167.63, 167.39, 167.01, 166.69, 165.9, 165.28, 164.59, 163.79, 162.71, 161.29, 160.34, 159.37, 158.95, 158.45, 158.03, 157.77, 157.56, 157.03, 156.45, 155.63, 154.82, 154.06, 153.77, 153.76, 154.07, 154.35, 154.43, 154.65, 155.31, 156.24, 157.07, 157.4, 157.18, 157.17, 157.24, 157.26, 157.72, 158.25, 159.0, 159.94, 160.57, 161.23, 161.81, 162.13, 162.75, 163.36, 164.01, 164.53, 164.78, 164.88, 165.12, 165.96, 166.93, 168.1, 169.11, 170.0, 170.52, 171.05, 171.58, 172.05, 172.52, 172.42, 172.14, 172.05, 171.94, 172.0, 172.33, 172.56, 172.9, 173.52, 174.1, 174.53, 174.56, 174.59, 174.54, 174.68, 174.97, 175.34, 175.65, 176.03, 176.62, 177.79, 179.1, 180.27, 181.34, 182.33, 183.03, 184.01, 185.04, 185.7, 186.18, 187.1, 188.11, 189.08, 190.03, 191.09, 192.06, 193.13, 194.08, 195.05, 195.99, 196.66, 197.17, 197.63, 198.0, 198.65, 199.45, 200.02, 200.56, 201.55, 202.74, 203.55, 205.35, 207.16, 209.09, 210.72, 212.65, 214.44, 216.36, 218.26, 220.64, 223.02, 225.42, 228.06, 230.81, 233.13, 235.29, 237.29, 239.2, 240.95, 242.5, 244.09, 244.8, 245.47, 245.99, 246.81, 247.12, 247.39, 247.45, 247.24, 246.86, 246.58, 246.65, 246.62, 246.55, 246.75, 246.69, 246.92, 247.29, 247.95, 249.22, 250.43, 251.92, 253.71, 255.5, 257.16, 258.75, 260.74, 262.9, 265.01, 267.31, 269.6, 271.39, 272.74, 273.9, 275.32, 277.01, 279.07, 280.89, 282.87, 285.34, 288.14, 290.41, 292.34, 294.03, 295.63, 297.73, 299.4, 301.23, 302.97, 304.32, 305.76, 307.05, 308.59, 310.18, 311.25, 311.88, 312.36, 313.24, 313.75, 313.54, 313.07, 312.75, 312.42, 312.37, 312.23, 312.0, 311.95, 311.6, 312.01, 312.43, 312.85, 313.82, 315.16, 316.54, 317.85, 319.51, 320.49, 321.55, 322.59, 323.27, 324.23, 325.28, 326.4, 327.62, 328.87, 330.3, 331.46, 332.39, 332.85, 332.72, 332.51, 331.85, 330.6, 329.26, 327.9, 326.5, 325.57, 324.29, 323.52, 322.69, 321.58, 320.49, 319.06, 317.74, 316.16, 314.16, 312.33, 310.72, 309.08, 308.26, 307.39, 306.9, 306.53, 306.19, 306.19, 306.63, 306.85, 307.06, 306.36, 305.89, 304.87, 303.77, 302.45, 300.58, 298.93, 298.13, 297.84, 297.58, 297.66, 297.61, 298.13, 298.62, 299.3, 300.25, 301.62, 302.93, 304.34, 306.07, 307.89, 309.41, 311.85, 314.25, 317.42, 321.22, 325.03, 328.15, 332.52, 337.02, 341.18, 345.33, 349.37, 353.34, 357.52, 360.89, 363.61, 366.88, 370.14, 372.89, 375.87, 378.64, 381.12, 383.55, 385.48, 387.41, 389.36, 391.37, 391.15, 390.68, 389.61, 388.14, 386.85, 385.38, 383.5, 382.28, 380.73, 378.49, 376.42];
-    const MA50_DATA = [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 174.13, 173.84, 173.58, 173.32, 172.87, 172.42, 171.88, 171.22, 170.49, 169.82, 169.18, 168.57, 168.01, 167.35, 166.76, 166.18, 165.6, 165.16, 164.69, 164.21, 163.76, 163.39, 163.12, 162.88, 162.59, 162.27, 162.13, 162.13, 162.05, 161.95, 161.78, 161.59, 161.44, 161.4, 161.53, 161.67, 161.75, 161.77, 161.78, 161.84, 161.81, 161.86, 161.94, 162.01, 162.07, 162.22, 162.32, 162.47, 162.55, 162.62, 162.85, 163.21, 163.54, 163.88, 164.37, 164.82, 165.18, 165.62, 166.15, 166.74, 167.23, 167.49, 167.64, 167.83, 168.03, 168.21, 168.35, 168.51, 168.7, 168.94, 169.16, 169.4, 169.63, 170.02, 170.58, 171.11, 171.59, 172.18, 172.83, 173.31, 173.84, 174.43, 175.05, 175.68, 176.28, 176.83, 177.4, 177.92, 178.42, 178.96, 179.64, 180.29, 180.87, 181.37, 181.8, 182.1, 182.59, 183.03, 183.56, 184.13, 184.56, 184.91, 185.35, 185.57, 185.85, 186.18, 186.68, 187.32, 187.83, 188.4, 188.71, 189.19, 189.6, 189.97, 190.3, 190.59, 190.93, 191.2, 191.45, 191.67, 191.91, 192.01, 192.09, 191.89, 191.44, 190.97, 190.58, 189.98, 189.49, 189.19, 188.86, 188.51, 187.94, 187.3, 186.73, 186.13, 185.61, 185.11, 184.54, 183.98, 183.3, 182.67, 182.14, 181.71, 181.19, 180.64, 179.82, 179.05, 178.28, 177.46, 176.5, 175.45, 174.39, 173.44, 172.71, 171.86, 170.98, 170.09, 169.19, 168.13, 167.32, 166.44, 165.77, 165.14, 164.62, 164.19, 163.68, 163.18, 162.68, 162.2, 161.79, 161.48, 161.16, 160.68, 160.31, 160.0, 159.76, 159.61, 159.5, 159.32, 159.19, 159.05, 159.01, 159.1, 159.18, 159.29, 159.44, 159.6, 159.82, 159.98, 160.1, 160.15, 160.16, 160.11, 160.28, 160.56, 161.04, 161.5, 161.87, 162.22, 162.74, 163.35, 163.88, 164.32, 164.45, 164.73, 165.0, 165.29, 165.73, 166.19, 166.69, 167.31, 167.87, 168.3, 168.6, 168.89, 169.23, 169.63, 170.09, 170.5, 170.88, 171.27, 171.7, 172.48, 173.22, 173.97, 174.64, 175.32, 175.86, 176.5, 177.1, 177.61, 178.11, 178.64, 179.12, 179.67, 180.14, 180.72, 181.31, 181.94, 182.6, 183.33, 184.05, 184.76, 185.31, 185.78, 186.2, 186.78, 187.43, 188.08, 188.69, 189.41, 190.2, 191.09, 192.4, 193.71, 195.0, 196.21, 197.43, 198.69, 199.98, 201.23, 202.67, 204.15, 205.66, 207.17, 208.71, 210.16, 211.56, 212.86, 214.12, 215.38, 216.56, 217.62, 218.69, 219.8, 220.86, 222.0, 223.07, 224.05, 224.95, 225.84, 226.94, 227.95, 229.07, 230.18, 231.32, 232.42, 233.41, 234.38, 235.4, 236.54, 237.85, 239.12, 240.59, 242.23, 243.86, 245.41, 246.79, 248.33, 249.88, 251.22, 252.77, 254.37, 255.49, 256.41, 257.24, 258.26, 259.15, 260.23, 261.21, 262.38, 263.72, 265.17, 266.58, 267.94, 269.14, 270.41, 271.77, 273.18, 274.69, 276.03, 277.49, 279.04, 280.39, 281.66, 282.92, 284.04, 285.06, 286.21, 287.53, 288.99, 290.39, 291.77, 293.02, 294.26, 295.47, 296.6, 297.89, 299.19, 300.42, 301.66, 302.78, 304.0, 305.15, 306.24, 307.33, 308.31, 309.36, 310.11, 310.99, 312.02, 312.78, 313.62, 314.57, 315.72, 316.96, 318.02, 319.21, 320.15, 321.02, 321.65, 321.73, 321.75, 321.72, 321.54, 321.42, 321.22, 320.87, 320.58, 320.21, 320.24, 320.13, 319.94, 319.95, 319.91, 319.98, 319.98, 320.12, 320.13, 320.01, 319.78, 319.62, 319.48, 319.39, 319.19, 318.95, 318.81, 318.72, 318.54, 318.4, 317.98, 317.51, 316.75, 315.93, 314.83, 313.6, 312.41, 311.57, 311.07, 310.42, 309.81, 309.36, 309.04, 308.72, 308.35, 308.01, 307.9, 307.77, 307.7, 307.87, 308.0, 308.18, 308.48, 308.89, 309.56, 310.39, 311.27, 312.23, 313.86, 315.51, 316.88, 318.42, 320.16, 321.86, 323.73, 325.27, 326.88, 328.86, 330.82, 332.74, 334.71, 336.34, 337.97, 339.55, 341.14, 342.87, 344.54, 346.12, 347.57, 348.96, 350.18, 351.32, 352.95, 354.5, 356.15, 357.95, 359.61, 361.01, 362.26];
-    const LATEST_PRICE = 359.68;
+    const CHART_DATA = [{"date": "2026-05-18", "open": 395.685, "high": 408.61, "low": 394.53, "close": 396.94, "volume": 26837196}, {"date": "2026-05-19", "open": 396.96, "high": 397.15, "low": 386.11, "close": 387.66, "volume": 39545672}, {"date": "2026-05-20", "open": 387.7, "high": 393.8599, "low": 382.9, "close": 388.91, "volume": 31744404}, {"date": "2026-05-21", "open": 385.7, "high": 392.5, "low": 383.02, "close": 387.66, "volume": 24852843}, {"date": "2026-05-22", "open": 387.345, "high": 388.74, "low": 381.7716, "close": 382.97, "volume": 20442123}, {"date": "2026-05-26", "open": 384.51, "high": 389.2599, "low": 382.6, "close": 388.88, "volume": 27747388}, {"date": "2026-05-27", "open": 386.665, "high": 393.88, "low": 385.9, "close": 388.83, "volume": 23087287}, {"date": "2026-05-28", "open": 388.0, "high": 391.87, "low": 385.16, "close": 390.13, "volume": 24357455}, {"date": "2026-05-29", "open": 385.24, "high": 385.24, "low": 378.46, "close": 380.34, "volume": 44415846}, {"date": "2026-06-01", "open": 376.52, "high": 378.56, "low": 373.52, "close": 376.37, "volume": 28672120}, {"date": "2026-06-02", "open": 366.59, "high": 373.54, "low": 358.44, "close": 361.85, "volume": 50412300}, {"date": "2026-06-03", "open": 362.03, "high": 366.45, "low": 358.08, "close": 358.99, "volume": 55441583}, {"date": "2026-06-04", "open": 358.9, "high": 373.2499, "low": 358.21, "close": 372.19, "volume": 44055520}, {"date": "2026-06-05", "open": 366.34, "high": 372.08, "low": 364.1207, "close": 368.53, "volume": 37471206}, {"date": "2026-06-08", "open": 365.18, "high": 366.2, "low": 360.5309, "close": 363.31, "volume": 27942464}, {"date": "2026-06-09", "open": 367.09, "high": 372.08, "low": 357.3, "close": 364.26, "volume": 29535072}, {"date": "2026-06-10", "open": 363.19, "high": 368.555, "low": 355.2, "close": 356.38, "volume": 32357132}, {"date": "2026-06-11", "open": 355.925, "high": 358.8, "low": 346.36, "close": 357.77, "volume": 35538165}, {"date": "2026-06-12", "open": 362.62, "high": 366.57, "low": 354.94, "close": 359.68, "volume": 24731019}, {"date": "2026-06-15", "open": 367.93, "high": 372.99, "low": 366.55, "close": 369.35, "volume": 27727493}];
     let currentPeriod = '5y';
 
     function calcMA(data, period) {
@@ -254,7 +328,7 @@
         for (let i = 0; i < data.length; i++) {
             if (i < period - 1) { r.push(null); continue; }
             let s = 0;
-            for (let j = 0; j < period; j++) s += data[i - j];
+            for (let j = 0; j < period; j++) s += data[i - j].close;
             r.push(Math.round(s / period * 100) / 100);
         }
         return r;
@@ -277,24 +351,31 @@
 
     function drawChart() {
         const data = filterByPeriod(CHART_DATA, currentPeriod);
-        const closes = data.map(d => d.c || d.close);
-        const ma20 = calcMA(closes, 20);
-        const ma50 = calcMA(closes, 50);
+        if (!data || data.length === 0) return;
         const dates = data.map(d => d.date);
+        const prices = data.map(d => d.close);
+        const ma20 = calcMA(data, 20);
+        const ma50 = calcMA(data, 50);
 
         chart.setOption({
             backgroundColor: 'transparent',
-            tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
-            legend: { top: 8, textStyle: { color: '#8b949e', fontSize: 12 } },
-            grid: { left: '1%', right: '1%', top: '15%', bottom: '15%', containLabel: true },
-            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: '月标签' }, splitLine: { show: false } },
+            tooltip: { trigger: 'axis', axisPointer: { type: 'cross' }, formatter: function(params) {
+                let res = params[0].name + '<br/>';
+                params.forEach(p => {
+                    if (p.value != null) res += '<span style="color:' + p.color + '">' + p.marker + p.seriesName + ': $' + p.value.toFixed(2) + '</span><br/>';
+                });
+                return res;
+            }},
+            legend: { top: 6, textStyle: { color: '#8b949e', fontSize: 11 } },
+            grid: { left: '1%', right: '2%', top: '18%', bottom: '12%', containLabel: true },
+            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => v ? v.substring(0,7) : '' }, splitLine: { show: false } },
             yAxis: { type: 'value', scale: true, position: 'right', splitLine: { lineStyle: { color: '#21262d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } },
             dataZoom: [
                 { type: 'inside', xAxisIndex: [0], start: 0, end: 100 },
-                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 20, bottom: 10, borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.2)', handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
+                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 18, bottom: 8, borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.15)', handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
             ],
             series: [
-                { name: '收盘价', type: 'line', data: closes, smooth: false, symbol: 'none', lineStyle: { width: 1.5, color: '#58a6ff' }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.2)' }, { offset: 1, color: 'rgba(88,166,255,0)' }] } } },
+                { name: '收盘价', type: 'line', data: prices, smooth: false, symbol: 'none', lineStyle: { width: 1.5, color: '#58a6ff' }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.18)' }, { offset: 1, color: 'rgba(88,166,255,0)' }] } } },
                 { name: 'MA20', type: 'line', data: ma20, smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#f0883e', type: 'dashed' }, connectNulls: true },
                 { name: 'MA50', type: 'line', data: ma50, smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#a371f7', type: 'dashed' }, connectNulls: true }
             ]
@@ -309,6 +390,9 @@
             drawChart();
         });
     });
+
+    // Set initial active button
+    document.querySelector('.period-btn[data-period="5y"]').classList.add('active');
 
     initChart();
     </script>
