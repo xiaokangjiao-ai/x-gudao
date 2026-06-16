@@ -1,0 +1,62 @@
+name: Build SSG Static Site
+
+on:
+  schedule:
+    # 每天 06:00 北京时间 = UTC 22:00
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: https://x.gudaoqihuo.com
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install jinja2 yfinance numpy pandas
+
+      - name: Build static site
+        run: python src/generate_static.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-site
+          path: _site/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: https://x.gudaoqihuo.com
+
+    permissions:
+      contents: none
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: static-site
+          path: _site/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload to Pages
+        uses: actions/deploy-pages@v4
+        with:
+          environment: github-pages
