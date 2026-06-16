@@ -184,14 +184,41 @@ function analyzeSymbol() {
   document.getElementById('error-container').innerHTML = '';
   hideResults();
 
-  fetch(`/api/stock/${symbol}?period=5y`)
-    .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-    .then(data => { currentData = data; renderAll(data); })
+  // 从静态 JSON 文件加载数据
+  fetch(`/data/${symbol}.json`)
+    .then(r => { 
+      if (!r.ok) throw new Error(`HTTP ${r.status} - 文件不存在`); 
+      return r.json(); 
+    })
+    .then(data => { 
+      currentData = data; 
+      // 计算 MA 指标（如果不存在）
+      if (currentData.data && !currentData.data[0]?.ma20) {
+        calculateMA(currentData.data);
+      }
+      renderAll(currentData); 
+    })
     .catch(err => {
       document.getElementById('loading-container').innerHTML = '';
       document.getElementById('error-container').innerHTML =
-        `<div class="error-msg">❌ 加载失败: ${err.message}。请确认股票代码是否正确。</div>`;
+        `<div class="error-msg">❌ 加载失败: ${err.message}。请确认股票代码是否正确，且已生成数据文件。</div>`;
     });
+}
+
+function calculateMA(data) {
+  const len = data.length;
+  for (let i = 0; i < len; i++) {
+    if (i >= 19) {
+      let sum20 = 0;
+      for (let j = i - 19; j <= i; j++) sum20 += data[j].close;
+      data[i].ma20 = sum20 / 20;
+    }
+    if (i >= 49) {
+      let sum50 = 0;
+      for (let j = i - 49; j <= i; j++) sum50 += data[j].close;
+      data[i].ma50 = sum50 / 50;
+    }
+  }
 }
 
 function hideResults() {
@@ -199,7 +226,10 @@ function hideResults() {
     document.getElementById(id).style.display = 'none');
 }
 
-function fmt(n, d=2) { return n != null && n !== undefined ? Number(n).toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d}) : 'N/A'; }
+function fmt(n, d=2) { 
+  if (n == null || n === undefined) return 'N/A';
+  return Number(n).toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d}); 
+}
 function fmtBig(n) {
   if (n == null) return 'N/A';
   if (n >= 1e12) return (n/1e12).toFixed(2) + 'T';
@@ -210,18 +240,26 @@ function fmtBig(n) {
 
 function renderAll(data) {
   document.getElementById('loading-container').innerHTML = '';
-  const info = data.info || {};
-  const prices = data.prices || [];
-  if (!prices.length) { document.getElementById('error-container').innerHTML = '<div class="error-msg">无数据返回</div>'; return; }
+  
+  const ticker = data.ticker || '';
+  const name = data.name || '';
+  const prices = data.data || [];
+  
+  if (!prices.length) { 
+    document.getElementById('error-container').innerHTML = '<div class="error-msg">无数据返回</div>'; 
+    return; 
+  }
 
   // Header
   const last = prices[prices.length - 1];
   const prev = prices.length > 1 ? prices[prices.length - 2] : last;
   const change = last.close - prev.close;
   const changePct = prev.close ? (change / prev.close * 100) : 0;
-  document.getElementById('sym-label').textContent = info.symbol || data.symbol || '';
-  document.getElementById('sym-name').textContent = info.shortName || '';
+  
+  document.getElementById('sym-label').textContent = ticker;
+  document.getElementById('sym-name').textContent = name;
   document.getElementById('sym-price').textContent = '$' + fmt(last.close);
+  
   const chEl = document.getElementById('sym-change');
   chEl.textContent = `${change >= 0 ? '+' : ''}${fmt(change)} (${change >= 0 ? '+' : ''}${fmt(changePct)}%)`;
   chEl.className = 'stock-change ' + (change >= 0 ? 'up' : 'down');
@@ -229,14 +267,20 @@ function renderAll(data) {
 
   // Stats
   const stats = [
-    {label:'总市值', value: fmtBig(info.marketCap)},
-    {label:'市盈率(TTM)', value: fmt(info.trailingPE)},
-    {label:'52周最高', value: '$' + fmt(info.fiftyTwoWeekHigh)},
-    {label:'52周最低', value: '$' + fmt(info.fiftyTwoWeekLow)},
-    {label:'Beta', value: fmt(info.beta)},
-    {label:'行业', value: info.sector || 'N/A'},
-    {label:'股息率', value: info.dividendYield != null ? (info.dividendYield * 100).toFixed(2) + '%' : 'N/A'},
+    {label:'最新价', value: '$' + fmt(last.close)},
+    {label:'成交量', value: fmtBig(last.volume)},
+    {label:'数据点数', value: prices.length},
+    {label:'期间最高', value: '$' + fmt(Math.max(...prices.map(p => p.high)))},
+    {label:'期间最低', value: '$' + fmt(Math.min(...prices.map(p => p.low)))},
+    {label:'变化', value: `${change >= 0 ? '+' : ''}${fmt(changePct)}%`},
   ];
+  
+  // 如果有额外信息，添加到 stats
+  if (data.info) {
+    if (data.info.marketCap) stats.push({label:'总市值', value: fmtBig(data.info.marketCap)});
+    if (data.info.trailingPE) stats.push({label:'市盈率', value: fmt(data.info.trailingPE)});
+  }
+  
   document.getElementById('stats-container').innerHTML = stats.map(s =>
     `<div class="stat-card"><div class="stat-label">${s.label}</div><div class="stat-value">${s.value}</div></div>`
   ).join('');
@@ -265,21 +309,75 @@ function renderChart(prices) {
   chartInstance.setOption({
     backgroundColor: '#1a1a2e',
     animation: false,
-    tooltip: { trigger: 'axis', axisPointer: { type: 'cross' }, backgroundColor: '#16213e', borderColor: '#2a3a5c', textStyle: { color: '#e8e8e8', fontSize: 12 } },
-    legend: { data: ['K线', 'MA20', 'MA50'], textStyle: { color: '#a0a8b8' }, top: 10 },
+    tooltip: { 
+      trigger: 'axis', 
+      axisPointer: { type: 'cross' }, 
+      backgroundColor: '#16213e', 
+      borderColor: '#2a3a5c', 
+      textStyle: { color: '#e8e8e8', fontSize: 12 } 
+    },
+    legend: { 
+      data: ['K线', 'MA20', 'MA50'], 
+      textStyle: { color: '#a0a8b8' }, 
+      top: 10 
+    },
     grid: [{ left: '8%', right: '4%', top: 60, bottom: 80 }],
-    xAxis: [{ type: 'category', data: dates, axisLine: { lineStyle: { color: '#2a3a5c' } }, axisLabel: { color: '#6b7280', fontSize: 10 }, splitLine: { show: false } }],
-    yAxis: [{ scale: true, axisLine: { lineStyle: { color: '#2a3a5c' } }, axisLabel: { color: '#6b7280' }, splitLine: { lineStyle: { color: '#1e2d4a' } } }],
+    xAxis: [{ 
+      type: 'category', 
+      data: dates, 
+      axisLine: { lineStyle: { color: '#2a3a5c' } }, 
+      axisLabel: { color: '#6b7280', fontSize: 10 }, 
+      splitLine: { show: false } 
+    }],
+    yAxis: [{ 
+      scale: true, 
+      axisLine: { lineStyle: { color: '#2a3a5c' } }, 
+      axisLabel: { color: '#6b7280' }, 
+      splitLine: { lineStyle: { color: '#1e2d4a' } } 
+    }],
     dataZoom: [
       { type: 'inside', xAxisIndex: 0, start: 60, end: 100 },
-      { type: 'slider', xAxisIndex: 0, start: 60, end: 100, bottom: 10, height: 28, borderColor: '#2a3a5c', fillerColor: 'rgba(79,195,247,0.15)', handleStyle: { color: '#4fc3f7' }, textStyle: { color: '#6b7280' } }
+      { 
+        type: 'slider', 
+        xAxisIndex: 0, 
+        start: 60, 
+        end: 100, 
+        bottom: 10, 
+        height: 28, 
+        borderColor: '#2a3a5c', 
+        fillerColor: 'rgba(79,195,247,0.15)', 
+        handleStyle: { color: '#4fc3f7' }, 
+        textStyle: { color: '#6b7280' } 
+      }
     ],
     series: [
-      { name: 'K线', type: 'candlestick', data: ohlc, itemStyle: { color: '#66bb6a', color0: '#ef5350', borderColor: '#66bb6a', borderColor0: '#ef5350' } },
-      { name: 'MA20', type: 'line', data: ma20, smooth: true, lineStyle: { color: '#4fc3f7', width: 1.5 }, symbol: 'none', connectNulls: true },
-      { name: 'MA50', type: 'line', data: ma50, smooth: true, lineStyle: { color: '#ffa726', width: 1.5 }, symbol: 'none', connectNulls: true }
+      { 
+        name: 'K线', 
+        type: 'candlestick', 
+        data: ohlc, 
+        itemStyle: { color: '#66bb6a', color0: '#ef5350', borderColor: '#66bb6a', borderColor0: '#ef5350' } 
+      },
+      { 
+        name: 'MA20', 
+        type: 'line', 
+        data: ma20, 
+        smooth: true, 
+        lineStyle: { color: '#4fc3f7', width: 1.5 }, 
+        symbol: 'none', 
+        connectNulls: true 
+      },
+      { 
+        name: 'MA50', 
+        type: 'line', 
+        data: ma50, 
+        smooth: true, 
+        lineStyle: { color: '#ffa726', width: 1.5 }, 
+        symbol: 'none', 
+        connectNulls: true 
+      }
     ]
   });
+  
   window.addEventListener('resize', () => chartInstance && chartInstance.resize());
 }
 
@@ -299,43 +397,97 @@ function renderTable(prices) {
 }
 
 function exportCSV() {
-  if (!currentData || !currentData.prices) return;
+  if (!currentData || !currentData.data) return;
   const header = 'Date,Open,High,Low,Close,Volume,MA20,MA50';
-  const rows = currentData.prices.map(p =>
+  const rows = currentData.data.map(p =>
     [p.date, p.open, p.high, p.low, p.close, p.volume, p.ma20 ?? '', p.ma50 ?? ''].join(',')
   );
   const csv = header + '\n' + rows.join('\n');
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = (currentData.info?.symbol || currentData.symbol || 'data') + '.csv';
+  a.href = url; a.download = (currentData.ticker || 'data') + '.csv';
   a.click(); URL.revokeObjectURL(url);
 }
 
 function compareAssets() {
   const input = document.getElementById('compare-input').value.trim().toUpperCase();
   if (!input) return;
-  const symbols = input.split(/[,，\s]+/).filter(Boolean).join(',');
+  
+  const symbols = input.split(/[,，\s]+/).filter(Boolean);
   const container = document.getElementById('compare-container');
-  container.innerHTML = '<div class="loading">正在对比 ' + symbols + ' ...</div>';
+  container.innerHTML = '<div class="loading">正在对比 ' + symbols.join(', ') + ' ...</div>';
 
-  fetch(`/api/compare?symbols=${encodeURIComponent(symbols)}`)
-    .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
-    .then(data => {
-      if (!data.results || !data.results.length) { container.innerHTML = '<div class="error-msg">无对比数据</div>'; return; }
-      const cols = data.results.map(r => r.symbol);
-      const metrics = ['totalReturn','annualizedReturn','volatility','maxDrawdown','sharpeRatio'];
-      const labels = {totalReturn:'总收益',annualizedReturn:'年化收益',volatility:'波动率',maxDrawdown:'最大回撤',sharpeRatio:'夏普比率'};
-      container.innerHTML = `<div class="card"><div class="card-body table-scroll"><table class="compare-table"><thead><tr><th>指标</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${metrics.map(m=>{
-        const vals = data.results.map(r => r[m]);
-        const best = Math.max(...vals.filter(v=>v!=null));
-        return `<tr><td>${labels[m]||m}</td>${vals.map(v=>{
-          const s = v!=null?(v*100).toFixed(2)+'%':'N/A';
-          return v===best?`<td class="compare-best">${s}</td>`:`<td>${s}</td>`;
-        }).join('')}</tr>`;
-      }).join('')}</tbody></table></div></div>`;
-    })
-    .catch(err => { container.innerHTML = `<div class="error-msg">❌ 对比失败: ${err.message}</div>`; });
+  // 加载多个标的的数据
+  Promise.all(symbols.map(sym => 
+    fetch(`/data/${sym}.json`)
+      .then(r => r.json())
+      .catch(err => null)
+  ))
+  .then(results => {
+    const validResults = results.filter(r => r !== null);
+    if (!validResults.length) { 
+      container.innerHTML = '<div class="error-msg">无对比数据，请检查代码是否正确</div>'; 
+      return; 
+    }
+    
+    // 计算简单统计
+    const comparisons = validResults.map(data => {
+      const prices = data.data || [];
+      if (!prices.length) return null;
+      
+      const first = prices[0];
+      const last = prices[prices.length - 1];
+      const totalReturn = (last.close - first.close) / first.close;
+      const maxPrice = Math.max(...prices.map(p => p.high));
+      const minPrice = Math.min(...prices.map(p => p.low));
+      
+      return {
+        symbol: data.ticker,
+        name: data.name,
+        latestPrice: last.close,
+        totalReturn: totalReturn,
+        maxPrice: maxPrice,
+        minPrice: minPrice,
+        dataPoints: prices.length
+      };
+    }).filter(r => r !== null);
+    
+    // 渲染对比表格
+    container.innerHTML = `<div class="card">
+      <div class="card-body table-scroll">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>标的</th>
+              <th>最新价</th>
+              <th>总收益</th>
+              <th>期间最高</th>
+              <th>期间最低</th>
+              <th>数据点数</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${comparisons.map(c => {
+              const bestReturn = Math.max(...comparisons.map(x => x.totalReturn));
+              const returnClass = c.totalReturn === bestReturn ? 'compare-best' : '';
+              return `<tr>
+                <td><strong>${c.symbol}</strong><br><small>${c.name}</small></td>
+                <td class="num">$${fmt(c.latestPrice)}</td>
+                <td class="num ${returnClass}">${(c.totalReturn * 100).toFixed(2)}%</td>
+                <td class="num">$${fmt(c.maxPrice)}</td>
+                <td class="num">$${fmt(c.minPrice)}</td>
+                <td class="num">${c.dataPoints}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  })
+  .catch(err => { 
+    container.innerHTML = `<div class="error-msg">❌ 对比失败: ${err.message}</div>`; 
+  });
 }
 </script>
 </body>
