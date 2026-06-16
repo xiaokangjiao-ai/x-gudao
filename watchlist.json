@@ -1,18 +1,4 @@
 {
-  "name": "全球最具价值的10个基金",
-  "description": "专注全球规模最大、最具影响力的ETF基金，只选精品",
-  "groups": {
-    "us_core": ["SPY", "IVV", "VOO"],
-    "us_tech": ["QQQ"],
-    "us_total": ["VTI"],
-    "global": ["VEA", "VWO"],
-    "bonds": ["AGG"],
-    "commodities": ["GLD"]
-  },
-  "tickers": ["SPY", "IVV", "VOO", "QQQ", "VTI", "VEA", "VWO", "AGG", "IEFA", "GLD"],
-  "metadata": {
-    "last_updated": "2026-06-16",
-    "total_count": 10,
-    "source": "按全球ETF管理规模(AUM)排名选取前10"
-  }
+  "etfs": ["SPY", "IVV", "VOO", "QQQ", "VTI", "VEA", "IEFA", "BND", "VWO", "GLD"],
+  "stocks": ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA", "BRK.B", "JPM", "V"]
 }
