@@ -43,13 +43,17 @@ jobs:
 
       - name: Build site
         run: |
-          mkdir -p _site
-          # Copy static files
-          cp -r static/* _site/ 2>/dev/null || true
-          # Copy output files (JSON data + HTML)
-          cp -r output/* _site/
-          # Ensure directories exist
-          mkdir -p _site/stocks _site/compare _site/css _site/js
+          mkdir -p _site/css _site/js
+          # Copy static HTML to root (GitHub Pages serves from root)
+          cp static/index.html _site/index.html
+          cp static/screener.html _site/screener.html
+          cp static/about.html _site/about.html
+          # Copy CSS and JS
+          cp -r static/css/* _site/css/ 2>/dev/null || true
+          cp -r static/js/* _site/js/ 2>/dev/null || true
+          # Copy output JSON data (修正路径: output/*.json → data/*.json)
+          mkdir -p _site/data
+          cp -r output/*.json _site/data/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

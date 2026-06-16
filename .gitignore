@@ -1,6 +1,6 @@
-﻿/data/
-/output/
-# 保留 static/data 用于静态JSON方案
+/data/
+# output/ 目录需要被 Git 追踪（存放静态 JSON 数据文件）
+!output/
 !static/data/
 *.pyc
 .env

@@ -3,7 +3,7 @@
  * 替代原来的 API 调用
  */
 
-const DATA_BASE_PATH = '../output';
+const DATA_BASE_PATH = '../data';
 
 /**
  * 加载单个标的的数据
