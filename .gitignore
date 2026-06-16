@@ -1,6 +1,7 @@
-# output/ - static site files, must be tracked for GitHub Pages
-# __pycache__/
+﻿data/
+__pycache__/
 *.pyc
+output/
 .env
 .venv/
 .DS_Store
