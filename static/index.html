@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>股道奇货 X-Gudao - AI驱动金融分析</title>
+<link rel="stylesheet" href="/css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+  #stock-section { display: none; }
+  .search-section { margin: 24px 0; }
+  .search-box { display: flex; gap: 8px; max-width: 500px; }
+  .search-box input {
+    flex: 1; background: var(--bg-input); border: 1px solid var(--border-color);
+    color: var(--text-primary); padding: 10px 16px; border-radius: 6px; font-size: 15px; outline: none;
+  }
+  .search-box input:focus { border-color: var(--accent-blue); }
+  .search-box button {
+    background: var(--accent-blue); color: #fff; border: none; padding: 10px 24px;
+    border-radius: 6px; font-size: 15px; cursor: pointer; font-weight: 600;
+  }
+  .search-box button:hover { opacity: 0.9; }
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px; margin-bottom: 20px;
+  }
+  .stat-card {
+    background: var(--bg-secondary); border: 1px solid var(--border-color);
+    border-radius: var(--radius); padding: 14px 16px;
+  }
+  .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-size: 20px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
+  #kline-chart { width: 100%; height: 500px; }
+  .table-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .btn-export {
+    background: var(--bg-card); border: 1px solid var(--border-color); color: var(--accent-blue);
+    padding: 6px 16px; border-radius: var(--radius); cursor: pointer; font-size: 13px;
+  }
+  .btn-export:hover { background: var(--bg-hover); }
+  .compare-input-row { display: flex; gap: 8px; margin-bottom: 16px; max-width: 600px; }
+  .compare-input-row input {
+    flex: 1; background: var(--bg-input); border: 1px solid var(--border-color);
+    color: var(--text-primary); padding: 8px 14px; border-radius: 6px; font-size: 14px; outline: none;
+  }
+  .compare-input-row input:focus { border-color: var(--accent-blue); }
+  .compare-input-row button {
+    background: var(--accent-orange); color: #fff; border: none; padding: 8px 20px;
+    border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: 600;
+  }
+  .table-scroll { overflow-x: auto; }
+  .loading { text-align: center; padding: 40px; color: var(--text-muted); }
+  .loading::before { content: "⏳ "; }
+  .error-msg {
+    background: rgba(239,83,80,0.1); border: 1px solid rgba(239,83,80,0.3);
+    border-radius: var(--radius); padding: 12px 16px; color: var(--accent-red); margin-bottom: 16px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand">📈 股道奇货 <span>X-Gudao</span></a>
+  <div class="navbar-links">
+    <a href="/" class="active">首页</a>
+    <a href="/screener.html">ETF对比</a>
+    <a href="/about.html">关于</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero / Search -->
+  <div class="hero" id="hero-section">
+    <h1>📈 股道奇货</h1>
+    <p>AI驱动的金融数据分析平台，洞察市场脉搏</p>
+    <div class="hero-search" style="margin-top:24px">
+      <input type="text" id="hero-symbol" placeholder="输入股票代码，如 VOO, AAPL, QQQ" autofocus>
+      <button onclick="analyzeSymbol()">分析</button>
+    </div>
+    <div class="hero-stats" style="margin-top:28px">
+      <div class="hero-stat"><div class="hero-stat-value">5Y</div><div class="hero-stat-label">历史数据</div></div>
+      <div class="hero-stat"><div class="hero-stat-value">20+</div><div class="hero-stat-label">技术指标</div></div>
+      <div class="hero-stat"><div class="hero-stat-value">AI</div><div class="hero-stat-label">智能洞察</div></div>
+    </div>
+  </div>
+
+  <!-- Stock Analysis Section (hidden until search) -->
+  <div id="stock-section">
+    <div class="search-section">
+      <div class="search-box">
+        <input type="text" id="nav-symbol" placeholder="输入股票代码" onkeydown="if(event.key==='Enter')analyzeSymbol()">
+        <button onclick="analyzeSymbol()">分析</button>
+      </div>
+    </div>
+
+    <div id="error-container"></div>
+    <div id="loading-container"></div>
+
+    <!-- Stock Header -->
+    <div id="stock-header" class="stock-header" style="display:none">
+      <div class="stock-title-row">
+        <span class="stock-symbol" id="sym-label"></span>
+        <span class="stock-name" id="sym-name"></span>
+      </div>
+      <div class="stock-price-row">
+        <span class="stock-price" id="sym-price"></span>
+        <span class="stock-change" id="sym-change"></span>
+      </div>
+    </div>
+
+    <!-- Key Stats -->
+    <div id="stats-container" class="stats-grid" style="display:none"></div>
+
+    <!-- K-Line Chart -->
+    <div id="chart-card" class="card" style="display:none">
+      <div class="card-header">📊 K线图</div>
+      <div class="card-body" style="padding:8px">
+        <div id="kline-chart"></div>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <div id="table-card" class="card" style="display:none">
+      <div class="card-header">
+        <span>📋 历史数据</span>
+        <button class="btn-export" onclick="exportCSV()" style="margin-left:auto">📥 导出 CSV</button>
+      </div>
+      <div class="card-body table-scroll">
+        <table class="data-table" id="data-table">
+          <thead><tr>
+            <th>日期</th><th>开盘</th><th>最高</th><th>最低</th><th>收盘</th><th>成交量</th><th>MA20</th><th>MA50</th>
+          </tr></thead>
+          <tbody id="data-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Compare Section -->
+    <div class="section-header"><span class="icon">⚖️</span> 多资产对比</div>
+    <div class="compare-input-row">
+      <input type="text" id="compare-input" placeholder="输入代码，逗号分隔，如 VOO,QQQ,SPY" value="VOO,QQQ,SPY">
+      <button onclick="compareAssets()">对比</button>
+    </div>
+    <div id="compare-container"></div>
+
+    <!-- AI Insight (placeholder) -->
+    <div class="ai-insight" id="ai-insight" style="display:none">
+      <div class="ai-insight-header">🤖 AI 洞察</div>
+      <div class="ai-insight-body" id="ai-insight-body"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="/">首页</a> · <a href="/screener.html">ETF对比</a> · <a href="/about.html">关于</a>
+  </div>
+  © 2024 股道奇货 X-Gudao — 仅供参考，不构成投资建议
+</footer>
+
+<script>
+let currentData = null;
+let chartInstance = null;
+
+// Auto-load from URL param
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('symbol')) {
+  document.getElementById('hero-symbol').value = urlParams.get('symbol').toUpperCase();
+  analyzeSymbol();
+}
+
+function analyzeSymbol() {
+  const heroVal = document.getElementById('hero-symbol').value.trim().toUpperCase();
+  const navVal = document.getElementById('nav-symbol').value.trim().toUpperCase();
+  const symbol = heroVal || navVal;
+  if (!symbol) return;
+
+  document.getElementById('hero-symbol').value = symbol;
+  document.getElementById('nav-symbol').value = symbol;
+  document.getElementById('hero-section').style.display = 'none';
+  document.getElementById('stock-section').style.display = 'block';
+  document.getElementById('loading-container').innerHTML = '<div class="loading">正在加载 ' + symbol + ' 数据...</div>';
+  document.getElementById('error-container').innerHTML = '';
+  hideResults();
+
+  // 从静态 JSON 文件加载数据
+  fetch(`/data/${symbol}.json`)
+    .then(r => { 
+      if (!r.ok) throw new Error(`HTTP ${r.status} - 文件不存在`); 
+      return r.json(); 
+    })
+    .then(data => { 
+      currentData = data; 
+      // 计算 MA 指标（如果不存在）
+      if (currentData.data && !currentData.data[0]?.ma20) {
+        calculateMA(currentData.data);
+      }
+      renderAll(currentData); 
+    })
+    .catch(err => {
+      document.getElementById('loading-container').innerHTML = '';
+      document.getElementById('error-container').innerHTML =
+        `<div class="error-msg">❌ 加载失败: ${err.message}。请确认股票代码是否正确，且已生成数据文件。</div>`;
+    });
+}
+
+function calculateMA(data) {
+  const len = data.length;
+  for (let i = 0; i < len; i++) {
+    if (i >= 19) {
+      let sum20 = 0;
+      for (let j = i - 19; j <= i; j++) sum20 += data[j].close;
+      data[i].ma20 = sum20 / 20;
+    }
+    if (i >= 49) {
+      let sum50 = 0;
+      for (let j = i - 49; j <= i; j++) sum50 += data[j].close;
+      data[i].ma50 = sum50 / 50;
+    }
+  }
+}
+
+function hideResults() {
+  ['stock-header','stats-container','chart-card','table-card'].forEach(id =>
+    document.getElementById(id).style.display = 'none');
+}
+
+function fmt(n, d=2) { 
+  if (n == null || n === undefined) return 'N/A';
+  return Number(n).toLocaleString('en-US', {minimumFractionDigits:d, maximumFractionDigits:d}); 
+}
+function fmtBig(n) {
+  if (n == null) return 'N/A';
+  if (n >= 1e12) return (n/1e12).toFixed(2) + 'T';
+  if (n >= 1e9) return (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return (n/1e6).toFixed(2) + 'M';
+  return n.toLocaleString();
+}
+
+function renderAll(data) {
+  document.getElementById('loading-container').innerHTML = '';
+  
+  const ticker = data.ticker || '';
+  const name = data.name || '';
+  const prices = data.data || [];
+  
+  if (!prices.length) { 
+    document.getElementById('error-container').innerHTML = '<div class="error-msg">无数据返回</div>'; 
+    return; 
+  }
+
+  // Header
+  const last = prices[prices.length - 1];
+  const prev = prices.length > 1 ? prices[prices.length - 2] : last;
+  const change = last.close - prev.close;
+  const changePct = prev.close ? (change / prev.close * 100) : 0;
+  
+  document.getElementById('sym-label').textContent = ticker;
+  document.getElementById('sym-name').textContent = name;
+  document.getElementById('sym-price').textContent = '$' + fmt(last.close);
+  
+  const chEl = document.getElementById('sym-change');
+  chEl.textContent = `${change >= 0 ? '+' : ''}${fmt(change)} (${change >= 0 ? '+' : ''}${fmt(changePct)}%)`;
+  chEl.className = 'stock-change ' + (change >= 0 ? 'up' : 'down');
+  document.getElementById('stock-header').style.display = '';
+
+  // Stats
+  const stats = [
+    {label:'最新价', value: '$' + fmt(last.close)},
+    {label:'成交量', value: fmtBig(last.volume)},
+    {label:'数据点数', value: prices.length},
+    {label:'期间最高', value: '$' + fmt(Math.max(...prices.map(p => p.high)))},
+    {label:'期间最低', value: '$' + fmt(Math.min(...prices.map(p => p.low)))},
+    {label:'变化', value: `${change >= 0 ? '+' : ''}${fmt(changePct)}%`},
+  ];
+  
+  // 如果有额外信息，添加到 stats
+  if (data.info) {
+    if (data.info.marketCap) stats.push({label:'总市值', value: fmtBig(data.info.marketCap)});
+    if (data.info.trailingPE) stats.push({label:'市盈率', value: fmt(data.info.trailingPE)});
+  }
+  
+  document.getElementById('stats-container').innerHTML = stats.map(s =>
+    `<div class="stat-card"><div class="stat-label">${s.label}</div><div class="stat-value">${s.value}</div></div>`
+  ).join('');
+  document.getElementById('stats-container').style.display = '';
+
+  // Chart
+  renderChart(prices);
+  document.getElementById('chart-card').style.display = '';
+
+  // Table
+  renderTable(prices);
+  document.getElementById('table-card').style.display = '';
+}
+
+function renderChart(prices) {
+  const el = document.getElementById('kline-chart');
+  if (chartInstance) { chartInstance.dispose(); }
+  chartInstance = echarts.init(el, null, { renderer: 'canvas' });
+
+  const dates = prices.map(p => p.date);
+  const ohlc = prices.map(p => [p.open, p.close, p.low, p.high]);
+  const ma20 = prices.map(p => p.ma20 ?? null);
+  const ma50 = prices.map(p => p.ma50 ?? null);
+  const vol = prices.map(p => p.volume);
+
+  chartInstance.setOption({
+    backgroundColor: '#1a1a2e',
+    animation: false,
+    tooltip: { 
+      trigger: 'axis', 
+      axisPointer: { type: 'cross' }, 
+      backgroundColor: '#16213e', 
+      borderColor: '#2a3a5c', 
+      textStyle: { color: '#e8e8e8', fontSize: 12 } 
+    },
+    legend: { 
+      data: ['K线', 'MA20', 'MA50'], 
+      textStyle: { color: '#a0a8b8' }, 
+      top: 10 
+    },
+    grid: [{ left: '8%', right: '4%', top: 60, bottom: 80 }],
+    xAxis: [{ 
+      type: 'category', 
+      data: dates, 
+      axisLine: { lineStyle: { color: '#2a3a5c' } }, 
+      axisLabel: { color: '#6b7280', fontSize: 10 }, 
+      splitLine: { show: false } 
+    }],
+    yAxis: [{ 
+      scale: true, 
+      axisLine: { lineStyle: { color: '#2a3a5c' } }, 
+      axisLabel: { color: '#6b7280' }, 
+      splitLine: { lineStyle: { color: '#1e2d4a' } } 
+    }],
+    dataZoom: [
+      { type: 'inside', xAxisIndex: 0, start: 60, end: 100 },
+      { 
+        type: 'slider', 
+        xAxisIndex: 0, 
+        start: 60, 
+        end: 100, 
+        bottom: 10, 
+        height: 28, 
+        borderColor: '#2a3a5c', 
+        fillerColor: 'rgba(79,195,247,0.15)', 
+        handleStyle: { color: '#4fc3f7' }, 
+        textStyle: { color: '#6b7280' } 
+      }
+    ],
+    series: [
+      { 
+        name: 'K线', 
+        type: 'candlestick', 
+        data: ohlc, 
+        itemStyle: { color: '#66bb6a', color0: '#ef5350', borderColor: '#66bb6a', borderColor0: '#ef5350' } 
+      },
+      { 
+        name: 'MA20', 
+        type: 'line', 
+        data: ma20, 
+        smooth: true, 
+        lineStyle: { color: '#4fc3f7', width: 1.5 }, 
+        symbol: 'none', 
+        connectNulls: true 
+      },
+      { 
+        name: 'MA50', 
+        type: 'line', 
+        data: ma50, 
+        smooth: true, 
+        lineStyle: { color: '#ffa726', width: 1.5 }, 
+        symbol: 'none', 
+        connectNulls: true 
+      }
+    ]
+  });
+  
+  window.addEventListener('resize', () => chartInstance && chartInstance.resize());
+}
+
+function renderTable(prices) {
+  const rows = prices.slice(-200).reverse();
+  document.getElementById('data-tbody').innerHTML = rows.map(p => {
+    const cls = p.close >= p.open ? 'positive' : 'negative';
+    return `<tr>
+      <td>${p.date}</td>
+      <td class="num">${fmt(p.open)}</td><td class="num">${fmt(p.high)}</td>
+      <td class="num">${fmt(p.low)}</td><td class="num ${cls}">${fmt(p.close)}</td>
+      <td class="num">${p.volume != null ? Number(p.volume).toLocaleString() : 'N/A'}</td>
+      <td class="num">${p.ma20 != null ? fmt(p.ma20) : 'N/A'}</td>
+      <td class="num">${p.ma50 != null ? fmt(p.ma50) : 'N/A'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function exportCSV() {
+  if (!currentData || !currentData.data) return;
+  const header = 'Date,Open,High,Low,Close,Volume,MA20,MA50';
+  const rows = currentData.data.map(p =>
+    [p.date, p.open, p.high, p.low, p.close, p.volume, p.ma20 ?? '', p.ma50 ?? ''].join(',')
+  );
+  const csv = header + '\n' + rows.join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = (currentData.ticker || 'data') + '.csv';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function compareAssets() {
+  const input = document.getElementById('compare-input').value.trim().toUpperCase();
+  if (!input) return;
+  
+  const symbols = input.split(/[,，\s]+/).filter(Boolean);
+  const container = document.getElementById('compare-container');
+  container.innerHTML = '<div class="loading">正在对比 ' + symbols.join(', ') + ' ...</div>';
+
+  // 加载多个标的的数据
+  Promise.all(symbols.map(sym => 
+    fetch(`/data/${sym}.json`)
+      .then(r => r.json())
+      .catch(err => null)
+  ))
+  .then(results => {
+    const validResults = results.filter(r => r !== null);
+    if (!validResults.length) { 
+      container.innerHTML = '<div class="error-msg">无对比数据，请检查代码是否正确</div>'; 
+      return; 
+    }
+    
+    // 计算简单统计
+    const comparisons = validResults.map(data => {
+      const prices = data.data || [];
+      if (!prices.length) return null;
+      
+      const first = prices[0];
+      const last = prices[prices.length - 1];
+      const totalReturn = (last.close - first.close) / first.close;
+      const maxPrice = Math.max(...prices.map(p => p.high));
+      const minPrice = Math.min(...prices.map(p => p.low));
+      
+      return {
+        symbol: data.ticker,
+        name: data.name,
+        latestPrice: last.close,
+        totalReturn: totalReturn,
+        maxPrice: maxPrice,
+        minPrice: minPrice,
+        dataPoints: prices.length
+      };
+    }).filter(r => r !== null);
+    
+    // 渲染对比表格
+    container.innerHTML = `<div class="card">
+      <div class="card-body table-scroll">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>标的</th>
+              <th>最新价</th>
+              <th>总收益</th>
+              <th>期间最高</th>
+              <th>期间最低</th>
+              <th>数据点数</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${comparisons.map(c => {
+              const bestReturn = Math.max(...comparisons.map(x => x.totalReturn));
+              const returnClass = c.totalReturn === bestReturn ? 'compare-best' : '';
+              return `<tr>
+                <td><strong>${c.symbol}</strong><br><small>${c.name}</small></td>
+                <td class="num">$${fmt(c.latestPrice)}</td>
+                <td class="num ${returnClass}">${(c.totalReturn * 100).toFixed(2)}%</td>
+                <td class="num">$${fmt(c.maxPrice)}</td>
+                <td class="num">$${fmt(c.minPrice)}</td>
+                <td class="num">${c.dataPoints}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  })
+  .catch(err => { 
+    container.innerHTML = `<div class="error-msg">❌ 对比失败: ${err.message}</div>`; 
+  });
+}
+</script>
+</body>
+</html>

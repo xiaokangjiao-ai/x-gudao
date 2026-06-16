@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETF筛选器 - 股道奇货 X-Gudao</title>
+<link rel="stylesheet" href="/css/style.css">
+<!-- 数据来源标识 -->
+<div style="position:fixed;bottom:10px;right:10px;background:rgba(79,195,247,0.1);border:1px solid var(--accent-blue);color:var(--accent-blue);padding:6px 12px;border-radius:4px;font-size:12px;z-index:1000">
+  📁 数据来源：本地 JSON 文件
+</div>
+<style>
+  .etf-desc { color: var(--text-secondary); font-size: 13px; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand">📈 股道奇货 <span>X-Gudao</span></a>
+  <div class="navbar-links">
+    <a href="/">首页</a>
+    <a href="/screener.html" class="active">ETF对比</a>
+    <a href="/about.html">关于</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="hero" style="padding:32px 40px">
+    <h1>⚖️ ETF 筛选器</h1>
+    <p class="hero-sub">热门ETF一览，点击即可深度分析</p>
+  </div>
+
+  <div class="stocks-grid" id="etf-grid"></div>
+
+  <div class="section-header"><span class="icon">📊</span> 批量对比</div>
+  <div class="compare-input-row" style="display:flex;gap:8px;max-width:600px;margin-bottom:16px">
+    <input type="text" id="compare-input" placeholder="输入代码，逗号分隔，如 VOO,QQQ,SPY" value="VOO,QQQ,SPY" style="flex:1;background:var(--bg-input);border:1px solid var(--border-color);color:var(--text-primary);padding:8px 14px;border-radius:6px;font-size:14px;outline:none">
+    <button onclick="compareETFs()" style="background:var(--accent-orange);color:#fff;border:none;padding:8px 20px;border-radius:6px;font-size:14px;cursor:pointer;font-weight:600">对比</button>
+  </div>
+  <div id="compare-container"></div>
+</div>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="/">首页</a> · <a href="/screener.html">ETF对比</a> · <a href="/about.html">关于</a>
+  </div>
+  © 2024 股道奇货 X-Gudao — 仅供参考，不构成投资建议
+</footer>
+
+<script type="module">
+import { loadCompareData, showLoading, showError, clearStatus } from './js/data-loader.js';
+const ETFS = [
+  {symbol:'VOO', name:'Vanguard S&P 500 ETF', desc:'追踪标普500指数，大盘股核心配置'},
+  {symbol:'QQQ', name:'Invesco QQQ Trust', desc:'追踪纳斯达克100指数，科技股集中'},
+  {symbol:'SPY', name:'SPDR S&P 500 ETF', desc:'全球最大ETF，标普500基准'},
+  {symbol:'VTI', name:'Vanguard Total Stock Market', desc:'全美股票市场，一键分散'},
+  {symbol:'IWM', name:'iShares Russell 2000', desc:'小盘股ETF，经济复苏先锋'},
+  {symbol:'GLD', name:'SPDR Gold Shares', desc:'黄金ETF，避险抗通胀'},
+  {symbol:'TLT', name:'iShares 20+ Year Treasury', desc:'长期美债ETF，利率敏感'},
+  {symbol:'BND', name:'Vanguard Total Bond Market', desc:'全债市ETF，稳健底仓'},
+];
+
+const grid = document.getElementById('etf-grid');
+ETFS.forEach(etf => {
+  const card = document.createElement('a');
+  card.href = `/?symbol=${etf.symbol}`;
+  card.className = 'stock-card';
+  card.innerHTML = `
+    <div class="stock-card-symbol">${etf.symbol}</div>
+    <div class="stock-card-name">${etf.name}</div>
+    <div class="etf-desc">${etf.desc}</div>
+  `;
+  grid.appendChild(card);
+});
+
+// Auto-compare defaults
+compareETFs();
+
+function compareETFs() {
+  const input = document.getElementById('compare-input').value.trim().toUpperCase();
+  if (!input) return;
+  const symbols = input.split(/[,，\s]+/).filter(Boolean).join(',');
+  const container = document.getElementById('compare-container');
+  container.innerHTML = '<div class="loading">正在对比 ' + symbols + ' ...</div>';
+
+  showLoading('compare-container', `正在对比 ${symbols} ...`);
+
+  loadCompareData(symbols)
+    .then(data => {
+      clearStatus('compare-container');
+      
+      if (data.errors) {
+        container.innerHTML = `<div class="error-msg">${data.errors.join('<br>')}</div>`;
+      }
+      
+      if (!data.results || !data.results.length) {
+        container.innerHTML = '<div class="error-msg">无对比数据</div>';
+        return;
+      }
+      
+      const cols = data.results.map(r => r.symbol);
+      const metrics = ['totalReturn','annualizedReturn','volatility','maxDrawdown','sharpeRatio'];
+      const labels = {totalReturn:'总收益',annualizedReturn:'年化收益',volatility:'波动率',maxDrawdown:'最大回撤',sharpeRatio:'夏普比率'};
+      container.innerHTML = `<div class="card"><div class="card-header">📊 对比结果（本地数据）</div><div class="card-body table-scroll"><table class="compare-table"><thead><tr><th>指标</th>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${metrics.map(m=>{
+        const vals = data.results.map(r => r[m]);
+        const best = Math.max(...vals.filter(v=>v!=null));
+        return `<tr><td>${labels[m]||m}</td>${vals.map(v=>{
+          const s = v!=null?(v*100).toFixed(2)+'%':'N/A';
+          return v===best?`<td class="compare-best">${s}</td>`:`<td>${s}</td>`;
+        }).join('')}</tr>`;
+      }).join('')}</tbody></table></div></div>`;
+    })
+    .catch(err => {
+      clearStatus('compare-container');
+      showError('compare-container', `对比失败: ${err.message}`);
+    });
+}
+</script>
+</body>
+</html>

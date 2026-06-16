@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于 - 股道奇货 X-Gudao</title>
+<link rel="stylesheet" href="/css/style.css">
+<!-- 数据来源标识 -->
+<div style="position:fixed;bottom:10px;right:10px;background:rgba(79,195,247,0.1);border:1px solid var(--accent-blue);color:var(--accent-blue);padding:6px 12px;border-radius:4px;font-size:12px;z-index:1000">
+  📁 数据来源：本地 JSON 文件
+</div>
+<style>
+  .about-hero { text-align:center; padding:60px 40px; }
+  .about-hero h1 { font-size:36px; margin-bottom:8px; }
+  .about-hero p { color:var(--text-secondary); font-size:18px; }
+  .about-section { margin-top:40px; }
+  .about-section h2 { font-size:22px; margin-bottom:16px; padding-bottom:8px; border-bottom:2px solid var(--border-color); }
+  .feature-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:16px; margin-top:16px; }
+  .feature-card { background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:var(--radius); padding:24px 20px; }
+  .feature-card .icon { font-size:32px; margin-bottom:10px; }
+  .feature-card h3 { font-size:16px; margin-bottom:6px; }
+  .feature-card p { font-size:13px; color:var(--text-secondary); line-height:1.6; }
+  .tech-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .tech-tag { background:var(--bg-card); border:1px solid var(--border-color); padding:6px 16px; border-radius:20px; font-size:14px; color:var(--accent-blue); font-weight:600; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand">📈 股道奇货 <span>X-Gudao</span></a>
+  <div class="navbar-links">
+    <a href="/">首页</a>
+    <a href="/screener.html">ETF对比</a>
+    <a href="/about.html" class="active">关于</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="about-hero">
+    <h1>📈 关于股道奇货</h1>
+    <p>AI驱动的金融数据分析平台，让投资决策更聪明</p>
+  </div>
+
+  <div class="about-section">
+    <h2>🎯 项目介绍</h2>
+    <div class="card">
+      <div class="card-body" style="line-height:1.8;color:var(--text-secondary)">
+        <strong style="color:var(--text-primary)">股道奇货 X-Gudao</strong> 是一个开源的AI驱动金融数据分析平台。
+        我们致力于为投资者提供专业的量化分析工具，包括实时行情数据获取、交互式K线图表、
+        技术指标计算、多资产对比分析等功能。
+        平台融合了大语言模型（LLM）的智能洞察能力，为用户提供更深入的维度分析。
+      </div>
+    </div>
+  </div>
+
+  <div class="about-section">
+    <h2>✨ 核心特性</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">📡</div>
+        <h3>实时数据</h3>
+        <p>通过 yfinance 获取全球股票、ETF、指数的实时和历史行情数据，支持多种时间周期。</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📊</div>
+        <h3>交互式图表</h3>
+        <p>基于 ECharts 的专业K线图，支持缩放、平移、十字光标、均线叠加等交互功能。</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🤖</div>
+        <h3>AI 洞察</h3>
+        <p>集成 Ollama 本地大语言模型，提供智能市场分析和投资建议（敬请期待）。</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🇨🇳</div>
+        <h3>中文原生</h3>
+        <p>专为中文用户设计，界面、提示、分析报告均为中文，降低使用门槛。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-section">
+    <h2>🛠️ 技术栈</h2>
+    <div class="tech-tags">
+      <span class="tech-tag">FastAPI</span>
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">yfinance</span>
+      <span class="tech-tag">ECharts</span>
+      <span class="tech-tag">Ollama</span>
+      <span class="tech-tag">HTML/CSS/JS</span>
+    </div>
+  </div>
+
+  <div class="about-section" style="margin-bottom:40px">
+    <h2>⚠️ 免责声明</h2>
+    <div class="disclaimer">
+      <strong>重要提示：</strong>本平台提供的所有数据和分析仅供学习和研究参考，不构成任何投资建议。
+      投资有风险，入市需谨慎。历史业绩不代表未来表现。请根据自身情况独立做出投资决策。
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="/">首页</a> · <a href="/screener.html">ETF对比</a> · <a href="/about.html">关于</a>
+  </div>
+  © 2024 股道奇货 X-Gudao — 仅供参考，不构成投资建议
+</footer>
+</body>
+</html>
