@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TLT - iShares 20+ Year Treasury Bond ETF | 股道奇货</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="description" content="TLT iShares 20+ Year Treasury Bond 长期国债ETF 历史数据、财务指标、AI分析 - 股道奇货">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand">📈 股道奇货 <span>X-Gudao</span></a>
+  <div class="navbar-links">
+    <a href="/">首页</a>
+    <a href="/stocks/VOO.html" class="active">ETF</a>
+    <a href="/compare/voo_qqq_spy.html">对比</a>
+    <a href="/about.html">关于</a>
+  </div>
+  <div class="navbar-search">
+    <input type="text" placeholder="搜索股票 / ETF..." id="searchInput">
+  </div>
+</nav>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="/">首页</a> <span class="sep">›</span>
+    <a href="/">ETF</a> <span class="sep">›</span>
+    TLT
+  </div>
+
+  <div class="stock-header">
+    <div class="stock-title-row">
+      <span class="stock-symbol">TLT</span>
+      <span class="stock-name">iShares 20+ Year Treasury Bond ETF</span>
+    </div>
+    <div class="stock-price-row">
+      <span class="stock-price">$92.85</span>
+      <span class="stock-change up">+0.68 (+0.74%)</span>
+      <span style="color:var(--text-muted);font-size:12px;margin-left:8px">截至 2026-06-15 收盘</span>
+    </div>
+    <div class="stock-meta">
+      <span class="stock-meta-item">开盘 <strong>$92.20</strong></span>
+      <span class="stock-meta-item">最高 <strong>$93.15</strong></span>
+      <span class="stock-meta-item">最低 <strong>$91.80</strong></span>
+      <span class="stock-meta-item">成交量 <strong>18.5M</strong></span>
+      <span class="stock-meta-item">52周高 <strong>$102.30</strong></span>
+      <span class="stock-meta-item">52周低 <strong>$82.45</strong></span>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="content-area">
+      <div class="tabs">
+        <div class="tab active">📈 价格走势</div>
+        <div class="tab">📊 财务指标</div>
+        <div class="tab">⏳ 久期分布</div>
+        <div class="tab">🤖 AI分析</div>
+        <div class="tab">⚠️ 风险</div>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-header">
+          <span class="chart-title">TLT 历史价格走势</span>
+          <div class="chart-controls">
+            <button class="chart-btn" onclick="setRange('1m')">1月</button>
+            <button class="chart-btn" onclick="setRange('3m')">3月</button>
+            <button class="chart-btn" onclick="setRange('1y')">1年</button>
+            <button class="chart-btn active" onclick="setRange('5y')">5年</button>
+            <button class="chart-btn" onclick="setRange('max')">全部</button>
+          </div>
+        </div>
+        <div class="chart-area">
+          <svg class="chart-svg" id="priceChart" viewBox="0 0 800 320">
+            <line x1="60" y1="20" x2="60" y2="300" stroke="#2a3a5c" stroke-width="0.5"/>
+            <line x1="60" y1="300" x2="780" y2="300" stroke="#2a3a5c" stroke-width="0.5"/>
+            <line x1="60" y1="230" x2="780" y2="230" stroke="#1e2d4a" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="60" y1="160" x2="780" y2="160" stroke="#1e2d4a" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="60" y1="90" x2="780" y2="90" stroke="#1e2d4a" stroke-width="0.5" stroke-dasharray="4"/>
+            <text x="55" y="303" fill="#6b7280" font-size="10" text-anchor="end">$80</text>
+            <text x="55" y="233" fill="#6b7280" font-size="10" text-anchor="end">$90</text>
+            <text x="55" y="163" fill="#6b7280" font-size="10" text-anchor="end">$100</text>
+            <text x="55" y="93" fill="#6b7280" font-size="10" text-anchor="end">$110</text>
+            <text x="55" y="23" fill="#6b7280" font-size="10" text-anchor="end">$120</text>
+            <text x="100" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2021</text>
+            <text x="250" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2022</text>
+            <text x="400" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2023</text>
+            <text x="550" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2024</text>
+            <text x="700" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2025</text>
+            <defs>
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ef5350" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#ef5350" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- TLT 5yr: ~$140 (2021 low yield) → ~$95 (2022-23 high yield) → ~$100 (2024) → ~$93 (2025) -->
+            <path d="M60,45 C100,55 140,70 180,90 C220,110 260,145 300,170 C320,180 340,185 360,188 C380,190 400,180 420,165 C440,150 460,140 480,135 C500,130 520,125 540,120 C560,112 580,105 600,100 C620,96 640,94 660,96 C680,98 700,100 720,102 C740,103 760,104 780,106 L780,300 L60,300 Z" fill="url(#areaGrad)"/>
+            <path d="M60,45 C100,55 140,70 180,90 C220,110 260,145 300,170 C320,180 340,185 360,188 C380,190 400,180 420,165 C440,150 460,140 480,135 C500,130 520,125 540,120 C560,112 580,105 600,100 C620,96 640,94 660,96 C680,98 700,100 720,102 C740,103 760,104 780,106" fill="none" stroke="#ef5350" stroke-width="2"/>
+            <circle cx="780" cy="106" r="4" fill="#ef5350"/>
+            <text x="775" y="98" fill="#ef5350" font-size="11" font-weight="bold" text-anchor="end">$92.85</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📊 关键财务指标</div>
+        <div class="card-body" style="padding:0">
+          <table class="data-table">
+            <thead>
+              <tr><th>指标</th><th class="num">当前值</th><th class="num">5年均值</th><th class="num">趋势</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="label-cell">30年期国债收益率</td><td class="num">4.52%</td><td class="num">3.85%</td><td class="num positive">↑</td></tr>
+              <tr><td class="label-cell">平均到期收益率</td><td class="num">4.68%</td><td class="num">3.92%</td><td class="num positive">↑</td></tr>
+              <tr><td class="label-cell">费率 (Expense Ratio)</td><td class="num">0.15%</td><td class="num">0.15%</td><td class="num">—</td></tr>
+              <tr><td class="label-cell">净资产规模</td><td class="num">$520亿</td><td class="num">—</td><td class="num">—</td></tr>
+              <tr><td class="label-cell">日均成交量</td><td class="num">18.5M</td><td class="num">15.2M</td><td class="num positive">↑</td></tr>
+              <tr><td class="label-cell">有效久期</td><td class="num">16.8年</td><td class="num">17.2年</td><td class="num">—</td></tr>
+              <tr><td class="label-cell">平均到期日</td><td class="num">26.5年</td><td class="num">27.1年</td><td class="num">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📈 历史收益表现</div>
+        <div class="card-body" style="padding:0">
+          <table class="data-table">
+            <thead>
+              <tr><th>周期</th><th class="num">收益率</th><th class="num">年化</th><th class="num">最大回撤</th><th class="num">夏普比率</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="label-cell">近1月</td><td class="num positive">+2.85%</td><td class="num">—</td><td class="num negative">-1.8%</td><td class="num">—</td></tr>
+              <tr><td class="label-cell">近3月</td><td class="num positive">+5.40%</td><td class="num">—</td><td class="num negative">-3.5%</td><td class="num">—</td></tr>
+              <tr><td class="label-cell">近1年</td><td class="num positive">+8.2%</td><td class="num positive">+8.2%</td><td class="num negative">-10.5%</td><td class="num">0.42</td></tr>
+              <tr><td class="label-cell">近3年</td><td class="num negative">-15.3%</td><td class="num negative">-5.4%</td><td class="num negative">-42.5%</td><td class="num">-0.25</td></tr>
+              <tr><td class="label-cell">近5年</td><td class="num negative">-28.5%</td><td class="num negative">-6.4%</td><td class="num negative">-50.2%</td><td class="num">-0.32</td></tr>
+              <tr><td class="label-cell">近10年</td><td class="num positive">+18.2%</td><td class="num positive">+1.7%</td><td class="num negative">-50.2%</td><td class="num">0.08</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">⏳ 久期分布</div>
+        <div class="card-body">
+          <div class="sector-bar">
+            <div style="width:35%;background:#ef5350">20-25年 35%</div>
+            <div style="width:40%;background:#ff7043">25-30年 40%</div>
+            <div style="width:25%;background:#ff9800">30年+ 25%</div>
+          </div>
+          <table class="data-table" style="margin-top:12px">
+            <thead>
+              <tr><th>到期区间</th><th class="num">权重</th><th class="num">平均收益率</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="label-cell">20-25年</td><td class="num">35%</td><td class="num">4.52%</td></tr>
+              <tr><td class="label-cell">25-30年</td><td class="num">40%</td><td class="num">4.68%</td></tr>
+              <tr><td class="label-cell">30年+</td><td class="num">25%</td><td class="num">4.75%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ai-insight">
+        <div class="ai-insight-header">🤖 AI 智能分析 — Qwen2 本地推理</div>
+        <div class="ai-insight-body">
+          <strong>核心观点</strong>：TLT持有20年期以上美国国债，久期高达16.8年，是对利率最敏感的债券ETF。2022-2023年加息周期中TLT暴跌超50%，但当前收益率4.5%+已提供较高安全边际。降息周期中TLT将显著受益。<br><br>
+          <strong>优势</strong>：①降息时价格弹性极大，久期16.8年意味着利率降1%价格涨约17%；②信用风险为零（美国国债）；③与股票负相关，对冲组合风险；④当前收益率处于历史较高水平。<br><br>
+          <strong>风险</strong>：①加息或通胀反弹将导致大幅下跌；②近5年累计亏损28.5%，历史表现极差；③久期风险巨大，利率上升1%≈亏损17%；④长期跑输通胀的可能性存在。<br><br>
+          <strong>建议</strong>：赌降息的利器，但需严格择时。若确信进入降息周期，TLT可作为进攻性配置（10-20%）；若利率维持高位，则继续承压。对冲角度建议5%配置，不建议重仓。
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sidebar">
+      <div class="widget">
+        <div class="widget-header">📋 基本信息</div>
+        <div class="widget-body">
+          <div class="widget-item"><span class="label">全称</span><span class="value">iShares 20+ Yr Treasury</span></div>
+          <div class="widget-item"><span class="label">跟踪指数</span><span class="value">ICE 20+年国债</span></div>
+          <div class="widget-item"><span class="label">成立日期</span><span class="value">2002-07-22</span></div>
+          <div class="widget-item"><span class="label">费率</span><span class="value">0.15%</span></div>
+          <div class="widget-item"><span class="label">资产规模</span><span class="value">$520亿</span></div>
+          <div class="widget-item"><span class="label">持仓数量</span><span class="value">~45</span></div>
+          <div class="widget-item"><span class="label">派息频率</span><span class="value">月度</span></div>
+          <div class="widget-item"><span class="label">发行商</span><span class="value">BlackRock</span></div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-header">⚠️ 风险指标</div>
+        <div class="widget-body">
+          <div class="widget-item"><span class="label">年化波动率</span><span class="value down">20.5%</span></div>
+          <div class="widget-item"><span class="label">有效久期</span><span class="value">16.8年</span></div>
+          <div class="widget-item"><span class="label">夏普比率</span><span class="value">0.42</span></div>
+          <div class="widget-item"><span class="label">最大回撤</span><span class="value down">-50.2%</span></div>
+          <div class="widget-item"><span class="label">凸性</span><span class="value">3.85</span></div>
+          <div class="widget-item"><span class="label">与标普相关性</span><span class="value">-0.35</span></div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-header">🔀 同类ETF</div>
+        <div class="widget-body">
+          <div class="widget-item"><span class="label"><a href="/stocks/BND.html">BND</a></span><span class="value">$71.82</span></div>
+          <div class="widget-item"><span class="label">IEF</span><span class="value">$98.50</span></div>
+          <div class="widget-item"><span class="label">SHY</span><span class="value">$82.30</span></div>
+          <div class="widget-item"><span class="label">GOVT</span><span class="value">$25.18</span></div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-header">⚔️ 快速对比</div>
+        <div class="widget-body" style="padding:0">
+          <table class="compare-table">
+            <thead><tr><th></th><th>TLT</th><th>IEF</th><th><a href="/stocks/BND.html">BND</a></th></tr></thead>
+            <tbody>
+              <tr><td>久期</td><td class="compare-worst">16.8年</td><td>7.5年</td><td>6.2年</td></tr>
+              <tr><td>近1年</td><td class="compare-best">+8.2%</td><td>+5.8%</td><td>+4.5%</td></tr>
+              <tr><td>波动率</td><td class="compare-worst">20.5%</td><td>10.8%</td><td>7.5%</td></tr>
+              <tr><td>最大回撤</td><td class="compare-worst">-50.2%</td><td>-22.5%</td><td>-18.3%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>© 2026 股道奇货 X-Gudao | <a href="/">首页</a> | <a href="/compare/voo_qqq_spy.html">ETF对比</a> | <a href="https://github.com/xiaokangjiao-ai/x-gudao">GitHub</a></p>
+  <p style="margin-top:4px">⚠️ 免责声明：本站内容仅供参考，不构成投资建议。数据来源：Yahoo Finance · AI：Ollama Qwen2-7B</p>
+</div>
+
+<script>
+function setRange(r) {
+  document.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const q = e.target.value.trim().toUpperCase();
+    if (q) window.location.href = '/stocks/' + q + '.html';
+  }
+});
+</script>
+</body>
+</html>
