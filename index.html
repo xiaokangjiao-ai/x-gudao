@@ -26,6 +26,10 @@
         .logo { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--gold); }
         nav { display: flex; gap: 24px; }
+        .lang-toggle { display: flex; gap: 4px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 3px 6px; }
+        .lang-btn { font-size: 12px; padding: 2px 8px; border-radius: 14px; cursor: pointer; border: none; background: none; color: var(--text-secondary); font-weight: 600; transition: all 0.2s; }
+        .lang-btn.active { background: var(--accent); color: #fff; }
+        .lang-btn:hover { color: var(--text-primary); }
 
         .market-status { max-width: 1400px; margin: 12px auto 0; padding: 0 24px; }
         .market-status-bar { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-secondary); }
@@ -76,18 +80,22 @@
         <div class="header-inner">
             <div class="logo">📈 <span>股道奇货</span></div>
             <nav>
-                <a href="/" style="color:var(--text-primary);font-weight:600;">首页</a>
-                <a href="#etf-section">ETF</a>
-                <a href="#stock-section">股票</a>
-                <a href="/screener.html">全部列表</a>
+                <a href="/" style="color:var(--text-primary);font-weight:600;" data-i18n="nav_home">首页</a>
+                <a href="#etf-section" data-i18n="nav_etf">ETF</a>
+                <a href="#stock-section" data-i18n="nav_stock">股票</a>
+                <a href="/screener.html" data-i18n="nav_list">全部列表</a>
             </nav>
+            <div class="lang-toggle">
+                <button class="lang-btn active" id="lang-zh" onclick="setLang('zh')">🇨🇳</button>
+                <button class="lang-btn" id="lang-en" onclick="setLang('en')">🇺🇸</button>
+            </div>
         </div>
     </header>
 
     <div class="market-status">
         <div class="market-status-bar">
             <span class="status-dot" id="status-dot"></span>
-            <span id="market-status-text">加载中...</span>
+            <span id="market-status-text" data-i18n="status_loading">加载中...</span>
             <span style="margin-left:auto;" id="update-time"></span>
         </div>
     </div>
@@ -97,16 +105,16 @@
             <!-- 左栏: ETF -->
             <div id="etf-section">
                 <div class="section-title">
-                    📊 全球最具投资价值的8个ETF
-                    <span class="badge badge-etf">ETF</span>
+                    📊 <span data-i18n="etf_title">全球最具投资价值的8个ETF</span>
+                    <span class="badge badge-etf" data-i18n="badge_etf">ETF</span>
                 </div>
                 <div class="fund-grid" id="etf-grid"></div>
             </div>
             <!-- 右栏: 股票 -->
             <div id="stock-section">
                 <div class="section-title">
-                    🏢 全球最具投资价值的8个股票
-                    <span class="badge badge-stock">股票</span>
+                    🏢 <span data-i18n="stock_title">全球最具投资价值的8个股票</span>
+                    <span class="badge badge-stock" data-i18n="badge_stock">股票</span>
                 </div>
                 <div class="fund-grid" id="stock-grid"></div>
             </div>
@@ -114,8 +122,8 @@
     </div>
 
     <footer>
-        <p>数据来源：Yahoo Finance · 仅供参考，不构成投资建议</p>
-        <p style="margin-top:6px;">© 2026 <strong>股道奇货</strong> · x.gudaoqihuo.com</p>
+        <p data-i18n="footer_disclaimer">数据来源：Yahoo Finance · 仅供参考，不构成投资建议</p>
+        <p style="margin-top:6px;">© 2026 <strong data-i18n="footer_brand">股道奇货</strong> · x.gudaoqihuo.com</p>
     </footer>
 
     <script>
@@ -123,36 +131,89 @@
     const STOCK_DATA = [{"ticker": "AAPL", "name": "Apple Inc.", "desc": "全球市值最高的公司，iPhone、Mac、iPad等硬件生态与App Store服务业务共同驱动增长。", "latest_close": 296.42, "change_pct": 1.82, "annual_return": -0.95, "volatility": 24.48, "high": 317.4, "low": 287.38, "price_history": [{"date": "2026-05-18", "open": 300.24, "high": 300.66, "low": 294.91, "close": 297.84, "volume": 34482959}, {"date": "2026-05-19", "open": 296.97, "high": 300.51, "low": 296.35, "close": 298.97, "volume": 42243561}, {"date": "2026-05-20", "open": 298.18, "high": 302.8, "low": 298.08, "close": 302.25, "volume": 38229843}, {"date": "2026-05-21", "open": 301.055, "high": 305.54, "low": 300.4, "close": 304.99, "volume": 42965126}, {"date": "2026-05-22", "open": 306.12, "high": 311.4, "low": 305.84, "close": 308.82, "volume": 43670223}, {"date": "2026-05-26", "open": 309.56, "high": 311.82, "low": 307.67, "close": 308.33, "volume": 48000493}, {"date": "2026-05-27", "open": 308.33, "high": 313.26, "low": 308.3, "close": 310.85, "volume": 50430919}, {"date": "2026-05-28", "open": 310.68, "high": 312.8, "low": 309.57, "close": 312.51, "volume": 48220390}, {"date": "2026-05-29", "open": 311.775, "high": 315.0, "low": 309.53, "close": 312.06, "volume": 70026752}, {"date": "2026-06-01", "open": 309.625, "high": 310.94, "low": 305.02, "close": 306.31, "volume": 48849933}, {"date": "2026-06-02", "open": 307.46, "high": 315.45, "low": 306.685, "close": 315.2, "volume": 44534716}, {"date": "2026-06-03", "open": 314.175, "high": 316.94, "low": 308.85, "close": 310.26, "volume": 50836705}, {"date": "2026-06-04", "open": 313.23, "high": 313.54, "low": 309.65, "close": 311.23, "volume": 44869134}, {"date": "2026-06-05", "open": 312.86, "high": 315.17, "low": 307.15, "close": 307.34, "volume": 65310502}, {"date": "2026-06-08", "open": 308.739, "high": 317.4, "low": 301.17, "close": 301.54, "volume": 77949082}, {"date": "2026-06-09", "open": 300.275, "high": 300.75, "low": 287.78, "close": 290.55, "volume": 70108847}, {"date": "2026-06-10", "open": 290.74, "high": 294.75, "low": 287.38, "close": 291.58, "volume": 52793266}, {"date": "2026-06-11", "open": 293.72, "high": 297.0, "low": 289.59, "close": 295.63, "volume": 42572497}, {"date": "2026-06-12", "open": 296.03, "high": 297.14, "low": 289.62, "close": 291.13, "volume": 38784789}, {"date": "2026-06-15", "open": 294.12, "high": 297.78, "low": 291.7, "close": 296.42, "volume": 45732573}]}, {"ticker": "MSFT", "name": "Microsoft Corp.", "desc": "全球最大软件公司，Azure云服务、Office 365、Windows系统三大支柱，AI领域的核心玩家。", "latest_close": 399.76, "change_pct": 2.31, "annual_return": -10.91, "volatility": 36.47, "high": 466.32, "low": 382.27, "price_history": [{"date": "2026-05-18", "open": 416.62, "high": 425.12, "low": 415.61, "close": 423.54, "volume": 32564130}, {"date": "2026-05-19", "open": 429.9, "high": 432.7, "low": 416.49, "close": 417.42, "volume": 33018678}, {"date": "2026-05-20", "open": 414.165, "high": 422.1, "low": 411.3001, "close": 421.06, "volume": 27864016}, {"date": "2026-05-21", "open": 424.75, "high": 426.34, "low": 415.71, "close": 419.09, "volume": 31393469}, {"date": "2026-05-22", "open": 419.535, "high": 424.4, "low": 416.33, "close": 418.57, "volume": 22390344}, {"date": "2026-05-26", "open": 416.43, "high": 419.77, "low": 413.02, "close": 416.03, "volume": 30398049}, {"date": "2026-05-27", "open": 411.01, "high": 415.94, "low": 409.58, "close": 412.67, "volume": 28901479}, {"date": "2026-05-28", "open": 412.975, "high": 429.49, "low": 412.67, "close": 426.99, "volume": 47250541}, {"date": "2026-05-29", "open": 432.545, "high": 450.33, "low": 432.36, "close": 450.24, "volume": 79654376}, {"date": "2026-06-01", "open": 464.84, "high": 466.32, "low": 458.27, "close": 460.52, "volume": 53628910}, {"date": "2026-06-02", "open": 446.88, "high": 453.5, "low": 440.43, "close": 441.31, "volume": 37036801}, {"date": "2026-06-03", "open": 438.45, "high": 440.39, "low": 424.25, "close": 427.34, "volume": 39037007}, {"date": "2026-06-04", "open": 435.81, "high": 436.15, "low": 426.41, "close": 428.05, "volume": 26899511}, {"date": "2026-06-05", "open": 428.34, "high": 429.47, "low": 414.4, "close": 416.67, "volume": 34782164}, {"date": "2026-06-08", "open": 414.14, "high": 417.1599, "low": 408.56, "close": 411.74, "volume": 32086714}, {"date": "2026-06-09", "open": 409.03, "high": 411.98, "low": 398.48, "close": 403.41, "volume": 35317302}, {"date": "2026-06-10", "open": 398.55, "high": 405.04, "low": 397.16, "close": 397.36, "volume": 32576041}, {"date": "2026-06-11", "open": 395.205, "high": 396.85, "low": 384.0, "close": 390.34, "volume": 47224135}, {"date": "2026-06-12", "open": 391.43, "high": 391.74, "low": 382.27, "close": 390.74, "volume": 34922036}, {"date": "2026-06-15", "open": 396.795, "high": 401.75, "low": 392.845, "close": 399.76, "volume": 32266437}]}, {"ticker": "GOOGL", "name": "Alphabet Inc.", "desc": "谷歌母公司，搜索广告+YouTube+云计算三足鼎立，AI大模型Gemini引领技术前沿。", "latest_close": 369.35, "change_pct": 2.69, "annual_return": -13.42, "volatility": 27.96, "high": 408.61, "low": 346.36, "price_history": [{"date": "2026-05-18", "open": 395.685, "high": 408.61, "low": 394.53, "close": 396.94, "volume": 26837196}, {"date": "2026-05-19", "open": 396.96, "high": 397.15, "low": 386.11, "close": 387.66, "volume": 39545672}, {"date": "2026-05-20", "open": 387.7, "high": 393.8599, "low": 382.9, "close": 388.91, "volume": 31744404}, {"date": "2026-05-21", "open": 385.7, "high": 392.5, "low": 383.02, "close": 387.66, "volume": 24852843}, {"date": "2026-05-22", "open": 387.345, "high": 388.74, "low": 381.7716, "close": 382.97, "volume": 20442123}, {"date": "2026-05-26", "open": 384.51, "high": 389.2599, "low": 382.6, "close": 388.88, "volume": 27747388}, {"date": "2026-05-27", "open": 386.665, "high": 393.88, "low": 385.9, "close": 388.83, "volume": 23087287}, {"date": "2026-05-28", "open": 388.0, "high": 391.87, "low": 385.16, "close": 390.13, "volume": 24357455}, {"date": "2026-05-29", "open": 385.24, "high": 385.24, "low": 378.46, "close": 380.34, "volume": 44415846}, {"date": "2026-06-01", "open": 376.52, "high": 378.56, "low": 373.52, "close": 376.37, "volume": 28672120}, {"date": "2026-06-02", "open": 366.59, "high": 373.54, "low": 358.44, "close": 361.85, "volume": 50412300}, {"date": "2026-06-03", "open": 362.03, "high": 366.45, "low": 358.08, "close": 358.99, "volume": 55441583}, {"date": "2026-06-04", "open": 358.9, "high": 373.2499, "low": 358.21, "close": 372.19, "volume": 44055520}, {"date": "2026-06-05", "open": 366.34, "high": 372.08, "low": 364.1207, "close": 368.53, "volume": 37471206}, {"date": "2026-06-08", "open": 365.18, "high": 366.2, "low": 360.5309, "close": 363.31, "volume": 27942464}, {"date": "2026-06-09", "open": 367.09, "high": 372.08, "low": 357.3, "close": 364.26, "volume": 29535072}, {"date": "2026-06-10", "open": 363.19, "high": 368.555, "low": 355.2, "close": 356.38, "volume": 32357132}, {"date": "2026-06-11", "open": 355.925, "high": 358.8, "low": 346.36, "close": 357.77, "volume": 35538165}, {"date": "2026-06-12", "open": 362.62, "high": 366.57, "low": 354.94, "close": 359.68, "volume": 24731019}, {"date": "2026-06-15", "open": 367.93, "high": 372.99, "low": 366.55, "close": 369.35, "volume": 27727493}]}, {"ticker": "AMZN", "name": "Amazon.com Inc.", "desc": "全球最大电商和云计算平台（AWS），物流网络与云服务构成强大的护城河。", "latest_close": 246.02, "change_pct": 3.13, "annual_return": -13.72, "volatility": 30.64, "high": 274.75, "low": 233.59, "price_history": [{"date": "2026-05-18", "open": 263.865, "high": 268.85, "low": 262.53, "close": 264.86, "volume": 33690787}, {"date": "2026-05-19", "open": 262.04, "high": 262.25, "low": 255.19, "close": 259.34, "volume": 40340697}, {"date": "2026-05-20", "open": 260.05, "high": 265.58, "low": 259.533, "close": 265.01, "volume": 34933152}, {"date": "2026-05-21", "open": 263.5, "high": 269.4899, "low": 261.37, "close": 268.46, "volume": 36591743}, {"date": "2026-05-22", "open": 268.655, "high": 269.785, "low": 266.235, "close": 266.32, "volume": 27535526}, {"date": "2026-05-26", "open": 267.94, "high": 269.3, "low": 262.07, "close": 265.29, "volume": 38028118}, {"date": "2026-05-27", "open": 266.15, "high": 272.41, "low": 265.7001, "close": 271.85, "volume": 40061864}, {"date": "2026-05-28", "open": 272.27, "high": 274.5, "low": 267.44, "close": 274.0, "volume": 40630385}, {"date": "2026-05-29", "open": 271.29, "high": 274.75, "low": 269.64, "close": 270.64, "volume": 54749561}, {"date": "2026-06-01", "open": 266.285, "high": 266.63, "low": 260.7, "close": 261.26, "volume": 53604380}, {"date": "2026-06-02", "open": 257.16, "high": 261.2025, "low": 254.37, "close": 256.52, "volume": 41810982}, {"date": "2026-06-03", "open": 254.7, "high": 257.09, "low": 247.71, "close": 250.02, "volume": 51394191}, {"date": "2026-06-04", "open": 253.12, "high": 255.83, "low": 251.75, "close": 253.79, "volume": 35609769}, {"date": "2026-06-05", "open": 254.255, "high": 256.38, "low": 245.78, "close": 246.03, "volume": 55607844}, {"date": "2026-06-08", "open": 246.68, "high": 249.42, "low": 243.36, "close": 245.22, "volume": 33899525}, {"date": "2026-06-09", "open": 247.73, "high": 250.43, "low": 240.4, "close": 244.19, "volume": 44425363}, {"date": "2026-06-10", "open": 243.605, "high": 244.065, "low": 237.45, "close": 238.0, "volume": 38590237}, {"date": "2026-06-11", "open": 237.93, "high": 242.14, "low": 235.18, "close": 241.51, "volume": 41335399}, {"date": "2026-06-12", "open": 243.21, "high": 243.36, "low": 233.59, "close": 238.55, "volume": 51251141}, {"date": "2026-06-15", "open": 245.02, "high": 247.805, "low": 244.73, "close": 246.02, "volume": 41711576}]}, {"ticker": "NVDA", "name": "NVIDIA Corp.", "desc": "全球AI芯片霸主，GPU在数据中心、自动驾驶、游戏领域占据绝对领先地位。", "latest_close": 212.45, "change_pct": 3.54, "annual_return": -8.68, "volatility": 43.26, "high": 232.28, "low": 199.34, "price_history": [{"date": "2026-05-18", "open": 229.87, "high": 230.0, "low": 218.37, "close": 222.32, "volume": 146280896}, {"date": "2026-05-19", "open": 219.62, "high": 224.48, "low": 217.91, "close": 220.61, "volume": 140948207}, {"date": "2026-05-20", "open": 223.18, "high": 226.13, "low": 220.495, "close": 223.47, "volume": 184201587}, {"date": "2026-05-21", "open": 222.29, "high": 227.3999, "low": 217.93, "close": 219.51, "volume": 203381760}, {"date": "2026-05-22", "open": 220.904, "high": 221.01, "low": 214.8, "close": 215.33, "volume": 169275710}, {"date": "2026-05-26", "open": 216.54, "high": 218.18, "low": 212.0, "close": 214.86, "volume": 187202576}, {"date": "2026-05-27", "open": 214.12, "high": 214.15, "low": 208.78, "close": 212.6, "volume": 167601172}, {"date": "2026-05-28", "open": 211.275, "high": 215.5191, "low": 211.22, "close": 214.25, "volume": 143996048}, {"date": "2026-05-29", "open": 214.575, "high": 217.8599, "low": 211.13, "close": 211.14, "volume": 289410623}, {"date": "2026-06-01", "open": 215.73, "high": 224.87, "low": 215.7, "close": 224.36, "volume": 212850685}, {"date": "2026-06-02", "open": 227.18, "high": 232.28, "low": 221.35, "close": 222.82, "volume": 193362903}, {"date": "2026-06-03", "open": 221.72, "high": 222.82, "low": 214.51, "close": 214.75, "volume": 160907001}, {"date": "2026-06-04", "open": 213.905, "high": 221.6, "low": 210.97, "close": 218.66, "volume": 169022152}, {"date": "2026-06-05", "open": 214.53, "high": 214.87, "low": 204.33, "close": 205.1, "volume": 219655531}, {"date": "2026-06-08", "open": 210.18, "high": 210.47, "low": 206.0, "close": 208.64, "volume": 138372837}, {"date": "2026-06-09", "open": 210.615, "high": 211.4, "low": 199.34, "close": 208.19, "volume": 180962450}, {"date": "2026-06-10", "open": 204.43, "high": 207.22, "low": 199.92, "close": 200.42, "volume": 161746587}, {"date": "2026-06-11", "open": 201.49, "high": 205.66, "low": 199.54, "close": 204.87, "volume": 158643204}, {"date": "2026-06-12", "open": 204.86, "high": 207.07, "low": 203.4385, "close": 205.19, "volume": 112345314}, {"date": "2026-06-15", "open": 208.92, "high": 212.7107, "low": 208.34, "close": 212.45, "volume": 149936688}]}, {"ticker": "META", "name": "Meta Platforms Inc.", "desc": "Facebook、Instagram、WhatsApp母公司，社交媒体帝国在AI推荐和元宇宙领域持续布局。", "latest_close": 593.48, "change_pct": 4.67, "annual_return": -5.72, "volatility": 39.98, "high": 643.0, "low": 557.01, "price_history": [{"date": "2026-05-18", "open": 609.105, "high": 615.59, "low": 603.69, "close": 611.21, "volume": 13772443}, {"date": "2026-05-19", "open": 608.92, "high": 613.93, "low": 600.55, "close": 602.61, "volume": 11749947}, {"date": "2026-05-20", "open": 600.755, "high": 608.0, "low": 597.81, "close": 605.06, "volume": 11329709}, {"date": "2026-05-21", "open": 600.0, "high": 609.6, "low": 594.8083, "close": 607.38, "volume": 13476078}, {"date": "2026-05-22", "open": 607.88, "high": 614.81, "low": 606.95, "close": 610.26, "volume": 11688623}, {"date": "2026-05-26", "open": 608.89, "high": 614.47, "low": 605.3001, "close": 612.34, "volume": 12234166}, {"date": "2026-05-27", "open": 609.395, "high": 638.4999, "low": 609.0, "close": 635.255, "volume": 23143594}, {"date": "2026-05-28", "open": 639.495, "high": 643.0, "low": 629.31, "close": 635.29, "volume": 16772379}, {"date": "2026-05-29", "open": 633.5, "high": 634.5, "low": 623.35, "close": 632.51, "volume": 19806536}, {"date": "2026-06-01", "open": 630.4, "high": 635.7499, "low": 599.53, "close": 600.47, "volume": 29138805}, {"date": "2026-06-02", "open": 603.24, "high": 608.88, "low": 596.68, "close": 597.63, "volume": 18251964}, {"date": "2026-06-03", "open": 603.0, "high": 624.15, "low": 600.27, "close": 622.98, "volume": 23020056}, {"date": "2026-06-04", "open": 623.67, "high": 642.4, "low": 622.43, "close": 627.57, "volume": 21469248}, {"date": "2026-06-05", "open": 623.46, "high": 629.145, "low": 582.91, "close": 593.0, "volume": 30091610}, {"date": "2026-06-08", "open": 592.0, "high": 592.0, "low": 579.22, "close": 585.39, "volume": 19512436}, {"date": "2026-06-09", "open": 591.0, "high": 597.63, "low": 581.01, "close": 584.59, "volume": 16977383}, {"date": "2026-06-10", "open": 580.73, "high": 591.32, "low": 570.6, "close": 570.98, "volume": 17064048}, {"date": "2026-06-11", "open": 565.83, "high": 572.17, "low": 557.01, "close": 568.43, "volume": 17627966}, {"date": "2026-06-12", "open": 572.95, "high": 576.07, "low": 560.9, "close": 566.98, "volume": 14347769}, {"date": "2026-06-15", "open": 579.9, "high": 601.27, "low": 579.2975, "close": 593.48, "volume": 17653258}]}, {"ticker": "TSLA", "name": "Tesla Inc.", "desc": "全球领先的电动汽车制造商，同时在储能、自动驾驶和人形机器人领域引领创新。", "latest_close": 411.15, "change_pct": 1.16, "annual_return": 0.57, "volatility": 46.59, "high": 445.6, "low": 380.15, "price_history": [{"date": "2026-05-18", "open": 419.27, "high": 421.13, "low": 405.33, "close": 409.99, "volume": 52474188}, {"date": "2026-05-19", "open": 403.16, "high": 405.63, "low": 393.63, "close": 404.11, "volume": 46500551}, {"date": "2026-05-20", "open": 407.6, "high": 417.46, "low": 406.39, "close": 417.26, "volume": 45294745}, {"date": "2026-05-21", "open": 422.175, "high": 426.95, "low": 412.9, "close": 417.85, "volume": 42636854}, {"date": "2026-05-22", "open": 422.665, "high": 431.51, "low": 420.51, "close": 426.01, "volume": 46104710}, {"date": "2026-05-26", "open": 430.26, "high": 435.2, "low": 426.12, "close": 433.59, "volume": 45658897}, {"date": "2026-05-27", "open": 442.89, "high": 445.6, "low": 435.52, "close": 440.36, "volume": 44656505}, {"date": "2026-05-28", "open": 437.615, "high": 443.96, "low": 436.3, "close": 442.1, "volume": 32434996}, {"date": "2026-05-29", "open": 439.845, "high": 441.07, "low": 428.14, "close": 435.79, "volume": 45176821}, {"date": "2026-06-01", "open": 427.49, "high": 429.6, "low": 415.43, "close": 415.88, "volume": 44937852}, {"date": "2026-06-02", "open": 418.22, "high": 424.42, "low": 413.65, "close": 423.74, "volume": 37596045}, {"date": "2026-06-03", "open": 418.7, "high": 433.6, "low": 416.0, "close": 423.7, "volume": 44500733}, {"date": "2026-06-04", "open": 419.84, "high": 426.3499, "low": 417.16, "close": 418.45, "volume": 35323259}, {"date": "2026-06-05", "open": 420.5, "high": 424.6799, "low": 388.59, "close": 391.0, "volume": 63420177}, {"date": "2026-06-08", "open": 396.33, "high": 412.94, "low": 394.72, "close": 408.95, "volume": 50328834}, {"date": "2026-06-09", "open": 411.03, "high": 418.5, "low": 384.24, "close": 396.68, "volume": 59940230}, {"date": "2026-06-10", "open": 391.54, "high": 397.09, "low": 380.15, "close": 381.59, "volume": 49695583}, {"date": "2026-06-11", "open": 388.28, "high": 399.54, "low": 380.66, "close": 399.15, "volume": 45324348}, {"date": "2026-06-12", "open": 399.49, "high": 406.68, "low": 386.76, "close": 406.43, "volume": 63652286}, {"date": "2026-06-15", "open": 412.37, "high": 416.0, "low": 407.1, "close": 411.15, "volume": 45620514}]}, {"ticker": "BRK.B", "name": "Berkshire Hathaway Inc.", "desc": "沃伦·巴菲特的投资旗舰，持有保险、铁路、能源等多元业务，是价值投资的标杆。", "latest_close": 495.52, "change_pct": 1.28, "annual_return": 2.95, "volatility": 14.08, "high": 497.11, "low": 467.96, "price_history": [{"date": "2026-05-18", "open": 481.13, "high": 489.36, "low": 481.0, "close": 488.38, "volume": 5030660}, {"date": "2026-05-19", "open": 487.0, "high": 488.13, "low": 480.11, "close": 480.46, "volume": 5599874}, {"date": "2026-05-20", "open": 482.0, "high": 482.72, "low": 477.62, "close": 480.9, "volume": 4647470}, {"date": "2026-05-21", "open": 479.99, "high": 480.5, "low": 475.5, "close": 479.98, "volume": 3294027}, {"date": "2026-05-22", "open": 479.65, "high": 487.1893, "low": 479.49, "close": 486.38, "volume": 4342154}, {"date": "2026-05-26", "open": 485.5, "high": 487.78, "low": 483.21, "close": 483.62, "volume": 4357449}, {"date": "2026-05-27", "open": 482.665, "high": 486.25, "low": 479.02, "close": 479.92, "volume": 4152532}, {"date": "2026-05-28", "open": 479.36, "high": 481.81, "low": 477.0, "close": 477.42, "volume": 4127459}, {"date": "2026-05-29", "open": 476.91, "high": 477.29, "low": 472.27, "close": 474.48, "volume": 7909855}, {"date": "2026-06-01", "open": 473.05, "high": 473.39, "low": 467.96, "close": 470.29, "volume": 6203561}, {"date": "2026-06-02", "open": 470.0, "high": 473.88, "low": 468.2082, "close": 471.51, "volume": 4704690}, {"date": "2026-06-03", "open": 470.885, "high": 480.59, "low": 470.41, "close": 475.37, "volume": 6586257}, {"date": "2026-06-04", "open": 481.595, "high": 482.94, "low": 474.65, "close": 478.63, "volume": 5275955}, {"date": "2026-06-05", "open": 480.99, "high": 491.0, "low": 479.35, "close": 488.13, "volume": 8475844}, {"date": "2026-06-08", "open": 486.13, "high": 490.7599, "low": 484.9199, "close": 487.0, "volume": 5188380}, {"date": "2026-06-09", "open": 486.44, "high": 490.79, "low": 484.6, "close": 487.77, "volume": 4912157}, {"date": "2026-06-10", "open": 488.13, "high": 490.3, "low": 483.11, "close": 483.68, "volume": 5062666}, {"date": "2026-06-11", "open": 482.88, "high": 486.47, "low": 481.06, "close": 485.79, "volume": 5664301}, {"date": "2026-06-12", "open": 486.67, "high": 489.99, "low": 484.51, "close": 489.25, "volume": 4591336}, {"date": "2026-06-15", "open": 487.56, "high": 497.11, "low": 487.56, "close": 495.52, "volume": 6253628}]}];
     const LATEST_DATE = "2026-06-15";
 
+    // ── i18n ──
+    const I18N = {
+        zh: {
+            nav_home: '首页', nav_etf: 'ETF', nav_stock: '股票', nav_list: '全部列表',
+            etf_title: '全球最具投资价值的8个ETF', stock_title: '全球最具投资价值的8个股票',
+            badge_etf: 'ETF', badge_stock: '股票',
+            status_loading: '加载中...',
+            status_open: '🟢 美股实时交易中 (NYSE/NASDAQ)',
+            status_after: '🟡 盘后交易中',
+            status_pre: '🟡 盘前交易时段',
+            status_close: '🔴 美股已收盘',
+            status_weekend: '🔴 美股休市 (周末)',
+            label_52w_high: '52周高', label_52w_low: '52周低',
+            footer_disclaimer: '数据来源：Yahoo Finance · 仅供参考，不构成投资建议',
+            footer_brand: '股道奇货',
+            update_prefix: '数据更新: ',
+        },
+        en: {
+            nav_home: 'Home', nav_etf: 'ETFs', nav_stock: 'Stocks', nav_list: 'All',
+            etf_title: 'Top 8 Most Valuable ETFs to Invest Globally',
+            stock_title: 'Top 8 Most Valuable Stocks to Invest Globally',
+            badge_etf: 'ETF', badge_stock: 'STOCK',
+            status_loading: 'Loading...',
+            status_open: '🟢 US Markets Open (NYSE/NASDAQ)',
+            status_after: '🟡 After-Hours Trading',
+            status_pre: '🟡 Pre-Market Trading',
+            status_close: '🔴 US Markets Closed',
+            status_weekend: '🔴 US Markets Closed (Weekend)',
+            label_52w_high: '52W High', label_52w_low: '52W Low',
+            footer_disclaimer: 'Data: Yahoo Finance · For reference only · Not investment advice',
+            footer_brand: 'Gudao Qihuo',
+            update_prefix: 'Data: ',
+        }
+    };
+    let CURRENT_LANG = localStorage.getItem('gq_lang') || 'zh';
+
+    function setLang(lang) {
+        CURRENT_LANG = lang;
+        localStorage.setItem('gq_lang', lang);
+        document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        applyI18n(lang);
+    }
+
+    function applyI18n(lang) {
+        const t = I18N[lang];
+        // data-i18n attributes
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key] !== undefined) el.textContent = t[key];
+        });
+        // class-based labels in JS-rendered cards
+        document.querySelectorAll('.label-52w-high').forEach(el => { el.textContent = t.label_52w_high; });
+        document.querySelectorAll('.label-52w-low').forEach(el => { el.textContent = t.label_52w_low; });
+    }
+
     // ── 市场状态 ──
     (function() {
         const dot = document.getElementById('status-dot');
         const text = document.getElementById('market-status-text');
         const time = document.getElementById('update-time');
-        if (LATEST_DATE) time.textContent = '数据更新: ' + LATEST_DATE;
+        if (LATEST_DATE) time.textContent = I18N[CURRENT_LANG].update_prefix + LATEST_DATE;
 
         const now = new Date();
-        // 北京时间 = UTC+8, 美东 = UTC-4(夏令) / UTC-5(冬)
-        // 简化：用北京时间判断，美股夏令 21:30-04:00(北京)，冬令 22:30-05:00
-        const bjHour = now.getUTCHours() + 8;
-        const utcHour = now.getUTCHours();
-        // 判断夏令时（3月第二个周日~11月第一个周日）
+        // 美东时间 = UTC-4(夏令) / UTC-5(冬)
         const isDST = isUSDaylightSaving(now);
         const nyHour = now.getUTCHours() - (isDST ? 4 : 5);
         let status;
         if (now.getUTCDay() >= 1 && now.getUTCDay() <= 5) {
             // 周一到周五
             const isHoliday = false; // TODO: holiday detection
+            const t = I18N[CURRENT_LANG];
             if (nyHour >= 9.5 && nyHour < 16) {
-                status = { cls: 'open', txt: '🟢 美股实时交易中 (NYSE/NASDAQ)' };
+                status = { cls: 'open', txt: t.status_open };
             } else if (nyHour >= 16 && nyHour < 20) {
-                status = { cls: 'pre', txt: '🟡 盘后交易中' };
+                status = { cls: 'pre', txt: t.status_after };
             } else if (nyHour >= 4 && nyHour < 9.5) {
-                status = { cls: 'pre', txt: '🟡 盘前交易时段' };
+                status = { cls: 'pre', txt: t.status_pre };
             } else {
-                status = { cls: 'closed', txt: '🔴 美股已收盘 (数据截至: ' + (LATEST_DATE || '--') + ')' };
+                status = { cls: 'closed', txt: t.status_close + (LATEST_DATE ? ' ' + LATEST_DATE : '') };
             }
         } else {
-            status = { cls: 'closed', txt: '🔴 美股休市 (周末)' };
+            status = { cls: 'closed', txt: t.status_weekend };
         }
         dot.className = 'status-dot ' + status.cls;
         text.textContent = status.txt;
@@ -170,10 +231,8 @@
     }
 
     // ── 卡片渲染 ──
-    function renderGrid(data, containerId) {
-        const grid = document.getElementById(containerId);
-        const isEtf = containerId === 'etf-grid';
-        grid.innerHTML = data.map(f => `
+    function buildGridHTML(data) {
+        return data.map(f => `
             <a class="fund-card" href="/${f.ticker.toLowerCase()}/">
                 <div class="fund-card-top">
                     <div>
@@ -188,8 +247,8 @@
                 <div class="fund-desc">${f.desc}</div>
                 <div class="fund-metrics">
                     <div class="metric"><div class="metric-label">YTD</div><div class="metric-value color-dynamic" style="color:${f.annual_return >= 0 ? 'var(--green)' : 'var(--red)'}">${f.annual_return >= 0 ? '+' : ''}${f.annual_return.toFixed(1)}%</div></div>
-                    <div class="metric"><div class="metric-label">52周高</div><div class="metric-value">$${f.high.toFixed(0)}</div></div>
-                    <div class="metric"><div class="metric-label">52周低</div><div class="metric-value">$${f.low.toFixed(0)}</div></div>
+                    <div class="metric"><div class="metric-label label-52w-high">52W High</div><div class="metric-value">$${f.high.toFixed(0)}</div></div>
+                    <div class="metric"><div class="metric-label label-52w-low">52W Low</div><div class="metric-value">$${f.low.toFixed(0)}</div></div>
                 </div>
                 <div class="mini-chart" id="mini-${f.ticker}"></div>
             </a>
@@ -223,11 +282,6 @@
         });
     }
 
-    renderGrid(ETF_DATA, 'etf-grid');
-    renderGrid(STOCK_DATA, 'stock-grid');
-    setTimeout(() => { drawMini(ETF_DATA); drawMini(STOCK_DATA); }, 100);
-    window.addEventListener('resize', () => { drawMini(ETF_DATA); drawMini(STOCK_DATA); });
-
     // ── 返回顶部按钮 ──
     (function() {
         const btn = document.createElement('a');
@@ -244,6 +298,13 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     })();
+
+    // ── 初始化 ──
+    document.getElementById('etf-grid').innerHTML = buildGridHTML(ETF_DATA);
+    document.getElementById('stock-grid').innerHTML = buildGridHTML(STOCK_DATA);
+    setLang(CURRENT_LANG);
+    setTimeout(() => { drawMini(ETF_DATA); drawMini(STOCK_DATA); }, 100);
+    window.addEventListener('resize', () => { drawMini(ETF_DATA); drawMini(STOCK_DATA); });
     </script>
 </body>
 </html>
