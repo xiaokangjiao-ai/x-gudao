@@ -1,7 +1,7 @@
 {
   "ticker": "VOO",
   "name": "Vanguard S&P 500 ETF",
-  "category": "ETF",
+  "category": "etf",
   "data": [
     {
       "date": "2024-06-17",
@@ -3994,23 +3994,7 @@
       "low": 675.81,
       "close": 681.95,
       "volume": 6327977
-    },
-    {
-      "date": "2026-06-15",
-      "open": 691.3,
-      "high": 695.75,
-      "low": 691.26,
-      "close": 693.83,
-      "volume": 14068861
-    },
-    {
-      "date": "2026-06-16",
-      "open": 693.83,
-      "high": 694.57,
-      "low": 689.44,
-      "close": 689.75,
-      "volume": 13324141
     }
   ],
-  "generated_at": "2026-06-17T22:12:42.038920"
+  "generated_at": "2026-06-16T12:36:59+0800"
 }

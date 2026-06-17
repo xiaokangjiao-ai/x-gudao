@@ -1,7 +1,7 @@
 {
   "ticker": "NVDA",
   "name": "NVIDIA Corporation",
-  "category": "Stock",
+  "category": "stock",
   "data": [
     {
       "date": "2024-06-17",
@@ -3994,23 +3994,7 @@
       "low": 203.44,
       "close": 205.19,
       "volume": 112345314
-    },
-    {
-      "date": "2026-06-15",
-      "open": 208.92,
-      "high": 212.71,
-      "low": 208.34,
-      "close": 212.45,
-      "volume": 149936688
-    },
-    {
-      "date": "2026-06-16",
-      "open": 211.18,
-      "high": 211.49,
-      "low": 207.29,
-      "close": 207.41,
-      "volume": 125694100
     }
   ],
-  "generated_at": "2026-06-17T22:13:07.368287"
+  "generated_at": "2026-06-16T12:36:59+0800"
 }

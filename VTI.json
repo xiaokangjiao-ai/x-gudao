@@ -1,7 +1,7 @@
 {
   "ticker": "VTI",
   "name": "Vanguard Total Stock Market ETF",
-  "category": "ETF",
+  "category": "etf",
   "data": [
     {
       "date": "2024-06-17",
@@ -3994,23 +3994,7 @@
       "low": 363.23,
       "close": 366.36,
       "volume": 3230595
-    },
-    {
-      "date": "2026-06-15",
-      "open": 371.8,
-      "high": 373.64,
-      "low": 371.55,
-      "close": 372.53,
-      "volume": 3560951
-    },
-    {
-      "date": "2026-06-16",
-      "open": 372.79,
-      "high": 373.16,
-      "low": 370.1,
-      "close": 370.37,
-      "volume": 2805769
     }
   ],
-  "generated_at": "2026-06-17T22:12:44.039011"
+  "generated_at": "2026-06-16T12:36:59+0800"
 }

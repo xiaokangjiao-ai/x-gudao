@@ -1,7 +1,7 @@
 {
   "ticker": "META",
   "name": "Meta Platforms Inc.",
-  "category": "Stock",
+  "category": "stock",
   "data": [
     {
       "date": "2024-06-17",
@@ -3994,23 +3994,7 @@
       "low": 560.9,
       "close": 566.98,
       "volume": 14347769
-    },
-    {
-      "date": "2026-06-15",
-      "open": 579.9,
-      "high": 601.27,
-      "low": 579.3,
-      "close": 593.48,
-      "volume": 17653258
-    },
-    {
-      "date": "2026-06-16",
-      "open": 593.65,
-      "high": 605.81,
-      "low": 592,
-      "close": 600.21,
-      "volume": 11344421
     }
   ],
-  "generated_at": "2026-06-17T22:13:12.250613"
+  "generated_at": "2026-06-16T12:36:59+0800"
 }

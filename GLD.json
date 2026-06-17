@@ -1,7 +1,7 @@
 {
   "ticker": "GLD",
   "name": "SPDR Gold Shares",
-  "category": "ETF",
+  "category": "etf",
   "data": [
     {
       "date": "2024-06-17",
@@ -3994,23 +3994,7 @@
       "low": 383.35,
       "close": 386.54,
       "volume": 7532577
-    },
-    {
-      "date": "2026-06-15",
-      "open": 399.49,
-      "high": 401,
-      "low": 396.15,
-      "close": 396.55,
-      "volume": 10477124
-    },
-    {
-      "date": "2026-06-16",
-      "open": 397.83,
-      "high": 398.96,
-      "low": 395.82,
-      "close": 397.63,
-      "volume": 6003963
     }
   ],
-  "generated_at": "2026-06-17T22:17:30.773557"
+  "generated_at": "2026-06-16T12:36:59+0800"
 }
