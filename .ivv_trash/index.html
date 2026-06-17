@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IVV - iShares Core S&P 500 ETF | 股道奇货</title>
+    <meta name="description" content="iShares Core S&P 500 ETF（IVV）历史价格、K线图、财务指标、AI分析 - 股道奇货">
+    <meta name="keywords" content="IVV, iShares Core S&P 500 ETF, ETF, 股票, 历史数据, K线图">
+    <link rel="canonical" href="https://x.gudaoqihuo.com/<built-in method lower of str object at 0x000001E10A0B96B0>/">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0d1117; --bg-secondary: #161b22; --bg-card: #1c2128;
+            --border: #30363d; --text-primary: #e6edf3; --text-secondary: #8b949e;
+            --accent: #58a6ff; --green: #3fb950; --red: #f85149; --gold: #d4a843;
+            --border-radius: 12px;
+        }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .up   { color: var(--red)   !important; }   /* 红色 = 上涨（中国市场惯例） */
+        .down { color: var(--green) !important; }   /* 绿色 = 下跌 */
+        .neutral { color: var(--text-secondary) !important; }
+
+        /* Header */
+        header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
+        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .logo { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .logo span { color: var(--gold); }
+        nav { display: flex; gap: 24px; }
+        nav a { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
+        nav a:hover { color: var(--text-primary); text-decoration: none; }
+        .lang-toggle { display: flex; gap: 4px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 3px 6px; }
+        .lang-btn { font-size: 12px; padding: 2px 8px; border-radius: 14px; cursor: pointer; border: none; background: none; color: var(--text-secondary); font-weight: 600; transition: all 0.2s; }
+        .lang-btn.active { background: var(--accent); color: #fff; }
+        .lang-btn:hover { color: var(--text-primary); }
+
+        /* Breadcrumb */
+        .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 16px 24px; font-size: 13px; color: var(--text-secondary); }
+        .breadcrumb a { color: var(--text-secondary); }
+        .breadcrumb a:hover { color: var(--text-primary); text-decoration: none; }
+
+        /* Hero */
+        .hero { max-width: 1400px; margin: 0 auto; padding: 8px 24px 24px; }
+        .stock-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+        .stock-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .ticker-badge { font-size: 32px; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
+        .stock-name { font-size: 20px; font-weight: 600; }
+        .stock-category { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 10px; }
+        .stock-category.etf { background: rgba(88,166,255,0.1); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+        .stock-category.bond { background: rgba(63,185,80,0.1); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+        .stock-category.commodity { background: rgba(212,168,67,0.1); color: var(--gold); border: 1px solid rgba(212,168,67,0.3); }
+        .stock-category.stock { background: rgba(212,168,67,0.1); color: var(--gold); border: 1px solid rgba(212,168,67,0.3); }
+        .stock-right { text-align: right; }
+        .current-price { font-size: 36px; font-weight: 700; }
+        .price-change { font-size: 15px; margin-top: 4px; }
+        .stock-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-top: 8px; max-width: 700px; }
+
+        /* Stats row */
+        .stats-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; flex: 1; min-width: 130px; }
+        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); margin-bottom: 4px; }
+        .stat-value { font-size: 17px; font-weight: 600; }
+
+        /* Main content layout */
+        .content-wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px 48px; display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+
+        /* Chart */
+        .chart-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); overflow: hidden; margin-bottom: 20px; }
+        .chart-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+        .chart-title { font-size: 14px; font-weight: 600; }
+        .period-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; margin-left: 6px; }
+        .period-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .period-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+        #main-chart { width: 100%; height: 380px; }
+
+        /* Section cards */
+        .section-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); margin-bottom: 20px; overflow: hidden; }
+        .section-header { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
+        .section-body { padding: 0; }
+
+        /* Tables */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); text-align: right; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg-card); }
+        .data-table th:first-child { text-align: left; }
+        .data-table td { font-size: 13px; padding: 10px 16px; text-align: right; border-bottom: 1px solid rgba(48,54,61,0.5); }
+        .data-table td:first-child { text-align: left; color: var(--text-secondary); font-size: 13px; }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+        .trend-up { color: var(--green); font-weight: 700; }
+        .trend-down { color: var(--red); font-weight: 700; }
+        .label-positive { color: var(--green); }
+        .label-negative { color: var(--red); }
+
+        /* Sector bars */
+        .sector-bar { display: flex; height: 28px; border-radius: 6px; overflow: hidden; margin: 14px 20px 0; gap: 2px; }
+        .sector-bar-item { display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 500; overflow: hidden; white-space: nowrap; min-width: 0; }
+        .sector-bar-item span { overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
+
+        /* AI insight */
+        .ai-insight { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); margin-bottom: 20px; }
+        .ai-header { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
+        .ai-body { padding: 20px; }
+        .ai-body strong { color: var(--gold); font-size: 14px; }
+        .ai-body p { margin-bottom: 12px; line-height: 1.7; font-size: 13px; }
+        .ai-body p:last-child { margin-bottom: 0; }
+        .ai-pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+        .pros-box, .cons-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px 14px; }
+        .pros-box { border-left: 3px solid var(--green); }
+        .cons-box { border-left: 3px solid var(--red); }
+        .pros-box h4 { font-size: 12px; color: var(--green); margin-bottom: 8px; font-weight: 600; }
+        .cons-box h4 { font-size: 12px; color: var(--red); margin-bottom: 8px; font-weight: 600; }
+        .pros-box ul, .cons-box ul { padding-left: 16px; font-size: 12px; color: var(--text-secondary); line-height: 1.8; }
+        .ai-suggestion { margin-top: 12px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.7; }
+        .ai-suggestion strong { color: var(--accent); }
+
+        /* Sidebar */
+        .sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 72px; }
+        .side-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: 18px; }
+        .side-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+        .indicator-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
+        .indicator-row:last-child { border-bottom: none; }
+        .indicator-name { color: var(--text-secondary); }
+        .indicator-value { font-weight: 600; }
+        .similar-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
+        .similar-item:last-child { border-bottom: none; }
+        .similar-item a { font-weight: 600; }
+        .compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .compare-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+        .compare-table th:first-child { text-align: left; }
+        .compare-table td { padding: 7px 8px; text-align: right; color: var(--text-primary); }
+        .compare-table td:first-child { text-align: left; font-weight: 500; }
+        .compare-table tr:hover td { background: rgba(255,255,255,0.03); }
+        .compare-best { color: var(--green) !important; font-weight: 700; }
+
+        /* Footer */
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
+        footer a { color: var(--text-secondary); }
+        footer a:hover { color: var(--text-primary); text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .content-wrap { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
+            .ai-pros-cons { grid-template-columns: 1fr; }
+            .stats-row { gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="logo">📈 <span>股道奇货</span></div>
+            <nav>
+                <a href="/" data-i18n="nav_home">首页</a>
+                <a href="/screener.html" data-i18n="nav_list">全部列表</a>
+            </nav>
+            <div class="lang-toggle">
+                <button class="lang-btn active" id="lang-zh" onclick="setLang('zh')">🇨🇳</button>
+                <button class="lang-btn" id="lang-en" onclick="setLang('en')">🇺🇸</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="/">首页</a>
+        <span>›</span>
+        <a href="/screener.html">ETF</a>
+        <span>›</span>
+        IVV
+    </div>
+
+    <div class="hero">
+        <div class="stock-header">
+            <div>
+                <div class="stock-left">
+                    <span class="ticker-badge">IVV</span>
+                    <div>
+                        <div class="stock-name">iShares Core S&P 500 ETF</div>
+                        <span class="stock-category etf">ETF</span>
+                    </div>
+                </div>
+                
+                <div class="stock-desc">贝莱德发行的标普500指数基金，管理费低至0.03%，与SPY并列为美国核心资产的代表。</div>
+                
+            </div>
+            <div class="stock-right">
+                <div class="current-price">$752.01</div>
+                <div class="price-change down">
+                    ▼ -4.34 (-0.57%)
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card"><div class="stat-label">52周最高</div><div class="stat-value">$764.0</div></div>
+            <div class="stat-card"><div class="stat-label">52周最低</div><div class="stat-value">$594.71</div></div>
+            <div class="stat-card"><div class="stat-label">YTD收益</div><div class="stat-value up">+17.15%</div></div>
+            <div class="stat-card"><div class="stat-label">波动率</div><div class="stat-value">16.47%</div></div>
+            <div class="stat-card"><div class="stat-label">夏普比率</div><div class="stat-value">1.04</div></div>
+            <div class="stat-card"><div class="stat-label">最大回撤</div><div class="stat-value down">-19.01%</div></div>
+        </div>
+    </div>
+
+    <div class="content-wrap">
+        <!-- Left column -->
+        <div class="content-main">
+
+            <!-- Chart -->
+            <div class="chart-section">
+                <div class="chart-header">
+                    <div class="chart-title">📊 价格走势（K线 + 均线）</div>
+                    <div>
+                        <button class="period-btn" data-period="1y">1年</button>
+                        <button class="period-btn" data-period="5y">5年</button>
+                        <button class="period-btn" data-period="all">全部</button>
+                    </div>
+                </div>
+                <div id="main-chart"></div>
+            </div>
+
+            <!-- Research Report -->
+            
+            <div class="section-card">
+                <div class="section-header">📝 投资研报 <span style="font-size:11px;color:var(--text-secondary);font-weight:400;margin-left:4px;">股道奇货 · 每季度更新</span></div>
+                <div class="section-body" style="padding:16px 20px;">
+                    <p style="font-size:13px;color:var(--text-secondary);line-height:1.8;margin-bottom:14px;">IVV是贝莱德iShares系列中的旗舰标普500ETF，费率仅0.03%，与VOO并列全市场最低梯队。追踪美国500家最大上市公司，与SPY高度类似但费率更低，是长期低成本配置美国大盘股的首选工具。</p>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px;">
+                        
+                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;">
+                            <span style="color:var(--gold);flex-shrink:0;margin-top:1px;">◆</span>
+                            <span style="color:var(--text-primary);">费率0.03%，行业最低梯队</span>
+                        </div>
+                        
+                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;">
+                            <span style="color:var(--gold);flex-shrink:0;margin-top:1px;">◆</span>
+                            <span style="color:var(--text-primary);">追踪标普500，持有503只大盘股</span>
+                        </div>
+                        
+                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;">
+                            <span style="color:var(--gold);flex-shrink:0;margin-top:1px;">◆</span>
+                            <span style="color:var(--text-primary);">日均成交量约300万股，流动性好</span>
+                        </div>
+                        
+                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;">
+                            <span style="color:var(--gold);flex-shrink:0;margin-top:1px;">◆</span>
+                            <span style="color:var(--text-primary);">贝莱德发行，全球前三大ETF之一</span>
+                        </div>
+                        
+                    </div>
+                    <div style="background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.15);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.7;">
+                        <span style="color:var(--accent);font-weight:600;">📡 短期展望：</span>
+                        <span style="color:var(--text-secondary);">在美国经济软着陆预期下，IVV作为低成本大盘股配置工具值得关注。0.03%的费率在20年维度上可节省约4%的费用复利。</span>
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- Key Financial Metrics -->
+            <div class="section-card">
+                <div class="section-header">📊 关键财务指标</div>
+                <div class="section-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>当前值</th>
+                                <th>5年均值</th>
+                                <th>趋势</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            
+                            
+                            
+                            
+                            <tr><td>费率 (Expense Ratio)</td><td>0.03%</td><td>0.03%</td><td>—</td></tr>
+                            <tr><td>净资产规模</td><td>500B</td><td>—</td><td>—</td></tr>
+                            <tr><td>日均成交量</td><td>3.1M</td><td></td><td>—</td></tr>
+                            
+                            
+                            
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Historical Performance -->
+            <div class="section-card">
+                <div class="section-header">📈 历史收益表现</div>
+                <div class="section-body">
+                    <table class="data-table">
+                        <thead>
+                            <tr><th>周期</th><th>收益率</th><th>年化</th><th>最大回撤</th><th>夏普比率</th></tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td>1个月</td>
+                                <td class="label-negative">-0.27%</td>
+                                <td class="">—</td>
+                                <td class="label-negative">—</td>
+                                <td>—</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>3个月</td>
+                                <td class="label-positive">+7.79%</td>
+                                <td class="">—</td>
+                                <td class="label-negative">—</td>
+                                <td>—</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>6个月</td>
+                                <td class="label-positive">+8.18%</td>
+                                <td class="">—</td>
+                                <td class="label-negative">—</td>
+                                <td>—</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>YTD</td>
+                                <td class="label-positive">+9.79%</td>
+                                <td class="">—</td>
+                                <td class="label-negative">—</td>
+                                <td>—</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>1年</td>
+                                <td class="label-positive">+11.84%</td>
+                                <td class="">—</td>
+                                <td class="label-negative">—</td>
+                                <td>—</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Sector / Holding Distribution -->
+            
+
+            <!-- AI Insight -->
+            
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+
+            <!-- Basic Info + Risk (merged) -->
+            <div class="side-card">
+                <div class="side-title">📋 基本信息</div>
+                <div class="indicator-row"><span class="indicator-name">全称</span><span class="indicator-value">iShares Core S&P 500 ETF</span></div>
+                
+                <div class="indicator-row"><span class="indicator-name">跟踪指数</span><span class="indicator-value">S&P 500</span></div>
+                
+                
+                <div class="indicator-row"><span class="indicator-name">成立日期</span><span class="indicator-value">2000-05-15</span></div>
+                
+                <div class="indicator-row"><span class="indicator-name">费率</span><span class="indicator-value">0.03%</span></div>
+                <div class="indicator-row"><span class="indicator-name">资产规模</span><span class="indicator-value">500B</span></div>
+                
+                <div class="indicator-row"><span class="indicator-name">成分股/持仓</span><span class="indicator-value">503</span></div>
+                
+                
+                <div class="indicator-row"><span class="indicator-name">派息频率</span><span class="indicator-value">季度</span></div>
+                
+                
+                <div class="indicator-row"><span class="indicator-name">发行商</span><span class="indicator-value">iShares</span></div>
+                
+                <div class="indicator-row" style="border-top: 1px solid var(--border); margin-top: 4px; padding-top: 10px;"><span class="indicator-name">年化波动率</span><span class="indicator-value">16.5%</span></div>
+                
+                <div class="indicator-row"><span class="indicator-name">夏普比率</span><span class="indicator-value">1.04</span></div>
+                <div class="indicator-row"><span class="indicator-name">最大回撤</span><span class="indicator-value down">-19.0%</span></div>
+            </div>
+
+            <!-- Similar ETFs -->
+            
+
+            <!-- Quick Compare -->
+            
+
+        </div>
+    </div>
+
+    <footer>
+        <p data-i18n-footer>数据来源：Yahoo Finance · 仅供参考，不构成投资建议</p>
+        <p style="margin-top: 8px;">
+            <a href="/privacy-policy.html">隐私政策</a> ·
+            <a href="/terms-of-service.html">服务条款</a> ·
+            <a href="/disclaimer.html">免责声明</a>
+        </p>
+        <p style="margin-top: 8px;">© 2026 <strong data-i18n-footer-brand>股道奇货</strong> · x.gudaoqihuo.com</p>
+    </footer>
+
+    <script>
+    const CHART_DATA = [{"date": "2024-06-17", "open": 543.24, "high": 549.59, "low": 542.76, "close": 548.31, "volume": 0}, {"date": "2024-06-18", "open": 548.36, "high": 549.77, "low": 547.91, "close": 549.64, "volume": 0}, {"date": "2024-06-20", "open": 550.64, "high": 551.29, "low": 546.41, "close": 547.94, "volume": 0}, {"date": "2024-06-21", "open": 547.34, "high": 548.57, "low": 546.0, "close": 547.01, "volume": 0}, {"date": "2024-06-24", "open": 547.27, "high": 549.88, "low": 545.52, "close": 545.61, "volume": 0}, {"date": "2024-06-25", "open": 546.89, "high": 548.14, "low": 545.45, "close": 547.68, "volume": 0}, {"date": "2024-06-26", "open": 546.63, "high": 549.17, "low": 546.01, "close": 548.52, "volume": 0}, {"date": "2024-06-27", "open": 548.33, "high": 549.86, "low": 547.57, "close": 549.32, "volume": 0}, {"date": "2024-06-28", "open": 550.11, "high": 553.25, "low": 545.87, "close": 547.23, "volume": 0}, {"date": "2024-07-01", "open": 548.58, "high": 548.83, "low": 545.5669, "close": 548.41, "volume": 0}, {"date": "2024-07-02", "open": 546.67, "high": 552.01, "low": 546.6, "close": 551.91, "volume": 0}, {"date": "2024-07-03", "open": 551.61, "high": 554.81, "low": 551.61, "close": 554.33, "volume": 0}, {"date": "2024-07-05", "open": 554.75, "high": 558.0593, "low": 554.2, "close": 557.76, "volume": 0}, {"date": "2024-07-08", "open": 558.46, "high": 559.26, "low": 557.2, "close": 558.41, "volume": 0}, {"date": "2024-07-09", "open": 559.21, "high": 560.13, "low": 558.54, "close": 558.93, "volume": 0}, {"date": "2024-07-10", "open": 560.1, "high": 564.71, "low": 559.79, "close": 564.25, "volume": 0}, {"date": "2024-07-11", "open": 564.5, "high": 565.3592, "low": 558.83, "close": 559.46, "volume": 0}, {"date": "2024-07-12", "open": 560.63, "high": 566.725, "low": 560.3, "close": 563.04, "volume": 0}, {"date": "2024-07-15", "open": 565.09, "high": 567.88, "low": 562.69, "close": 564.61, "volume": 0}, {"date": "2024-07-16", "open": 566.06, "high": 568.24, "low": 565.16, "close": 567.96, "volume": 0}, {"date": "2024-07-17", "open": 561.81, "high": 563.51, "low": 559.645, "close": 560.03, "volume": 0}, {"date": "2024-07-18", "open": 561.57, "high": 562.56, "low": 553.48, "close": 555.6, "volume": 0}, {"date": "2024-07-19", "open": 555.42, "high": 557.01, "low": 550.915, "close": 551.98, "volume": 0}, {"date": "2024-07-22", "open": 556.05, "high": 558.28, "low": 554.04, "close": 557.71, "volume": 0}, {"date": "2024-07-23", "open": 557.56, "high": 559.73, "low": 556.28, "close": 556.78, "volume": 0}, {"date": "2024-07-24", "open": 551.82, "high": 552.14, "low": 543.26, "close": 544.21, "volume": 0}, {"date": "2024-07-25", "open": 544.32, "high": 550.43, "low": 540.38, "close": 541.34, "volume": 0}, {"date": "2024-07-26", "open": 545.2, "high": 550.15, "low": 544.44, "close": 547.39, "volume": 0}, {"date": "2024-07-29", "open": 548.99, "high": 550.015, "low": 545.69, "close": 547.77, "volume": 0}, {"date": "2024-07-30", "open": 549.23, "high": 550.265, "low": 541.46, "close": 544.82, "volume": 0}, {"date": "2024-07-31", "open": 551.89, "high": 556.4, "low": 550.56, "close": 553.32, "volume": 0}, {"date": "2024-08-01", "open": 555.57, "high": 557.82, "low": 542.35, "close": 546.05, "volume": 0}, {"date": "2024-08-02", "open": 538.68, "high": 539.86, "low": 531.46, "close": 535.77, "volume": 0}, {"date": "2024-08-05", "open": 514.37, "high": 526.39, "low": 513.02, "close": 520.18, "volume": 0}, {"date": "2024-08-06", "open": 522.12, "high": 532.59, "low": 519.9266, "close": 525.12, "volume": 0}, {"date": "2024-08-07", "open": 531.37, "high": 534.4554, "low": 520.86, "close": 521.49, "volume": 0}, {"date": "2024-08-08", "open": 526.6, "high": 534.14, "low": 524.7, "close": 533.57, "volume": 0}, {"date": "2024-08-09", "open": 532.74, "high": 537.35, "low": 531.44, "close": 535.85, "volume": 0}, {"date": "2024-08-12", "open": 537.14, "high": 538.63, "low": 533.9, "close": 536.11, "volume": 0}, {"date": "2024-08-13", "open": 539.53, "high": 545.25, "low": 535.9316, "close": 545.03, "volume": 0}, {"date": "2024-08-14", "open": 545.85, "high": 547.92, "low": 543.16, "close": 546.81, "volume": 0}, {"date": "2024-08-15", "open": 552.56, "high": 556.385, "low": 551.92, "close": 556.17, "volume": 0}, {"date": "2024-08-16", "open": 554.45, "high": 558.0498, "low": 554.28, "close": 557.43, "volume": 0}, {"date": "2024-08-19", "open": 557.79, "high": 562.68, "low": 556.94, "close": 562.61, "volume": 0}, {"date": "2024-08-20", "open": 562.22, "high": 563.93, "low": 560.3929, "close": 561.77, "volume": 0}, {"date": "2024-08-21", "open": 562.83, "high": 565.18, "low": 561.0649, "close": 563.96, "volume": 0}, {"date": "2024-08-22", "open": 565.67, "high": 566.29, "low": 558.05, "close": 559.19, "volume": 0}, {"date": "2024-08-23", "open": 562.64, "high": 566.2, "low": 560.3625, "close": 565.23, "volume": 0}, {"date": "2024-08-26", "open": 566.3, "high": 567.02, "low": 562.15, "close": 563.63, "volume": 0}, {"date": "2024-08-27", "open": 562.57, "high": 565.14, "low": 561.47, "close": 564.66, "volume": 0}, {"date": "2024-08-28", "open": 564.28, "high": 564.76, "low": 558.081, "close": 561.36, "volume": 0}, {"date": "2024-08-29", "open": 563.39, "high": 566.79, "low": 560.27, "close": 561.45, "volume": 0}, {"date": "2024-08-30", "open": 563.88, "high": 567.33, "low": 560.22, "close": 566.75, "volume": 0}, {"date": "2024-09-03", "open": 563.53, "high": 563.87, "low": 552.55, "close": 555.26, "volume": 0}, {"date": "2024-09-04", "open": 553.25, "high": 557.43, "low": 552.49, "close": 554.1, "volume": 0}, {"date": "2024-09-05", "open": 553.94, "high": 556.77, "low": 550.11, "close": 552.56, "volume": 0}, {"date": "2024-09-06", "open": 552.94, "high": 554.555, "low": 542.41, "close": 543.37, "volume": 0}, {"date": "2024-09-09", "open": 547.65, "high": 550.7, "low": 545.68, "close": 549.47, "volume": 0}, {"date": "2024-09-10", "open": 551.39, "high": 552.16, "low": 546.42, "close": 551.5, "volume": 0}, {"date": "2024-09-11", "open": 551.7, "high": 558.41, "low": 542.91, "close": 557.45, "volume": 0}, {"date": "2024-09-12", "open": 558.04, "high": 562.44, "low": 555.859, "close": 562.17, "volume": 0}, {"date": "2024-09-13", "open": 562.78, "high": 566.16, "low": 562.56, "close": 565.05, "volume": 0}, {"date": "2024-09-16", "open": 564.87, "high": 566.259, "low": 563.03, "close": 565.99, "volume": 0}, {"date": "2024-09-17", "open": 568.26, "high": 569.69, "low": 563.97, "close": 566.2, "volume": 0}, {"date": "2024-09-18", "open": 566.89, "high": 571.84, "low": 563.95, "close": 564.51, "volume": 0}, {"date": "2024-09-19", "open": 574.22, "high": 576.1, "low": 571.32, "close": 574.19, "volume": 0}, {"date": "2024-09-20", "open": 572.78, "high": 574.21, "low": 570.11, "close": 572.99, "volume": 0}, {"date": "2024-09-23", "open": 574.31, "high": 575.275, "low": 573.065, "close": 574.58, "volume": 0}, {"date": "2024-09-24", "open": 575.45, "high": 576.35, "low": 572.61, "close": 576.25, "volume": 0}, {"date": "2024-09-25", "open": 573.88, "high": 574.65, "low": 571.69, "close": 572.66, "volume": 0}, {"date": "2024-09-26", "open": 577.19, "high": 577.47, "low": 572.63, "close": 575.11, "volume": 0}, {"date": "2024-09-27", "open": 576.15, "high": 576.9172, "low": 573.15, "close": 574.07, "volume": 0}, {"date": "2024-09-30", "open": 573.19, "high": 577.19, "low": 570.88, "close": 576.82, "volume": 0}, {"date": "2024-10-01", "open": 576.14, "high": 576.21, "low": 568.76, "close": 571.37, "volume": 0}, {"date": "2024-10-02", "open": 570.45, "high": 572.615, "low": 567.97, "close": 571.6, "volume": 0}, {"date": "2024-10-03", "open": 570.13, "high": 572.52, "low": 568.23, "close": 570.51, "volume": 0}, {"date": "2024-10-04", "open": 575.13, "high": 576.12, "low": 570.92, "close": 575.69, "volume": 0}, {"date": "2024-10-07", "open": 574.03, "high": 574.58, "low": 569.33, "close": 570.53, "volume": 0}, {"date": "2024-10-08", "open": 573.11, "high": 576.5, "low": 572.26, "close": 575.94, "volume": 0}, {"date": "2024-10-09", "open": 575.94, "high": 580.47, "low": 575.33, "close": 579.85, "volume": 0}, {"date": "2024-10-10", "open": 578.53, "high": 580.33, "low": 577.27, "close": 578.83, "volume": 0}, {"date": "2024-10-11", "open": 578.82, "high": 583.09, "low": 578.72, "close": 582.35, "volume": 0}, {"date": "2024-10-14", "open": 584.03, "high": 588.05, "low": 583.68, "close": 587.15, "volume": 0}, {"date": "2024-10-15", "open": 587.46, "high": 587.67, "low": 581.405, "close": 582.49, "volume": 0}, {"date": "2024-10-16", "open": 582.59, "high": 585.635, "low": 581.77, "close": 585.08, "volume": 0}, {"date": "2024-10-17", "open": 588.79, "high": 588.93, "low": 584.98, "close": 585.25, "volume": 0}, {"date": "2024-10-18", "open": 586.9, "high": 588.22, "low": 585.45, "close": 587.46, "volume": 0}, {"date": "2024-10-21", "open": 586.67, "high": 587.68, "low": 583.44, "close": 586.59, "volume": 0}, {"date": "2024-10-22", "open": 583.86, "high": 587.2879, "low": 583.29, "close": 586.13, "volume": 0}, {"date": "2024-10-23", "open": 584.03, "high": 584.48, "low": 577.23, "close": 580.79, "volume": 0}, {"date": "2024-10-24", "open": 582.83, "high": 582.83, "low": 579.41, "close": 582.03, "volume": 0}, {"date": "2024-10-25", "open": 584.38, "high": 587.3, "low": 580.91, "close": 581.9, "volume": 0}, {"date": "2024-10-28", "open": 585.41, "high": 585.44, "low": 583.36, "close": 583.65, "volume": 0}, {"date": "2024-10-29", "open": 582.67, "high": 585.71, "low": 581.27, "close": 584.55, "volume": 0}, {"date": "2024-10-30", "open": 584.11, "high": 586.14, "low": 582.16, "close": 582.67, "volume": 0}, {"date": "2024-10-31", "open": 578.34, "high": 578.42, "low": 571.18, "close": 571.24, "volume": 0}, {"date": "2024-11-01", "open": 574.03, "high": 578.31, "low": 573.39, "close": 573.72, "volume": 0}, {"date": "2024-11-04", "open": 573.94, "high": 575.26, "low": 570.64, "close": 572.57, "volume": 0}, {"date": "2024-11-05", "open": 573.57, "high": 579.53, "low": 573.36, "close": 579.49, "volume": 0}, {"date": "2024-11-06", "open": 592.08, "high": 594.7991, "low": 588.3, "close": 593.88, "volume": 0}, {"date": "2024-11-07", "open": 596.01, "high": 599.54, "low": 595.92, "close": 598.51, "volume": 0}, {"date": "2024-11-08", "open": 599.12, "high": 602.56, "low": 599.12, "close": 601.13, "volume": 0}, {"date": "2024-11-11", "open": 602.8, "high": 603.09, "low": 599.945, "close": 601.59, "volume": 0}, {"date": "2024-11-12", "open": 601.62, "high": 602.22, "low": 597.35, "close": 599.75, "volume": 0}, {"date": "2024-11-13", "open": 600.29, "high": 602.16, "low": 597.93, "close": 600.2, "volume": 0}, {"date": "2024-11-14", "open": 600.26, "high": 600.7476, "low": 595.63, "close": 596.23, "volume": 0}, {"date": "2024-11-15", "open": 592.62, "high": 593.06, "low": 586.75, "close": 588.66, "volume": 0}, {"date": "2024-11-18", "open": 589.09, "high": 592.38, "low": 588.21, "close": 591.11, "volume": 0}, {"date": "2024-11-19", "open": 587.63, "high": 593.9597, "low": 586.99, "close": 593.17, "volume": 0}, {"date": "2024-11-20", "open": 593.23, "high": 593.67, "low": 587.5, "close": 593.44, "volume": 0}, {"date": "2024-11-21", "open": 596.36, "high": 598.02, "low": 590.32, "close": 596.48, "volume": 0}, {"date": "2024-11-22", "open": 596.64, "high": 599.08, "low": 596.15, "close": 598.45, "volume": 0}, {"date": "2024-11-25", "open": 602.47, "high": 603.77, "low": 598.15, "close": 600.22, "volume": 0}, {"date": "2024-11-26", "open": 601.75, "high": 604.275, "low": 601.03, "close": 603.76, "volume": 0}, {"date": "2024-11-27", "open": 603.47, "high": 603.79, "low": 600.26, "close": 601.82, "volume": 0}, {"date": "2024-11-29", "open": 602.63, "high": 606.32, "low": 602.38, "close": 605.07, "volume": 0}, {"date": "2024-12-02", "open": 605.97, "high": 607.2999, "low": 605.48, "close": 606.71, "volume": 0}, {"date": "2024-12-03", "open": 606.41, "high": 607.22, "low": 605.38, "close": 606.96, "volume": 0}, {"date": "2024-12-04", "open": 608.68, "high": 610.92, "low": 608.0, "close": 610.7, "volume": 0}, {"date": "2024-12-05", "open": 610.65, "high": 611.54, "low": 609.41, "close": 609.73, "volume": 0}, {"date": "2024-12-06", "open": 610.47, "high": 612.09, "low": 610.05, "close": 610.83, "volume": 0}, {"date": "2024-12-09", "open": 610.75, "high": 610.85, "low": 607.09, "close": 607.68, "volume": 0}, {"date": "2024-12-10", "open": 608.39, "high": 608.72, "low": 605.16, "close": 605.92, "volume": 0}, {"date": "2024-12-11", "open": 608.8, "high": 611.48, "low": 608.508, "close": 610.59, "volume": 0}, {"date": "2024-12-12", "open": 609.63, "high": 610.17, "low": 607.35, "close": 607.35, "volume": 0}, {"date": "2024-12-13", "open": 609.44, "high": 610.15, "low": 605.8278, "close": 607.24, "volume": 0}, {"date": "2024-12-16", "open": 609.01, "high": 610.84, "low": 608.3, "close": 609.83, "volume": 0}, {"date": "2024-12-17", "open": 605.07, "high": 606.05, "low": 603.76, "close": 605.05, "volume": 0}, {"date": "2024-12-18", "open": 604.86, "high": 607.31, "low": 586.69, "close": 587.26, "volume": 0}, {"date": "2024-12-19", "open": 592.26, "high": 593.8001, "low": 586.73, "close": 586.83, "volume": 0}, {"date": "2024-12-20", "open": 584.53, "high": 598.57, "low": 583.67, "close": 593.33, "volume": 0}, {"date": "2024-12-23", "open": 593.68, "high": 598.14, "low": 590.48, "close": 597.64, "volume": 0}, {"date": "2024-12-24", "open": 598.89, "high": 604.36, "low": 598.31, "close": 604.36, "volume": 0}, {"date": "2024-12-26", "open": 602.33, "high": 605.34, "low": 601.0, "close": 604.07, "volume": 0}, {"date": "2024-12-27", "open": 600.37, "high": 600.57, "low": 593.61, "close": 597.53, "volume": 0}, {"date": "2024-12-30", "open": 590.78, "high": 594.57, "low": 587.24, "close": 590.98, "volume": 0}, {"date": "2024-12-31", "open": 592.74, "high": 593.415, "low": 587.2533, "close": 588.68, "volume": 0}, {"date": "2025-01-02", "open": 592.17, "high": 593.91, "low": 583.33, "close": 587.45, "volume": 0}, {"date": "2025-01-03", "open": 590.34, "high": 595.4266, "low": 589.27, "close": 594.61, "volume": 0}, {"date": "2025-01-06", "open": 599.15, "high": 602.56, "low": 596.43, "close": 598.3, "volume": 0}, {"date": "2025-01-07", "open": 600.29, "high": 600.57, "low": 589.595, "close": 591.57, "volume": 0}, {"date": "2025-01-08", "open": 591.49, "high": 593.37, "low": 587.98, "close": 592.19, "volume": 0}, {"date": "2025-01-10", "open": 588.69, "high": 588.69, "low": 581.33, "close": 583.33, "volume": 0}, {"date": "2025-01-13", "open": 578.51, "high": 584.51, "low": 578.0, "close": 584.18, "volume": 0}, {"date": "2025-01-14", "open": 587.14, "high": 587.74, "low": 581.17, "close": 584.99, "volume": 0}, {"date": "2025-01-15", "open": 593.18, "high": 596.78, "low": 584.9937, "close": 595.63, "volume": 0}, {"date": "2025-01-16", "open": 597.03, "high": 597.2042, "low": 593.8181, "close": 594.62, "volume": 0}, {"date": "2025-01-17", "open": 599.76, "high": 602.225, "low": 598.51, "close": 600.26, "volume": 0}, {"date": "2025-01-21", "open": 603.61, "high": 605.96, "low": 601.6, "close": 605.7, "volume": 0}, {"date": "2025-01-22", "open": 608.9, "high": 610.74, "low": 608.36, "close": 609.3, "volume": 0}, {"date": "2025-01-23", "open": 608.77, "high": 612.7, "low": 608.45, "close": 612.7, "volume": 0}, {"date": "2025-01-24", "open": 612.75, "high": 613.79, "low": 609.7612, "close": 610.89, "volume": 0}, {"date": "2025-01-27", "open": 597.67, "high": 602.525, "low": 597.52, "close": 602.37, "volume": 0}, {"date": "2025-01-28", "open": 603.53, "high": 608.29, "low": 600.15, "close": 607.49, "volume": 0}, {"date": "2025-01-29", "open": 606.61, "high": 607.025, "low": 602.15, "close": 604.91, "volume": 0}, {"date": "2025-01-30", "open": 606.92, "high": 609.502, "low": 603.63, "close": 607.94, "volume": 0}, {"date": "2025-01-31", "open": 610.44, "high": 612.9, "low": 603.96, "close": 604.66, "volume": 0}, {"date": "2025-02-03", "open": 595.58, "high": 603.1448, "low": 593.34, "close": 600.68, "volume": 0}, {"date": "2025-02-04", "open": 600.67, "high": 605.181, "low": 600.19, "close": 604.69, "volume": 0}, {"date": "2025-02-05", "open": 603.55, "high": 607.29, "low": 601.5, "close": 607.17, "volume": 0}, {"date": "2025-02-06", "open": 608.9, "high": 609.4, "low": 605.61, "close": 609.4, "volume": 0}, {"date": "2025-02-07", "open": 609.84, "high": 611.085, "low": 602.99, "close": 603.8, "volume": 0}, {"date": "2025-02-10", "open": 606.98, "high": 608.4132, "low": 605.72, "close": 607.75, "volume": 0}, {"date": "2025-02-11", "open": 605.47, "high": 608.76, "low": 605.38, "close": 608.23, "volume": 0}, {"date": "2025-02-12", "open": 602.11, "high": 607.46, "low": 601.51, "close": 606.21, "volume": 0}, {"date": "2025-02-13", "open": 607.41, "high": 612.907, "low": 606.15, "close": 612.67, "volume": 0}, {"date": "2025-02-14", "open": 612.92, "high": 613.93, "low": 612.04, "close": 612.68, "volume": 0}, {"date": "2025-02-18", "open": 613.855, "high": 614.48, "low": 611.36, "close": 614.48, "volume": 0}, {"date": "2025-02-19", "open": 613.09, "high": 616.22, "low": 612.55, "close": 615.85, "volume": 0}, {"date": "2025-02-20", "open": 614.53, "high": 614.64, "low": 609.97, "close": 613.46, "volume": 0}, {"date": "2025-02-21", "open": 613.14, "high": 613.22, "low": 602.41, "close": 602.87, "volume": 0}, {"date": "2025-02-24", "open": 604.91, "high": 605.9, "low": 599.42, "close": 600.0, "volume": 0}, {"date": "2025-02-25", "open": 600.04, "high": 600.77, "low": 592.44, "close": 597.08, "volume": 0}, {"date": "2025-02-26", "open": 598.81, "high": 602.44, "low": 594.77, "close": 597.28, "volume": 0}, {"date": "2025-02-27", "open": 599.75, "high": 600.88, "low": 587.41, "close": 587.78, "volume": 0}, {"date": "2025-02-28", "open": 588.41, "high": 597.66, "low": 585.3, "close": 597.04, "volume": 0}, {"date": "2025-03-03", "open": 599.08, "high": 600.2, "low": 582.69, "close": 586.79, "volume": 0}, {"date": "2025-03-04", "open": 582.46, "high": 588.16, "low": 574.93, "close": 579.71, "volume": 0}, {"date": "2025-03-05", "open": 579.43, "high": 587.65, "low": 575.83, "close": 586.06, "volume": 0}, {"date": "2025-03-06", "open": 578.25, "high": 582.88, "low": 572.87, "close": 575.54, "volume": 0}, {"date": "2025-03-07", "open": 573.63, "high": 580.12, "low": 568.4, "close": 578.51, "volume": 0}, {"date": "2025-03-10", "open": 570.29, "high": 572.22, "low": 558.2501, "close": 563.44, "volume": 0}, {"date": "2025-03-11", "open": 561.99, "high": 565.48, "low": 554.64, "close": 558.64, "volume": 0}, {"date": "2025-03-12", "open": 564.82, "high": 565.75, "low": 556.3, "close": 561.48, "volume": 0}, {"date": "2025-03-13", "open": 561.13, "high": 561.65, "low": 552.2801, "close": 554.06, "volume": 0}, {"date": "2025-03-14", "open": 558.69, "high": 566.53, "low": 554.073, "close": 565.56, "volume": 0}, {"date": "2025-03-17", "open": 565.41, "high": 572.435, "low": 565.09, "close": 569.61, "volume": 0}, {"date": "2025-03-18", "open": 565.78, "high": 565.93, "low": 559.96, "close": 561.93, "volume": 0}, {"date": "2025-03-19", "open": 563.7, "high": 571.82, "low": 562.56, "close": 568.01, "volume": 0}, {"date": "2025-03-20", "open": 564.2, "high": 571.475, "low": 563.58, "close": 566.74, "volume": 0}, {"date": "2025-03-21", "open": 561.86, "high": 567.5, "low": 560.645, "close": 566.58, "volume": 0}, {"date": "2025-03-24", "open": 573.49, "high": 577.8, "low": 572.9, "close": 576.72, "volume": 0}, {"date": "2025-03-25", "open": 577.98, "high": 579.09, "low": 576.39, "close": 577.96, "volume": 0}, {"date": "2025-03-26", "open": 577.91, "high": 578.86, "low": 569.85, "close": 571.42, "volume": 0}, {"date": "2025-03-27", "open": 569.84, "high": 573.53, "low": 567.6581, "close": 569.62, "volume": 0}, {"date": "2025-03-28", "open": 568.11, "high": 568.88, "low": 557.69, "close": 558.12, "volume": 0}, {"date": "2025-03-31", "open": 552.34, "high": 563.31, "low": 549.4, "close": 561.9, "volume": 0}, {"date": "2025-04-01", "open": 560.02, "high": 565.49, "low": 556.2725, "close": 563.78, "volume": 0}, {"date": "2025-04-02", "open": 557.63, "high": 570.04, "low": 557.39, "close": 567.2, "volume": 0}, {"date": "2025-04-03", "open": 547.61, "high": 550.47, "low": 539.42, "close": 540.07, "volume": 0}, {"date": "2025-04-04", "open": 526.12, "high": 528.25, "low": 507.42, "close": 507.61, "volume": 0}, {"date": "2025-04-07", "open": 491.41, "high": 525.56, "low": 484.0, "close": 506.38, "volume": 0}, {"date": "2025-04-08", "open": 524.29, "high": 527.39, "low": 491.49, "close": 498.8, "volume": 0}, {"date": "2025-04-09", "open": 495.65, "high": 548.83, "low": 495.34, "close": 546.25, "volume": 0}, {"date": "2025-04-10", "open": 534.68, "high": 535.93, "low": 511.93, "close": 527.06, "volume": 0}, {"date": "2025-04-11", "open": 525.37, "high": 538.93, "low": 522.5, "close": 536.98, "volume": 0}, {"date": "2025-04-14", "open": 546.62, "high": 546.84, "low": 536.44, "close": 541.52, "volume": 0}, {"date": "2025-04-15", "open": 542.16, "high": 545.69, "low": 539.31, "close": 540.19, "volume": 0}, {"date": "2025-04-16", "open": 534.13, "high": 537.55, "low": 522.7399, "close": 528.14, "volume": 0}, {"date": "2025-04-17", "open": 530.04, "high": 533.64, "low": 526.355, "close": 528.67, "volume": 0}, {"date": "2025-04-21", "open": 523.65, "high": 524.06, "low": 510.83, "close": 516.38, "volume": 0}, {"date": "2025-04-22", "open": 522.54, "high": 531.76, "low": 521.59, "close": 529.38, "volume": 0}, {"date": "2025-04-23", "open": 542.96, "high": 547.84, "low": 536.37, "close": 537.85, "volume": 0}, {"date": "2025-04-24", "open": 539.18, "high": 549.89, "low": 537.97, "close": 549.22, "volume": 0}, {"date": "2025-04-25", "open": 549.21, "high": 553.62, "low": 546.28, "close": 553.19, "volume": 0}, {"date": "2025-04-28", "open": 554.01, "high": 556.07, "low": 547.61, "close": 553.43, "volume": 0}, {"date": "2025-04-29", "open": 551.53, "high": 558.02, "low": 551.18, "close": 556.95, "volume": 0}, {"date": "2025-04-30", "open": 550.13, "high": 559.07, "low": 544.1, "close": 557.96, "volume": 0}, {"date": "2025-05-01", "open": 563.015, "high": 566.72, "low": 560.53, "close": 561.11, "volume": 0}, {"date": "2025-05-02", "open": 567.37, "high": 571.06, "low": 565.26, "close": 569.34, "volume": 0}, {"date": "2025-05-05", "open": 565.29, "high": 569.34, "low": 564.41, "close": 566.17, "volume": 0}, {"date": "2025-05-06", "open": 560.6, "high": 566.0, "low": 559.39, "close": 561.54, "volume": 0}, {"date": "2025-05-07", "open": 562.81, "high": 566.46, "low": 558.69, "close": 563.77, "volume": 0}, {"date": "2025-05-08", "open": 567.91, "high": 573.027, "low": 564.44, "close": 567.33, "volume": 0}, {"date": "2025-05-09", "open": 569.19, "high": 570.12, "low": 565.48, "close": 566.89, "volume": 0}, {"date": "2025-05-12", "open": 584.27, "high": 585.78, "low": 579.8, "close": 585.71, "volume": 0}, {"date": "2025-05-13", "open": 586.25, "high": 591.88, "low": 585.6885, "close": 589.94, "volume": 0}, {"date": "2025-05-14", "open": 590.67, "high": 591.77, "low": 588.37, "close": 590.28, "volume": 0}, {"date": "2025-05-15", "open": 588.36, "high": 593.8, "low": 587.94, "close": 593.18, "volume": 0}, {"date": "2025-05-16", "open": 594.11, "high": 597.35, "low": 592.14, "close": 597.04, "volume": 0}, {"date": "2025-05-19", "open": 590.98, "high": 598.41, "low": 590.91, "close": 597.79, "volume": 0}, {"date": "2025-05-20", "open": 595.98, "high": 596.88, "low": 592.44, "close": 595.57, "volume": 0}, {"date": "2025-05-21", "open": 591.24, "high": 595.42, "low": 584.6, "close": 585.67, "volume": 0}, {"date": "2025-05-22", "open": 585.45, "high": 589.42, "low": 584.18, "close": 585.76, "volume": 0}, {"date": "2025-05-23", "open": 578.71, "high": 584.56, "low": 578.31, "close": 582.0, "volume": 0}, {"date": "2025-05-27", "open": 588.89, "high": 594.15, "low": 587.18, "close": 593.94, "volume": 0}, {"date": "2025-05-28", "open": 594.44, "high": 595.64, "low": 589.83, "close": 590.44, "volume": 0}, {"date": "2025-05-29", "open": 595.9, "high": 596.05, "low": 588.88, "close": 592.78, "volume": 0}, {"date": "2025-05-30", "open": 591.74, "high": 593.9799, "low": 586.05, "close": 592.15, "volume": 0}, {"date": "2025-06-02", "open": 590.55, "high": 595.64, "low": 587.88, "close": 595.59, "volume": 0}, {"date": "2025-06-03", "open": 595.21, "high": 599.9738, "low": 594.765, "close": 598.93, "volume": 0}, {"date": "2025-06-04", "open": 599.86, "high": 600.83, "low": 598.4, "close": 598.77, "volume": 0}, {"date": "2025-06-05", "open": 600.53, "high": 601.88, "low": 593.93, "close": 595.98, "volume": 0}, {"date": "2025-06-06", "open": 601.53, "high": 603.73, "low": 599.8, "close": 602.0, "volume": 0}, {"date": "2025-06-09", "open": 602.63, "high": 604.16, "low": 601.41, "close": 602.57, "volume": 0}, {"date": "2025-06-10", "open": 603.12, "high": 606.42, "low": 601.99, "close": 606.03, "volume": 0}, {"date": "2025-06-11", "open": 607.14, "high": 608.0, "low": 602.23, "close": 604.31, "volume": 0}, {"date": "2025-06-12", "open": 602.97, "high": 606.66, "low": 602.47, "close": 606.51, "volume": 0}, {"date": "2025-06-13", "open": 601.46, "high": 604.77, "low": 598.39, "close": 599.79, "volume": 0}, {"date": "2025-06-16", "open": 601.47, "high": 605.56, "low": 601.38, "close": 603.76, "volume": 0}, {"date": "2025-06-17", "open": 601.29, "high": 602.83, "low": 597.85, "close": 598.76, "volume": 0}, {"date": "2025-06-18", "open": 599.5, "high": 602.31, "low": 597.72, "close": 598.62, "volume": 0}, {"date": "2025-06-20", "open": 601.23, "high": 602.31, "low": 595.7, "close": 596.66, "volume": 0}, {"date": "2025-06-23", "open": 597.87, "high": 603.39, "low": 594.71, "close": 602.93, "volume": 0}, {"date": "2025-06-24", "open": 607.19, "high": 610.71, "low": 606.31, "close": 609.51, "volume": 0}, {"date": "2025-06-25", "open": 610.79, "high": 611.349, "low": 608.45, "close": 609.96, "volume": 0}, {"date": "2025-06-26", "open": 611.9, "high": 615.23, "low": 611.28, "close": 614.76, "volume": 0}, {"date": "2025-06-27", "open": 615.81, "high": 619.31, "low": 613.79, "close": 617.46, "volume": 0}, {"date": "2025-06-30", "open": 620.31, "high": 622.12, "low": 617.99, "close": 620.9, "volume": 0}, {"date": "2025-07-01", "open": 619.305, "high": 621.68, "low": 618.48, "close": 620.67, "volume": 0}, {"date": "2025-07-02", "open": 620.2, "high": 623.7, "low": 619.58, "close": 623.42, "volume": 0}, {"date": "2025-07-03", "open": 625.4, "high": 629.25, "low": 625.4, "close": 628.17, "volume": 0}, {"date": "2025-07-07", "open": 626.34, "high": 626.995, "low": 620.85, "close": 623.83, "volume": 0}, {"date": "2025-07-08", "open": 624.32, "high": 625.07, "low": 622.52, "close": 623.33, "volume": 0}, {"date": "2025-07-09", "open": 625.75, "high": 627.715, "low": 623.89, "close": 627.03, "volume": 0}, {"date": "2025-07-10", "open": 627.18, "high": 629.87, "low": 626.01, "close": 628.85, "volume": 0}, {"date": "2025-07-11", "open": 625.755, "high": 627.82, "low": 624.5175, "close": 626.44, "volume": 0}, {"date": "2025-07-14", "open": 626.17, "high": 628.14, "low": 624.75, "close": 627.74, "volume": 0}, {"date": "2025-07-15", "open": 630.52, "high": 630.86, "low": 624.99, "close": 624.99, "volume": 0}, {"date": "2025-07-16", "open": 626.76, "high": 627.72, "low": 621.0491, "close": 627.25, "volume": 0}, {"date": "2025-07-17", "open": 627.44, "high": 631.42, "low": 627.25, "close": 630.93, "volume": 0}, {"date": "2025-07-18", "open": 632.32, "high": 632.385, "low": 629.47, "close": 630.67, "volume": 0}, {"date": "2025-07-21", "open": 631.8, "high": 634.6, "low": 631.36, "close": 631.73, "volume": 0}, {"date": "2025-07-22", "open": 632.12, "high": 632.78, "low": 629.25, "close": 631.74, "volume": 0}, {"date": "2025-07-23", "open": 634.61, "high": 637.33, "low": 632.7604, "close": 637.33, "volume": 0}, {"date": "2025-07-24", "open": 637.65, "high": 639.19, "low": 637.05, "close": 637.58, "volume": 0}, {"date": "2025-07-25", "open": 638.15, "high": 640.64, "low": 637.96, "close": 640.06, "volume": 0}, {"date": "2025-07-28", "open": 640.53, "high": 641.1, "low": 638.64, "close": 639.92, "volume": 0}, {"date": "2025-07-29", "open": 641.43, "high": 641.74, "low": 637.42, "close": 638.4, "volume": 0}, {"date": "2025-07-30", "open": 639.1, "high": 640.74, "low": 634.59, "close": 637.51, "volume": 0}, {"date": "2025-07-31", "open": 642.57, "high": 642.94, "low": 633.8, "close": 634.9, "volume": 0}, {"date": "2025-08-01", "open": 629.36, "high": 629.36, "low": 622.31, "close": 624.65, "volume": 0}, {"date": "2025-08-04", "open": 628.73, "high": 634.27, "low": 628.585, "close": 634.17, "volume": 0}, {"date": "2025-08-05", "open": 634.89, "high": 635.66, "low": 630.125, "close": 631.12, "volume": 0}, {"date": "2025-08-06", "open": 632.1, "high": 636.51, "low": 631.19, "close": 635.79, "volume": 0}, {"date": "2025-08-07", "open": 639.35, "high": 640.08, "low": 632.18, "close": 635.44, "volume": 0}, {"date": "2025-08-08", "open": 637.21, "high": 640.76, "low": 636.85, "close": 640.25, "volume": 0}, {"date": "2025-08-11", "open": 640.6, "high": 642.05, "low": 637.75, "close": 638.98, "volume": 0}, {"date": "2025-08-12", "open": 641.37, "high": 645.99, "low": 639.91, "close": 645.74, "volume": 0}, {"date": "2025-08-13", "open": 648.02, "high": 649.31, "low": 645.84, "close": 648.11, "volume": 0}, {"date": "2025-08-14", "open": 645.985, "high": 648.79, "low": 645.51, "close": 648.13, "volume": 0}, {"date": "2025-08-15", "open": 649.2, "high": 649.27, "low": 645.72, "close": 646.67, "volume": 0}, {"date": "2025-08-18", "open": 646.0, "high": 647.17, "low": 645.33, "close": 646.37, "volume": 0}, {"date": "2025-08-19", "open": 646.29, "high": 647.27, "low": 641.66, "close": 642.95, "volume": 0}, {"date": "2025-08-20", "open": 642.54, "high": 642.75, "low": 636.04, "close": 641.23, "volume": 0}, {"date": "2025-08-21", "open": 639.41, "high": 641.09, "low": 636.9686, "close": 638.7, "volume": 0}, {"date": "2025-08-22", "open": 640.93, "high": 649.68, "low": 640.41, "close": 648.5, "volume": 0}, {"date": "2025-08-25", "open": 647.23, "high": 648.46, "low": 645.55, "close": 645.64, "volume": 0}, {"date": "2025-08-26", "open": 645.34, "high": 648.69, "low": 644.75, "close": 648.26, "volume": 0}, {"date": "2025-08-27", "open": 647.76, "high": 650.58, "low": 647.65, "close": 649.8, "volume": 0}, {"date": "2025-08-28", "open": 650.44, "high": 652.69, "low": 648.5697, "close": 652.14, "volume": 0}, {"date": "2025-08-29", "open": 650.69, "high": 651.06, "low": 646.35, "close": 648.32, "volume": 0}, {"date": "2025-09-02", "open": 640.64, "high": 643.64, "low": 638.05, "close": 643.42, "volume": 0}, {"date": "2025-09-03", "open": 645.82, "high": 647.4, "low": 643.64, "close": 646.88, "volume": 0}, {"date": "2025-09-04", "open": 647.62, "high": 652.36, "low": 646.7, "close": 652.21, "volume": 0}, {"date": "2025-09-05", "open": 654.7, "high": 655.444, "low": 646.54, "close": 650.47, "volume": 0}, {"date": "2025-09-08", "open": 651.84, "high": 653.06, "low": 650.45, "close": 652.12, "volume": 0}, {"date": "2025-09-09", "open": 652.2, "high": 654.11, "low": 650.45, "close": 653.62, "volume": 0}, {"date": "2025-09-10", "open": 656.86, "high": 657.82, "low": 653.89, "close": 655.49, "volume": 0}, {"date": "2025-09-11", "open": 657.46, "high": 661.64, "low": 656.86, "close": 660.95, "volume": 0}, {"date": "2025-09-12", "open": 660.9, "high": 662.46, "low": 660.24, "close": 660.72, "volume": 0}, {"date": "2025-09-15", "open": 662.94, "high": 664.38, "low": 662.69, "close": 664.17, "volume": 0}, {"date": "2025-09-16", "open": 662.82, "high": 663.12, "low": 660.56, "close": 661.3, "volume": 0}, {"date": "2025-09-17", "open": 661.36, "high": 663.05, "low": 655.62, "close": 660.57, "volume": 0}, {"date": "2025-09-18", "open": 663.26, "high": 666.27, "low": 661.63, "close": 663.7, "volume": 0}, {"date": "2025-09-19", "open": 665.48, "high": 667.72, "low": 663.56, "close": 666.87, "volume": 0}, {"date": "2025-09-22", "open": 665.39, "high": 670.52, "low": 665.38, "close": 670.08, "volume": 0}, {"date": "2025-09-23", "open": 669.95, "high": 670.55, "low": 665.18, "close": 666.5, "volume": 0}, {"date": "2025-09-24", "open": 667.705, "high": 667.82, "low": 662.87, "close": 664.26, "volume": 0}, {"date": "2025-09-25", "open": 661.14, "high": 662.58, "low": 657.57, "close": 661.22, "volume": 0}, {"date": "2025-09-26", "open": 662.71, "high": 665.55, "low": 661.09, "close": 664.89, "volume": 0}, {"date": "2025-09-29", "open": 667.565, "high": 668.43, "low": 665.07, "close": 666.76, "volume": 0}, {"date": "2025-09-30", "open": 666.12, "high": 669.86, "low": 664.85, "close": 669.3, "volume": 0}, {"date": "2025-10-01", "open": 666.365, "high": 672.62, "low": 666.27, "close": 671.84, "volume": 0}, {"date": "2025-10-02", "open": 673.72, "high": 673.81, "low": 670.0218, "close": 672.5, "volume": 0}, {"date": "2025-10-03", "open": 673.24, "high": 675.93, "low": 671.45, "close": 672.42, "volume": 0}, {"date": "2025-10-06", "open": 674.85, "high": 675.77, "low": 672.71, "close": 674.89, "volume": 0}, {"date": "2025-10-07", "open": 675.82, "high": 676.25, "low": 670.92, "close": 672.42, "volume": 0}, {"date": "2025-10-08", "open": 673.545, "high": 676.49, "low": 672.7, "close": 676.42, "volume": 0}, {"date": "2025-10-09", "open": 676.8, "high": 677.19, "low": 672.5, "close": 674.52, "volume": 0}, {"date": "2025-10-10", "open": 675.425, "high": 677.2036, "low": 656.0301, "close": 656.2, "volume": 0}, {"date": "2025-10-13", "open": 663.84, "high": 667.85, "low": 662.99, "close": 666.23, "volume": 0}, {"date": "2025-10-14", "open": 660.41, "high": 669.06, "low": 656.36, "close": 665.48, "volume": 0}, {"date": "2025-10-15", "open": 670.08, "high": 673.47, "low": 662.17, "close": 668.28, "volume": 0}, {"date": "2025-10-16", "open": 670.08, "high": 671.9, "low": 660.4, "close": 663.98, "volume": 0}, {"date": "2025-10-17", "open": 662.71, "high": 668.94, "low": 661.395, "close": 667.69, "volume": 0}, {"date": "2025-10-20", "open": 670.58, "high": 675.4982, "low": 670.54, "close": 674.59, "volume": 0}, {"date": "2025-10-21", "open": 674.74, "high": 676.27, "low": 673.27, "close": 674.43, "volume": 0}, {"date": "2025-10-22", "open": 675.27, "high": 675.28, "low": 666.6, "close": 671.16, "volume": 0}, {"date": "2025-10-23", "open": 671.39, "high": 676.0, "low": 671.08, "close": 674.97, "volume": 0}, {"date": "2025-10-24", "open": 679.75, "high": 681.8, "low": 678.96, "close": 680.52, "volume": 0}, {"date": "2025-10-27", "open": 686.09, "high": 688.91, "low": 685.445, "close": 688.6, "volume": 0}, {"date": "2025-10-28", "open": 690.43, "high": 692.26, "low": 688.2, "close": 690.34, "volume": 0}, {"date": "2025-10-29", "open": 692.085, "high": 693.07, "low": 686.22, "close": 690.71, "volume": 0}, {"date": "2025-10-30", "open": 687.25, "high": 689.32, "low": 683.2, "close": 683.23, "volume": 0}, {"date": "2025-10-31", "open": 688.4, "high": 688.44, "low": 682.58, "close": 685.23, "volume": 0}, {"date": "2025-11-03", "open": 689.03, "high": 689.16, "low": 683.28, "close": 686.69, "volume": 0}, {"date": "2025-11-04", "open": 679.42, "high": 683.27, "low": 677.88, "close": 678.81, "volume": 0}, {"date": "2025-11-05", "open": 678.29, "high": 684.21, "low": 677.49, "close": 680.91, "volume": 0}, {"date": "2025-11-06", "open": 679.79, "high": 680.71, "low": 672.01, "close": 673.52, "volume": 0}, {"date": "2025-11-07", "open": 671.2, "high": 674.58, "low": 664.4604, "close": 674.34, "volume": 0}, {"date": "2025-11-10", "open": 680.595, "high": 685.55, "low": 678.38, "close": 684.82, "volume": 0}, {"date": "2025-11-11", "open": 683.3, "high": 686.92, "low": 682.09, "close": 686.16, "volume": 0}, {"date": "2025-11-12", "open": 688.16, "high": 688.33, "low": 684.3, "close": 686.64, "volume": 0}, {"date": "2025-11-13", "open": 683.86, "high": 684.19, "low": 673.835, "close": 675.45, "volume": 0}, {"date": "2025-11-14", "open": 668.7, "high": 678.98, "low": 666.53, "close": 675.31, "volume": 0}, {"date": "2025-11-17", "open": 672.99, "high": 677.01, "low": 665.44, "close": 668.99, "volume": 0}, {"date": "2025-11-18", "open": 665.34, "high": 668.39, "low": 659.09, "close": 663.45, "volume": 0}, {"date": "2025-11-19", "open": 664.01, "high": 670.63, "low": 662.0, "close": 665.95, "volume": 0}, {"date": "2025-11-20", "open": 676.26, "high": 678.9, "low": 655.1, "close": 655.77, "volume": 0}, {"date": "2025-11-21", "open": 658.2, "high": 667.795, "low": 654.04, "close": 662.28, "volume": 0}, {"date": "2025-11-24", "open": 665.94, "high": 673.36, "low": 664.87, "close": 672.06, "volume": 0}, {"date": "2025-11-25", "open": 671.95, "high": 679.55, "low": 667.7862, "close": 678.38, "volume": 0}, {"date": "2025-11-26", "open": 680.96, "high": 685.075, "low": 680.11, "close": 683.06, "volume": 0}, {"date": "2025-11-28", "open": 684.22, "high": 687.13, "low": 683.91, "close": 686.88, "volume": 0}, {"date": "2025-12-01", "open": 682.2, "high": 686.4, "low": 682.13, "close": 683.66, "volume": 0}, {"date": "2025-12-02", "open": 685.3, "high": 687.23, "low": 682.73, "close": 684.83, "volume": 0}, {"date": "2025-12-03", "open": 684.0, "high": 688.32, "low": 683.06, "close": 687.26, "volume": 0}, {"date": "2025-12-04", "open": 688.69, "high": 688.76, "low": 684.82, "close": 687.85, "volume": 0}, {"date": "2025-12-05", "open": 688.89, "high": 691.81, "low": 688.02, "close": 689.11, "volume": 0}, {"date": "2025-12-08", "open": 690.04, "high": 690.061, "low": 684.99, "close": 687.06, "volume": 0}, {"date": "2025-12-09", "open": 686.61, "high": 688.8099, "low": 686.02, "close": 686.51, "volume": 0}, {"date": "2025-12-10", "open": 685.97, "high": 692.3897, "low": 684.74, "close": 690.92, "volume": 0}, {"date": "2025-12-11", "open": 688.57, "high": 692.71, "low": 685.6, "close": 692.59, "volume": 0}, {"date": "2025-12-12", "open": 691.64, "high": 692.33, "low": 682.58, "close": 685.17, "volume": 0}, {"date": "2025-12-15", "open": 689.19, "high": 689.19, "low": 682.66, "close": 684.15, "volume": 0}, {"date": "2025-12-16", "open": 680.19, "high": 682.06, "low": 675.95, "close": 679.84, "volume": 0}, {"date": "2025-12-17", "open": 680.9, "high": 681.35, "low": 672.16, "close": 672.41, "volume": 0}, {"date": "2025-12-18", "open": 678.57, "high": 681.75, "low": 675.88, "close": 677.5, "volume": 0}, {"date": "2025-12-19", "open": 679.58, "high": 684.13, "low": 679.43, "close": 683.49, "volume": 0}, {"date": "2025-12-22", "open": 686.93, "high": 688.38, "low": 685.6901, "close": 687.83, "volume": 0}, {"date": "2025-12-23", "open": 686.92, "high": 691.21, "low": 686.86, "close": 690.97, "volume": 0}, {"date": "2025-12-24", "open": 690.97, "high": 693.8621, "low": 690.82, "close": 693.39, "volume": 0}, {"date": "2025-12-26", "open": 693.68, "high": 694.7, "low": 692.36, "close": 693.27, "volume": 0}, {"date": "2025-12-29", "open": 690.56, "high": 692.19, "low": 689.1, "close": 690.91, "volume": 0}, {"date": "2025-12-30", "open": 690.46, "high": 691.56, "low": 689.59, "close": 689.92, "volume": 0}, {"date": "2025-12-31", "open": 690.17, "high": 690.39, "low": 684.76, "close": 684.94, "volume": 0}, {"date": "2026-01-02", "open": 688.74, "high": 689.9, "low": 682.88, "close": 686.19, "volume": 0}, {"date": "2026-01-05", "open": 689.59, "high": 692.47, "low": 689.42, "close": 690.79, "volume": 0}, {"date": "2026-01-06", "open": 690.98, "high": 695.35, "low": 690.83, "close": 694.89, "volume": 0}, {"date": "2026-01-07", "open": 695.25, "high": 697.02, "low": 692.36, "close": 692.63, "volume": 0}, {"date": "2026-01-08", "open": 691.835, "high": 693.63, "low": 690.5, "close": 692.55, "volume": 0}, {"date": "2026-01-09", "open": 693.67, "high": 698.37, "low": 692.26, "close": 697.08, "volume": 0}, {"date": "2026-01-12", "open": 693.72, "high": 699.17, "low": 693.71, "close": 698.23, "volume": 0}, {"date": "2026-01-13", "open": 698.585, "high": 699.16, "low": 694.44, "close": 696.87, "volume": 0}, {"date": "2026-01-14", "open": 694.07, "high": 694.75, "low": 689.18, "close": 693.49, "volume": 0}, {"date": "2026-01-15", "open": 697.67, "high": 698.53, "low": 694.27, "close": 695.32, "volume": 0}, {"date": "2026-01-16", "open": 696.75, "high": 697.34, "low": 693.17, "close": 694.66, "volume": 0}, {"date": "2026-01-20", "open": 684.51, "high": 687.789, "low": 679.58, "close": 680.6, "volume": 0}, {"date": "2026-01-21", "open": 682.66, "high": 691.79, "low": 681.17, "close": 688.32, "volume": 0}, {"date": "2026-01-22", "open": 692.91, "high": 694.19, "low": 689.98, "close": 691.96, "volume": 0}, {"date": "2026-01-23", "open": 691.19, "high": 694.04, "low": 690.22, "close": 692.24, "volume": 0}, {"date": "2026-01-26", "open": 693.56, "high": 697.22, "low": 693.0, "close": 695.89, "volume": 0}, {"date": "2026-01-27", "open": 697.28, "high": 699.63, "low": 696.66, "close": 698.65, "volume": 0}, {"date": "2026-01-28", "open": 700.11, "high": 700.97, "low": 697.02, "close": 698.7, "volume": 0}, {"date": "2026-01-29", "open": 699.47, "high": 700.15, "low": 687.89, "close": 697.09, "volume": 0}, {"date": "2026-01-30", "open": 694.86, "high": 697.33, "low": 690.2, "close": 695.03, "volume": 0}, {"date": "2026-02-02", "open": 692.65, "high": 700.06, "low": 692.53, "close": 698.54, "volume": 0}, {"date": "2026-02-03", "open": 699.3, "high": 700.08, "low": 687.1, "close": 692.57, "volume": 0}, {"date": "2026-02-04", "open": 693.47, "high": 694.52, "low": 684.79, "close": 689.29, "volume": 0}, {"date": "2026-02-05", "open": 683.93, "high": 686.71, "low": 678.81, "close": 680.52, "volume": 0}, {"date": "2026-02-06", "open": 684.49, "high": 695.4, "low": 683.91, "close": 693.78, "volume": 0}, {"date": "2026-02-09", "open": 692.49, "high": 698.98, "low": 691.4, "close": 697.09, "volume": 0}, {"date": "2026-02-10", "open": 698.05, "high": 699.66, "low": 694.76, "close": 695.15, "volume": 0}, {"date": "2026-02-11", "open": 699.51, "high": 700.27, "low": 692.28, "close": 695.05, "volume": 0}, {"date": "2026-02-12", "open": 697.36, "high": 698.46, "low": 683.44, "close": 684.33, "volume": 0}, {"date": "2026-02-13", "open": 684.73, "high": 689.35, "low": 680.54, "close": 684.76, "volume": 0}, {"date": "2026-02-17", "open": 683.17, "high": 688.0, "low": 678.8, "close": 685.84, "volume": 0}, {"date": "2026-02-18", "open": 687.09, "high": 692.22, "low": 685.91, "close": 689.35, "volume": 0}, {"date": "2026-02-19", "open": 686.93, "high": 689.26, "low": 684.62, "close": 687.68, "volume": 0}, {"date": "2026-02-20", "open": 685.32, "high": 693.08, "low": 684.9, "close": 692.5, "volume": 0}, {"date": "2026-02-23", "open": 690.94, "high": 693.1, "low": 683.43, "close": 685.49, "volume": 0}, {"date": "2026-02-24", "open": 684.96, "high": 691.4382, "low": 683.05, "close": 690.51, "volume": 0}, {"date": "2026-02-25", "open": 693.26, "high": 696.83, "low": 693.24, "close": 696.25, "volume": 0}, {"date": "2026-02-26", "open": 696.43, "high": 696.43, "low": 687.46, "close": 692.41, "volume": 0}, {"date": "2026-02-27", "open": 686.13, "high": 689.93, "low": 684.72, "close": 689.38, "volume": 0}, {"date": "2026-03-02", "open": 681.76, "high": 691.74, "low": 681.06, "close": 689.45, "volume": 0}, {"date": "2026-03-03", "open": 678.08, "high": 685.67, "low": 672.65, "close": 683.37, "volume": 0}, {"date": "2026-03-04", "open": 684.71, "high": 690.19, "low": 682.67, "close": 688.28, "volume": 0}, {"date": "2026-03-05", "open": 685.1, "high": 688.62, "low": 678.64, "close": 684.46, "volume": 0}, {"date": "2026-03-06", "open": 676.43, "high": 679.14, "low": 672.75, "close": 675.4, "volume": 0}, {"date": "2026-03-09", "open": 669.36, "high": 682.99, "low": 665.35, "close": 681.35, "volume": 0}, {"date": "2026-03-10", "open": 680.85, "high": 686.44, "low": 677.825, "close": 680.12, "volume": 0}, {"date": "2026-03-11", "open": 680.62, "high": 683.14, "low": 676.38, "close": 679.39, "volume": 0}, {"date": "2026-03-12", "open": 674.16, "high": 674.64, "low": 668.84, "close": 668.95, "volume": 0}, {"date": "2026-03-13", "open": 672.24, "high": 675.2477, "low": 664.31, "close": 665.2, "volume": 0}, {"date": "2026-03-16", "open": 671.34, "high": 675.05, "low": 670.14, "close": 671.91, "volume": 0}, {"date": "2026-03-17", "open": 673.61, "high": 675.67, "low": 671.33, "close": 671.99, "volume": 0}, {"date": "2026-03-18", "open": 669.58, "high": 670.9, "low": 662.45, "close": 662.85, "volume": 0}, {"date": "2026-03-19", "open": 658.07, "high": 664.1, "low": 656.37, "close": 660.93, "volume": 0}, {"date": "2026-03-20", "open": 659.49, "high": 659.65, "low": 647.7, "close": 651.3, "volume": 0}, {"date": "2026-03-23", "open": 660.97, "high": 665.605, "low": 656.94, "close": 658.34, "volume": 0}, {"date": "2026-03-24", "open": 654.25, "high": 660.0, "low": 652.84, "close": 656.23, "volume": 0}, {"date": "2026-03-25", "open": 661.63, "high": 663.87, "low": 657.2, "close": 659.74, "volume": 0}, {"date": "2026-03-26", "open": 654.98, "high": 657.8, "low": 647.69, "close": 648.01, "volume": 0}, {"date": "2026-03-27", "open": 645.47, "high": 645.57, "low": 636.0, "close": 636.99, "volume": 0}, {"date": "2026-03-30", "open": 642.98, "high": 643.28, "low": 632.14, "close": 634.93, "volume": 0}, {"date": "2026-03-31", "open": 641.855, "high": 654.5, "low": 640.89, "close": 653.21, "volume": 0}, {"date": "2026-04-01", "open": 656.83, "high": 661.52, "low": 655.985, "close": 658.06, "volume": 0}, {"date": "2026-04-02", "open": 649.35, "high": 660.95, "low": 648.08, "close": 658.96, "volume": 0}, {"date": "2026-04-06", "open": 658.85, "high": 662.675, "low": 658.57, "close": 661.86, "volume": 0}, {"date": "2026-04-07", "open": 659.61, "high": 662.55, "low": 654.06, "close": 662.38, "volume": 0}, {"date": "2026-04-08", "open": 679.47, "high": 680.19, "low": 674.55, "close": 678.99, "volume": 0}, {"date": "2026-04-09", "open": 677.93, "high": 684.26, "low": 676.9, "close": 683.01, "volume": 0}, {"date": "2026-04-10", "open": 684.42, "high": 685.17, "low": 681.56, "close": 682.62, "volume": 0}, {"date": "2026-04-13", "open": 680.52, "high": 689.83, "low": 679.73, "close": 689.54, "volume": 0}, {"date": "2026-04-14", "open": 690.86, "high": 697.77, "low": 690.85, "close": 697.69, "volume": 0}, {"date": "2026-04-15", "open": 698.47, "high": 703.61, "low": 697.49, "close": 703.19, "volume": 0}, {"date": "2026-04-16", "open": 704.32, "high": 706.0, "low": 701.77, "close": 704.74, "volume": 0}, {"date": "2026-04-17", "open": 709.39, "high": 715.6599, "low": 709.0401, "close": 713.36, "volume": 0}, {"date": "2026-04-20", "open": 712.06, "high": 713.17, "low": 709.39, "close": 712.09, "volume": 0}, {"date": "2026-04-21", "open": 713.52, "high": 714.545, "low": 705.9, "close": 707.23, "volume": 0}, {"date": "2026-04-22", "open": 712.37, "high": 714.89, "low": 711.5, "close": 714.56, "volume": 0}, {"date": "2026-04-23", "open": 712.74, "high": 715.64, "low": 705.5701, "close": 711.74, "volume": 0}, {"date": "2026-04-24", "open": 714.06, "high": 717.77, "low": 712.3204, "close": 717.28, "volume": 0}, {"date": "2026-04-27", "open": 716.5, "high": 718.95, "low": 715.6107, "close": 718.5, "volume": 0}, {"date": "2026-04-28", "open": 715.08, "high": 716.17, "low": 712.5575, "close": 714.96, "volume": 0}, {"date": "2026-04-29", "open": 714.25, "high": 715.48, "low": 711.66, "close": 714.89, "volume": 0}, {"date": "2026-04-30", "open": 717.95, "high": 723.15, "low": 713.76, "close": 722.07, "volume": 0}, {"date": "2026-05-01", "open": 724.55, "high": 728.25, "low": 723.8, "close": 724.01, "volume": 0}, {"date": "2026-05-04", "open": 723.41, "high": 725.45, "low": 718.34, "close": 721.39, "volume": 0}, {"date": "2026-05-05", "open": 725.13, "high": 728.385, "low": 724.87, "close": 726.98, "volume": 0}, {"date": "2026-05-06", "open": 731.58, "high": 738.04, "low": 731.19, "close": 737.41, "volume": 0}, {"date": "2026-05-07", "open": 738.54, "high": 739.535, "low": 733.15, "close": 734.96, "volume": 0}, {"date": "2026-05-08", "open": 738.39, "high": 741.5, "low": 738.02, "close": 740.97, "volume": 0}, {"date": "2026-05-11", "open": 739.92, "high": 744.22, "low": 739.91, "close": 742.75, "volume": 0}, {"date": "2026-05-12", "open": 740.3, "high": 742.29, "low": 735.22, "close": 741.61, "volume": 0}, {"date": "2026-05-13", "open": 741.89, "high": 747.38, "low": 738.925, "close": 745.74, "volume": 0}, {"date": "2026-05-14", "open": 747.15, "high": 753.02, "low": 747.07, "close": 751.56, "volume": 0}, {"date": "2026-05-15", "open": 745.27, "high": 746.95, "low": 741.4, "close": 742.45, "volume": 0}, {"date": "2026-05-18", "open": 743.32, "high": 744.88, "low": 736.8, "close": 741.91, "volume": 0}, {"date": "2026-05-19", "open": 738.23, "high": 741.06, "low": 734.97, "close": 737.19, "volume": 0}, {"date": "2026-05-20", "open": 739.07, "high": 745.28, "low": 737.32, "close": 744.79, "volume": 0}, {"date": "2026-05-21", "open": 742.08, "high": 748.3, "low": 740.62, "close": 746.18, "volume": 0}, {"date": "2026-05-22", "open": 749.59, "high": 752.5, "low": 747.9524, "close": 749.14, "volume": 0}, {"date": "2026-05-26", "open": 753.59, "high": 755.68, "low": 751.88, "close": 754.03, "volume": 0}, {"date": "2026-05-27", "open": 754.41, "high": 754.88, "low": 751.78, "close": 754.17, "volume": 0}, {"date": "2026-05-28", "open": 753.77, "high": 758.72, "low": 752.77, "close": 758.17, "volume": 0}, {"date": "2026-05-29", "open": 759.47, "high": 761.65, "low": 758.29, "close": 760.05, "volume": 0}, {"date": "2026-06-01", "open": 758.99, "high": 763.93, "low": 758.3468, "close": 762.02, "volume": 0}, {"date": "2026-06-02", "open": 760.59, "high": 764.0, "low": 760.3601, "close": 763.06, "volume": 0}, {"date": "2026-06-03", "open": 761.74, "high": 762.36, "low": 757.13, "close": 757.25, "volume": 0}, {"date": "2026-06-04", "open": 755.67, "high": 761.905, "low": 755.0, "close": 760.83, "volume": 0}, {"date": "2026-06-05", "open": 755.9, "high": 756.38, "low": 738.98, "close": 740.91, "volume": 0}, {"date": "2026-06-08", "open": 746.87, "high": 748.85, "low": 741.69, "close": 742.66, "volume": 0}, {"date": "2026-06-09", "open": 747.14, "high": 750.42, "low": 725.95, "close": 740.75, "volume": 0}, {"date": "2026-06-10", "open": 736.89, "high": 741.83, "low": 728.74, "close": 728.92, "volume": 0}, {"date": "2026-06-11", "open": 732.2, "high": 743.47, "low": 727.81, "close": 741.05, "volume": 0}, {"date": "2026-06-12", "open": 744.23, "high": 747.95, "low": 738.5, "close": 745.14, "volume": 0}, {"date": "2026-06-15", "open": 753.35, "high": 758.27, "low": 753.332, "close": 756.35, "volume": 0}, {"date": "2026-06-16", "open": 756.16, "high": 757.002, "low": 751.46, "close": 752.01, "volume": 0}];
+    let currentPeriod = '5y';
+
+    function calcMA(data, period) {
+        const r = [];
+        for (let i = 0; i < data.length; i++) {
+            if (i < period - 1) { r.push(null); continue; }
+            let s = 0;
+            for (let j = 0; j < period; j++) s += data[i - j].close;
+            r.push(Math.round(s / period * 100) / 100);
+        }
+        return r;
+    }
+
+    function filterByPeriod(data, period) {
+        if (period === 'all') return data;
+        const now = new Date(data[data.length - 1].date);
+        const cutoff = new Date(now);
+        if (period === '1y') cutoff.setFullYear(now.getFullYear() - 1);
+        return data.filter(d => new Date(d.date) >= cutoff);
+    }
+
+    let chart;
+    function initChart() {
+        chart = echarts.init(document.getElementById('main-chart'));
+        drawChart();
+        window.addEventListener('resize', () => chart.resize());
+    }
+
+    function drawChart() {
+        const data = filterByPeriod(CHART_DATA, currentPeriod);
+        if (!data || data.length === 0) return;
+        const dates = data.map(d => d.date);
+        const prices = data.map(d => d.close);
+        const ma20 = calcMA(data, 20);
+        const ma50 = calcMA(data, 50);
+
+        chart.setOption({
+            backgroundColor: 'transparent',
+            tooltip: { trigger: 'axis', axisPointer: { type: 'cross' }, formatter: function(params) {
+                let res = params[0].name + '<br/>';
+                params.forEach(p => {
+                    if (p.value != null) res += '<span style="color:' + p.color + '">' + p.marker + p.seriesName + ': $' + p.value.toFixed(2) + '</span><br/>';
+                });
+                return res;
+            }},
+            legend: { top: 6, textStyle: { color: '#8b949e', fontSize: 11 } },
+            grid: { left: '1%', right: '2%', top: '18%', bottom: '12%', containLabel: true },
+            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => v ? v.substring(0,7) : '' }, splitLine: { show: false } },
+            yAxis: { type: 'value', scale: true, position: 'right', splitLine: { lineStyle: { color: '#21262d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } },
+            dataZoom: [
+                { type: 'inside', xAxisIndex: [0], start: 0, end: 100 },
+                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 18, bottom: 8, borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.15)', handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
+            ],
+            series: [
+                { name: '收盘价', type: 'line', data: prices, smooth: false, symbol: 'none', lineStyle: { width: 1.5, color: '#58a6ff' }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.18)' }, { offset: 1, color: 'rgba(88,166,255,0)' }] } } },
+                { name: 'MA20', type: 'line', data: ma20, smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#f0883e', type: 'dashed' }, connectNulls: true },
+                { name: 'MA50', type: 'line', data: ma50, smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#a371f7', type: 'dashed' }, connectNulls: true }
+            ]
+        }, true);
+    }
+
+    document.querySelectorAll('.period-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentPeriod = btn.dataset.period;
+            drawChart();
+        });
+    });
+
+    // Set initial active button
+    document.querySelector('.period-btn[data-period="5y"]').classList.add('active');
+
+    initChart();
+
+    // ── i18n ──
+    const I18N = {
+        zh: {
+            nav_home: '首页', nav_list: '全部列表',
+            chart_title: '📊 价格走势（K线 + 均线）',
+            section_metrics: '📊 关键财务指标', section_perf: '📈 历史收益表现',
+            section_sector: '🏭 行业分布', section_bond: '🏦 持仓分布',
+            ai_header: '🤖 AI 智能分析', ai_pros: '✓ 优势', ai_cons: '✗ 风险',
+            ai_suggestion: '💡 投资建议',
+            research_title: '📝 投资研报', research_outlook: '📡 短期展望',
+            period_1y: '1年', period_5y: '5年', period_all: '全部',
+            footer: '数据来源：Yahoo Finance · 仅供参考，不构成投资建议',
+            footer_brand: '股道奇货',
+            side_info: '📋 基本信息', side_compare: '⚖️ 同类对比',
+            side_similar: '🔗 相关标的',
+        },
+        en: {
+            nav_home: 'Home', nav_list: 'All',
+            chart_title: '📊 Price Chart (Candlestick + Moving Averages)',
+            section_metrics: '📊 Key Financial Metrics', section_perf: '📈 Historical Performance',
+            section_sector: '🏭 Sector Distribution', section_bond: '🏦 Holdings Breakdown',
+            ai_header: '🤖 AI Analysis', ai_pros: '✓ Strengths', ai_cons: '✗ Risks',
+            ai_suggestion: '💡 Investment Suggestion',
+            research_title: '📝 Investment Research', research_outlook: '📡 Short-term Outlook',
+            period_1y: '1Y', period_5y: '5Y', period_all: 'All',
+            footer: 'Data: Yahoo Finance · For reference only · Not investment advice',
+            footer_brand: 'Gudao Qihuo',
+            side_info: '📋 Overview', side_compare: '⚖️ Peer Comparison',
+            side_similar: '🔗 Related',
+        }
+    };
+    let CURRENT_LANG = localStorage.getItem('gq_lang') || 'zh';
+
+    function setLang(lang) {
+        CURRENT_LANG = lang;
+        localStorage.setItem('gq_lang', lang);
+        document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+        applyI18n(lang);
+    }
+
+    function applyI18n(lang) {
+        const t = I18N[lang];
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key] !== undefined) el.textContent = t[key];
+        });
+        // Period buttons
+        document.querySelectorAll('.period-btn[data-period="1y"]').forEach(el => { el.textContent = t.period_1y; });
+        document.querySelectorAll('.period-btn[data-period="5y"]').forEach(el => { el.textContent = t.period_5y; });
+        document.querySelectorAll('.period-btn[data-period="all"]').forEach(el => { el.textContent = t.period_all; });
+        // Footer
+        document.querySelectorAll('[data-i18n-footer]').forEach(el => { el.textContent = t.footer; });
+        document.querySelectorAll('[data-i18n-footer-brand]').forEach(el => { el.textContent = t.footer_brand; });
+        // Sidebar titles
+        const sidebarMap = {
+            zh: { '基本信息': '📋 基本信息', '同类对比': '⚖️ 同类对比', '相关标的': '🔗 相关标的' },
+            en: { '基本信息': '📋 Overview', '同类对比': '⚖️ Peer Comparison', '相关标的': '🔗 Related' }
+        };
+        document.querySelectorAll('.side-title').forEach(el => {
+            const map = sidebarMap[lang];
+            Object.entries(map).forEach(([cn, localized]) => {
+                if (el.textContent.includes(cn)) el.textContent = el.textContent.replace(cn, localized);
+            });
+        });
+    }
+
+    setLang(CURRENT_LANG);
+    </script>
+</body>
+</html>
