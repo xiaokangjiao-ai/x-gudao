@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IWM - iShares Russell 2000 ETF | 股道奇货</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="description" content="IWM iShares Russell 2000 ETF 小盘股 历史数据、财务指标、AI分析 - 股道奇货">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/" class="navbar-brand">📈 股道奇货 <span>X-Gudao</span></a>
+  <div class="navbar-links">
+    <a href="/">首页</a>
+    <a href="/stocks/VOO.html" class="active">ETF</a>
+    <a href="/compare/voo_qqq_spy.html">对比</a>
+    <a href="/about.html">关于</a>
+  </div>
+  <div class="navbar-search">
+    <input type="text" placeholder="搜索股票 / ETF..." id="searchInput">
+  </div>
+</nav>
+
+<div class="container">
+  <div class="breadcrumb">
+    <a href="/">首页</a> <span class="sep">›</span>
+    <a href="/">ETF</a> <span class="sep">›</span>
+    IWM
+  </div>
+
+  <div class="stock-header">
+    <div class="stock-title-row">
+      <span class="stock-symbol">IWM</span>
+      <span class="stock-name">iShares Russell 2000 ETF</span>
+    </div>
+    <div class="stock-price-row">
+      <span class="stock-price">$218.30</span>
+      <span class="stock-change down">-1.15 (-0.52%)</span>
+      <span style="color:var(--text-muted);font-size:12px;margin-left:8px">截至 2026-06-15 收盘</span>
+    </div>
+    <div class="stock-meta">
+      <span class="stock-meta-item">开盘 <strong>$219.50</strong></span>
+      <span class="stock-meta-item">最高 <strong>$220.10</strong></span>
+      <span class="stock-meta-item">最低 <strong>$217.20</strong></span>
+      <span class="stock-meta-item">成交量 <strong>22.5M</strong></span>
+      <span class="stock-meta-item">52周高 <strong">$232.50</strong></span>
+      <span class="stock-meta-item">52周低 <strong>$178.40</strong></span>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="content-area">
+      <div class="tabs">
+        <div class="tab active">📈 价格走势</div>
+        <div class="tab">📊 财务指标</div>
+        <div class="tab">🏭 行业分布</div>
+        <div class="tab">🤖 AI分析</div>
+        <div class="tab">⚠️ 风险</div>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-header">
+          <span class="chart-title">IWM 历史价格走势</span>
+          <div class="chart-controls">
+            <button class="chart-btn" onclick="setRange('1m')">1月</button>
+            <button class="chart-btn" onclick="setRange('3m')">3月</button>
+            <button class="chart-btn" onclick="setRange('1y')">1年</button>
+            <button class="chart-btn active" onclick="setRange('5y')">5年</button>
+            <button class="chart-btn" onclick="setRange('max')">全部</button>
+          </div>
+        </div>
+        <div class="chart-area">
+          <svg class="chart-svg" id="priceChart" viewBox="0 0 800 320">
+            <line x1="60" y1="20" x2="60" y2="300" stroke="#2a3a5c" stroke-width="0.5"/>
+            <line x1="60" y1="300" x2="780" y2="300" stroke="#2a3a5c" stroke-width="0.5"/>
+            <line x1="60" y1="230" x2="780" y2="230" stroke="#1e2d4a" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="60" y1="160" x2="780" y2="160" stroke="#1e2d4a" stroke-width="0.5" stroke-dasharray="4"/>
+            <line x1="60" y1="90" x2="780" y2="90" stroke="#1e2d4a" stroke-width="0.5" stroke-dasharray="4"/>
+            <text x="55" y="303" fill="#6b7280" font-size="10" text-anchor="end">$160</text>
+            <text x="55" y="233" fill="#6b7280" font-size="10" text-anchor="end">$185</text>
+            <text x="55" y="163" fill="#6b7280" font-size="10" text-anchor="end">$210</text>
+            <text x="55" y="93" fill="#6b7280" font-size="10" text-anchor="end">$235</text>
+            <text x="55" y="23" fill="#6b7280" font-size="10" text-anchor="end">$260</text>
+            <text x="100" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2021</text>
+            <text x="250" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2022</text>
+            <text x="400" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2023</text>
+            <text x="550" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2024</text>
+            <text x="700" y="315" fill="#6b7280" font-size="10" text-anchor="middle">2025</text>
+            <defs>
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4fc3f7" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#4fc3f7" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <!-- IWM 5yr: ~$220 (2021) → ~$165 (2022 low) → ~$185 (2023) → ~$215 (2024) → ~$218 (2025) -->
+            <path d="M60,180 C100,170 140,155 180,140 C220,120 250,60 290,55 C310,52 330,65 350,90 C370,115 390,155 410,175 C430,185 450,195 470,185 C490,170 510,150 530,140 C550,130 570,125 590,118 C610,112 630,108 650,105 C670,102 690,100 710,98 L780,92 L780,300 L60,300 Z" fill="url(#areaGrad)"/>
+            <path d="M60,180 C100,170 140,155 180,140 C220,120 250,60 290,55 C310,52 330,65 350,90 C370,115 390,155 410,175 C430,185 450,195 470,185 C490,170 510,150 530,140 C550,130 570,125 590,118 C610,112 630,108 650,105 C670,102 690,100 710,98 L780,92" fill="none" stroke="#4fc3f7" stroke-width="2"/>
+            <circle cx="780" cy="92" r="4" fill="#4fc3f7"/>
+            <text x="775" y="84" fill="#4fc3f7" font-size="11" font-weight="bold" text-anchor="end">$218.30</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📊 关键财务指标</div>
+        <div class="card-body" style="padding:0">
+          <table class="data-table">
+            <thead>
+              <tr><th>指标</th><th class="num">当前值</th><th class="num">5年均值</th><th class="num">趋势</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="label-cell">市盈率 (P/E)</td><td class="num">18.5</td><td class="num">17.2</td><td class="num positive">↑</td></tr>
+              <tr><td class="label-cell">市净率 (P/B)</td><td class="num">2.35</td><td class="num">2.10</td><td class="num positive">↑</td></tr>
+              <tr><td class="label-cell">股息率</td><td class="num">1.12%</td><td class="num">1.28%</td><td class="num negative">↓</td></tr>
+              <tr><td class="label-cell">费率 (Expense Ratio)</td><td class="num">0.19%</td><td class="num">0.19%</td><td class="num">—</td></tr>
+              <tr><td class="label-cell">净资产规模</td><td class="num">$680亿</td><td class="num">—</td><td class="num">—</td></tr>
+              <tr><td class="label-cell">日均成交量</td><td class="num">22.5M</td><td class="num">19.8M</td><td class="num positive">↑</td></tr>
+              <tr><td class="label-cell">Beta</td><td class="num">1.18</td><td class="num">1.15</td><td class="num">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">📈 历史收益表现</div>
+        <div class="card-body" style="padding:0">
+          <table class="data-table">
+            <thead>
+              <tr><th>周期</th><th class="num">收益率</th><th class="num">年化</th><th class="num">最大回撤</th><th class="num">夏普比率</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="label-cell">近1月</td><td class="num negative">-1.85%</td><td class="num">—</td><td class="num negative">-3.2%</td><td class="num">—</td></tr>
+              <tr><td class="label-cell">近3月</td><td class="num positive">+3.20%</td><td class="num">—</td><td class="num negative">-5.8%</td><td class="num">—</td></tr>
+              <tr><td class="label-cell">近1年</td><td class="num positive">+10.5%</td><td class="num positive">+10.5%</td><td class="num negative">-14.2%</td><td class="num">0.52</td></tr>
+              <tr><td class="label-cell">近3年</td><td class="num positive">+18.3%</td><td class="num positive">+5.8%</td><td class="num negative">-30.8%</td><td class="num">0.38</td></tr>
+              <tr><td class="label-cell">近5年</td><td class="num positive">+52.1%</td><td class="num positive">+8.7%</td><td class="num negative">-30.8%</td><td class="num">0.52</td></tr>
+              <tr><td class="label-cell">近10年</td><td class="num positive">+108.5%</td><td class="num positive">+7.6%</td><td class="num negative">-41.5%</td><td class="num">0.48</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">🏭 行业分布</div>
+        <div class="card-body">
+          <div class="sector-bar">
+            <div style="width:18%;background:#ffa726">金融 18%</div>
+            <div style="width:16%;background:#4fc3f7">信息技术 16%</div>
+            <div style="width:14%;background:#ab47bc">消费 14%</div>
+            <div style="width:12%;background:#26a69a">工业 12%</div>
+            <div style="width:10%;background:#66bb6a">医疗 10%</div>
+            <div style="width:8%;background:#78909c">必需 8%</div>
+            <div style="width:7%;background:#ef5350">能源 7%</div>
+            <div style="width:5%;background:#5c6bc0">地产 5%</div>
+            <div style="width:5%;background:#8d6e63">材料 5%</div>
+            <div style="width:5%;background:#7e57c2">其他 5%</div>
+          </div>
+          <table class="data-table" style="margin-top:12px">
+            <thead>
+              <tr><th>行业</th><th class="num">权重</th><th class="num">近1年涨跌</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="label-cell">🏦 金融</td><td class="num">18%</td><td class="num positive">+14.2%</td></tr>
+              <tr><td class="label-cell">🖥️ 信息技术</td><td class="num">16%</td><td class="num positive">+22.5%</td></tr>
+              <tr><td class="label-cell">🛒 可选消费</td><td class="num">14%</td><td class="num positive">+8.3%</td></tr>
+              <tr><td class="label-cell">🏭 工业</td><td class="num">12%</td><td class="num positive">+10.8%</td></tr>
+              <tr><td class="label-cell">🏥 医疗保健</td><td class="num">10%</td><td class="num positive">+5.6%</td></tr>
+              <tr><td class="label-cell">🛍️ 必需消费</td><td class="num">8%</td><td class="num positive">+3.2%</td></tr>
+              <tr><td class="label-cell">⛽ 能源</td><td class="num">7%</td><td class="num negative">-2.5%</td></tr>
+              <tr><td class="label-cell">🏠 房地产</td><td class="num">5%</td><td class="num negative">-5.1%</td></tr>
+              <tr><td class="label-cell">🧪 材料</td><td class="num">5%</td><td class="num positive">+4.8%</td></tr>
+              <tr><td class="label-cell">⚡ 公用</td><td class="num">5%</td><td class="num positive">+2.1%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="ai-insight">
+        <div class="ai-insight-header">🤖 AI 智能分析 — Qwen2 本地推理</div>
+        <div class="ai-insight-body">
+          <strong>核心观点</strong>：IWM追踪罗素2000指数，是美国小盘股的代表性ETF。近5年年化收益仅8.7%，显著落后于大盘ETF，但在经济复苏周期中常有超额表现。当前P/E 18.5相对合理，但小盘股盈利质量参差不齐。<br><br>
+          <strong>优势</strong>：①小盘股在经济加速期弹性大，周期向上时收益爆发力强；②金融股权重18%，利率上行周期受益；③流动性充足，日均22M+；④与大盘ETF相关性较低，分散组合风险。<br><br>
+          <strong>风险</strong>：①长期收益显著落后大盘，近10年年化仅7.6%；②波动率高于大盘，2022年最大回撤-30.8%；③小盘股盈利不稳定，退市风险更高；④费率0.19%偏高。<br><br>
+          <strong>建议</strong>：作为卫星仓位配置，建议占组合5-15%。在加息周期尾声或经济复苏初期加配，但不宜作为核心仓位。可考虑低费率替代品VTWO（0.10%）。
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sidebar">
+      <div class="widget">
+        <div class="widget-header">📋 基本信息</div>
+        <div class="widget-body">
+          <div class="widget-item"><span class="label">全称</span><span class="value">iShares Russell 2000 ETF</span></div>
+          <div class="widget-item"><span class="label">跟踪指数</span><span class="value">罗素2000</span></div>
+          <div class="widget-item"><span class="label">成立日期</span><span class="value">2000-05-22</span></div>
+          <div class="widget-item"><span class="label">费率</span><span class="value">0.19%</span></div>
+          <div class="widget-item"><span class="label">资产规模</span><span class="value">$680亿</span></div>
+          <div class="widget-item"><span class="label">成分股</span><span class="value">~2,000</span></div>
+          <div class="widget-item"><span class="label">派息频率</span><span class="value">季度</span></div>
+          <div class="widget-item"><span class="label">发行商</span><span class="value">BlackRock</span></div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-header">⚠️ 风险指标</div>
+        <div class="widget-body">
+          <div class="widget-item"><span class="label">年化波动率</span><span class="value down">23.5%</span></div>
+          <div class="widget-item"><span class="label">Beta</span><span class="value">1.18</span></div>
+          <div class="widget-item"><span class="label">夏普比率</span><span class="value">0.52</span></div>
+          <div class="widget-item"><span class="label">最大回撤</span><span class="value down">-30.8%</span></div>
+          <div class="widget-item"><span class="label">索提诺比率</span><span class="value">0.68</span></div>
+          <div class="widget-item"><span class="label">信息比率</span><span class="value">-0.42</span></div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-header">🔀 同类ETF</div>
+        <div class="widget-body">
+          <div class="widget-item"><span class="label">VTWO</span><span class="value">$98.72</span></div>
+          <div class="widget-item"><span class="label">SCHA</span><span class="value">$52.18</span></div>
+          <div class="widget-item"><span class="label"><a href="/stocks/VTI.html">VTI</a></span><span class="value">$298.65</span></div>
+          <div class="widget-item"><span class="label"><a href="/stocks/VOO.html">VOO</a></span><span class="value">$489.32</span></div>
+        </div>
+      </div>
+
+      <div class="widget">
+        <div class="widget-header">⚔️ 快速对比</div>
+        <div class="widget-body" style="padding:0">
+          <table class="compare-table">
+            <thead><tr><th></th><th>IWM</th><th>VTWO</th><th>SCHA</th></tr></thead>
+            <tbody>
+              <tr><td>费率</td><td>0.19%</td><td class="compare-best">0.10%</td><td>0.03%</td></tr>
+              <tr><td>近5年</td><td>+52%</td><td>+48%</td><td>+55%</td></tr>
+              <tr><td>波动率</td><td>23.5%</td><td>23.8%</td><td class="compare-best">22.9%</td></tr>
+              <tr><td>夏普</td><td>0.52</td><td>0.49</td><td class="compare-best">0.55</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>© 2026 股道奇货 X-Gudao | <a href="/">首页</a> | <a href="/compare/qqq_vti_iwm.html">ETF对比</a> | <a href="https://github.com/xiaokangjiao-ai/x-gudao">GitHub</a></p>
+  <p style="margin-top:4px">⚠️ 免责声明：本站内容仅供参考，不构成投资建议。数据来源：Yahoo Finance · AI：Ollama Qwen2-7B</p>
+</div>
+
+<script>
+function setRange(r) {
+  document.querySelectorAll('.chart-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+document.getElementById('searchInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    const q = e.target.value.trim().toUpperCase();
+    if (q) window.location.href = '/stocks/' + q + '.html';
+  }
+});
+</script>
+</body>
+</html>
