@@ -1,4 +1,4 @@
 {
-  "etfs": ["SPY", "IVV", "VOO", "QQQ", "VTI", "VEA", "IEFA", "BND", "VWO", "GLD"],
-  "stocks": ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA", "BRK.B", "JPM", "V"]
+  "etfs": ["SPY", "IVV", "VOO", "QQQ", "VTI", "VEA", "IEFA", "VWO", "IWM", "GLD", "BND", "TLT"],
+  "stocks": ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA", "BRK.B"]
 }

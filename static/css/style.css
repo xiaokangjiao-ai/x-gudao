@@ -548,3 +548,10 @@ body {
 .compare-input-row button:hover {
   opacity: 0.9;
 }
+
+/* ── 详情页 Hero 区价格变化（红涨绿跌） ── */
+.stock-right { text-align: right; }
+.current-price { font-size: 40px; font-weight: 700; color: var(--text-primary); letter-spacing: -1px; }
+.price-change { font-size: 16px; font-weight: 600; margin-top: 4px; }
+.price-change.up { color: var(--accent-red); }
+.price-change.down { color: var(--accent-green); }
