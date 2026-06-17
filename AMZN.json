@@ -1,7 +1,7 @@
 {
   "ticker": "AMZN",
   "name": "Amazon.com Inc.",
-  "category": "stock",
+  "category": "Stock",
   "data": [
     {
       "date": "2024-06-17",
@@ -3994,7 +3994,23 @@
       "low": 233.59,
       "close": 238.55,
       "volume": 51251141
+    },
+    {
+      "date": "2026-06-15",
+      "open": 245.02,
+      "high": 247.81,
+      "low": 244.73,
+      "close": 246.02,
+      "volume": 41711576
+    },
+    {
+      "date": "2026-06-16",
+      "open": 248,
+      "high": 249.51,
+      "low": 245.45,
+      "close": 246,
+      "volume": 35187406
     }
   ],
-  "generated_at": "2026-06-16T12:36:59+0800"
+  "generated_at": "2026-06-17T22:13:05.163875"
 }

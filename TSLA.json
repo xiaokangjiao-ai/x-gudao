@@ -1,7 +1,7 @@
 {
   "ticker": "TSLA",
   "name": "Tesla Inc.",
-  "category": "stock",
+  "category": "Stock",
   "data": [
     {
       "date": "2024-06-17",
@@ -3994,7 +3994,23 @@
       "low": 386.76,
       "close": 406.43,
       "volume": 63652286
+    },
+    {
+      "date": "2026-06-15",
+      "open": 412.37,
+      "high": 416,
+      "low": 407.1,
+      "close": 411.15,
+      "volume": 45620514
+    },
+    {
+      "date": "2026-06-16",
+      "open": 404.11,
+      "high": 412.42,
+      "low": 400.54,
+      "close": 404.66,
+      "volume": 40255473
     }
   ],
-  "generated_at": "2026-06-16T12:36:59+0800"
+  "generated_at": "2026-06-17T22:13:14.538560"
 }

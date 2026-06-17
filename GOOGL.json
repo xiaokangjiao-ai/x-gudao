@@ -1,7 +1,7 @@
 {
   "ticker": "GOOGL",
   "name": "Alphabet Inc.",
-  "category": "stock",
+  "category": "Stock",
   "data": [
     {
       "date": "2024-06-17",
@@ -3994,7 +3994,23 @@
       "low": 354.94,
       "close": 359.68,
       "volume": 24731019
+    },
+    {
+      "date": "2026-06-15",
+      "open": 367.93,
+      "high": 372.99,
+      "low": 366.55,
+      "close": 369.35,
+      "volume": 27727493
+    },
+    {
+      "date": "2026-06-16",
+      "open": 369.6,
+      "high": 376,
+      "low": 367.06,
+      "close": 373.25,
+      "volume": 24876095
     }
   ],
-  "generated_at": "2026-06-16T12:36:59+0800"
+  "generated_at": "2026-06-17T22:16:04.451045"
 }
