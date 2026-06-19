@@ -30,13 +30,8 @@
 
         /* ── 全局 Badge 样式 ── */
         .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
+            display: inline-block; padding: 4px 12px; border-radius: 12px;
+            font-size: 12px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap;
         }
         .status-badge.bullish { background: #1a6b1a; color: #fff; }
         .status-badge.neutral-bull { background: #b8860b; color: #000; }
@@ -45,8 +40,7 @@
 
         /* ── 第1段：Hero ── */
         .hero {
-            text-align: center;
-            padding: 60px 24px 40px;
+            text-align: center; padding: 60px 24px 40px;
             background: linear-gradient(180deg, rgba(212,168,67,0.08) 0%, transparent 100%);
         }
         .hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
@@ -72,7 +66,7 @@
         .section-title { font-size: 22px; font-weight: 600; margin: 40px 0 20px; display: flex; align-items: center; gap: 10px; }
         .top3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         .top3-card {
-            background: var(--bg-card); border: 1px solid var(--gold-border, rgba(212,168,67,0.35));
+            background: var(--bg-card); border: 1px solid rgba(212,168,67,0.35);
             border-radius: 14px; padding: 24px; transition: all 0.2s; cursor: pointer;
         }
         .top3-card:hover { border-color: var(--gold); transform: translateY(-3px); text-decoration: none; }
@@ -84,14 +78,21 @@
         .top3-scorebar { margin-top: 14px; }
         .top3-score-track { height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; }
         .top3-score-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #f0c040); border-radius: 3px; }
+        .top3-links { display: flex; gap: 8px; margin-top: 14px; }
+        .top3-link-btn {
+            flex: 1; text-align: center; padding: 7px 8px; border-radius: 6px; font-size: 11px; font-weight: 600;
+            background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        .top3-link-btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-        /* ── 第3段：16标的全景看板 ── */
+        /* ── 第3段：16标全景看板 ── */
         .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
         .overview-card {
             background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-            padding: 18px; transition: all 0.2s; cursor: pointer;
+            padding: 18px; transition: all 0.2s;
         }
-        .overview-card:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+        .overview-card:hover { border-color: var(--accent); transform: translateY(-2px); }
         .overview-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
         .overview-ticker { font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
         .overview-name { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
@@ -101,7 +102,24 @@
         .overview-change.up { color: var(--green); }
         .overview-change.down { color: var(--red); }
         .overview-stars { font-size: 14px; margin: 10px 0 8px; }
-        .overview-links { display: flex; gap: 6px; margin-top: 12px; }
+
+        /* ── 行情图占位（本地图片 + 外链跳转）── */
+        .chart-img-wrap {
+            display: block; margin-top: 12px; border-radius: 8px; overflow: hidden;
+            border: 1px solid var(--border); transition: all 0.3s;
+        }
+        .chart-img-wrap:hover { border-color: var(--accent); box-shadow: 0 0 16px rgba(88,166,255,0.15); }
+        .chart-img-wrap:hover .chart-img-overlay { opacity: 1; }
+        .local-chart-img { width: 100%; height: auto; min-height: 100px; display: block; background: var(--bg-secondary); }
+        .chart-img-overlay {
+            position: absolute; inset: 0; background: rgba(88,166,255,0.12);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s; border-radius: 7px;
+        }
+        .chart-img-overlay span { font-size: 13px; font-weight: 600; color: var(--accent); }
+
+        /* ── 外链按钮组 ── */
+        .overview-links { display: flex; gap: 6px; margin-top: 10px; }
         .overview-link-btn {
             flex: 1; text-align: center; padding: 6px; border-radius: 6px; font-size: 11px;
             background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-secondary);
@@ -111,31 +129,32 @@
 
         /* ── 第4段：九宫格热力图 ── */
         .heatmap-section { margin-top: 48px; }
-        .heatmap-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .heatmap-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
         .heatmap-legend { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
         .heatmap-legend-item { display: flex; align-items: center; gap: 4px; }
         .heatmap-legend-color { width: 14px; height: 14px; border-radius: 3px; }
         .heatmap-grid {
-            display: grid; grid-template-columns: 120px repeat(3, 1fr); grid-template-rows: 40px repeat(3, 140px);
+            display: grid; grid-template-columns: 100px repeat(3, 1fr); grid-template-rows: 40px repeat(3, 120px);
             gap: 2px; background: var(--border); border: 2px solid var(--border); border-radius: 10px; overflow: hidden;
         }
         .heatmap-label {
             background: var(--bg-secondary); display: flex; align-items: center; justify-content: center;
             font-size: 13px; font-weight: 600; color: var(--text-secondary); padding: 4px;
         }
-        .heatmap-label.row-label { writing-mode: horizontal; text-align: center; }
         .heatmap-cell {
-            background: var(--bg-card); padding: 10px; display: flex; flex-direction: column;
-            transition: all 0.2s; position: relative;
+            padding: 12px; display: flex; flex-direction: column; transition: all 0.2s; position: relative;
         }
         .heatmap-cell:hover { z-index: 10; box-shadow: 0 0 20px rgba(88,166,255,0.3); }
-        .heatmap-cell-title { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 600; }
-        .heatmap-cell-tickers { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; align-content: flex-start; }
+        .heatmap-cell-tickers { display: flex; flex-wrap: wrap; gap: 5px; flex: 1; align-content: flex-start; }
         .heatmap-ticker {
-            display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
-            background: rgba(255,255,255,0.08); color: var(--text-primary); cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 6px;
+            font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.1); color: #fff;
+            transition: all 0.2s;
         }
-        .heatmap-ticker:hover { background: rgba(88,166,255,0.2); color: var(--accent); text-decoration: none; }
+        .heatmap-ticker:hover { background: rgba(255,255,255,0.25); color: #fff; text-decoration: none; transform: scale(1.05); }
+        .heatmap-ticker-ext {
+            font-size: 9px; opacity: 0.7; margin-left: 2px;
+        }
         .heatmap-best { box-shadow: 0 0 0 2px var(--green) inset; }
         .heatmap-danger { box-shadow: 0 0 0 2px var(--red) inset; }
 
@@ -165,6 +184,7 @@
         @media (max-width: 600px) {
             .hero h1 { font-size: 28px; }
             .overview-grid { grid-template-columns: 1fr; }
+            .heatmap-grid { grid-template-columns: 60px repeat(3, 1fr); grid-template-rows: 36px repeat(3, 90px); }
         }
 
         /* ── 页脚 ── */
@@ -207,7 +227,7 @@
         <div class="section-title">🏆 本周最具价值 Top 3</div>
         <div class="top3-grid" id="top3-grid"></div>
 
-        <!-- 第3段：16标的全景看板 -->
+        <!-- 第3段：16标全景看板 -->
         <div class="section-title">📊 16标的全景看板</div>
         <div class="overview-grid" id="overview-grid"></div>
 
@@ -245,13 +265,21 @@
     </div>
 
     <footer>
-        <p>数据来源：Yahoo Finance · TradingView · Seeking Alpha | 仅供参考，不构成投资建议</p>
+        <p>数据来源：<a href="https://www.tradingview.com" target="_blank">TradingView</a> · <a href="https://seekingalpha.com" target="_blank">Seeking Alpha</a> · <a href="https://finance.yahoo.com" target="_blank">Yahoo Finance</a> | 仅供参考，不构成投资建议</p>
         <p style="margin-top:8px;">© 2026 <a href="/">股道奇货</a> · x.gudaoqihuo.com</p>
     </footer>
 
     <script>
     const OVERVIEW = {{ overview_data | safe }};
     const TOP3 = {{ top3_data | safe }};
+
+    // ── Exchange 映射 ──
+    const EXCHANGE_MAP = {
+        'VOO':'AMEX','QQQ':'NASDAQ','IWM':'AMEX','BND':'AMEX','GLD':'AMEX',
+        'SCHD':'AMEX','VXUS':'AMEX','SMH':'AMEX',
+        'NVDA':'NASDAQ','AAPL':'NASDAQ','MSFT':'NASDAQ','GOOGL':'NASDAQ','AMZN':'NASDAQ','META':'NASDAQ',
+        'LLY':'NYSE','BRK.B':'NYSE',
+    };
 
     // ── 工具函数：状态 → Badge HTML ──
     function statusBadge(maStatus) {
@@ -265,21 +293,29 @@
         return map[maStatus] || '<span class="status-badge neutral-bear">⚪ 未知</span>';
     }
 
+    // ── 工具函数：外链 URL ──
+    function getLinks(ticker) {
+        const ex = EXCHANGE_MAP[ticker] || 'NASDAQ';
+        return {
+            tradingview: `https://www.tradingview.com/symbols/${ex}-${ticker}/`,
+            seekingalpha: `https://seekingalpha.com/symbol/${ticker}`,
+            yahoo: `https://finance.yahoo.com/quote/${ticker}/`,
+        };
+    }
+
     // ── 第1段：Ticker栏 ──
     function renderTickerBar() {
-        const bar = document.getElementById('ticker-bar');
         const stocks = ['NVDA','AAPL','MSFT','GOOGL','AMZN','META','LLY','BRK.B'];
-        const etfs = ['VOO','QQQ','IWM','BND','GLD','SCHD','VXUS','SMH'];
-        bar.innerHTML = OVERVIEW.map(o => {
-            const cls = stocks.includes(o.ticker) ? 'stock' : 'etf';
-            return `<a class="ticker-pill ${cls}" href="/${o.ticker.toLowerCase()}/">${o.ticker}</a>`;
-        }).join('');
+        document.getElementById('ticker-bar').innerHTML = OVERVIEW.map(o =>
+            `<a class="ticker-pill ${stocks.includes(o.ticker) ? 'stock' : 'etf'}" href="/${o.ticker.toLowerCase()}/">${o.ticker}</a>`
+        ).join('');
     }
 
     // ── 第2段：Top3 ──
     function renderTop3() {
-        const grid = document.getElementById('top3-grid');
-        grid.innerHTML = TOP3.map((r, i) => `
+        document.getElementById('top3-grid').innerHTML = TOP3.map((r, i) => {
+            const links = getLinks(r.ticker);
+            return `
             <a class="top3-card" href="/${r.ticker.toLowerCase()}/">
                 <div class="top3-rank">#${i+1} 推荐</div>
                 <div class="top3-stars">${'⭐'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
@@ -290,24 +326,26 @@
                     <div class="top3-score-track"><div class="top3-score-fill" style="width:${r.score}%"></div></div>
                     <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">综合评分 ${r.score}/100</div>
                 </div>
-            </a>
-        `).join('');
+                <div class="top3-links">
+                    <a class="top3-link-btn" href="${links.tradingview}" target="_blank" onclick="event.stopPropagation()">📈 TV图表</a>
+                    <a class="top3-link-btn" href="${links.seekingalpha}" target="_blank" onclick="event.stopPropagation()">📰 SA研报</a>
+                    <a class="top3-link-btn" href="${links.yahoo}" target="_blank" onclick="event.stopPropagation()">💬 YF行情</a>
+                </div>
+            </a>`;
+        }).join('');
     }
 
-    // ── 第3段：全景看板 ──
+    // ── 第3段：全景看板（含行情图占位 + 外链）──
     function renderOverview() {
-        const grid = document.getElementById('overview-grid');
-        grid.innerHTML = OVERVIEW.map(o => {
-            const changeCls = o.change_pct >= 0 ? 'up' : 'down';
-            const changeSign = o.change_pct >= 0 ? '+' : '';
+        document.getElementById('overview-grid').innerHTML = OVERVIEW.map(o => {
+            const chgCls = o.change_pct >= 0 ? 'up' : 'down';
+            const chgSign = o.change_pct >= 0 ? '+' : '';
             const starsStr = '⭐'.repeat(Math.round(o.stars || 0)) + '☆'.repeat(5 - Math.round(o.stars || 0));
-            // 外链
-            const exchange = o.exchange || 'NASDAQ';
-            const tvUrl = `https://www.tradingview.com/symbols/${exchange}-${o.ticker}/`;
-            const saUrl = `https://seekingalpha.com/symbol/${o.ticker}`;
-            const yahooUrl = `https://finance.yahoo.com/quote/${o.ticker}/`;
+            const links = getLinks(o.ticker);
+            const chartImg = o.ticker === 'BRK.B' ? 'BRK_B' : o.ticker;
             return `
-                <a class="overview-card" href="/${o.ticker.toLowerCase()}/">
+            <div class="overview-card">
+                <a href="/${o.ticker.toLowerCase()}/" style="text-decoration:none;color:inherit;">
                     <div class="overview-header">
                         <div>
                             <div class="overview-ticker">${o.ticker}</div>
@@ -315,104 +353,96 @@
                         </div>
                         <div class="overview-price">
                             <div class="overview-price-val">$${o.latest_close.toFixed(2)}</div>
-                            <div class="overview-change ${changeCls}">${changeSign}${o.change_pct.toFixed(2)}%</div>
+                            <div class="overview-change ${chgCls}">${chgSign}${o.change_pct.toFixed(2)}%</div>
                         </div>
                     </div>
                     ${statusBadge(o.ma_status)}
                     <div class="overview-stars">${starsStr}</div>
-                    <div class="overview-links">
-                        <a class="overview-link-btn" href="${tvUrl}" target="_blank" title="TradingView">📈 TV</a>
-                        <a class="overview-link-btn" href="${saUrl}" target="_blank" title="Seeking Alpha">📰 SA</a>
-                        <a class="overview-link-btn" href="${yahooUrl}" target="_blank" title="Yahoo Finance">💬 YF</a>
-                    </div>
                 </a>
-            `;
+                <!-- 行情图占位：点击跳转 TradingView -->
+                <a class="chart-img-wrap" href="${links.tradingview}" target="_blank" title="点击查看 TradingView 实时图表" style="position:relative;">
+                    <img class="local-chart-img" src="/assets/charts/${chartImg}.svg" alt="${o.ticker} 行情图" loading="lazy">
+                    <div class="chart-img-overlay"><span>📈 点击查看 TradingView 实时图表</span></div>
+                </a>
+                <!-- 外链按钮组 -->
+                <div class="overview-links">
+                    <a class="overview-link-btn" href="${links.tradingview}" target="_blank">📈 TV图表</a>
+                    <a class="overview-link-btn" href="${links.seekingalpha}" target="_blank">📰 SA研报</a>
+                    <a class="overview-link-btn" href="${links.yahoo}" target="_blank">💬 YF行情</a>
+                </div>
+            </div>`;
         }).join('');
     }
 
-    // ── 第4段：九宫格热力图 ──
+    // ── 第4段：九宫格热力图（标的可点击跳转外链）──
     function renderHeatmap() {
-        const grid = document.getElementById('heatmap-grid');
-        // 定义9个格子
         const rows = ['低风险', '中等', '高风险'];
         const cols = ['空头', '震荡', '多头'];
-
-        // 颜色
         const colors = {
-            '低风险-空头': '#5a6a5a',
-            '低风险-震荡': '#4a7c2e',
-            '低风险-多头': '#1a6b1a',
-            '中等-空头': '#6a3a3a',
-            '中等-震荡': '#4a4a5a',
-            '中等-多头': '#2a6b6b',
-            '高风险-空头': '#8b2020',
-            '高风险-震荡': '#7a3a2a',
-            '高风险-多头': '#8a5a1a',
+            '低风险-空头': '#5a6a5a', '低风险-震荡': '#4a7c2e', '低风险-多头': '#1a6b1a',
+            '中等-空头': '#6a3a3a', '中等-震荡': '#4a4a5a', '中等-多头': '#2a6b6b',
+            '高风险-空头': '#8b2020', '高风险-震荡': '#7a3a2a', '高风险-多头': '#8a5a1a',
         };
 
-        // 分类标的
+        // 分类
         const cells = {};
         cols.forEach(c => rows.forEach(r => { cells[`${r}-${c}`] = []; }));
         OVERVIEW.forEach(o => {
             const score = o.score || 0;
-            const maStatus = o.ma_status || '中性';
-            let riskRow, trendCol;
-            if (score >= 70) riskRow = '低风险';
-            else if (score >= 40) riskRow = '中等';
-            else riskRow = '高风险';
-            if (maStatus === '多头') trendCol = '多头';
-            else if (['偏多','中性'].includes(maStatus)) trendCol = '震荡';
-            else trendCol = '空头';
-            cells[`${riskRow}-${trendCol}`].push(o);
+            const ms = o.ma_status || '中性';
+            const risk = score >= 70 ? '低风险' : score >= 40 ? '中等' : '高风险';
+            const trend = ms === '多头' ? '多头' : ['偏多','中性'].includes(ms) ? '震荡' : '空头';
+            cells[`${risk}-${trend}`].push(o);
         });
 
-        // 渲染
-        let html = '';
-        // 表头
-        html += '<div class="heatmap-label" style="background:transparent;"></div>';
-        cols.forEach(c => { html += `<div class="heatmap-label" style="justify-content:center;font-weight:700;">${c}</div>`; });
-        // 行
+        let html = '<div class="heatmap-label" style="background:transparent;"></div>';
+        cols.forEach(c => { html += `<div class="heatmap-label" style="font-weight:700;">${c}</div>`; });
         rows.forEach(r => {
-            html += `<div class="heatmap-label row-label">${r}</div>`;
+            html += `<div class="heatmap-label">${r}</div>`;
             cols.forEach(c => {
                 const key = `${r}-${c}`;
                 const tickers = cells[key];
-                const color = colors[key];
                 const isBest = key === '低风险-多头';
                 const isDanger = key === '高风险-空头';
                 let cls = 'heatmap-cell';
                 if (isBest) cls += ' heatmap-best';
                 if (isDanger) cls += ' heatmap-danger';
-                html += `<div class="${cls}" style="background:${color};">
-                    <div class="heatmap-cell-title">${tickers.length > 0 ? tickers.map(t => `<a class="heatmap-ticker" href="/${t.ticker.toLowerCase()}/" style="color:#fff;">${t.ticker}</a>`).join('') : '<span style="color:rgba(255,255,255,0.3);font-size:11px;">暂无</span>'}</div>
+                const tickerHtml = tickers.length > 0
+                    ? tickers.map(t => {
+                        const links = getLinks(t.ticker);
+                        return `<a class="heatmap-ticker" href="${links.tradingview}" target="_blank" title="${t.ticker} - TradingView">${t.ticker}<span class="heatmap-ticker-ext">↗</span></a>`;
+                    }).join('')
+                    : '<span style="color:rgba(255,255,255,0.3);font-size:11px;">暂无</span>';
+                html += `<div class="${cls}" style="background:${colors[key]};">
+                    <div class="heatmap-cell-tickers">${tickerHtml}</div>
                 </div>`;
             });
         });
-        grid.innerHTML = html;
+        document.getElementById('heatmap-grid').innerHTML = html;
     }
 
     // ── 第5段：均线状态灯 ──
     function renderMATable() {
         const tbody = document.getElementById('ma-tbody');
-        tbody.innerHTML = OVERVIEW.filter(o => o.ma20 && o.ma50 && o.ma200).map(o => {
-            const changeCls = o.change_pct >= 0 ? 'up' : 'down';
-            const changeSign = o.change_pct >= 0 ? '+' : '';
-            // MA 点灯
-            const ma20Dot = o.latest_close > o.ma20 ? '<span class="ma-dot green"></span>' : '<span class="ma-dot red"></span>';
-            const ma50Dot = o.latest_close > o.ma50 ? '<span class="ma-dot green"></span>' : '<span class="ma-dot red"></span>';
-            const ma200Dot = o.latest_close > o.ma200 ? '<span class="ma-dot green"></span>' : '<span class="ma-dot red"></span>';
+        const valid = OVERVIEW.filter(o => o.ma20 && o.ma50 && o.ma200);
+        if (valid.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-secondary);padding:24px;">数据积累中，暂无可显示的均线数据</td></tr>';
+            return;
+        }
+        tbody.innerHTML = valid.map(o => {
+            const dot = (val) => o.latest_close > val ? '<span class="ma-dot green"></span>' : '<span class="ma-dot red"></span>';
+            const links = getLinks(o.ticker);
             return `
-                <tr>
-                    <td><a href="/${o.ticker.toLowerCase()}/" style="font-weight:600;color:var(--gold);">${o.ticker}</a></td>
-                    <td>${o.name}</td>
-                    <td class="num">$${o.latest_close.toFixed(2)}</td>
-                    <td class="num">${ma20Dot} $${o.ma20.toFixed(2)}</td>
-                    <td class="num">${ma50Dot} $${o.ma50.toFixed(2)}</td>
-                    <td class="num">${ma200Dot} $${o.ma200.toFixed(2)}</td>
-                    <td>${statusBadge(o.ma_status)}</td>
-                    <td class="num" style="font-weight:700;">${o.score ? o.score.toFixed(0) : '-'}</td>
-                </tr>
-            `;
+            <tr>
+                <td><a href="${links.tradingview}" target="_blank" style="font-weight:600;color:var(--gold);">${o.ticker} ↗</a></td>
+                <td>${o.name}</td>
+                <td class="num">$${o.latest_close.toFixed(2)}</td>
+                <td class="num">${dot(o.ma20)} $${o.ma20.toFixed(2)}</td>
+                <td class="num">${dot(o.ma50)} $${o.ma50.toFixed(2)}</td>
+                <td class="num">${dot(o.ma200)} $${o.ma200.toFixed(2)}</td>
+                <td>${statusBadge(o.ma_status)}</td>
+                <td class="num" style="font-weight:700;">${o.score ? o.score.toFixed(0) : '-'}</td>
+            </tr>`;
         }).join('');
     }
 
