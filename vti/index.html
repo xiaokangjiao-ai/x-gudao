@@ -3,134 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VTI - Vanguard Total Stock Market ETF | 全球最具价值的10个基金</title>
-    <meta name="description" content="Vanguard Total Stock Market ETF（VTI）历史价格、技术图表、关键指标分析。对标Macrotrends专业金融数据。">
-    <meta name="keywords" content="VTI, Vanguard Total Stock Market ETF, ETF, 基金, 历史数据, K线图">
+    <title>VTI - Vanguard Total Stock Market ETF | 股道奇货 · 分析研判</title>
+    <meta name="description" content="Vanguard Total Stock Market ETF（VTI）专业评级、分析研判、外链数据、核心投资逻辑。">
+    <meta name="keywords" content="VTI, Vanguard Total Stock Market ETF, 评级, 分析, 投资逻辑">
     <link rel="canonical" href="https://x.gudaoqihuo.com/vti/">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/theme/dark.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-primary: #0d1117;
-            --bg-secondary: #161b22;
-            --bg-card: #1c2128;
-            --border: #30363d;
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --accent: #58a6ff;
-            --green: #3fb950;
-            --red: #f85149;
-            --gold: #d4a843;
+            --bg-primary: #0d1117; --bg-secondary: #161b22; --bg-card: #1c2128;
+            --border: #30363d; --text-primary: #e6edf3; --text-secondary: #8b949e;
+            --accent: #58a6ff; --green: #3fb950; --red: #f85149; --gold: #d4a843;
+            --gold-bg: rgba(212,168,67,0.08); --gold-border: rgba(212,168,67,0.35);
         }
         body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
 
+        /* ── 顶部栏 ── */
         header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
         .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-        .logo { font-size: 18px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+        .logo { font-size: 18px; font-weight: 700; }
         .logo span { color: var(--gold); }
-        nav { display: flex; gap: 24px; align-items: center; }
-        nav a { color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        nav { display: flex; gap: 20px; }
+        nav a { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
         nav a:hover, nav a.active { color: var(--text-primary); text-decoration: none; }
         nav a.active { border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
 
-        .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 16px 24px; font-size: 13px; color: var(--text-secondary); }
+        /* ── 面包屑 ── */
+        .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 14px 24px; font-size: 13px; color: var(--text-secondary); }
         .breadcrumb a { color: var(--text-secondary); }
-        .breadcrumb span { margin: 0 8px; }
 
-        .hero { max-width: 1400px; margin: 0 auto; padding: 24px; }
-        .stock-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-        .stock-title { display: flex; align-items: center; gap: 16px; }
-        .ticker-badge { font-size: 32px; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
-        .stock-name { font-size: 22px; font-weight: 600; color: var(--text-primary); }
-        .stock-category { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
-        .stock-price-block { text-align: right; }
-        .current-price { font-size: 36px; font-weight: 700; color: var(--text-primary); }
-        .price-change { font-size: 16px; margin-top: 4px; }
-        .price-change.up { color: var(--green); }
-        .price-change.down { color: var(--red); }
+        /* ── 英雄区：评级卡片 ── */
+        .hero { max-width: 1400px; margin: 0 auto; padding: 0 24px 24px; }
+        .rating-hero {
+            background: linear-gradient(135deg, var(--gold-bg) 0%, var(--bg-card) 70%);
+            border: 1px solid var(--gold-border); border-radius: 16px; padding: 28px;
+            margin-bottom: 20px;
+        }
+        .rating-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
+        .hero-left { display: flex; align-items: center; gap: 20px; }
+        .hero-badge { text-align: center; }
+        .hero-stars { font-size: 28px; color: var(--gold); letter-spacing: 3px; margin-bottom: 6px; }
+        .hero-score { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+        .hero-tag-badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 14px; border-radius: 8px; font-size: 14px; font-weight: 700; }
+        .hero-tag-badge.fire { background: rgba(255,100,50,0.15); border: 1px solid rgba(255,100,50,0.4); color: #ff6b35; }
+        .hero-tag-badge.diamond { background: rgba(88,166,255,0.1); border: 1px solid rgba(88,166,255,0.3); color: var(--accent); }
+        .hero-tag-badge.warning { background: rgba(255,200,50,0.1); border: 1px solid rgba(255,200,50,0.3); color: #ffc532; }
+        .hero-tag-badge.danger { background: rgba(248,81,73,0.1); border: 1px solid rgba(248,81,73,0.3); color: var(--red); }
+        .hero-ticker-block { }
+        .hero-ticker { font-size: 40px; font-weight: 700; color: var(--gold); letter-spacing: 3px; }
+        .hero-name { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-top: 2px; }
+        .hero-category { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+        .hero-right { text-align: right; }
+        .hero-price { font-size: 40px; font-weight: 700; }
+        .hero-change { font-size: 16px; margin-top: 4px; }
+        .hero-change.up { color: var(--green); }
+        .hero-change.down { color: var(--red); }
+        .hero-rationale {
+            background: rgba(255,255,255,0.03); border-left: 4px solid var(--gold); border-radius: 0 10px 10px 0;
+            padding: 16px 20px; font-size: 15px; color: var(--text-primary); line-height: 1.8;
+        }
+        .hero-rationale-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 8px; font-weight: 600; }
 
-        .stats-row { display: flex; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
-        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; flex: 1; min-width: 140px; }
-        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 4px; }
-        .stat-value { font-size: 18px; font-weight: 600; color: var(--text-primary); }
-        .stat-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+        /* ── 外链数据区 ── */
+        .datalinks { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+        .datalink-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s; }
+        .datalink-btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; background: rgba(88,166,255,0.05); }
+        .datalink-btn .ext-icon { font-size: 10px; }
 
-        .content { max-width: 1400px; margin: 0 auto; padding: 0 24px 48px; display: grid; grid-template-columns: 1fr 360px; gap: 24px; }
+        /* ── 评分条 ── */
+        .score-bars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+        .score-bar-item { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 12px; }
+        .score-bar-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 6px; }
+        .score-bar-track { height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s; }
+        .score-bar-fill.trend { background: linear-gradient(90deg, #58a6ff, #a371f7); }
+        .score-bar-fill.rr { background: linear-gradient(90deg, #3fb950, #7ee787); }
+        .score-bar-fill.dd { background: linear-gradient(90deg, #d4a843, #f0c040); }
+        .score-bar-fill.vol { background: linear-gradient(90deg, #f0883e, #ffa657); }
+        .score-bar-value { font-size: 12px; font-weight: 700; margin-top: 4px; color: var(--text-primary); }
+
+        /* ── 关键指标行 ── */
+        .stats-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; flex: 1; min-width: 130px; }
+        .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 4px; }
+        .stat-value { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+        .stat-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+        /* ── 主内容区 ── */
+        .content { max-width: 1400px; margin: 0 auto; padding: 0 24px 60px; display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+
+        /* ── 图表区 ── */
         .chart-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-        .chart-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+        .chart-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); }
         .chart-title { font-size: 15px; font-weight: 600; }
         .period-selector { display: flex; gap: 4px; }
         .period-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
         .period-btn:hover { border-color: var(--accent); color: var(--accent); }
         .period-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-        #chart { width: 100%; height: 400px; }
+        #chart { width: 100%; height: 420px; }
 
-        .sidebar { display: flex; flex-direction: column; gap: 16px; }
-        .side-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-        .side-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); }
-        .indicator-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+        /* ── 历史数据表 ── */
+        .data-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-top: 16px; overflow: hidden; }
+        .data-header { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 15px; font-weight: 600; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .data-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 8px 12px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+        .data-table th:first-child { text-align: left; }
+        .data-table td { padding: 7px 12px; text-align: right; color: var(--text-primary); border-bottom: 1px solid rgba(48,54,61,0.4); }
+        .data-table td:first-child { text-align: left; color: var(--text-secondary); }
+        .data-table tr:hover td { background: rgba(255,255,255,0.03); }
+        .table-wrap { overflow-x: auto; max-height: 360px; overflow-y: auto; }
+
+        /* ── 投资逻辑 ── */
+        .logic-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 16px; }
+        .logic-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .logic-text { font-size: 14px; color: var(--text-primary); line-height: 1.9; }
+        .logic-text strong { color: var(--gold); }
+
+        /* ── 侧边栏 ── */
+        .sidebar { display: flex; flex-direction: column; gap: 14px; }
+        .side-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+        .side-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; color: var(--text-primary); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .indicator-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.4); font-size: 13px; }
         .indicator-row:last-child { border-bottom: none; }
         .indicator-name { color: var(--text-secondary); }
         .indicator-value { font-weight: 600; color: var(--text-primary); }
 
-        .compare-table { width: 100%; border-collapse: collapse; }
-        .compare-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+        /* ── 均线状态卡 ── */
+        .ma-card { text-align: center; padding: 16px; }
+        .ma-status-large { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .ma-status-text { font-size: 13px; color: var(--text-secondary); }
+        .ma-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+        .ma-dot { text-align: center; }
+        .ma-dot-val { font-size: 14px; font-weight: 700; }
+        .ma-dot-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; }
+
+        /* ── 对比表 ── */
+        .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .compare-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
         .compare-table th:first-child { text-align: left; }
         .compare-table td { font-size: 13px; padding: 6px 8px; text-align: right; color: var(--text-primary); }
-        .compare-table td:first-child { text-align: left; font-weight: 600; }
+        .compare-table td:first-child { text-align: left; font-weight: 700; }
         .compare-table tr:hover td { background: rgba(255,255,255,0.03); }
         .compare-table td.highlight { color: var(--gold); font-weight: 700; }
 
-        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .data-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
-        .data-table th:first-child { text-align: left; }
-        .data-table td { padding: 7px 10px; text-align: right; color: var(--text-primary); border-bottom: 1px solid rgba(48,54,61,0.5); }
-        .data-table td:first-child { text-align: left; color: var(--text-secondary); }
-        .data-table tr:hover td { background: rgba(255,255,255,0.03); }
+        /* ── 核心逻辑卡 ── */
+        .rationale-card { }
+        .rationale-text { font-size: 14px; line-height: 1.8; color: var(--text-primary); }
+        .rationale-tag { display: inline-block; margin-top: 10px; background: var(--gold-bg); border: 1px solid var(--gold-border); border-radius: 6px; padding: 4px 12px; font-size: 11px; color: var(--gold); }
 
+        /* ── 响应式 ── */
+        @media (max-width: 900px) {
+            .content { grid-template-columns: 1fr; }
+            .score-bars { grid-template-columns: repeat(2, 1fr); }
+            .hero-ticker { font-size: 28px; }
+            .hero-price { font-size: 28px; }
+        }
+        @media (max-width: 600px) {
+            .score-bars { grid-template-columns: 1fr 1fr; }
+            .stats-row { gap: 8px; }
+        }
+
+        /* ── 页脚 ── */
         footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
         footer a { color: var(--text-secondary); }
-
-        @media (max-width: 900px) { .content { grid-template-columns: 1fr; } .stats-row { gap: 8px; } .stat-card { min-width: 100px; } }
     </style>
 </head>
 <body>
+    <!-- 顶部栏 -->
     <header>
         <div class="header-inner">
-            <div class="logo">📈 <span>股道奇货</span> · 全球最具价值的10个基金</div>
+            <div class="logo">📈 <span>股道奇货</span></div>
             <nav>
                 <a href="/">首页</a>
-                <a href="/screener.html" class="active">基金列表</a>
+                <a href="/screener.html">标的列表</a>
                 <a href="/compare.html">对比</a>
                 <a href="/about.html">关于</a>
             </nav>
         </div>
     </header>
 
+    <!-- 面包屑 -->
     <div class="breadcrumb">
-        <a href="/">首页</a> <span>›</span> <a href="/screener.html">基金列表</a> <span>›</span> Vanguard Total Stock Market ETF
+        <a href="/">首页</a> › <a href="/screener.html">标的列表</a> › Vanguard Total Stock Market ETF
     </div>
 
+    <!-- 英雄区 -->
     <div class="hero">
-        <div class="stock-header">
-            <div class="stock-title">
-                <div>
-                    <div class="ticker-badge">VTI</div>
-                    <div class="stock-name">Vanguard Total Stock Market ETF</div>
-                    <div class="stock-category">美国全市场</div>
+        <div class="rating-hero">
+            <div class="rating-hero-top">
+                <div class="hero-left">
+                    <!-- 星级评分 -->
+                    <div class="hero-badge">
+                        <div class="hero-stars" id="hero-stars"></div>
+                        <div class="hero-score" id="hero-score"></div>
+                    </div>
+                    <!-- 标签 -->
+                    <div>
+                        <div id="hero-tag-badge" class="hero-tag-badge"></div>
+                        <div class="hero-category">美国全市场</div>
+                    </div>
+                    <!-- 标的信息 -->
+                    <div class="hero-ticker-block">
+                        <div class="hero-ticker">VTI</div>
+                        <div class="hero-name">Vanguard Total Stock Market ETF</div>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="hero-price" id="hero-price">$369.99</div>
+                    <div class="hero-change" id="hero-change"></div>
                 </div>
             </div>
-            <div class="stock-price-block">
-                <div class="current-price" id="current-price">$369.99</div>
-                <div class="price-change" id="price-change"></div>
+            <!-- 核心投资逻辑 -->
+            <div class="hero-rationale" id="hero-rationale">
+                <div class="hero-rationale-label">💡 核心投资逻辑</div>
+                <span id="rationale-text">美国全市场覆盖，小盘股弹性补充，资产配置全能型选手</span>
             </div>
+            <!-- 外链数据按钮 -->
+            <div class="datalinks" id="datalinks"></div>
+            <!-- 评分条 -->
+            <div class="score-bars" id="score-bars"></div>
         </div>
 
+        <!-- 关键指标行 -->
         <div class="stats-row">
             <div class="stat-card">
                 <div class="stat-label">52周最高</div>
@@ -145,36 +243,51 @@
                 <div class="stat-value" style="color: var(--green)">+4.26%</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">历史数据点</div>
-                <div class="stat-value">23</div>
+                <div class="stat-label">年化波动率</div>
+                <div class="stat-value">16.14%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">最大回撤</div>
+                <div class="stat-value" style="color:var(--green)">-4.36%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">夏普比率</div>
+                <div class="stat-value" style="color:var(--green)">0.26</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">数据范围</div>
-                <div class="stat-value">2026-05-18 ~ 2026-06-18</div>
+                <div class="stat-value" style="font-size:14px;">2026-05-18 ~ 2026-06-18</div>
             </div>
         </div>
     </div>
 
+    <!-- 主内容 -->
     <div class="content">
+        <!-- 左侧 -->
         <div>
+            <!-- 图表 -->
             <div class="chart-section">
                 <div class="chart-header">
                     <div class="chart-title">📊 价格走势（K线 + 均线）</div>
                     <div class="period-selector">
                         <button class="period-btn" data-period="1y">1年</button>
-                        <button class="period-btn active" data-period="5y">5年</button>
-                        <button class="period-btn" data-period="all">全部</button>
+                        <button class="period-btn active" data-period="5y">全部</button>
                     </div>
                 </div>
                 <div id="chart"></div>
             </div>
 
-            <div class="chart-section" style="margin-top: 16px;">
-                <div class="chart-header">
-                    <div class="chart-title">📋 历史价格明细</div>
-                </div>
-                <div style="overflow-x:auto; max-height: 400px; overflow-y: auto;">
-                    <table class="data-table" id="price-table">
+            <!-- 投资逻辑详解 -->
+            <div class="logic-section">
+                <div class="logic-title">💡 核心投资逻辑详解</div>
+                <div class="logic-text" id="logic-text">美国全市场覆盖，小盘股弹性补充，资产配置全能型选手</div>
+            </div>
+
+            <!-- 历史价格 -->
+            <div class="data-section">
+                <div class="data-header">📋 历史价格明细（最近100条）</div>
+                <div class="table-wrap">
+                    <table class="data-table">
                         <thead>
                             <tr>
                                 <th>日期</th>
@@ -191,22 +304,50 @@
             </div>
         </div>
 
+        <!-- 侧边栏 -->
         <div class="sidebar">
+            <!-- 均线状态卡 -->
+            <div class="side-card">
+                <div class="side-title">⚡ 均线状态</div>
+                <div class="ma-card">
+                    <div class="ma-status-large" id="ma-status-icon"></div>
+                    <div class="ma-status-text" id="ma-status-text"></div>
+                    <div class="ma-dots">
+                        <div class="ma-dot">
+                            <div class="ma-dot-val" id="ma20-val">$368.33</div>
+                            <div class="ma-dot-label">MA20</div>
+                        </div>
+                        <div class="ma-dot">
+                            <div class="ma-dot-val" id="ma50-val">$0</div>
+                            <div class="ma-dot-label">MA50</div>
+                        </div>
+                        <div class="ma-dot">
+                            <div class="ma-dot-val" id="ma200-val">$0</div>
+                            <div class="ma-dot-label">MA200</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关键指标 -->
             <div class="side-card">
                 <div class="side-title">📐 关键指标</div>
                 <div class="indicator-row"><span class="indicator-name">最新收盘</span><span class="indicator-value">$369.99</span></div>
-                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" style="color: var(--green)">+1.16%</span></div>
+                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" id="ind-change" style="color: var(--green)">+1.16%</span></div>
                 <div class="indicator-row"><span class="indicator-name">MA20</span><span class="indicator-value">$368.33</span></div>
                 <div class="indicator-row"><span class="indicator-name">MA50</span><span class="indicator-value">$0</span></div>
                 <div class="indicator-row"><span class="indicator-name">MA200</span><span class="indicator-value">$0</span></div>
                 <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--green)">+4.26%</span></div>
                 <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">16.14%</span></div>
+                <div class="indicator-row"><span class="indicator-name">最大回撤</span><span class="indicator-value" style="color:var(--green)">-4.36%</span></div>
+                <div class="indicator-row"><span class="indicator-name">夏普比率</span><span class="indicator-value" style="color:var(--green)">0.26</span></div>
             </div>
 
+            <!-- 相关标的对比 -->
             <div class="side-card">
-                <div class="side-title">⚖️ 与其他基金对比</div>
+                <div class="side-title">⚖️ 与其他标的对比</div>
                 <table class="compare-table">
-                    <thead><tr><th>基金</th><th>最新价</th><th>1年收益</th></tr></thead>
+                    <thead><tr><th>标的</th><th>价格</th><th>年化收益</th></tr></thead>
                     <tbody id="compare-table-body"></tbody>
                 </table>
             </div>
@@ -214,16 +355,83 @@
     </div>
 
     <footer>
-        <p>数据来源：Yahoo Finance · 仅供参考，不构成投资建议</p>
-        <p style="margin-top: 8px;">© 2026 <a href="/">全球最具价值的10个基金</a> · <a href="https://x.gudaoqihuo.com">x.gudaoqihuo.com</a></p>
+        <p>数据来源：<a href="https://finance.yahoo.com" target="_blank">Yahoo Finance</a> · <a href="https://www.tradingview.com" target="_blank">TradingView</a> · <a href="https://seekingalpha.com" target="_blank">Seeking Alpha</a></p>
+        <p style="margin-top: 8px;">仅供参考，不构成投资建议 · © 2026 <a href="/">股道奇货</a></p>
     </footer>
 
     <script>
+    // ── 全局数据 ──
     const FULL_DATA = [{"date": "2026-05-18", "open": 363.34, "high": 364.0688, "low": 359.98, "close": 362.36, "volume": 3577589.16472}, {"date": "2026-05-19", "open": 360.65, "high": 361.97, "low": 358.802, "close": 360.06, "volume": 3169353.892631}, {"date": "2026-05-20", "open": 361.2, "high": 364.39, "low": 360.2, "close": 364.19, "volume": 3152983.356611}, {"date": "2026-05-21", "open": 362.8, "high": 366.07, "low": 362.13, "close": 365.09, "volume": 2766256.986385}, {"date": "2026-05-22", "open": 366.81, "high": 368.3, "low": 366.09, "close": 366.79, "volume": 2647245.289558}, {"date": "2026-05-26", "open": 368.98, "high": 370.24, "low": 368.4049, "close": 369.46, "volume": 3572108.598461}, {"date": "2026-05-27", "open": 369.5, "high": 370.05, "low": 368.4, "close": 369.36, "volume": 3102384.823062}, {"date": "2026-05-28", "open": 369.53, "high": 371.92, "low": 368.75, "close": 371.66, "volume": 2959838.562531}, {"date": "2026-05-29", "open": 372.04, "high": 373.13, "low": 371.3525, "close": 372.54, "volume": 3166305.129108}, {"date": "2026-06-01", "open": 372.18, "high": 374.44, "low": 371.48, "close": 373.4, "volume": 6894653.568456}, {"date": "2026-06-02", "open": 372.88, "high": 374.7, "low": 372.63, "close": 374.36, "volume": 2700719.999514}, {"date": "2026-06-03", "open": 373.85, "high": 373.95, "low": 371.315, "close": 371.65, "volume": 3409585.142861}, {"date": "2026-06-04", "open": 370.62, "high": 373.99, "low": 370.36, "close": 373.38, "volume": 3125639.257083}, {"date": "2026-06-05", "open": 370.98, "high": 371.1798, "low": 362.46, "close": 363.38, "volume": 5205411.546929}, {"date": "2026-06-08", "open": 366.69, "high": 367.5799, "low": 364.04, "close": 364.47, "volume": 5431922.734883}, {"date": "2026-06-09", "open": 366.7, "high": 368.66, "low": 356.2825, "close": 363.67, "volume": 4687865.194448}, {"date": "2026-06-10", "open": 361.87, "high": 364.56, "low": 357.9, "close": 358.04, "volume": 3389821.366918}, {"date": "2026-06-11", "open": 359.63, "high": 365.5, "low": 357.75, "close": 364.3, "volume": 3964236.468458}, {"date": "2026-06-12", "open": 366.18, "high": 367.93, "low": 363.225, "close": 366.36, "volume": 3230595.825879}, {"date": "2026-06-15", "open": 371.8, "high": 373.64, "low": 371.55, "close": 372.53, "volume": 3560951.153431}, {"date": "2026-06-16", "open": 372.79, "high": 373.1599, "low": 370.1, "close": 370.37, "volume": 2805769.621269}, {"date": "2026-06-17", "open": 370.78, "high": 371.52, "low": 365.08, "close": 365.76, "volume": 4766750.645496}, {"date": "2026-06-18", "open": 370.56, "high": 370.62, "low": 368.3401, "close": 369.99, "volume": 3413596.567689}];
     const LATEST = {"close": 369.99, "change": 1.16};
     const COMPARE = [{"ticker": "SPY", "name": "SPDR S&P 500 ETF Trust", "price": 746.74, "return": 2.2}, {"ticker": "IVV", "name": "iShares Core S&P 500 ETF", "price": 750.11, "return": 2.22}, {"ticker": "VOO", "name": "Vanguard S&P 500 ETF", "price": 688.11, "return": 2.73}, {"ticker": "QQQ", "name": "Invesco QQQ Trust (纳指100)", "price": 740.62, "return": 10.09}, {"ticker": "BND", "name": "Vanguard Total Bond Market ETF", "price": 73.34, "return": 1.8}, {"ticker": "GLD", "name": "SPDR Gold Shares", "price": 387.12, "return": -14.41}];
+    const RATING = {"annual_return": 26.96, "dd_score": 25.0, "latest_close": 369.99, "links": {"seekingalpha": "https://seekingalpha.com/symbol/VTI", "tradingview": "https://www.tradingview.com/symbols/AMEX-VTI/", "yahoo": "https://finance.yahoo.com/quote/VTI/"}, "ma20": 368.33, "ma200": null, "ma50": null, "ma_emoji": "\ud83d\udfe1", "ma_status": "\u504f\u591a", "ma_text": "\u504f\u591a\u6574\u7406", "max_drawdown": -4.36, "name": "\u7f8e\u56fd\u5168\u5e02\u573a\u8986\u76d6\uff0c\u5c0f\u76d8\u80a1\u5f39\u6027\u8865\u5145\uff0c\u8d44\u4ea7\u914d\u7f6e\u5168\u80fd\u578b\u9009\u624b", "rationale": "\u7f8e\u56fd\u5168\u5e02\u573a\u8986\u76d6\uff0c\u5c0f\u76d8\u80a1\u5f39\u6027\u8865\u5145\uff0c\u8d44\u4ea7\u914d\u7f6e\u5168\u80fd\u578b\u9009\u624b", "rr_score": 10.0, "score": 70.0, "sharpe": -22.57, "star_emoji": "\u2b50\u2b50\u2b50\u2b50", "stars": 4, "tag": "\u4ef7\u503c\u4f18\u9009", "tag_emoji": "\ud83d\udc8e", "ticker": "VTI", "trend_score": 10.0, "vol_score": 25.0, "volatility": 16.6};
     let currentPeriod = '5y';
 
+    // ── 标签样式 ──
+    const TAG_CLASSES = {
+        "强力推荐": "fire", "价值优选": "diamond",
+        "稳健配置": "diamond", "高位观望": "warning", "高风险": "danger",
+    };
+
+    // ── 渲染评级英雄区 ──
+    function renderRatingHero() {
+        if (!RATING || !RATING.ticker) return;
+        const stars = RATING.stars || 3;
+        const tag = RATING.tag || '';
+        const tagCls = TAG_CLASSES[tag] || '';
+        document.getElementById('hero-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(5 - stars);
+        document.getElementById('hero-score').textContent = `综合评分 ${RATING.score || 0} / 100`;
+        const badge = document.getElementById('hero-tag-badge');
+        badge.className = `hero-tag-badge ${tagCls}`;
+        badge.innerHTML = `${RATING.tag_emoji || ''} ${tag}`;
+
+        // 评分条
+        const bars = [
+            { label: '趋势强度', val: RATING.trend_score, cls: 'trend', max: 25 },
+            { label: '风险收益', val: RATING.rr_score, cls: 'rr', max: 25 },
+            { label: '回撤安全', val: RATING.dd_score, cls: 'dd', max: 25 },
+            { label: '波动率适配', val: RATING.vol_score, cls: 'vol', max: 25 },
+        ];
+        const sb = document.getElementById('score-bars');
+        sb.innerHTML = bars.map(b => `
+            <div class="score-bar-item">
+                <div class="score-bar-label">${b.label}</div>
+                <div class="score-bar-track">
+                    <div class="score-bar-fill ${b.cls}" style="width:${(b.val/b.max*100).toFixed(0)}%"></div>
+                </div>
+                <div class="score-bar-value">${b.val.toFixed(0)} / ${b.max}</div>
+            </div>`).join('');
+
+        // 外链按钮
+        const links = RATING.links || {};
+        const dl = document.getElementById('datalinks');
+        dl.innerHTML = `
+            <a class="datalink-btn" href="${links.yahoo || '#'}" target="_blank">📊 Yahoo Finance 行情<span class="ext-icon">↗</span></a>
+            <a class="datalink-btn" href="${links.tradingview || '#'}" target="_blank">📈 TradingView 图表<span class="ext-icon">↗</span></a>
+            <a class="datalink-btn" href="${links.seekingalpha || '#'}" target="_blank">📰 Seeking Alpha 分析<span class="ext-icon">↗</span></a>
+        `;
+
+        // 均线状态
+        const maIcon = RATING.ma_emoji || '⚪';
+        const maText = RATING.ma_text || '中性整理';
+        const statusColor = {
+            "多头": "#3fb950", "偏多": "#f0c040",
+            "中性": "#8b949e", "偏空": "#f0883e", "空头": "#f85149",
+        };
+        const color = statusColor[RATING.ma_status] || "#8b949e";
+        document.getElementById('ma-status-icon').innerHTML = `<span style="color:${color}">${maIcon}</span> <span style="color:${color}">${RATING.score ? RATING.score.toFixed(0) : ''}</span>`;
+        document.getElementById('ma-status-text').textContent = maText;
+    }
+
+    // ── 日涨跌幅 ──
+    function updateChange() {
+        const change = 1.16;
+        const el = document.getElementById('hero-change');
+        el.className = 'hero-change ' + (change >= 0 ? 'up' : 'down');
+        el.textContent = (change >= 0 ? '▲ +' : '▼ ') + change + '% 今日';
+    }
+
+    // ── ECharts 图表 ──
     function calcMA(data, period) {
         const result = [];
         for (let i = 0; i < data.length; i++) {
@@ -236,17 +444,18 @@
     }
 
     function filterByPeriod(data, period) {
-        if (period === 'all') return data;
-        const now = new Date(data[data.length - 1].date);
-        const cutoff = new Date(now);
-        if (period === '1y') cutoff.setFullYear(now.getFullYear() - 1);
-        else if (period === '5y') cutoff.setFullYear(now.getFullYear() - 5);
-        return data.filter(d => new Date(d.date) >= cutoff);
+        if (period === '5y') {
+            const now = new Date(data[data.length - 1].date);
+            const cutoff = new Date(now);
+            cutoff.setFullYear(now.getFullYear() - 5);
+            return data.filter(d => new Date(d.date) >= cutoff);
+        }
+        return data;
     }
 
     let chart;
     function initChart() {
-        chart = echarts.init(document.getElementById('chart'), 'dark');
+        chart = echarts.init(document.getElementById('chart'));
         drawChart(FULL_DATA);
         window.addEventListener('resize', () => chart.resize());
     }
@@ -256,39 +465,60 @@
         const dates = data.map(d => d.date);
         const ma20 = calcMA(data, 20);
         const ma50 = calcMA(data, 50);
+        const ma200 = calcMA(data, 200);
 
         const option = {
             backgroundColor: 'transparent',
-            tooltip: { trigger: 'axis', axisPointer: { type: 'cross' }, formatter: function(params) {
-                const d = params[0];
-                const price = d.data[1];
-                const o = d.data[2], h = d.data[3], l = d.data[4], c = d.data[1];
-                let s = `<strong>${d.axisValue}</strong><br/>`;
-                params.forEach(p => {
-                    if (p.seriesName !== '成交量') s += `${p.marker} ${p.seriesName}: <strong>$${p.value !== null && p.value !== undefined ? (Array.isArray(p.value) ? p.value[1] : p.value) : '-'}</strong><br/>`;
-                });
-                return s;
-            }},
-            legend: { top: 8, textStyle: { color: '#8b949e', fontSize: 12 }, inactiveColor: '#444' },
-            grid: { left: '1%', right: '1%', top: '15%', bottom: '12%', containLabel: true },
-            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => v.slice(0, 10) }, splitLine: { show: false } },
+            tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+            legend: { top: 8, textStyle: { color: '#8b949e', fontSize: 12 } },
+            grid: { left: '1%', right: '1%', top: '12%', bottom: '15%', containLabel: true },
+            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } },
+                axisLabel: { color: '#8b949e', fontSize: 11 }, splitLine: { show: false } },
             yAxis: [
-                { type: 'value', scale: true, position: 'right', splitLine: { lineStyle: { color: '#21262d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } },
+                { type: 'value', scale: true, position: 'right',
+                  splitLine: { lineStyle: { color: '#21262d' } },
+                  axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } },
                 { type: 'value', scale: true, splitLine: { show: false }, axisLabel: { show: false } }
             ],
             dataZoom: [
                 { type: 'inside', xAxisIndex: [0], start: 0, end: 100 },
-                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 20, bottom: 10, borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.2)', handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
+                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 20, bottom: 8,
+                  borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.2)',
+                  handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
             ],
             series: [
-                { name: '收盘价', type: 'line', data: data.map(d => [d.date, d.close, d.open, d.high, d.low]), smooth: false, symbol: 'none', lineStyle: { width: 1.5, color: '#58a6ff' }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.2)' }, { offset: 1, color: 'rgba(88,166,255,0)' }] } } },
-                { name: 'MA20', type: 'line', data: ma20.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#f0883e', type: 'dashed' }, connectNulls: true },
-                { name: 'MA50', type: 'line', data: ma50.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#a371f7', type: 'dashed' }, connectNulls: true }
+                { name: '收盘价', type: 'line', data: data.map(d => d.close), smooth: false, symbol: 'none',
+                  lineStyle: { width: 2, color: '#58a6ff' },
+                  areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+                      colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.15)' }, { offset: 1, color: 'transparent' }] } } },
+                { name: 'MA20', type: 'line', data: ma20.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none',
+                  lineStyle: { width: 1.2, color: '#f0883e', type: 'dashed' }, connectNulls: true },
+                { name: 'MA50', type: 'line', data: ma50.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none',
+                  lineStyle: { width: 1.2, color: '#a371f7', type: 'dashed' }, connectNulls: true },
+                { name: 'MA200', type: 'line', data: ma200.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none',
+                  lineStyle: { width: 1.2, color: '#d4a843', type: 'dashed' }, connectNulls: true },
             ]
         };
         chart.setOption(option);
     }
 
+    // ── 历史价格表 ──
+    function renderTable(data) {
+        const tbody = document.getElementById('price-table-body');
+        tbody.innerHTML = data.slice().reverse().slice(0, 100).map(d =>
+            `<tr><td>${d.date}</td><td>$${d.open.toFixed(2)}</td><td>$${d.high.toFixed(2)}</td><td>$${d.low.toFixed(2)}</td><td>$${d.close.toFixed(2)}</td><td>${d.volume.toLocaleString()}</td></tr>`
+        ).join('');
+    }
+
+    // ── 对比表 ──
+    function renderCompare() {
+        const tbody = document.getElementById('compare-table-body');
+        tbody.innerHTML = COMPARE.map(item =>
+            `<tr><td>${item.ticker}</td><td>$${item.price.toFixed(2)}</td><td style="color:${item.return >= 0 ? 'var(--green)' : 'var(--red)'}">${item.return >= 0 ? '+' : ''}${item.return.toFixed(1)}%</td></tr>`
+        ).join('');
+    }
+
+    // ── 事件绑定 ──
     document.querySelectorAll('.period-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
@@ -298,31 +528,12 @@
         });
     });
 
-    function renderTable(data) {
-        const tbody = document.getElementById('price-table-body');
-        tbody.innerHTML = data.slice().reverse().slice(0, 100).map(d =>
-            `<tr><td>${d.date}</td><td>$${d.open.toFixed(2)}</td><td>$${d.high.toFixed(2)}</td><td>$${d.low.toFixed(2)}</td><td>$${d.close.toFixed(2)}</td><td>${d.volume.toLocaleString()}</td></tr>`
-        ).join('');
-    }
-
-    function renderCompare() {
-        const tbody = document.getElementById('compare-table-body');
-        tbody.innerHTML = COMPARE.map(item =>
-            `<tr><td>${item.ticker}</td><td>$${item.price.toFixed(2)}</td><td style="color:${item.return >= 0 ? 'var(--green)' : 'var(--red)'}">${item.return >= 0 ? '+' : ''}${item.return.toFixed(1)}%</td></tr>`
-        ).join('');
-    }
-
-    function updatePriceChange() {
-        const change = 1.16;
-        const el = document.getElementById('price-change');
-        el.className = 'price-change ' + (change >= 0 ? 'up' : 'down');
-        el.textContent = (change >= 0 ? '▲ +' : '▼ ') + change + '% 今日';
-    }
-
+    // ── 启动 ──
+    renderRatingHero();
+    updateChange();
     initChart();
     renderTable(FULL_DATA);
     renderCompare();
-    updatePriceChange();
     </script>
 </body>
 </html>
