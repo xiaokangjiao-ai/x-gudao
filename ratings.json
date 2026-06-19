@@ -1,35 +1,5 @@
 [
   {
-    "ticker": "BND",
-    "name": "美国全债市场覆盖，降息预期直接受益，组合抗跌必备",
-    "rationale": "美国全债市场覆盖，降息预期直接受益，组合抗跌必备",
-    "score": 75.0,
-    "stars": 4,
-    "star_emoji": "⭐⭐⭐⭐",
-    "tag_emoji": "💎",
-    "tag": "价值优选",
-    "trend_score": 10.0,
-    "rr_score": 15.0,
-    "dd_score": 25.0,
-    "vol_score": 25.0,
-    "annual_return": 10.74,
-    "volatility": 4.4,
-    "max_drawdown": -0.88,
-    "sharpe": -88.57,
-    "ma20": 73.16,
-    "ma50": null,
-    "ma200": null,
-    "latest_close": 73.34,
-    "ma_emoji": "🟡",
-    "ma_text": "偏多整理",
-    "ma_status": "偏多",
-    "links": {
-      "yahoo": "https://finance.yahoo.com/quote/BND/",
-      "tradingview": "https://www.tradingview.com/symbols/AMEX-BND/",
-      "seekingalpha": "https://seekingalpha.com/symbol/BND"
-    }
-  },
-  {
     "ticker": "BRK.B",
     "name": "穿越周期的价值旗舰，浮存金模式提供安全垫，抗跌性突出",
     "rationale": "穿越周期的价值旗舰，浮存金模式提供安全垫，抗跌性突出",
@@ -57,6 +27,36 @@
       "yahoo": "https://finance.yahoo.com/quote/BRK.B/",
       "tradingview": "https://www.tradingview.com/symbols/NYSE-BRK.B/",
       "seekingalpha": "https://seekingalpha.com/symbol/BRK.B"
+    }
+  },
+  {
+    "ticker": "BND",
+    "name": "美国全债市场覆盖，降息预期直接受益，组合抗跌必备",
+    "rationale": "美国全债市场覆盖，降息预期直接受益，组合抗跌必备",
+    "score": 75.0,
+    "stars": 4,
+    "star_emoji": "⭐⭐⭐⭐",
+    "tag_emoji": "💎",
+    "tag": "价值优选",
+    "trend_score": 10.0,
+    "rr_score": 15.0,
+    "dd_score": 25.0,
+    "vol_score": 25.0,
+    "annual_return": 10.74,
+    "volatility": 4.4,
+    "max_drawdown": -0.88,
+    "sharpe": -88.57,
+    "ma20": 73.16,
+    "ma50": null,
+    "ma200": null,
+    "latest_close": 73.34,
+    "ma_emoji": "🟡",
+    "ma_text": "偏多整理",
+    "ma_status": "偏多",
+    "links": {
+      "yahoo": "https://finance.yahoo.com/quote/BND/",
+      "tradingview": "https://www.tradingview.com/symbols/AMEX-BND/",
+      "seekingalpha": "https://seekingalpha.com/symbol/BND"
     }
   },
   {
@@ -90,36 +90,6 @@
     }
   },
   {
-    "ticker": "VTI",
-    "name": "美国全市场覆盖，小盘股弹性补充，资产配置全能型选手",
-    "rationale": "美国全市场覆盖，小盘股弹性补充，资产配置全能型选手",
-    "score": 70.0,
-    "stars": 4,
-    "star_emoji": "⭐⭐⭐⭐",
-    "tag_emoji": "💎",
-    "tag": "价值优选",
-    "trend_score": 10.0,
-    "rr_score": 10.0,
-    "dd_score": 25.0,
-    "vol_score": 25.0,
-    "annual_return": 26.96,
-    "volatility": 16.6,
-    "max_drawdown": -4.36,
-    "sharpe": -22.57,
-    "ma20": 368.33,
-    "ma50": null,
-    "ma200": null,
-    "latest_close": 369.99,
-    "ma_emoji": "🟡",
-    "ma_text": "偏多整理",
-    "ma_status": "偏多",
-    "links": {
-      "yahoo": "https://finance.yahoo.com/quote/VTI/",
-      "tradingview": "https://www.tradingview.com/symbols/AMEX-VTI/",
-      "seekingalpha": "https://seekingalpha.com/symbol/VTI"
-    }
-  },
-  {
     "ticker": "IWM",
     "name": "美国小盘股代表，降息受益显著，经济复苏期弹性最大",
     "rationale": "美国小盘股代表，降息受益显著，经济复苏期弹性最大",
@@ -147,66 +117,6 @@
       "yahoo": "https://finance.yahoo.com/quote/IWM/",
       "tradingview": "https://www.tradingview.com/symbols/AMEX-IWM/",
       "seekingalpha": "https://seekingalpha.com/symbol/IWM"
-    }
-  },
-  {
-    "ticker": "SPY",
-    "name": "美国大盘基准，长期持有年化收益稳定，机构配置压舱石",
-    "rationale": "美国大盘基准，长期持有年化收益稳定，机构配置压舱石",
-    "score": 67.0,
-    "stars": 3,
-    "star_emoji": "⭐⭐⭐",
-    "tag_emoji": "✅",
-    "tag": "稳健配置",
-    "trend_score": 7.0,
-    "rr_score": 10.0,
-    "dd_score": 25.0,
-    "vol_score": 25.0,
-    "annual_return": 13.29,
-    "volatility": 16.0,
-    "max_drawdown": -4.49,
-    "sharpe": -24.15,
-    "ma20": 747.08,
-    "ma50": null,
-    "ma200": null,
-    "latest_close": 746.74,
-    "ma_emoji": "🟠",
-    "ma_text": "偏空警惕",
-    "ma_status": "偏空",
-    "links": {
-      "yahoo": "https://finance.yahoo.com/quote/SPY/",
-      "tradingview": "https://www.tradingview.com/symbols/AMEX-SPY/",
-      "seekingalpha": "https://seekingalpha.com/symbol/SPY"
-    }
-  },
-  {
-    "ticker": "IVV",
-    "name": "低费率S&P500指数基金，费用率仅0.03%，长期复利显著",
-    "rationale": "低费率S&P500指数基金，费用率仅0.03%，长期复利显著",
-    "score": 67.0,
-    "stars": 3,
-    "star_emoji": "⭐⭐⭐",
-    "tag_emoji": "✅",
-    "tag": "稳健配置",
-    "trend_score": 7.0,
-    "rr_score": 10.0,
-    "dd_score": 25.0,
-    "vol_score": 25.0,
-    "annual_return": 13.42,
-    "volatility": 15.91,
-    "max_drawdown": -4.47,
-    "sharpe": -24.27,
-    "ma20": 750.27,
-    "ma50": null,
-    "ma200": null,
-    "latest_close": 750.11,
-    "ma_emoji": "🟠",
-    "ma_text": "偏空警惕",
-    "ma_status": "偏空",
-    "links": {
-      "yahoo": "https://finance.yahoo.com/quote/IVV/",
-      "tradingview": "https://www.tradingview.com/symbols/AMEX-IVV/",
-      "seekingalpha": "https://seekingalpha.com/symbol/IVV"
     }
   },
   {
@@ -267,36 +177,6 @@
       "yahoo": "https://finance.yahoo.com/quote/QQQ/",
       "tradingview": "https://www.tradingview.com/symbols/NASDAQ-QQQ/",
       "seekingalpha": "https://seekingalpha.com/symbol/QQQ"
-    }
-  },
-  {
-    "ticker": "TSM",
-    "name": "AI芯片需求爆棚，产能排满至2027，估值具备安全边际",
-    "rationale": "AI芯片需求爆棚，产能排满至2027，估值具备安全边际",
-    "score": 52.0,
-    "stars": 2,
-    "star_emoji": "⭐⭐",
-    "tag_emoji": "⚠️",
-    "tag": "高位观望",
-    "trend_score": 10.0,
-    "rr_score": 10.0,
-    "dd_score": 18.0,
-    "vol_score": 14.0,
-    "annual_return": 485.92,
-    "volatility": 52.62,
-    "max_drawdown": -8.49,
-    "sharpe": -3.99,
-    "ma20": 426.96,
-    "ma50": null,
-    "ma200": null,
-    "latest_close": 462.12,
-    "ma_emoji": "🟡",
-    "ma_text": "偏多整理",
-    "ma_status": "偏多",
-    "links": {
-      "yahoo": "https://finance.yahoo.com/quote/TSM/",
-      "tradingview": "https://www.tradingview.com/symbols/NYSE-TSM/",
-      "seekingalpha": "https://seekingalpha.com/symbol/TSM"
     }
   },
   {
@@ -420,36 +300,6 @@
     }
   },
   {
-    "ticker": "GLD",
-    "name": "实际利率下行+地缘风险驱动黄金走强，对冲尾部风险首选",
-    "rationale": "实际利率下行+地缘风险驱动黄金走强，对冲尾部风险首选",
-    "score": 29.0,
-    "stars": 1,
-    "star_emoji": "⭐",
-    "tag_emoji": "🔴",
-    "tag": "高风险",
-    "trend_score": 7.0,
-    "rr_score": 0.0,
-    "dd_score": 10.0,
-    "vol_score": 12.0,
-    "annual_return": -58.97,
-    "volatility": 28.61,
-    "max_drawdown": -10.48,
-    "sharpe": -16.95,
-    "ma20": 401.36,
-    "ma50": null,
-    "ma200": null,
-    "latest_close": 387.12,
-    "ma_emoji": "🟠",
-    "ma_text": "偏空警惕",
-    "ma_status": "偏空",
-    "links": {
-      "yahoo": "https://finance.yahoo.com/quote/GLD/",
-      "tradingview": "https://www.tradingview.com/symbols/AMEX-GLD/",
-      "seekingalpha": "https://seekingalpha.com/symbol/GLD"
-    }
-  },
-  {
     "ticker": "MSFT",
     "name": "Azure云增速重回加速通道，Copilot全面绑定Office与企业客户",
     "rationale": "Azure云增速重回加速通道，Copilot全面绑定Office与企业客户",
@@ -477,6 +327,36 @@
       "yahoo": "https://finance.yahoo.com/quote/MSFT/",
       "tradingview": "https://www.tradingview.com/symbols/NASDAQ-MSFT/",
       "seekingalpha": "https://seekingalpha.com/symbol/MSFT"
+    }
+  },
+  {
+    "ticker": "GLD",
+    "name": "实际利率下行+地缘风险驱动黄金走强，对冲尾部风险首选",
+    "rationale": "实际利率下行+地缘风险驱动黄金走强，对冲尾部风险首选",
+    "score": 29.0,
+    "stars": 1,
+    "star_emoji": "⭐",
+    "tag_emoji": "🔴",
+    "tag": "高风险",
+    "trend_score": 7.0,
+    "rr_score": 0.0,
+    "dd_score": 10.0,
+    "vol_score": 12.0,
+    "annual_return": -58.97,
+    "volatility": 28.61,
+    "max_drawdown": -10.48,
+    "sharpe": -16.95,
+    "ma20": 401.36,
+    "ma50": null,
+    "ma200": null,
+    "latest_close": 387.12,
+    "ma_emoji": "🟠",
+    "ma_text": "偏空警惕",
+    "ma_status": "偏空",
+    "links": {
+      "yahoo": "https://finance.yahoo.com/quote/GLD/",
+      "tradingview": "https://www.tradingview.com/symbols/AMEX-GLD/",
+      "seekingalpha": "https://seekingalpha.com/symbol/GLD"
     }
   }
 ]
