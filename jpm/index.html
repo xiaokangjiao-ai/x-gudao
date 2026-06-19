@@ -3,335 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JPM - JPMorgan Chase & Co. | 股道奇货</title>
-    <meta name="description" content="JPMorgan Chase & Co.（JPM）历史价格、K线图、财务指标、AI分析 - 股道奇货">
-    <meta name="keywords" content="JPM, JPMorgan Chase & Co., ETF, 股票, 历史数据, K线图">
-    <link rel="canonical" href="https://x.gudaoqihuo.com/<built-in method lower of str object at 0x0000026E7FC74810>/">
+    <title>JPM - JPM | 全球最具价值的10个基金</title>
+    <meta name="description" content="JPM（JPM）历史价格、技术图表、关键指标分析。对标Macrotrends专业金融数据。">
+    <meta name="keywords" content="JPM, JPM, ETF, 基金, 历史数据, K线图">
+    <link rel="canonical" href="https://x.gudaoqihuo.com/jpm/">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/theme/dark.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-primary: #0d1117; --bg-secondary: #161b22; --bg-card: #1c2128;
-            --border: #30363d; --text-primary: #e6edf3; --text-secondary: #8b949e;
-            --accent: #58a6ff; --green: #3fb950; --red: #f85149; --gold: #d4a843;
-            --border-radius: 12px;
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2128;
+            --border: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --green: #3fb950;
+            --red: #f85149;
+            --gold: #d4a843;
         }
         body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
-        .up { color: var(--green) !important; }
-        .down { color: var(--red) !important; }
-        .neutral { color: var(--text-secondary) !important; }
 
-        /* Header */
         header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
         .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-        .logo { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .logo { font-size: 18px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--gold); }
-        nav { display: flex; gap: 24px; }
-        nav a { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
-        nav a:hover { color: var(--text-primary); text-decoration: none; }
+        nav { display: flex; gap: 24px; align-items: center; }
+        nav a { color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        nav a:hover, nav a.active { color: var(--text-primary); text-decoration: none; }
+        nav a.active { border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
 
-        /* Breadcrumb */
         .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 16px 24px; font-size: 13px; color: var(--text-secondary); }
         .breadcrumb a { color: var(--text-secondary); }
-        .breadcrumb a:hover { color: var(--text-primary); text-decoration: none; }
+        .breadcrumb span { margin: 0 8px; }
 
-        /* Hero */
-        .hero { max-width: 1400px; margin: 0 auto; padding: 8px 24px 24px; }
+        .hero { max-width: 1400px; margin: 0 auto; padding: 24px; }
         .stock-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-        .stock-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .stock-title { display: flex; align-items: center; gap: 16px; }
         .ticker-badge { font-size: 32px; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
-        .stock-name { font-size: 20px; font-weight: 600; }
-        .stock-category { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 10px; }
-        .stock-category.etf { background: rgba(88,166,255,0.1); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
-        .stock-category.bond { background: rgba(63,185,80,0.1); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
-        .stock-category.commodity { background: rgba(212,168,67,0.1); color: var(--gold); border: 1px solid rgba(212,168,67,0.3); }
-        .stock-category.stock { background: rgba(212,168,67,0.1); color: var(--gold); border: 1px solid rgba(212,168,67,0.3); }
-        .stock-right { text-align: right; }
-        .current-price { font-size: 36px; font-weight: 700; }
-        .price-change { font-size: 15px; margin-top: 4px; }
-        .stock-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-top: 8px; max-width: 700px; }
+        .stock-name { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+        .stock-category { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+        .stock-price-block { text-align: right; }
+        .current-price { font-size: 36px; font-weight: 700; color: var(--text-primary); }
+        .price-change { font-size: 16px; margin-top: 4px; }
+        .price-change.up { color: var(--green); }
+        .price-change.down { color: var(--red); }
 
-        /* Stats row */
-        .stats-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; flex: 1; min-width: 130px; }
-        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); margin-bottom: 4px; }
-        .stat-value { font-size: 17px; font-weight: 600; }
+        .stats-row { display: flex; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; flex: 1; min-width: 140px; }
+        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 4px; }
+        .stat-value { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+        .stat-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
 
-        /* Main content layout */
-        .content-wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px 48px; display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
-
-        /* Chart */
-        .chart-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); overflow: hidden; margin-bottom: 20px; }
-        .chart-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); }
-        .chart-title { font-size: 14px; font-weight: 600; }
-        .period-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; margin-left: 6px; }
+        .content { max-width: 1400px; margin: 0 auto; padding: 0 24px 48px; display: grid; grid-template-columns: 1fr 360px; gap: 24px; }
+        .chart-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+        .chart-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+        .chart-title { font-size: 15px; font-weight: 600; }
+        .period-selector { display: flex; gap: 4px; }
+        .period-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
         .period-btn:hover { border-color: var(--accent); color: var(--accent); }
         .period-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-        #main-chart { width: 100%; height: 380px; }
+        #chart { width: 100%; height: 400px; }
 
-        /* Section cards */
-        .section-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); margin-bottom: 20px; overflow: hidden; }
-        .section-header { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
-        .section-body { padding: 0; }
-
-        /* Tables */
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); text-align: right; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg-card); }
-        .data-table th:first-child { text-align: left; }
-        .data-table td { font-size: 13px; padding: 10px 16px; text-align: right; border-bottom: 1px solid rgba(48,54,61,0.5); }
-        .data-table td:first-child { text-align: left; color: var(--text-secondary); font-size: 13px; }
-        .data-table tr:last-child td { border-bottom: none; }
-        .data-table tr:hover td { background: rgba(255,255,255,0.02); }
-        .trend-up { color: var(--green); font-weight: 700; }
-        .trend-down { color: var(--red); font-weight: 700; }
-        .label-positive { color: var(--green); }
-        .label-negative { color: var(--red); }
-
-        /* Sector bars */
-        .sector-bar { display: flex; height: 28px; border-radius: 6px; overflow: hidden; margin: 14px 20px 0; gap: 2px; }
-        .sector-bar-item { display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 500; overflow: hidden; white-space: nowrap; min-width: 0; }
-        .sector-bar-item span { overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
-
-        /* AI insight */
-        .ai-insight { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); margin-bottom: 20px; }
-        .ai-header { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
-        .ai-body { padding: 20px; }
-        .ai-body strong { color: var(--gold); font-size: 14px; }
-        .ai-body p { margin-bottom: 12px; line-height: 1.7; font-size: 13px; }
-        .ai-body p:last-child { margin-bottom: 0; }
-        .ai-pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
-        .pros-box, .cons-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px 14px; }
-        .pros-box { border-left: 3px solid var(--green); }
-        .cons-box { border-left: 3px solid var(--red); }
-        .pros-box h4 { font-size: 12px; color: var(--green); margin-bottom: 8px; font-weight: 600; }
-        .cons-box h4 { font-size: 12px; color: var(--red); margin-bottom: 8px; font-weight: 600; }
-        .pros-box ul, .cons-box ul { padding-left: 16px; font-size: 12px; color: var(--text-secondary); line-height: 1.8; }
-        .ai-suggestion { margin-top: 12px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.7; }
-        .ai-suggestion strong { color: var(--accent); }
-
-        /* Sidebar */
-        .sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 72px; }
-        .side-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: 18px; }
-        .side-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
-        .indicator-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
+        .sidebar { display: flex; flex-direction: column; gap: 16px; }
+        .side-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+        .side-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); }
+        .indicator-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
         .indicator-row:last-child { border-bottom: none; }
         .indicator-name { color: var(--text-secondary); }
-        .indicator-value { font-weight: 600; }
-        .similar-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
-        .similar-item:last-child { border-bottom: none; }
-        .similar-item a { font-weight: 600; }
-        .compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .compare-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
-        .compare-table th:first-child { text-align: left; }
-        .compare-table td { padding: 7px 8px; text-align: right; color: var(--text-primary); }
-        .compare-table td:first-child { text-align: left; font-weight: 500; }
-        .compare-table tr:hover td { background: rgba(255,255,255,0.03); }
-        .compare-best { color: var(--green) !important; font-weight: 700; }
+        .indicator-value { font-weight: 600; color: var(--text-primary); }
 
-        /* Footer */
+        .compare-table { width: 100%; border-collapse: collapse; }
+        .compare-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+        .compare-table th:first-child { text-align: left; }
+        .compare-table td { font-size: 13px; padding: 6px 8px; text-align: right; color: var(--text-primary); }
+        .compare-table td:first-child { text-align: left; font-weight: 600; }
+        .compare-table tr:hover td { background: rgba(255,255,255,0.03); }
+        .compare-table td.highlight { color: var(--gold); font-weight: 700; }
+
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .data-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+        .data-table th:first-child { text-align: left; }
+        .data-table td { padding: 7px 10px; text-align: right; color: var(--text-primary); border-bottom: 1px solid rgba(48,54,61,0.5); }
+        .data-table td:first-child { text-align: left; color: var(--text-secondary); }
+        .data-table tr:hover td { background: rgba(255,255,255,0.03); }
+
         footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
         footer a { color: var(--text-secondary); }
-        footer a:hover { color: var(--text-primary); text-decoration: none; }
 
-        /* Responsive */
-        @media (max-width: 900px) {
-            .content-wrap { grid-template-columns: 1fr; }
-            .sidebar { position: static; }
-            .ai-pros-cons { grid-template-columns: 1fr; }
-            .stats-row { gap: 8px; }
-        }
+        @media (max-width: 900px) { .content { grid-template-columns: 1fr; } .stats-row { gap: 8px; } .stat-card { min-width: 100px; } }
     </style>
 </head>
 <body>
     <header>
         <div class="header-inner">
-            <div class="logo">📈 <span>股道奇货</span></div>
+            <div class="logo">📈 <span>股道奇货</span> · 全球最具价值的10个基金</div>
             <nav>
                 <a href="/">首页</a>
-                <a href="/screener.html">全部列表</a>
+                <a href="/screener.html" class="active">基金列表</a>
+                <a href="/compare.html">对比</a>
+                <a href="/about.html">关于</a>
             </nav>
         </div>
     </header>
 
     <div class="breadcrumb">
-        <a href="/">首页</a>
-        <span>›</span>
-        <a href="/screener.html">股票</a>
-        <span>›</span>
-        JPM
+        <a href="/">首页</a> <span>›</span> <a href="/screener.html">基金列表</a> <span>›</span> JPM
     </div>
 
     <div class="hero">
         <div class="stock-header">
-            <div>
-                <div class="stock-left">
-                    <span class="ticker-badge">JPM</span>
-                    <div>
-                        <div class="stock-name">JPMorgan Chase & Co.</div>
-                        <span class="stock-category etf">股票</span>
-                    </div>
+            <div class="stock-title">
+                <div>
+                    <div class="ticker-badge">JPM</div>
+                    <div class="stock-name">JPM</div>
+                    <div class="stock-category">ETF</div>
                 </div>
-                
-                <div class="stock-desc">美国最大银行，投行、财富管理、商业银行业务遍布全球，金融业的晴雨表。</div>
-                
             </div>
-            <div class="stock-right">
-                <div class="current-price">$319.4</div>
-                <div class="price-change down">
-                    ▼ -1.32 (-0.41%)
-                </div>
+            <div class="stock-price-block">
+                <div class="current-price" id="current-price">$325.22</div>
+                <div class="price-change" id="price-change"></div>
             </div>
         </div>
 
         <div class="stats-row">
-            <div class="stat-card"><div class="stat-label">52周最高</div><div class="stat-value">$325.92</div></div>
-            <div class="stat-card"><div class="stat-label">52周最低</div><div class="stat-value">$293.67</div></div>
-            <div class="stat-card"><div class="stat-label">年化收益</div><div class="stat-value up">+12.8%</div></div>
-            <div class="stat-card"><div class="stat-label">波动率</div><div class="stat-value">22.33%</div></div>
-            <div class="stat-card"><div class="stat-label">夏普比率</div><div class="stat-value">0.57</div></div>
-            <div class="stat-card"><div class="stat-label">最大回撤</div><div class="stat-value down">-3.31%</div></div>
+            <div class="stat-card">
+                <div class="stat-label">52周最高</div>
+                <div class="stat-value">$338.09</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">52周最低</div>
+                <div class="stat-value">$293.67</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">年化收益率</div>
+                <div class="stat-value" style="color: var(--green)">+16.95%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">历史数据点</div>
+                <div class="stat-value">23</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">数据范围</div>
+                <div class="stat-value">2026-05-18 ~ 2026-06-18</div>
+            </div>
         </div>
     </div>
 
-    <div class="content-wrap">
-        <!-- Left column -->
-        <div class="content-main">
-
-            <!-- Chart -->
+    <div class="content">
+        <div>
             <div class="chart-section">
                 <div class="chart-header">
                     <div class="chart-title">📊 价格走势（K线 + 均线）</div>
-                    <div>
+                    <div class="period-selector">
                         <button class="period-btn" data-period="1y">1年</button>
-                        <button class="period-btn" data-period="5y">5年</button>
+                        <button class="period-btn active" data-period="5y">5年</button>
                         <button class="period-btn" data-period="all">全部</button>
                     </div>
                 </div>
-                <div id="main-chart"></div>
+                <div id="chart"></div>
             </div>
 
-            <!-- Key Financial Metrics -->
-            <div class="section-card">
-                <div class="section-header">📊 关键财务指标</div>
-                <div class="section-body">
-                    <table class="data-table">
+            <div class="chart-section" style="margin-top: 16px;">
+                <div class="chart-header">
+                    <div class="chart-title">📋 历史价格明细</div>
+                </div>
+                <div style="overflow-x:auto; max-height: 400px; overflow-y: auto;">
+                    <table class="data-table" id="price-table">
                         <thead>
                             <tr>
-                                <th>指标</th>
-                                <th>当前值</th>
-                                <th>5年均值</th>
-                                <th>趋势</th>
+                                <th>日期</th>
+                                <th>开盘</th>
+                                <th>最高</th>
+                                <th>最低</th>
+                                <th>收盘</th>
+                                <th>成交量</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
-                            
-                            
-                            
-                            
-                            <tr><td>费率 (Expense Ratio)</td><td>N/A</td><td>N/A</td><td>—</td></tr>
-                            <tr><td>净资产规模</td><td>N/A</td><td>—</td><td>—</td></tr>
-                            <tr><td>日均成交量</td><td></td><td></td><td>—</td></tr>
-                            
-                            
-                            
-                            
-                        </tbody>
+                        <tbody id="price-table-body"></tbody>
                     </table>
                 </div>
             </div>
-
-            <!-- Historical Performance -->
-            <div class="section-card">
-                <div class="section-header">📈 历史收益表现</div>
-                <div class="section-body">
-                    <table class="data-table">
-                        <thead>
-                            <tr><th>周期</th><th>收益率</th><th>年化</th><th>最大回撤</th><th>夏普比率</th></tr>
-                        </thead>
-                        <tbody>
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Sector / Holding Distribution -->
-            
-
-            <!-- AI Insight -->
-            
-
         </div>
 
-        <!-- Sidebar -->
         <div class="sidebar">
-
-            <!-- Basic Info -->
             <div class="side-card">
-                <div class="side-title">📋 基本信息</div>
-                <div class="indicator-row"><span class="indicator-name">全称</span><span class="indicator-value">JPMorgan Chase & Co.</span></div>
-                
-                
-                <div class="indicator-row"><span class="indicator-name">费率</span><span class="indicator-value">N/A</span></div>
-                <div class="indicator-row"><span class="indicator-name">资产规模</span><span class="indicator-value">N/A</span></div>
-                
-                
-                
-                
+                <div class="side-title">📐 关键指标</div>
+                <div class="indicator-row"><span class="indicator-name">最新收盘</span><span class="indicator-value">$325.22</span></div>
+                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" style="color: var(--red)">-2.47%</span></div>
+                <div class="indicator-row"><span class="indicator-name">MA20</span><span class="indicator-value">$310.47</span></div>
+                <div class="indicator-row"><span class="indicator-name">MA50</span><span class="indicator-value">$0</span></div>
+                <div class="indicator-row"><span class="indicator-name">MA200</span><span class="indicator-value">$0</span></div>
+                <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--green)">+16.95%</span></div>
+                <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">25.5%</span></div>
             </div>
 
-            <!-- Risk Metrics -->
             <div class="side-card">
-                <div class="side-title">⚠️ 风险指标</div>
-                <div class="indicator-row"><span class="indicator-name">年化波动率</span><span class="indicator-value">22.3%</span></div>
-                
-                <div class="indicator-row"><span class="indicator-name">夏普比率</span><span class="indicator-value">0.57</span></div>
-                <div class="indicator-row"><span class="indicator-name">最大回撤</span><span class="indicator-value down">-3.3%</span></div>
-                
-                
-                <div class="indicator-row"><span class="indicator-name">信息比率</span><span class="indicator-value"></span></div>
-                
-                
-                
+                <div class="side-title">⚖️ 与其他基金对比</div>
+                <table class="compare-table">
+                    <thead><tr><th>基金</th><th>最新价</th><th>1年收益</th></tr></thead>
+                    <tbody id="compare-table-body"></tbody>
+                </table>
             </div>
-
-            <!-- Similar ETFs -->
-            
-
-            <!-- Quick Compare -->
-            
-
         </div>
     </div>
 
     <footer>
         <p>数据来源：Yahoo Finance · 仅供参考，不构成投资建议</p>
-        <p style="margin-top: 8px;">
-            <a href="/privacy-policy.html">隐私政策</a> ·
-            <a href="/terms-of-service.html">服务条款</a> ·
-            <a href="/disclaimer.html">免责声明</a>
-        </p>
-        <p style="margin-top: 8px;">© 2026 <strong>股道奇货</strong> · x.gudaoqihuo.com</p>
+        <p style="margin-top: 8px;">© 2026 <a href="/">全球最具价值的10个基金</a> · <a href="https://x.gudaoqihuo.com">x.gudaoqihuo.com</a></p>
     </footer>
 
     <script>
-    const CHART_DATA = [{"date": "2026-05-18", "open": 298.0, "high": 301.26, "low": 297.22, "close": 300.73, "volume": 7546296}, {"date": "2026-05-19", "open": 301.09, "high": 301.79, "low": 295.26, "close": 295.7, "volume": 8066927}, {"date": "2026-05-20", "open": 296.7, "high": 302.925, "low": 293.67, "close": 301.98, "volume": 9327002}, {"date": "2026-05-21", "open": 301.23, "high": 303.975, "low": 300.21, "close": 303.0, "volume": 7874388}, {"date": "2026-05-22", "open": 304.68, "high": 307.45, "low": 303.84, "close": 306.38, "volume": 5978568}, {"date": "2026-05-26", "open": 308.49, "high": 309.93, "low": 305.44, "close": 306.74, "volume": 7731840}, {"date": "2026-05-27", "open": 305.0, "high": 305.9, "low": 295.75, "close": 299.28, "volume": 11785439}, {"date": "2026-05-28", "open": 297.57, "high": 301.07, "low": 295.75, "close": 296.73, "volume": 9766204}, {"date": "2026-05-29", "open": 296.4, "high": 299.88, "low": 295.195, "close": 299.31, "volume": 13973665}, {"date": "2026-06-01", "open": 297.69, "high": 299.55, "low": 295.27, "close": 296.58, "volume": 7929978}, {"date": "2026-06-02", "open": 296.5, "high": 302.07, "low": 295.27, "close": 300.96, "volume": 8296234}, {"date": "2026-06-03", "open": 299.92, "high": 301.96, "low": 296.56, "close": 300.85, "volume": 7003935}, {"date": "2026-06-04", "open": 305.74, "high": 312.91, "low": 304.44, "close": 310.89, "volume": 10345161}, {"date": "2026-06-05", "open": 314.29, "high": 315.0, "low": 309.6, "close": 312.37, "volume": 9118778}, {"date": "2026-06-08", "open": 313.25, "high": 316.295, "low": 310.78, "close": 311.11, "volume": 6827027}, {"date": "2026-06-09", "open": 313.51, "high": 316.415, "low": 309.01, "close": 312.7, "volume": 11594550}, {"date": "2026-06-10", "open": 312.56, "high": 314.75, "low": 309.03, "close": 309.14, "volume": 7446218}, {"date": "2026-06-11", "open": 309.56, "high": 314.72, "low": 308.88, "close": 313.49, "volume": 9116617}, {"date": "2026-06-12", "open": 315.97, "high": 321.3, "low": 315.55, "close": 320.72, "volume": 7426164}, {"date": "2026-06-15", "open": 323.92, "high": 325.92, "low": 318.84, "close": 319.4, "volume": 7988879}];
+    const FULL_DATA = [{"date": "2026-05-18", "open": 298.0, "high": 301.26, "low": 297.22, "close": 300.73, "volume": 7546296.556422}, {"date": "2026-05-19", "open": 301.09, "high": 301.79, "low": 295.26, "close": 295.7, "volume": 8066927.386487}, {"date": "2026-05-20", "open": 296.7, "high": 302.925, "low": 293.67, "close": 301.98, "volume": 9327002.188754}, {"date": "2026-05-21", "open": 301.23, "high": 303.975, "low": 300.21, "close": 303.0, "volume": 7874388.395256}, {"date": "2026-05-22", "open": 304.68, "high": 307.45, "low": 303.84, "close": 306.38, "volume": 5978568.234036}, {"date": "2026-05-26", "open": 308.49, "high": 309.93, "low": 305.44, "close": 306.74, "volume": 7731840.344289}, {"date": "2026-05-27", "open": 305.0, "high": 305.9, "low": 295.75, "close": 299.28, "volume": 11785439.506549}, {"date": "2026-05-28", "open": 297.57, "high": 301.07, "low": 295.75, "close": 296.73, "volume": 9766204.22393}, {"date": "2026-05-29", "open": 296.4, "high": 299.88, "low": 295.195, "close": 299.31, "volume": 13973665.675556}, {"date": "2026-06-01", "open": 297.69, "high": 299.55, "low": 295.27, "close": 296.58, "volume": 7929978.226318}, {"date": "2026-06-02", "open": 296.5, "high": 302.07, "low": 295.27, "close": 300.96, "volume": 8296234.25037}, {"date": "2026-06-03", "open": 299.92, "high": 301.96, "low": 296.56, "close": 300.85, "volume": 7003935.97427}, {"date": "2026-06-04", "open": 305.74, "high": 312.91, "low": 304.44, "close": 310.89, "volume": 10345161.153137}, {"date": "2026-06-05", "open": 314.29, "high": 315.0, "low": 309.6, "close": 312.37, "volume": 9118778.226991}, {"date": "2026-06-08", "open": 313.25, "high": 316.295, "low": 310.78, "close": 311.11, "volume": 6827027.358923}, {"date": "2026-06-09", "open": 313.51, "high": 316.415, "low": 309.01, "close": 312.7, "volume": 11594550.949256}, {"date": "2026-06-10", "open": 312.56, "high": 314.75, "low": 309.03, "close": 309.14, "volume": 7446218.859581}, {"date": "2026-06-11", "open": 309.56, "high": 314.72, "low": 308.88, "close": 313.49, "volume": 9116617.847929}, {"date": "2026-06-12", "open": 315.97, "high": 321.3, "low": 315.55, "close": 320.72, "volume": 7426164.18799}, {"date": "2026-06-15", "open": 323.92, "high": 325.92, "low": 318.84, "close": 319.4, "volume": 7988879.591318}, {"date": "2026-06-16", "open": 324.3, "high": 331.75, "low": 324.02, "close": 331.14, "volume": 11094894.449104}, {"date": "2026-06-17", "open": 332.18, "high": 337.77, "low": 331.5, "close": 333.46, "volume": 12246449.275192}, {"date": "2026-06-18", "open": 336.95, "high": 338.09, "low": 324.16, "close": 325.22, "volume": 20111030.047294}];
+    const LATEST = {"close": 325.22, "change": -2.47};
+    const COMPARE = [{"ticker": "AAPL", "name": "AAPL", "price": 298.01, "return": 0.11}, {"ticker": "MSFT", "name": "MSFT", "price": 379.4, "return": -19.76}, {"ticker": "GOOGL", "name": "GOOGL", "price": 368.03, "return": -14.04}, {"ticker": "AMZN", "name": "AMZN", "price": 244.39, "return": -14.86}, {"ticker": "NVDA", "name": "NVDA", "price": 210.69, "return": -10.19}, {"ticker": "META", "name": "META", "price": 577.22, "return": -10.81}];
     let currentPeriod = '5y';
 
     function calcMA(data, period) {
-        const r = [];
+        const result = [];
         for (let i = 0; i < data.length; i++) {
-            if (i < period - 1) { r.push(null); continue; }
-            let s = 0;
-            for (let j = 0; j < period; j++) s += data[i - j].close;
-            r.push(Math.round(s / period * 100) / 100);
+            if (i < period - 1) { result.push(null); continue; }
+            let sum = 0;
+            for (let j = 0; j < period; j++) sum += data[i - j].close;
+            result.push(Math.round(sum / period * 100) / 100);
         }
-        return r;
+        return result;
     }
 
     function filterByPeriod(data, period) {
@@ -339,47 +240,53 @@
         const now = new Date(data[data.length - 1].date);
         const cutoff = new Date(now);
         if (period === '1y') cutoff.setFullYear(now.getFullYear() - 1);
+        else if (period === '5y') cutoff.setFullYear(now.getFullYear() - 5);
         return data.filter(d => new Date(d.date) >= cutoff);
     }
 
     let chart;
     function initChart() {
-        chart = echarts.init(document.getElementById('main-chart'));
-        drawChart();
+        chart = echarts.init(document.getElementById('chart'), 'dark');
+        drawChart(FULL_DATA);
         window.addEventListener('resize', () => chart.resize());
     }
 
-    function drawChart() {
-        const data = filterByPeriod(CHART_DATA, currentPeriod);
-        if (!data || data.length === 0) return;
+    function drawChart(fullData) {
+        const data = filterByPeriod(fullData, currentPeriod);
         const dates = data.map(d => d.date);
-        const prices = data.map(d => d.close);
         const ma20 = calcMA(data, 20);
         const ma50 = calcMA(data, 50);
 
-        chart.setOption({
+        const option = {
             backgroundColor: 'transparent',
             tooltip: { trigger: 'axis', axisPointer: { type: 'cross' }, formatter: function(params) {
-                let res = params[0].name + '<br/>';
+                const d = params[0];
+                const price = d.data[1];
+                const o = d.data[2], h = d.data[3], l = d.data[4], c = d.data[1];
+                let s = `<strong>${d.axisValue}</strong><br/>`;
                 params.forEach(p => {
-                    if (p.value != null) res += '<span style="color:' + p.color + '">' + p.marker + p.seriesName + ': $' + p.value.toFixed(2) + '</span><br/>';
+                    if (p.seriesName !== '成交量') s += `${p.marker} ${p.seriesName}: <strong>$${p.value !== null && p.value !== undefined ? (Array.isArray(p.value) ? p.value[1] : p.value) : '-'}</strong><br/>`;
                 });
-                return res;
+                return s;
             }},
-            legend: { top: 6, textStyle: { color: '#8b949e', fontSize: 11 } },
-            grid: { left: '1%', right: '2%', top: '18%', bottom: '12%', containLabel: true },
-            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => v ? v.substring(0,7) : '' }, splitLine: { show: false } },
-            yAxis: { type: 'value', scale: true, position: 'right', splitLine: { lineStyle: { color: '#21262d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } },
+            legend: { top: 8, textStyle: { color: '#8b949e', fontSize: 12 }, inactiveColor: '#444' },
+            grid: { left: '1%', right: '1%', top: '15%', bottom: '12%', containLabel: true },
+            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => v.slice(0, 10) }, splitLine: { show: false } },
+            yAxis: [
+                { type: 'value', scale: true, position: 'right', splitLine: { lineStyle: { color: '#21262d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } },
+                { type: 'value', scale: true, splitLine: { show: false }, axisLabel: { show: false } }
+            ],
             dataZoom: [
                 { type: 'inside', xAxisIndex: [0], start: 0, end: 100 },
-                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 18, bottom: 8, borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.15)', handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
+                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 20, bottom: 10, borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.2)', handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
             ],
             series: [
-                { name: '收盘价', type: 'line', data: prices, smooth: false, symbol: 'none', lineStyle: { width: 1.5, color: '#58a6ff' }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.18)' }, { offset: 1, color: 'rgba(88,166,255,0)' }] } } },
-                { name: 'MA20', type: 'line', data: ma20, smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#f0883e', type: 'dashed' }, connectNulls: true },
-                { name: 'MA50', type: 'line', data: ma50, smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#a371f7', type: 'dashed' }, connectNulls: true }
+                { name: '收盘价', type: 'line', data: data.map(d => [d.date, d.close, d.open, d.high, d.low]), smooth: false, symbol: 'none', lineStyle: { width: 1.5, color: '#58a6ff' }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.2)' }, { offset: 1, color: 'rgba(88,166,255,0)' }] } } },
+                { name: 'MA20', type: 'line', data: ma20.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#f0883e', type: 'dashed' }, connectNulls: true },
+                { name: 'MA50', type: 'line', data: ma50.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#a371f7', type: 'dashed' }, connectNulls: true }
             ]
-        }, true);
+        };
+        chart.setOption(option);
     }
 
     document.querySelectorAll('.period-btn').forEach(btn => {
@@ -387,14 +294,35 @@
             document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentPeriod = btn.dataset.period;
-            drawChart();
+            drawChart(FULL_DATA);
         });
     });
 
-    // Set initial active button
-    document.querySelector('.period-btn[data-period="5y"]').classList.add('active');
+    function renderTable(data) {
+        const tbody = document.getElementById('price-table-body');
+        tbody.innerHTML = data.slice().reverse().slice(0, 100).map(d =>
+            `<tr><td>${d.date}</td><td>$${d.open.toFixed(2)}</td><td>$${d.high.toFixed(2)}</td><td>$${d.low.toFixed(2)}</td><td>$${d.close.toFixed(2)}</td><td>${d.volume.toLocaleString()}</td></tr>`
+        ).join('');
+    }
+
+    function renderCompare() {
+        const tbody = document.getElementById('compare-table-body');
+        tbody.innerHTML = COMPARE.map(item =>
+            `<tr><td>${item.ticker}</td><td>$${item.price.toFixed(2)}</td><td style="color:${item.return >= 0 ? 'var(--green)' : 'var(--red)'}">${item.return >= 0 ? '+' : ''}${item.return.toFixed(1)}%</td></tr>`
+        ).join('');
+    }
+
+    function updatePriceChange() {
+        const change = -2.47;
+        const el = document.getElementById('price-change');
+        el.className = 'price-change ' + (change >= 0 ? 'up' : 'down');
+        el.textContent = (change >= 0 ? '▲ +' : '▼ ') + change + '% 今日';
+    }
 
     initChart();
+    renderTable(FULL_DATA);
+    renderCompare();
+    updatePriceChange();
     </script>
 </body>
 </html>
