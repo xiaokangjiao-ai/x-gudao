@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BND - Vanguard Total Bond Market ETF | 股道奇货</title>
-    <meta name="description" content="Vanguard Total Bond Market ETF（BND）历史价格、K线图、财务指标、AI分析 - 股道奇货">
-    <meta name="keywords" content="BND, Vanguard Total Bond Market ETF, ETF, 股票, 历史数据, K线图">
-    <link rel="canonical" href="https://x.gudaoqihuo.com/<built-in method lower of str object at 0x000001A71EB79470>/">
+    <title>BND - Vanguard Total Bond Market ETF | 股道奇货 · 分析研判</title>
+    <meta name="description" content="Vanguard Total Bond Market ETF（BND）专业评级、分析研判、外链数据、核心投资逻辑。">
+    <meta name="keywords" content="BND, Vanguard Total Bond Market ETF, 评级, 分析, 投资逻辑">
+    <link rel="canonical" href="https://x.gudaoqihuo.com/bnd/">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,537 +16,524 @@
             --bg-primary: #0d1117; --bg-secondary: #161b22; --bg-card: #1c2128;
             --border: #30363d; --text-primary: #e6edf3; --text-secondary: #8b949e;
             --accent: #58a6ff; --green: #3fb950; --red: #f85149; --gold: #d4a843;
-            --border-radius: 12px;
+            --gold-bg: rgba(212,168,67,0.08); --gold-border: rgba(212,168,67,0.35);
         }
         body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
-        .up   { color: var(--red)   !important; }   /* 红色 = 上涨（中国市场惯例） */
-        .down { color: var(--green) !important; }   /* 绿色 = 下跌 */
-        .neutral { color: var(--text-secondary) !important; }
 
-        /* Header */
+        /* ── 顶部栏 ── */
         header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
         .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-        .logo { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .logo { font-size: 18px; font-weight: 700; }
         .logo span { color: var(--gold); }
-        nav { display: flex; gap: 24px; }
+        nav { display: flex; gap: 20px; }
         nav a { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
-        nav a:hover { color: var(--text-primary); text-decoration: none; }
-        .lang-toggle { display: flex; gap: 4px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 3px 6px; }
-        .lang-btn { font-size: 12px; padding: 2px 8px; border-radius: 14px; cursor: pointer; border: none; background: none; color: var(--text-secondary); font-weight: 600; transition: all 0.2s; }
-        .lang-btn.active { background: var(--accent); color: #fff; }
-        .lang-btn:hover { color: var(--text-primary); }
+        nav a:hover, nav a.active { color: var(--text-primary); text-decoration: none; }
+        nav a.active { border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
 
-        /* Breadcrumb */
-        .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 16px 24px; font-size: 13px; color: var(--text-secondary); }
+        /* ── 面包屑 ── */
+        .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 14px 24px; font-size: 13px; color: var(--text-secondary); }
         .breadcrumb a { color: var(--text-secondary); }
-        .breadcrumb a:hover { color: var(--text-primary); text-decoration: none; }
 
-        /* Hero */
-        .hero { max-width: 1400px; margin: 0 auto; padding: 8px 24px 24px; }
-        .stock-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-        .stock-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-        .ticker-badge { font-size: 32px; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
-        .stock-name { font-size: 20px; font-weight: 600; }
-        .stock-category { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 10px; }
-        .stock-category.etf { background: rgba(88,166,255,0.1); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
-        .stock-category.bond { background: rgba(63,185,80,0.1); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
-        .stock-category.commodity { background: rgba(212,168,67,0.1); color: var(--gold); border: 1px solid rgba(212,168,67,0.3); }
-        .stock-category.stock { background: rgba(212,168,67,0.1); color: var(--gold); border: 1px solid rgba(212,168,67,0.3); }
-        .stock-right { text-align: right; }
-        .current-price { font-size: 36px; font-weight: 700; }
-        .price-change { font-size: 15px; margin-top: 4px; }
-        .stock-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-top: 8px; max-width: 700px; }
+        /* ── 英雄区：评级卡片 ── */
+        .hero { max-width: 1400px; margin: 0 auto; padding: 0 24px 24px; }
+        .rating-hero {
+            background: linear-gradient(135deg, var(--gold-bg) 0%, var(--bg-card) 70%);
+            border: 1px solid var(--gold-border); border-radius: 16px; padding: 28px;
+            margin-bottom: 20px;
+        }
+        .rating-hero-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
+        .hero-left { display: flex; align-items: center; gap: 20px; }
+        .hero-badge { text-align: center; }
+        .hero-stars { font-size: 28px; color: var(--gold); letter-spacing: 3px; margin-bottom: 6px; }
+        .hero-score { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+        .hero-tag-badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 14px; border-radius: 8px; font-size: 14px; font-weight: 700; }
+        .hero-tag-badge.fire { background: rgba(255,100,50,0.15); border: 1px solid rgba(255,100,50,0.4); color: #ff6b35; }
+        .hero-tag-badge.diamond { background: rgba(88,166,255,0.1); border: 1px solid rgba(88,166,255,0.3); color: var(--accent); }
+        .hero-tag-badge.warning { background: rgba(255,200,50,0.1); border: 1px solid rgba(255,200,50,0.3); color: #ffc532; }
+        .hero-tag-badge.danger { background: rgba(248,81,73,0.1); border: 1px solid rgba(248,81,73,0.3); color: var(--red); }
+        .hero-ticker-block { }
+        .hero-ticker { font-size: 40px; font-weight: 700; color: var(--gold); letter-spacing: 3px; }
+        .hero-name { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-top: 2px; }
+        .hero-category { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+        .hero-right { text-align: right; }
+        .hero-price { font-size: 40px; font-weight: 700; }
+        .hero-change { font-size: 16px; margin-top: 4px; }
+        .hero-change.up { color: var(--green); }
+        .hero-change.down { color: var(--red); }
+        .hero-rationale {
+            background: rgba(255,255,255,0.03); border-left: 4px solid var(--gold); border-radius: 0 10px 10px 0;
+            padding: 16px 20px; font-size: 15px; color: var(--text-primary); line-height: 1.8;
+        }
+        .hero-rationale-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 8px; font-weight: 600; }
 
-        /* Stats row */
-        .stats-row { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; flex: 1; min-width: 130px; }
-        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); margin-bottom: 4px; }
-        .stat-value { font-size: 17px; font-weight: 600; }
+        /* ── 外链数据区 ── */
+        .datalinks { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+        .datalink-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: var(--text-secondary); transition: all 0.2s; }
+        .datalink-btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; background: rgba(88,166,255,0.05); }
+        .datalink-btn .ext-icon { font-size: 10px; }
 
-        /* Main content layout */
-        .content-wrap { max-width: 1400px; margin: 0 auto; padding: 0 24px 48px; display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+        /* ── 评分条 ── */
+        .score-bars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+        .score-bar-item { background: rgba(255,255,255,0.03); border-radius: 8px; padding: 12px; }
+        .score-bar-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 6px; }
+        .score-bar-track { height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s; }
+        .score-bar-fill.trend { background: linear-gradient(90deg, #58a6ff, #a371f7); }
+        .score-bar-fill.rr { background: linear-gradient(90deg, #3fb950, #7ee787); }
+        .score-bar-fill.dd { background: linear-gradient(90deg, #d4a843, #f0c040); }
+        .score-bar-fill.vol { background: linear-gradient(90deg, #f0883e, #ffa657); }
+        .score-bar-value { font-size: 12px; font-weight: 700; margin-top: 4px; color: var(--text-primary); }
 
-        /* Chart */
-        .chart-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); overflow: hidden; margin-bottom: 20px; }
+        /* ── 关键指标行 ── */
+        .stats-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px; }
+        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; flex: 1; min-width: 130px; }
+        .stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 4px; }
+        .stat-value { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+        .stat-sub { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+        /* ── 主内容区 ── */
+        .content { max-width: 1400px; margin: 0 auto; padding: 0 24px 60px; display: grid; grid-template-columns: 1fr 340px; gap: 20px; }
+
+        /* ── 图表区 ── */
+        .chart-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
         .chart-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid var(--border); }
-        .chart-title { font-size: 14px; font-weight: 600; }
-        .period-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; margin-left: 6px; }
+        .chart-title { font-size: 15px; font-weight: 600; }
+        .period-selector { display: flex; gap: 4px; }
+        .period-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
         .period-btn:hover { border-color: var(--accent); color: var(--accent); }
         .period-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-        #main-chart { width: 100%; height: 380px; }
+        #chart { width: 100%; height: 420px; }
 
-        /* Section cards */
-        .section-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); margin-bottom: 20px; overflow: hidden; }
-        .section-header { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
-        .section-body { padding: 0; }
-
-        /* Tables */
-        .data-table { width: 100%; border-collapse: collapse; }
-        .data-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); text-align: right; padding: 10px 16px; border-bottom: 1px solid var(--border); background: var(--bg-card); }
+        /* ── 历史数据表 ── */
+        .data-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-top: 16px; overflow: hidden; }
+        .data-header { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 15px; font-weight: 600; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .data-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 8px 12px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
         .data-table th:first-child { text-align: left; }
-        .data-table td { font-size: 13px; padding: 10px 16px; text-align: right; border-bottom: 1px solid rgba(48,54,61,0.5); }
-        .data-table td:first-child { text-align: left; color: var(--text-secondary); font-size: 13px; }
-        .data-table tr:last-child td { border-bottom: none; }
-        .data-table tr:hover td { background: rgba(255,255,255,0.02); }
-        .trend-up { color: var(--green); font-weight: 700; }
-        .trend-down { color: var(--red); font-weight: 700; }
-        .label-positive { color: var(--green); }
-        .label-negative { color: var(--red); }
+        .data-table td { padding: 7px 12px; text-align: right; color: var(--text-primary); border-bottom: 1px solid rgba(48,54,61,0.4); }
+        .data-table td:first-child { text-align: left; color: var(--text-secondary); }
+        .data-table tr:hover td { background: rgba(255,255,255,0.03); }
+        .table-wrap { overflow-x: auto; max-height: 360px; overflow-y: auto; }
 
-        /* Sector bars */
-        .sector-bar { display: flex; height: 28px; border-radius: 6px; overflow: hidden; margin: 14px 20px 0; gap: 2px; }
-        .sector-bar-item { display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 500; overflow: hidden; white-space: nowrap; min-width: 0; }
-        .sector-bar-item span { overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
+        /* ── 投资逻辑 ── */
+        .logic-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 16px; }
+        .logic-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .logic-text { font-size: 14px; color: var(--text-primary); line-height: 1.9; }
+        .logic-text strong { color: var(--gold); }
 
-        /* AI insight */
-        .ai-insight { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); margin-bottom: 20px; }
-        .ai-header { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 600; }
-        .ai-body { padding: 20px; }
-        .ai-body strong { color: var(--gold); font-size: 14px; }
-        .ai-body p { margin-bottom: 12px; line-height: 1.7; font-size: 13px; }
-        .ai-body p:last-child { margin-bottom: 0; }
-        .ai-pros-cons { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
-        .pros-box, .cons-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 12px 14px; }
-        .pros-box { border-left: 3px solid var(--green); }
-        .cons-box { border-left: 3px solid var(--red); }
-        .pros-box h4 { font-size: 12px; color: var(--green); margin-bottom: 8px; font-weight: 600; }
-        .cons-box h4 { font-size: 12px; color: var(--red); margin-bottom: 8px; font-weight: 600; }
-        .pros-box ul, .cons-box ul { padding-left: 16px; font-size: 12px; color: var(--text-secondary); line-height: 1.8; }
-        .ai-suggestion { margin-top: 12px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 8px; padding: 12px 14px; font-size: 13px; line-height: 1.7; }
-        .ai-suggestion strong { color: var(--accent); }
-
-        /* Sidebar */
-        .sidebar { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 72px; }
-        .side-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--border-radius); padding: 18px; }
-        .side-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
-        .indicator-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
+        /* ── 侧边栏 ── */
+        .sidebar { display: flex; flex-direction: column; gap: 14px; }
+        .side-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+        .side-title { font-size: 13px; font-weight: 600; margin-bottom: 14px; color: var(--text-primary); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .indicator-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.4); font-size: 13px; }
         .indicator-row:last-child { border-bottom: none; }
         .indicator-name { color: var(--text-secondary); }
-        .indicator-value { font-weight: 600; }
-        .similar-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(48,54,61,0.5); font-size: 13px; }
-        .similar-item:last-child { border-bottom: none; }
-        .similar-item a { font-weight: 600; }
-        .compare-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .compare-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+        .indicator-value { font-weight: 600; color: var(--text-primary); }
+
+        /* ── 均线状态卡 ── */
+        .ma-card { text-align: center; padding: 16px; }
+        .ma-status-large { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .ma-status-text { font-size: 13px; color: var(--text-secondary); }
+        .ma-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
+        .ma-dot { text-align: center; }
+        .ma-dot-val { font-size: 14px; font-weight: 700; }
+        .ma-dot-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; }
+
+        /* ── 对比表 ── */
+        .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .compare-table th { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
         .compare-table th:first-child { text-align: left; }
-        .compare-table td { padding: 7px 8px; text-align: right; color: var(--text-primary); }
-        .compare-table td:first-child { text-align: left; font-weight: 500; }
+        .compare-table td { font-size: 13px; padding: 6px 8px; text-align: right; color: var(--text-primary); }
+        .compare-table td:first-child { text-align: left; font-weight: 700; }
         .compare-table tr:hover td { background: rgba(255,255,255,0.03); }
-        .compare-best { color: var(--green) !important; font-weight: 700; }
+        .compare-table td.highlight { color: var(--gold); font-weight: 700; }
 
-        /* Footer */
-        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
-        footer a { color: var(--text-secondary); }
-        footer a:hover { color: var(--text-primary); text-decoration: none; }
+        /* ── 核心逻辑卡 ── */
+        .rationale-card { }
+        .rationale-text { font-size: 14px; line-height: 1.8; color: var(--text-primary); }
+        .rationale-tag { display: inline-block; margin-top: 10px; background: var(--gold-bg); border: 1px solid var(--gold-border); border-radius: 6px; padding: 4px 12px; font-size: 11px; color: var(--gold); }
 
-        /* Responsive */
+        /* ── 响应式 ── */
         @media (max-width: 900px) {
-            .content-wrap { grid-template-columns: 1fr; }
-            .sidebar { position: static; }
-            .ai-pros-cons { grid-template-columns: 1fr; }
+            .content { grid-template-columns: 1fr; }
+            .score-bars { grid-template-columns: repeat(2, 1fr); }
+            .hero-ticker { font-size: 28px; }
+            .hero-price { font-size: 28px; }
+        }
+        @media (max-width: 600px) {
+            .score-bars { grid-template-columns: 1fr 1fr; }
             .stats-row { gap: 8px; }
         }
+
+        /* ── 页脚 ── */
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
+        footer a { color: var(--text-secondary); }
     </style>
 </head>
 <body>
+    <!-- 顶部栏 -->
     <header>
         <div class="header-inner">
             <div class="logo">📈 <span>股道奇货</span></div>
             <nav>
-                <a href="/" data-i18n="nav_home">首页</a>
-                <a href="/screener.html" data-i18n="nav_list">全部列表</a>
+                <a href="/">首页</a>
+                <a href="/screener.html">标的列表</a>
+                <a href="/compare.html">对比</a>
+                <a href="/about.html">关于</a>
             </nav>
-            <div class="lang-toggle">
-                <button class="lang-btn active" id="lang-zh" onclick="setLang('zh')">🇨🇳</button>
-                <button class="lang-btn" id="lang-en" onclick="setLang('en')">🇺🇸</button>
-            </div>
         </div>
     </header>
 
+    <!-- 面包屑 -->
     <div class="breadcrumb">
-        <a href="/">首页</a>
-        <span>›</span>
-        <a href="/screener.html">ETF</a>
-        <span>›</span>
-        BND
+        <a href="/">首页</a> › <a href="/screener.html">标的列表</a> › Vanguard Total Bond Market ETF
     </div>
 
+    <!-- 英雄区 -->
     <div class="hero">
-        <div class="stock-header">
-            <div>
-                <div class="stock-left">
-                    <span class="ticker-badge">BND</span>
+        <div class="rating-hero">
+            <div class="rating-hero-top">
+                <div class="hero-left">
+                    <!-- 星级评分 -->
+                    <div class="hero-badge">
+                        <div class="hero-stars" id="hero-stars"></div>
+                        <div class="hero-score" id="hero-score"></div>
+                    </div>
+                    <!-- 标签 -->
                     <div>
-                        <div class="stock-name">Vanguard Total Bond Market ETF</div>
-                        <span class="stock-category etf">ETF</span>
+                        <div id="hero-tag-badge" class="hero-tag-badge"></div>
+                        <div class="hero-category">债券</div>
+                    </div>
+                    <!-- 标的信息 -->
+                    <div class="hero-ticker-block">
+                        <div class="hero-ticker">BND</div>
+                        <div class="hero-name">Vanguard Total Bond Market ETF</div>
                     </div>
                 </div>
-                
-                <div class="stock-desc">美国全债市ETF，覆盖国债、企业债、抵押贷款债券等，是固定收益配置的核心。</div>
-                
-            </div>
-            <div class="stock-right">
-                <div class="current-price">$73.41</div>
-                <div class="price-change up">
-                    ▲ +0.11 (0.15%)
+                <div class="hero-right">
+                    <div class="hero-price" id="hero-price">$73.34</div>
+                    <div class="hero-change" id="hero-change"></div>
                 </div>
             </div>
+            <!-- 核心投资逻辑 -->
+            <div class="hero-rationale" id="hero-rationale">
+                <div class="hero-rationale-label">💡 核心投资逻辑</div>
+                <span id="rationale-text">美国全债市场覆盖，降息预期直接受益，组合抗跌必备</span>
+            </div>
+            <!-- 外链数据按钮 -->
+            <div class="datalinks" id="datalinks"></div>
+            <!-- 评分条 -->
+            <div class="score-bars" id="score-bars"></div>
         </div>
 
+        <!-- 关键指标行 -->
         <div class="stats-row">
-            <div class="stat-card"><div class="stat-label">52周最高</div><div class="stat-value">$75.23</div></div>
-            <div class="stat-card"><div class="stat-label">52周最低</div><div class="stat-value">$72.34</div></div>
-            <div class="stat-card"><div class="stat-label">YTD收益</div><div class="stat-value up">+0.7%</div></div>
-            <div class="stat-card"><div class="stat-label">波动率</div><div class="stat-value">4.66%</div></div>
-            <div class="stat-card"><div class="stat-label">夏普比率</div><div class="stat-value">0.15</div></div>
-            <div class="stat-card"><div class="stat-label">最大回撤</div><div class="stat-value down">-5.91%</div></div>
+            <div class="stat-card">
+                <div class="stat-label">52周最高</div>
+                <div class="stat-value">$73.55</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">52周最低</div>
+                <div class="stat-value">$72.34</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">年化收益率</div>
+                <div class="stat-value" style="color: var(--green)">+1.8%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">年化波动率</div>
+                <div class="stat-value">4.25%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">最大回撤</div>
+                <div class="stat-value" style="color:var(--green)">-0.88%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">夏普比率</div>
+                <div class="stat-value" style="color:var(--green)">0.42</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">数据范围</div>
+                <div class="stat-value" style="font-size:14px;">2026-05-18 ~ 2026-06-18</div>
+            </div>
         </div>
     </div>
 
-    <div class="content-wrap">
-        <!-- Left column -->
-        <div class="content-main">
-
-            <!-- Chart -->
+    <!-- 主内容 -->
+    <div class="content">
+        <!-- 左侧 -->
+        <div>
+            <!-- 图表 -->
             <div class="chart-section">
                 <div class="chart-header">
                     <div class="chart-title">📊 价格走势（K线 + 均线）</div>
-                    <div>
+                    <div class="period-selector">
                         <button class="period-btn" data-period="1y">1年</button>
-                        <button class="period-btn" data-period="5y">5年</button>
-                        <button class="period-btn" data-period="all">全部</button>
+                        <button class="period-btn active" data-period="5y">全部</button>
                     </div>
                 </div>
-                <div id="main-chart"></div>
+                <div id="chart"></div>
             </div>
 
-            <!-- Research Report -->
-            
-            <div class="section-card">
-                <div class="section-header">📝 投资研报 <span style="font-size:11px;color:var(--text-secondary);font-weight:400;margin-left:4px;">股道奇货 · 每季度更新</span></div>
-                <div class="section-body" style="padding:16px 20px;">
-                    <p style="font-size:13px;color:var(--text-secondary);line-height:1.8;margin-bottom:14px;">Vanguard全美债券市场ETF追踪美国整体债券市场，是稳健型投资者的核心配置。相比股票波动小（年化波动约5%），在股票熊市中往往逆势正收益，提供组合的'压舱石'作用。</p>
-                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:14px;">
-                        
-                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;">
-                            <span style="color:var(--gold);flex-shrink:0;margin-top:1px;">◆</span>
-                            <span style="color:var(--text-primary);">美国债券市场全覆盖（国债+企业债+MBS）</span>
-                        </div>
-                        
-                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;">
-                            <span style="color:var(--gold);flex-shrink:0;margin-top:1px;">◆</span>
-                            <span style="color:var(--text-primary);">年化波动约5%，远低于股票</span>
-                        </div>
-                        
-                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;">
-                            <span style="color:var(--gold);flex-shrink:0;margin-top:1px;">◆</span>
-                            <span style="color:var(--text-primary);">与股票相关性低，组合平滑器</span>
-                        </div>
-                        
-                        <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;display:flex;align-items:flex-start;gap:8px;font-size:12px;line-height:1.5;">
-                            <span style="color:var(--gold);flex-shrink:0;margin-top:1px;">◆</span>
-                            <span style="color:var(--text-primary);">当前收益率约4.5%，吸引力提升</span>
-                        </div>
-                        
-                    </div>
-                    <div style="background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.15);border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.7;">
-                        <span style="color:var(--accent);font-weight:600;">📡 短期展望：</span>
-                        <span style="color:var(--text-secondary);">美联储降息预期下，债券价格有望上涨。BND当前处于历史较好配置区间，适合风险偏好较低的投资者。</span>
-                    </div>
-                </div>
+            <!-- 投资逻辑详解 -->
+            <div class="logic-section">
+                <div class="logic-title">💡 核心投资逻辑详解</div>
+                <div class="logic-text" id="logic-text">美国全债市场覆盖，降息预期直接受益，组合抗跌必备</div>
             </div>
-            
 
-            <!-- Key Financial Metrics -->
-            <div class="section-card">
-                <div class="section-header">📊 关键财务指标</div>
-                <div class="section-body">
+            <!-- 历史价格 -->
+            <div class="data-section">
+                <div class="data-header">📋 历史价格明细（最近100条）</div>
+                <div class="table-wrap">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>指标</th>
-                                <th>当前值</th>
-                                <th>5年均值</th>
-                                <th>趋势</th>
+                                <th>日期</th>
+                                <th>开盘</th>
+                                <th>最高</th>
+                                <th>最低</th>
+                                <th>收盘</th>
+                                <th>成交量</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
-                            
-                            
-                            
-                            
-                            <tr><td>费率 (Expense Ratio)</td><td>0.03%</td><td>0.03%</td><td>—</td></tr>
-                            <tr><td>净资产规模</td><td>95B</td><td>—</td><td>—</td></tr>
-                            <tr><td>日均成交量</td><td>7.1M</td><td></td><td>—</td></tr>
-                            
-                            
-                            
-                            
-                        </tbody>
+                        <tbody id="price-table-body"></tbody>
                     </table>
                 </div>
             </div>
-
-            <!-- Historical Performance -->
-            <div class="section-card">
-                <div class="section-header">📈 历史收益表现</div>
-                <div class="section-body">
-                    <table class="data-table">
-                        <thead>
-                            <tr><th>周期</th><th>收益率</th><th>年化</th><th>最大回撤</th><th>夏普比率</th></tr>
-                        </thead>
-                        <tbody>
-                            
-                            <tr>
-                                <td>1个月</td>
-                                <td class="label-positive">+0.27%</td>
-                                <td class="">—</td>
-                                <td class="label-negative">—</td>
-                                <td>—</td>
-                            </tr>
-                            
-                            <tr>
-                                <td>3个月</td>
-                                <td class="label-negative">-0.77%</td>
-                                <td class="">—</td>
-                                <td class="label-negative">—</td>
-                                <td>—</td>
-                            </tr>
-                            
-                            <tr>
-                                <td>6个月</td>
-                                <td class="label-negative">-1.42%</td>
-                                <td class="">—</td>
-                                <td class="label-negative">—</td>
-                                <td>—</td>
-                            </tr>
-                            
-                            <tr>
-                                <td>YTD</td>
-                                <td class="label-negative">-0.89%</td>
-                                <td class="">—</td>
-                                <td class="label-negative">—</td>
-                                <td>—</td>
-                            </tr>
-                            
-                            <tr>
-                                <td>1年</td>
-                                <td class="label-negative">-1.17%</td>
-                                <td class="">—</td>
-                                <td class="label-negative">—</td>
-                                <td>—</td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Sector / Holding Distribution -->
-            
-
-            <!-- AI Insight -->
-            
-
         </div>
 
-        <!-- Sidebar -->
+        <!-- 侧边栏 -->
         <div class="sidebar">
-
-            <!-- Basic Info + Risk (merged) -->
+            <!-- 均线状态卡 -->
             <div class="side-card">
-                <div class="side-title">📋 基本信息</div>
-                <div class="indicator-row"><span class="indicator-name">全称</span><span class="indicator-value">Vanguard Total Bond Market</span></div>
-                
-                <div class="indicator-row"><span class="indicator-name">跟踪指数</span><span class="indicator-value">Bloomberg U.S. Aggregate</span></div>
-                
-                
-                <div class="indicator-row"><span class="indicator-name">成立日期</span><span class="indicator-value">2007-04-03</span></div>
-                
-                <div class="indicator-row"><span class="indicator-name">费率</span><span class="indicator-value">0.03%</span></div>
-                <div class="indicator-row"><span class="indicator-name">资产规模</span><span class="indicator-value">95B</span></div>
-                
-                <div class="indicator-row"><span class="indicator-name">成分股/持仓</span><span class="indicator-value">~10000</span></div>
-                
-                
-                <div class="indicator-row"><span class="indicator-name">派息频率</span><span class="indicator-value">月度</span></div>
-                
-                
-                <div class="indicator-row"><span class="indicator-name">发行商</span><span class="indicator-value">Vanguard</span></div>
-                
-                <div class="indicator-row" style="border-top: 1px solid var(--border); margin-top: 4px; padding-top: 10px;"><span class="indicator-name">年化波动率</span><span class="indicator-value">4.7%</span></div>
-                
-                <div class="indicator-row"><span class="indicator-name">夏普比率</span><span class="indicator-value">0.15</span></div>
-                <div class="indicator-row"><span class="indicator-name">最大回撤</span><span class="indicator-value down">-5.9%</span></div>
+                <div class="side-title">⚡ 均线状态</div>
+                <div class="ma-card">
+                    <div class="ma-status-large" id="ma-status-icon"></div>
+                    <div class="ma-status-text" id="ma-status-text"></div>
+                    <div class="ma-dots">
+                        <div class="ma-dot">
+                            <div class="ma-dot-val" id="ma20-val">$73.16</div>
+                            <div class="ma-dot-label">MA20</div>
+                        </div>
+                        <div class="ma-dot">
+                            <div class="ma-dot-val" id="ma50-val">$0</div>
+                            <div class="ma-dot-label">MA50</div>
+                        </div>
+                        <div class="ma-dot">
+                            <div class="ma-dot-val" id="ma200-val">$0</div>
+                            <div class="ma-dot-label">MA200</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Similar ETFs -->
-            
+            <!-- 关键指标 -->
+            <div class="side-card">
+                <div class="side-title">📐 关键指标</div>
+                <div class="indicator-row"><span class="indicator-name">最新收盘</span><span class="indicator-value">$73.34</span></div>
+                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" id="ind-change" style="color: var(--green)">+0.27%</span></div>
+                <div class="indicator-row"><span class="indicator-name">MA20</span><span class="indicator-value">$73.16</span></div>
+                <div class="indicator-row"><span class="indicator-name">MA50</span><span class="indicator-value">$0</span></div>
+                <div class="indicator-row"><span class="indicator-name">MA200</span><span class="indicator-value">$0</span></div>
+                <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--green)">+1.8%</span></div>
+                <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">4.25%</span></div>
+                <div class="indicator-row"><span class="indicator-name">最大回撤</span><span class="indicator-value" style="color:var(--green)">-0.88%</span></div>
+                <div class="indicator-row"><span class="indicator-name">夏普比率</span><span class="indicator-value" style="color:var(--green)">0.42</span></div>
+            </div>
 
-            <!-- Quick Compare -->
-            
-
+            <!-- 相关标的对比 -->
+            <div class="side-card">
+                <div class="side-title">⚖️ 与其他标的对比</div>
+                <table class="compare-table">
+                    <thead><tr><th>标的</th><th>价格</th><th>年化收益</th></tr></thead>
+                    <tbody id="compare-table-body"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <footer>
-        <p data-i18n-footer>数据来源：Yahoo Finance · 仅供参考，不构成投资建议</p>
-        <p style="margin-top: 8px;">
-            <a href="/privacy-policy.html">隐私政策</a> ·
-            <a href="/terms-of-service.html">服务条款</a> ·
-            <a href="/disclaimer.html">免责声明</a>
-        </p>
-        <p style="margin-top: 8px;">© 2026 <strong data-i18n-footer-brand>股道奇货</strong> · x.gudaoqihuo.com</p>
+        <p>数据来源：<a href="https://finance.yahoo.com" target="_blank">Yahoo Finance</a> · <a href="https://www.tradingview.com" target="_blank">TradingView</a> · <a href="https://seekingalpha.com" target="_blank">Seeking Alpha</a></p>
+        <p style="margin-top: 8px;">仅供参考，不构成投资建议 · © 2026 <a href="/">股道奇货</a></p>
     </footer>
 
     <script>
-    const CHART_DATA = [{"date": "2024-06-17", "open": 72.37, "high": 72.41, "low": 72.29, "close": 72.39, "volume": 0}, {"date": "2024-06-18", "open": 72.48, "high": 72.74, "low": 72.47, "close": 72.64, "volume": 0}, {"date": "2024-06-20", "open": 72.4, "high": 72.53, "low": 72.35, "close": 72.5, "volume": 0}, {"date": "2024-06-21", "open": 72.64, "high": 72.68, "low": 72.42, "close": 72.52, "volume": 0}, {"date": "2024-06-24", "open": 72.54, "high": 72.58, "low": 72.46, "close": 72.56, "volume": 0}, {"date": "2024-06-25", "open": 72.57, "high": 72.61, "low": 72.48, "close": 72.6, "volume": 0}, {"date": "2024-06-26", "open": 72.3, "high": 72.31, "low": 72.23, "close": 72.26, "volume": 0}, {"date": "2024-06-27", "open": 72.39, "high": 72.46, "low": 72.36, "close": 72.39, "volume": 0}, {"date": "2024-06-28", "open": 72.55, "high": 72.55, "low": 72.05, "close": 72.05, "volume": 0}, {"date": "2024-07-01", "open": 71.58, "high": 71.76, "low": 71.4, "close": 71.45, "volume": 0}, {"date": "2024-07-02", "open": 71.69, "high": 71.73, "low": 71.57, "close": 71.66, "volume": 0}, {"date": "2024-07-03", "open": 71.86, "high": 72.09, "low": 71.81, "close": 72.07, "volume": 0}, {"date": "2024-07-05", "open": 72.26, "high": 72.45, "low": 72.22, "close": 72.4, "volume": 0}, {"date": "2024-07-08", "open": 72.39, "high": 72.45, "low": 72.29, "close": 72.4, "volume": 0}, {"date": "2024-07-09", "open": 72.37, "high": 72.42, "low": 72.21, "close": 72.37, "volume": 0}, {"date": "2024-07-10", "open": 72.42, "high": 72.47, "low": 72.32, "close": 72.43, "volume": 0}, {"date": "2024-07-11", "open": 72.83, "high": 72.94, "low": 72.77, "close": 72.79, "volume": 0}, {"date": "2024-07-12", "open": 72.85, "high": 72.98, "low": 72.8, "close": 72.98, "volume": 0}, {"date": "2024-07-15", "open": 72.81, "high": 72.91, "low": 72.73, "close": 72.75, "volume": 0}, {"date": "2024-07-16", "open": 72.82, "high": 73.04, "low": 72.81, "close": 73.03, "volume": 0}, {"date": "2024-07-17", "open": 72.94, "high": 73.14, "low": 72.89, "close": 73.1, "volume": 0}, {"date": "2024-07-18", "open": 72.98, "high": 73.11, "low": 72.87, "close": 72.91, "volume": 0}, {"date": "2024-07-19", "open": 72.99, "high": 72.99, "low": 72.7, "close": 72.72, "volume": 0}, {"date": "2024-07-22", "open": 72.83, "high": 72.85, "low": 72.6, "close": 72.69, "volume": 0}, {"date": "2024-07-23", "open": 72.73, "high": 72.83, "low": 72.69, "close": 72.7, "volume": 0}, {"date": "2024-07-24", "open": 72.79, "high": 72.84, "low": 72.49, "close": 72.49, "volume": 0}, {"date": "2024-07-25", "open": 72.57, "high": 72.81, "low": 72.57, "close": 72.65, "volume": 0}, {"date": "2024-07-26", "open": 72.89, "high": 72.96, "low": 72.84, "close": 72.94, "volume": 0}, {"date": "2024-07-29", "open": 73.05, "high": 73.14, "low": 72.96, "close": 73.03, "volume": 0}, {"date": "2024-07-30", "open": 73.14, "high": 73.17, "low": 72.97, "close": 73.12, "volume": 0}, {"date": "2024-07-31", "open": 73.38, "high": 73.52, "low": 73.19, "close": 73.52, "volume": 0}, {"date": "2024-08-01", "open": 73.5, "high": 73.68, "low": 73.44, "close": 73.57, "volume": 0}, {"date": "2024-08-02", "open": 74.13, "high": 74.44, "low": 74.0, "close": 74.41, "volume": 0}, {"date": "2024-08-05", "open": 74.79, "high": 74.8, "low": 74.19, "close": 74.34, "volume": 0}, {"date": "2024-08-06", "open": 74.26, "high": 74.28, "low": 73.88, "close": 73.88, "volume": 0}, {"date": "2024-08-07", "open": 73.81, "high": 73.88, "low": 73.59, "close": 73.7, "volume": 0}, {"date": "2024-08-08", "open": 73.5, "high": 73.63, "low": 73.47, "close": 73.59, "volume": 0}, {"date": "2024-08-09", "open": 73.9, "high": 73.94, "low": 73.81, "close": 73.85, "volume": 0}, {"date": "2024-08-12", "open": 73.81, "high": 74.02, "low": 73.74, "close": 73.98, "volume": 0}, {"date": "2024-08-13", "open": 74.19, "high": 74.27, "low": 74.14, "close": 74.26, "volume": 0}, {"date": "2024-08-14", "open": 74.31, "high": 74.48, "low": 74.26, "close": 74.4, "volume": 0}, {"date": "2024-08-15", "open": 73.96, "high": 74.09, "low": 73.91, "close": 74.09, "volume": 0}, {"date": "2024-08-16", "open": 74.22, "high": 74.25, "low": 74.05, "close": 74.25, "volume": 0}, {"date": "2024-08-19", "open": 74.24, "high": 74.42, "low": 74.21, "close": 74.34, "volume": 0}, {"date": "2024-08-20", "open": 74.49, "high": 74.58, "low": 74.41, "close": 74.56, "volume": 0}, {"date": "2024-08-21", "open": 74.65, "high": 74.84, "low": 74.5, "close": 74.72, "volume": 0}, {"date": "2024-08-22", "open": 74.56, "high": 74.58, "low": 74.33, "close": 74.42, "volume": 0}, {"date": "2024-08-23", "open": 74.58, "high": 74.78, "low": 74.48, "close": 74.75, "volume": 0}, {"date": "2024-08-26", "open": 74.84, "high": 74.85, "low": 74.67, "close": 74.67, "volume": 0}, {"date": "2024-08-27", "open": 74.51, "high": 74.7, "low": 74.49, "close": 74.67, "volume": 0}, {"date": "2024-08-28", "open": 74.67, "high": 74.73, "low": 74.6, "close": 74.62, "volume": 0}, {"date": "2024-08-29", "open": 74.51, "high": 74.56, "low": 74.42, "close": 74.51, "volume": 0}, {"date": "2024-08-30", "open": 74.55, "high": 74.64, "low": 74.32, "close": 74.36, "volume": 0}, {"date": "2024-09-03", "open": 74.41, "high": 74.56, "low": 74.33, "close": 74.45, "volume": 0}, {"date": "2024-09-04", "open": 74.49, "high": 74.81, "low": 74.47, "close": 74.78, "volume": 0}, {"date": "2024-09-05", "open": 74.93, "high": 74.99, "low": 74.73, "close": 74.96, "volume": 0}, {"date": "2024-09-06", "open": 75.0, "high": 75.36, "low": 74.87, "close": 75.05, "volume": 0}, {"date": "2024-09-09", "open": 75.03, "high": 75.21, "low": 74.94, "close": 75.15, "volume": 0}, {"date": "2024-09-10", "open": 75.18, "high": 75.42, "low": 75.14, "close": 75.4, "volume": 0}, {"date": "2024-09-11", "open": 75.28, "high": 75.51, "low": 75.23, "close": 75.36, "volume": 0}, {"date": "2024-09-12", "open": 75.33, "high": 75.39, "low": 75.19, "close": 75.28, "volume": 0}, {"date": "2024-09-13", "open": 75.46, "high": 75.52, "low": 75.36, "close": 75.44, "volume": 0}, {"date": "2024-09-16", "open": 75.5, "high": 75.67, "low": 75.44, "close": 75.64, "volume": 0}, {"date": "2024-09-17", "open": 75.64, "high": 75.66, "low": 75.5, "close": 75.54, "volume": 0}, {"date": "2024-09-18", "open": 75.42, "high": 75.67, "low": 75.3, "close": 75.31, "volume": 0}, {"date": "2024-09-19", "open": 75.22, "high": 75.35, "low": 75.17, "close": 75.31, "volume": 0}, {"date": "2024-09-20", "open": 75.22, "high": 75.39, "low": 75.14, "close": 75.3, "volume": 0}, {"date": "2024-09-23", "open": 75.18, "high": 75.36, "low": 75.05, "close": 75.25, "volume": 0}, {"date": "2024-09-24", "open": 75.12, "high": 75.37, "low": 75.06, "close": 75.34, "volume": 0}, {"date": "2024-09-25", "open": 75.23, "high": 75.23, "low": 75.06, "close": 75.06, "volume": 0}, {"date": "2024-09-26", "open": 75.14, "high": 75.17, "low": 74.92, "close": 75.06, "volume": 0}, {"date": "2024-09-27", "open": 75.23, "high": 75.33, "low": 75.15, "close": 75.28, "volume": 0}, {"date": "2024-09-30", "open": 75.25, "high": 75.26, "low": 75.03, "close": 75.11, "volume": 0}, {"date": "2024-10-01", "open": 75.13, "high": 75.26, "low": 75.05, "close": 75.11, "volume": 0}, {"date": "2024-10-02", "open": 74.85, "high": 75.0, "low": 74.77, "close": 74.97, "volume": 0}, {"date": "2024-10-03", "open": 74.83, "high": 74.85, "low": 74.64, "close": 74.64, "volume": 0}, {"date": "2024-10-04", "open": 74.17, "high": 74.3, "low": 74.11, "close": 74.15, "volume": 0}, {"date": "2024-10-07", "open": 73.94, "high": 74.02, "low": 73.89, "close": 73.93, "volume": 0}, {"date": "2024-10-08", "open": 73.88, "high": 74.04, "low": 73.82, "close": 74.04, "volume": 0}, {"date": "2024-10-09", "open": 73.94, "high": 73.94, "low": 73.8, "close": 73.84, "volume": 0}, {"date": "2024-10-10", "open": 73.78, "high": 73.85, "low": 73.62, "close": 73.81, "volume": 0}, {"date": "2024-10-11", "open": 73.83, "high": 73.92, "low": 73.73, "close": 73.82, "volume": 0}, {"date": "2024-10-14", "open": 73.6, "high": 73.77, "low": 73.58, "close": 73.77, "volume": 0}, {"date": "2024-10-15", "open": 73.99, "high": 74.09, "low": 73.85, "close": 74.06, "volume": 0}, {"date": "2024-10-16", "open": 74.14, "high": 74.23, "low": 74.11, "close": 74.16, "volume": 0}, {"date": "2024-10-17", "open": 73.99, "high": 73.99, "low": 73.76, "close": 73.8, "volume": 0}, {"date": "2024-10-18", "open": 73.9, "high": 73.98, "low": 73.84, "close": 73.84, "volume": 0}, {"date": "2024-10-21", "open": 73.65, "high": 73.65, "low": 73.32, "close": 73.34, "volume": 0}, {"date": "2024-10-22", "open": 73.45, "high": 73.49, "low": 73.28, "close": 73.37, "volume": 0}, {"date": "2024-10-23", "open": 73.36, "high": 73.37, "low": 73.08, "close": 73.19, "volume": 0}, {"date": "2024-10-24", "open": 73.28, "high": 73.44, "low": 73.17, "close": 73.31, "volume": 0}, {"date": "2024-10-25", "open": 73.48, "high": 73.48, "low": 73.13, "close": 73.16, "volume": 0}, {"date": "2024-10-28", "open": 73.23, "high": 73.28, "low": 72.95, "close": 73.07, "volume": 0}, {"date": "2024-10-29", "open": 72.9, "high": 73.14, "low": 72.79, "close": 73.13, "volume": 0}, {"date": "2024-10-30", "open": 73.27, "high": 73.43, "low": 73.02, "close": 73.06, "volume": 0}, {"date": "2024-10-31", "open": 72.95, "high": 73.16, "low": 72.83, "close": 73.05, "volume": 0}, {"date": "2024-11-01", "open": 73.03, "high": 73.08, "low": 72.51, "close": 72.54, "volume": 0}, {"date": "2024-11-04", "open": 72.82, "high": 73.01, "low": 72.7, "close": 72.83, "volume": 0}, {"date": "2024-11-05", "open": 72.6, "high": 73.03, "low": 72.6, "close": 73.01, "volume": 0}, {"date": "2024-11-06", "open": 72.26, "high": 72.59, "low": 72.23, "close": 72.41, "volume": 0}, {"date": "2024-11-07", "open": 72.5, "high": 73.03, "low": 72.5, "close": 72.95, "volume": 0}, {"date": "2024-11-08", "open": 72.96, "high": 73.24, "low": 72.96, "close": 73.09, "volume": 0}, {"date": "2024-11-11", "open": 73.0, "high": 73.0, "low": 72.85, "close": 72.95, "volume": 0}, {"date": "2024-11-12", "open": 72.74, "high": 72.82, "low": 72.46, "close": 72.51, "volume": 0}, {"date": "2024-11-13", "open": 72.92, "high": 72.92, "low": 72.41, "close": 72.48, "volume": 0}, {"date": "2024-11-14", "open": 72.6, "high": 72.72, "low": 72.41, "close": 72.46, "volume": 0}, {"date": "2024-11-15", "open": 72.34, "high": 72.66, "low": 72.2, "close": 72.48, "volume": 0}, {"date": "2024-11-18", "open": 72.4, "high": 72.61, "low": 72.33, "close": 72.55, "volume": 0}, {"date": "2024-11-19", "open": 72.76, "high": 72.78, "low": 72.66, "close": 72.68, "volume": 0}, {"date": "2024-11-20", "open": 72.51, "high": 72.69, "low": 72.5, "close": 72.6, "volume": 0}, {"date": "2024-11-21", "open": 72.59, "high": 72.74, "low": 72.5, "close": 72.56, "volume": 0}, {"date": "2024-11-22", "open": 72.62, "high": 72.67, "low": 72.52, "close": 72.59, "volume": 0}, {"date": "2024-11-25", "open": 73.01, "high": 73.27, "low": 73.01, "close": 73.26, "volume": 0}, {"date": "2024-11-26", "open": 73.18, "high": 73.18, "low": 72.94, "close": 73.13, "volume": 0}, {"date": "2024-11-27", "open": 73.21, "high": 73.42, "low": 73.21, "close": 73.33, "volume": 0}, {"date": "2024-11-29", "open": 73.5, "high": 73.63, "low": 73.5, "close": 73.6, "volume": 0}, {"date": "2024-12-02", "open": 73.29, "high": 73.48, "low": 73.17, "close": 73.42, "volume": 0}, {"date": "2024-12-03", "open": 73.53, "high": 73.55, "low": 73.2, "close": 73.25, "volume": 0}, {"date": "2024-12-04", "open": 73.2, "high": 73.55, "low": 73.09, "close": 73.5, "volume": 0}, {"date": "2024-12-05", "open": 73.38, "high": 73.56, "low": 73.35, "close": 73.51, "volume": 0}, {"date": "2024-12-06", "open": 73.73, "high": 73.79, "low": 73.57, "close": 73.71, "volume": 0}, {"date": "2024-12-09", "open": 73.65, "high": 73.65, "low": 73.47, "close": 73.49, "volume": 0}, {"date": "2024-12-10", "open": 73.38, "high": 73.47, "low": 73.32, "close": 73.41, "volume": 0}, {"date": "2024-12-11", "open": 73.59, "high": 73.59, "low": 73.22, "close": 73.25, "volume": 0}, {"date": "2024-12-12", "open": 73.01, "high": 73.21, "low": 72.93, "close": 72.96, "volume": 0}, {"date": "2024-12-13", "open": 72.91, "high": 72.91, "low": 72.64, "close": 72.67, "volume": 0}, {"date": "2024-12-16", "open": 72.75, "high": 72.89, "low": 72.65, "close": 72.75, "volume": 0}, {"date": "2024-12-17", "open": 72.74, "high": 72.84, "low": 72.71, "close": 72.76, "volume": 0}, {"date": "2024-12-18", "open": 72.76, "high": 72.82, "low": 72.18, "close": 72.19, "volume": 0}, {"date": "2024-12-19", "open": 72.04, "high": 72.12, "low": 71.88, "close": 71.99, "volume": 0}, {"date": "2024-12-20", "open": 72.3, "high": 72.41, "low": 72.19, "close": 72.21, "volume": 0}, {"date": "2024-12-23", "open": 72.13, "high": 72.21, "low": 71.94, "close": 71.98, "volume": 0}, {"date": "2024-12-24", "open": 71.65, "high": 71.85, "low": 71.62, "close": 71.85, "volume": 0}, {"date": "2024-12-26", "open": 71.63, "high": 71.92, "low": 71.63, "close": 71.9, "volume": 0}, {"date": "2024-12-27", "open": 71.89, "high": 71.93, "low": 71.74, "close": 71.75, "volume": 0}, {"date": "2024-12-30", "open": 71.9, "high": 72.08, "low": 71.9, "close": 72.03, "volume": 0}, {"date": "2024-12-31", "open": 72.09, "high": 72.17, "low": 71.88, "close": 71.91, "volume": 0}, {"date": "2025-01-02", "open": 72.19, "high": 72.19, "low": 71.85, "close": 71.94, "volume": 0}, {"date": "2025-01-03", "open": 71.97, "high": 72.06, "low": 71.83, "close": 71.85, "volume": 0}, {"date": "2025-01-06", "open": 71.78, "high": 71.88, "low": 71.7, "close": 71.78, "volume": 0}, {"date": "2025-01-07", "open": 71.72, "high": 71.77, "low": 71.44, "close": 71.53, "volume": 0}, {"date": "2025-01-08", "open": 71.48, "high": 71.66, "low": 71.45, "close": 71.61, "volume": 0}, {"date": "2025-01-10", "open": 71.74, "high": 71.74, "low": 71.18, "close": 71.24, "volume": 0}, {"date": "2025-01-13", "open": 71.24, "high": 71.25, "low": 71.1, "close": 71.17, "volume": 0}, {"date": "2025-01-14", "open": 71.15, "high": 71.25, "low": 71.11, "close": 71.22, "volume": 0}, {"date": "2025-01-15", "open": 71.6, "high": 71.88, "low": 71.6, "close": 71.79, "volume": 0}, {"date": "2025-01-16", "open": 71.7, "high": 72.03, "low": 71.64, "close": 71.93, "volume": 0}, {"date": "2025-01-17", "open": 72.1, "high": 72.1, "low": 71.91, "close": 71.95, "volume": 0}, {"date": "2025-01-21", "open": 72.21, "high": 72.21, "low": 72.07, "close": 72.16, "volume": 0}, {"date": "2025-01-22", "open": 72.15, "high": 72.2, "low": 71.97, "close": 72.01, "volume": 0}, {"date": "2025-01-23", "open": 72.0, "high": 72.0, "low": 71.8, "close": 71.9, "volume": 0}, {"date": "2025-01-24", "open": 72.0, "high": 72.09, "low": 71.87, "close": 72.04, "volume": 0}, {"date": "2025-01-27", "open": 72.34, "high": 72.44, "low": 72.26, "close": 72.42, "volume": 0}, {"date": "2025-01-28", "open": 72.39, "high": 72.39, "low": 72.21, "close": 72.38, "volume": 0}, {"date": "2025-01-29", "open": 72.43, "high": 72.49, "low": 72.17, "close": 72.34, "volume": 0}, {"date": "2025-01-30", "open": 72.46, "high": 72.53, "low": 72.38, "close": 72.44, "volume": 0}, {"date": "2025-01-31", "open": 72.48, "high": 72.54, "low": 72.2, "close": 72.34, "volume": 0}, {"date": "2025-02-03", "open": 72.23, "high": 72.42, "low": 72.06, "close": 72.17, "volume": 0}, {"date": "2025-02-04", "open": 72.04, "high": 72.29, "low": 71.97, "close": 72.27, "volume": 0}, {"date": "2025-02-05", "open": 72.52, "high": 72.76, "low": 72.5, "close": 72.64, "volume": 0}, {"date": "2025-02-06", "open": 72.56, "high": 72.65, "low": 72.48, "close": 72.56, "volume": 0}, {"date": "2025-02-07", "open": 72.39, "high": 72.44, "low": 72.27, "close": 72.34, "volume": 0}, {"date": "2025-02-10", "open": 72.45, "high": 72.51, "low": 72.32, "close": 72.36, "volume": 0}, {"date": "2025-02-11", "open": 72.31, "high": 72.31, "low": 72.18, "close": 72.24, "volume": 0}, {"date": "2025-02-12", "open": 71.92, "high": 71.99, "low": 71.75, "close": 71.87, "volume": 0}, {"date": "2025-02-13", "open": 72.16, "high": 72.37, "low": 72.07, "close": 72.3, "volume": 0}, {"date": "2025-02-14", "open": 72.46, "high": 72.68, "low": 72.46, "close": 72.53, "volume": 0}, {"date": "2025-02-18", "open": 72.34, "high": 72.45, "low": 72.25, "close": 72.26, "volume": 0}, {"date": "2025-02-19", "open": 72.28, "high": 72.39, "low": 72.21, "close": 72.36, "volume": 0}, {"date": "2025-02-20", "open": 72.46, "high": 72.5, "low": 72.42, "close": 72.45, "volume": 0}, {"date": "2025-02-21", "open": 72.53, "high": 72.86, "low": 72.53, "close": 72.77, "volume": 0}, {"date": "2025-02-24", "open": 72.7, "high": 72.92, "low": 72.69, "close": 72.87, "volume": 0}, {"date": "2025-02-25", "open": 73.11, "high": 73.33, "low": 73.05, "close": 73.33, "volume": 0}, {"date": "2025-02-26", "open": 73.31, "high": 73.48, "low": 73.21, "close": 73.44, "volume": 0}, {"date": "2025-02-27", "open": 73.31, "high": 73.42, "low": 73.22, "close": 73.35, "volume": 0}, {"date": "2025-02-28", "open": 73.52, "high": 73.69, "low": 73.41, "close": 73.66, "volume": 0}, {"date": "2025-03-03", "open": 73.25, "high": 73.63, "low": 73.22, "close": 73.61, "volume": 0}, {"date": "2025-03-04", "open": 73.61, "high": 73.75, "low": 73.32, "close": 73.4, "volume": 0}, {"date": "2025-03-05", "open": 73.3, "high": 73.52, "low": 73.13, "close": 73.14, "volume": 0}, {"date": "2025-03-06", "open": 73.11, "high": 73.2, "low": 72.9, "close": 73.08, "volume": 0}, {"date": "2025-03-07", "open": 73.33, "high": 73.37, "low": 72.95, "close": 73.0, "volume": 0}, {"date": "2025-03-10", "open": 73.3, "high": 73.47, "low": 73.27, "close": 73.34, "volume": 0}, {"date": "2025-03-11", "open": 73.2, "high": 73.42, "low": 73.04, "close": 73.06, "volume": 0}, {"date": "2025-03-12", "open": 72.91, "high": 73.06, "low": 72.89, "close": 72.91, "volume": 0}, {"date": "2025-03-13", "open": 72.92, "high": 73.15, "low": 72.77, "close": 73.13, "volume": 0}, {"date": "2025-03-14", "open": 73.02, "high": 73.07, "low": 72.94, "close": 72.95, "volume": 0}, {"date": "2025-03-17", "open": 73.13, "high": 73.24, "low": 73.01, "close": 73.05, "volume": 0}, {"date": "2025-03-18", "open": 72.98, "high": 73.22, "low": 72.97, "close": 73.13, "volume": 0}, {"date": "2025-03-19", "open": 73.07, "high": 73.38, "low": 73.0, "close": 73.35, "volume": 0}, {"date": "2025-03-20", "open": 73.65, "high": 73.67, "low": 73.35, "close": 73.38, "volume": 0}, {"date": "2025-03-21", "open": 73.44, "high": 73.52, "low": 73.3, "close": 73.32, "volume": 0}, {"date": "2025-03-24", "open": 73.19, "high": 73.22, "low": 72.98, "close": 73.0, "volume": 0}, {"date": "2025-03-25", "open": 73.0, "high": 73.17, "low": 72.99, "close": 73.09, "volume": 0}, {"date": "2025-03-26", "open": 73.02, "high": 73.06, "low": 72.89, "close": 72.93, "volume": 0}, {"date": "2025-03-27", "open": 72.88, "high": 72.92, "low": 72.82, "close": 72.9, "volume": 0}, {"date": "2025-03-28", "open": 73.16, "high": 73.35, "low": 73.07, "close": 73.32, "volume": 0}, {"date": "2025-03-31", "open": 73.5, "high": 73.56, "low": 73.27, "close": 73.45, "volume": 0}, {"date": "2025-04-01", "open": 73.22, "high": 73.58, "low": 73.21, "close": 73.44, "volume": 0}, {"date": "2025-04-02", "open": 73.61, "high": 73.62, "low": 73.18, "close": 73.38, "volume": 0}, {"date": "2025-04-03", "open": 73.76, "high": 74.0, "low": 73.62, "close": 73.76, "volume": 0}, {"date": "2025-04-04", "open": 74.2, "high": 74.34, "low": 73.71, "close": 73.82, "volume": 0}, {"date": "2025-04-07", "open": 73.65, "high": 73.69, "low": 72.85, "close": 72.93, "volume": 0}, {"date": "2025-04-08", "open": 72.92, "high": 73.05, "low": 72.46, "close": 72.51, "volume": 0}, {"date": "2025-04-09", "open": 71.49, "high": 72.7, "low": 71.48, "close": 72.68, "volume": 0}, {"date": "2025-04-10", "open": 72.42, "high": 72.61, "low": 72.06, "close": 72.1, "volume": 0}, {"date": "2025-04-11", "open": 71.69, "high": 72.15, "low": 71.41, "close": 72.02, "volume": 0}, {"date": "2025-04-14", "open": 72.22, "high": 72.53, "low": 72.2, "close": 72.43, "volume": 0}, {"date": "2025-04-15", "open": 72.36, "high": 72.73, "low": 72.35, "close": 72.61, "volume": 0}, {"date": "2025-04-16", "open": 72.66, "high": 72.85, "low": 72.51, "close": 72.81, "volume": 0}, {"date": "2025-04-17", "open": 72.79, "high": 72.83, "low": 72.6, "close": 72.65, "volume": 0}, {"date": "2025-04-21", "open": 72.49, "high": 72.64, "low": 72.25, "close": 72.25, "volume": 0}, {"date": "2025-04-22", "open": 72.49, "high": 72.53, "low": 72.37, "close": 72.38, "volume": 0}, {"date": "2025-04-23", "open": 72.82, "high": 73.12, "low": 72.5, "close": 72.53, "volume": 0}, {"date": "2025-04-24", "open": 72.8, "high": 72.95, "low": 72.75, "close": 72.94, "volume": 0}, {"date": "2025-04-25", "open": 73.09, "high": 73.19, "low": 73.01, "close": 73.18, "volume": 0}, {"date": "2025-04-28", "open": 73.1, "high": 73.39, "low": 73.09, "close": 73.36, "volume": 0}, {"date": "2025-04-29", "open": 73.29, "high": 73.56, "low": 73.28, "close": 73.55, "volume": 0}, {"date": "2025-04-30", "open": 73.5, "high": 73.58, "low": 73.37, "close": 73.5, "volume": 0}, {"date": "2025-05-01", "open": 73.34, "high": 73.37, "low": 72.95, "close": 73.06, "volume": 0}, {"date": "2025-05-02", "open": 72.71, "high": 72.85, "low": 72.61, "close": 72.7, "volume": 0}, {"date": "2025-05-05", "open": 72.63, "high": 72.69, "low": 72.48, "close": 72.6, "volume": 0}, {"date": "2025-05-06", "open": 72.56, "high": 72.77, "low": 72.5, "close": 72.76, "volume": 0}, {"date": "2025-05-07", "open": 72.8, "high": 72.97, "low": 72.79, "close": 72.9, "volume": 0}, {"date": "2025-05-08", "open": 72.86, "high": 72.92, "low": 72.5, "close": 72.51, "volume": 0}, {"date": "2025-05-09", "open": 72.61, "high": 72.74, "low": 72.56, "close": 72.57, "volume": 0}, {"date": "2025-05-12", "open": 72.3, "high": 72.45, "low": 72.3, "close": 72.32, "volume": 0}, {"date": "2025-05-13", "open": 72.3, "high": 72.42, "low": 72.2, "close": 72.29, "volume": 0}, {"date": "2025-05-14", "open": 72.24, "high": 72.29, "low": 72.01, "close": 72.04, "volume": 0}, {"date": "2025-05-15", "open": 72.25, "high": 72.45, "low": 72.17, "close": 72.43, "volume": 0}, {"date": "2025-05-16", "open": 72.62, "high": 72.67, "low": 72.45, "close": 72.48, "volume": 0}, {"date": "2025-05-19", "open": 72.17, "high": 72.48, "low": 72.06, "close": 72.46, "volume": 0}, {"date": "2025-05-20", "open": 72.3, "high": 72.39, "low": 72.2, "close": 72.33, "volume": 0}, {"date": "2025-05-21", "open": 72.15, "high": 72.2, "low": 71.8, "close": 71.88, "volume": 0}, {"date": "2025-05-22", "open": 71.87, "high": 72.09, "low": 71.76, "close": 72.08, "volume": 0}, {"date": "2025-05-23", "open": 72.27, "high": 72.29, "low": 72.09, "close": 72.19, "volume": 0}, {"date": "2025-05-27", "open": 72.37, "high": 72.6, "low": 72.32, "close": 72.53, "volume": 0}, {"date": "2025-05-28", "open": 72.41, "high": 72.46, "low": 72.29, "close": 72.37, "volume": 0}, {"date": "2025-05-29", "open": 72.48, "high": 72.7, "low": 72.48, "close": 72.63, "volume": 0}, {"date": "2025-05-30", "open": 72.63, "high": 72.78, "low": 72.54, "close": 72.77, "volume": 0}, {"date": "2025-06-02", "open": 72.35, "high": 72.53, "low": 72.24, "close": 72.37, "volume": 0}, {"date": "2025-06-03", "open": 72.44, "high": 72.5, "low": 72.26, "close": 72.29, "volume": 0}, {"date": "2025-06-04", "open": 72.53, "high": 72.81, "low": 72.51, "close": 72.74, "volume": 0}, {"date": "2025-06-05", "open": 72.76, "high": 72.83, "low": 72.58, "close": 72.6, "volume": 0}, {"date": "2025-06-06", "open": 72.37, "high": 72.49, "low": 72.19, "close": 72.2, "volume": 0}, {"date": "2025-06-09", "open": 72.2, "high": 72.39, "low": 72.2, "close": 72.32, "volume": 0}, {"date": "2025-06-10", "open": 72.51, "high": 72.56, "low": 72.38, "close": 72.46, "volume": 0}, {"date": "2025-06-11", "open": 72.59, "high": 72.72, "low": 72.52, "close": 72.69, "volume": 0}, {"date": "2025-06-12", "open": 72.9, "high": 72.97, "low": 72.82, "close": 72.96, "volume": 0}, {"date": "2025-06-13", "open": 72.81, "high": 72.85, "low": 72.55, "close": 72.7, "volume": 0}, {"date": "2025-06-16", "open": 72.65, "high": 72.79, "low": 72.55, "close": 72.56, "volume": 0}, {"date": "2025-06-17", "open": 72.69, "high": 72.82, "low": 72.6, "close": 72.79, "volume": 0}, {"date": "2025-06-18", "open": 72.87, "high": 73.02, "low": 72.76, "close": 72.83, "volume": 0}, {"date": "2025-06-20", "open": 72.7, "high": 72.96, "low": 72.67, "close": 72.88, "volume": 0}, {"date": "2025-06-23", "open": 73.05, "high": 73.22, "low": 72.98, "close": 73.06, "volume": 0}, {"date": "2025-06-24", "open": 72.99, "high": 73.32, "low": 72.98, "close": 73.28, "volume": 0}, {"date": "2025-06-25", "open": 73.19, "high": 73.31, "low": 73.1, "close": 73.3, "volume": 0}, {"date": "2025-06-26", "open": 73.37, "high": 73.52, "low": 73.3, "close": 73.51, "volume": 0}, {"date": "2025-06-27", "open": 73.38, "high": 73.55, "low": 73.32, "close": 73.34, "volume": 0}, {"date": "2025-06-30", "open": 73.51, "high": 73.67, "low": 73.45, "close": 73.63, "volume": 0}, {"date": "2025-07-01", "open": 73.39, "high": 73.45, "low": 73.23, "close": 73.34, "volume": 0}, {"date": "2025-07-02", "open": 73.17, "high": 73.26, "low": 73.14, "close": 73.26, "volume": 0}, {"date": "2025-07-03", "open": 73.13, "high": 73.17, "low": 73.04, "close": 73.08, "volume": 0}, {"date": "2025-07-07", "open": 72.96, "high": 73.02, "low": 72.79, "close": 72.84, "volume": 0}, {"date": "2025-07-08", "open": 72.74, "high": 72.8, "low": 72.7, "close": 72.8, "volume": 0}, {"date": "2025-07-09", "open": 72.89, "high": 73.1, "low": 72.89, "close": 73.09, "volume": 0}, {"date": "2025-07-10", "open": 73.08, "high": 73.11, "low": 72.97, "close": 73.1, "volume": 0}, {"date": "2025-07-11", "open": 72.89, "high": 72.9, "low": 72.77, "close": 72.8, "volume": 0}, {"date": "2025-07-14", "open": 72.77, "high": 72.86, "low": 72.7, "close": 72.79, "volume": 0}, {"date": "2025-07-15", "open": 72.88, "high": 72.88, "low": 72.55, "close": 72.57, "volume": 0}, {"date": "2025-07-16", "open": 72.7, "high": 72.78, "low": 72.52, "close": 72.71, "volume": 0}, {"date": "2025-07-17", "open": 72.72, "high": 72.82, "low": 72.68, "close": 72.73, "volume": 0}, {"date": "2025-07-18", "open": 72.88, "high": 72.9, "low": 72.81, "close": 72.85, "volume": 0}, {"date": "2025-07-21", "open": 73.1, "high": 73.18, "low": 73.04, "close": 73.06, "volume": 0}, {"date": "2025-07-22", "open": 73.1, "high": 73.24, "low": 73.08, "close": 73.18, "volume": 0}, {"date": "2025-07-23", "open": 73.08, "high": 73.12, "low": 73.0, "close": 73.03, "volume": 0}, {"date": "2025-07-24", "open": 72.84, "high": 73.04, "low": 72.82, "close": 72.94, "volume": 0}, {"date": "2025-07-25", "open": 72.95, "high": 73.12, "low": 72.93, "close": 73.12, "volume": 0}, {"date": "2025-07-28", "open": 73.02, "high": 73.05, "low": 72.96, "close": 73.0, "volume": 0}, {"date": "2025-07-29", "open": 73.08, "high": 73.39, "low": 73.08, "close": 73.38, "volume": 0}, {"date": "2025-07-30", "open": 73.19, "high": 73.34, "low": 73.13, "close": 73.19, "volume": 0}, {"date": "2025-07-31", "open": 73.35, "high": 73.36, "low": 73.18, "close": 73.2, "volume": 0}, {"date": "2025-08-01", "open": 73.5, "high": 73.61, "low": 73.38, "close": 73.59, "volume": 0}, {"date": "2025-08-04", "open": 73.62, "high": 73.65, "low": 73.5, "close": 73.64, "volume": 0}, {"date": "2025-08-05", "open": 73.56, "high": 73.7, "low": 73.54, "close": 73.67, "volume": 0}, {"date": "2025-08-06", "open": 73.56, "high": 73.65, "low": 73.34, "close": 73.61, "volume": 0}, {"date": "2025-08-07", "open": 73.7, "high": 73.7, "low": 73.53, "close": 73.58, "volume": 0}, {"date": "2025-08-08", "open": 73.5, "high": 73.51, "low": 73.4, "close": 73.42, "volume": 0}, {"date": "2025-08-11", "open": 73.49, "high": 73.55, "low": 73.44, "close": 73.47, "volume": 0}, {"date": "2025-08-12", "open": 73.39, "high": 73.48, "low": 73.33, "close": 73.48, "volume": 0}, {"date": "2025-08-13", "open": 73.69, "high": 73.78, "low": 73.67, "close": 73.75, "volume": 0}, {"date": "2025-08-14", "open": 73.75, "high": 73.75, "low": 73.49, "close": 73.54, "volume": 0}, {"date": "2025-08-15", "open": 73.53, "high": 73.59, "low": 73.39, "close": 73.44, "volume": 0}, {"date": "2025-08-18", "open": 73.47, "high": 73.64, "low": 73.31, "close": 73.36, "volume": 0}, {"date": "2025-08-19", "open": 73.44, "high": 73.51, "low": 73.44, "close": 73.5, "volume": 0}, {"date": "2025-08-20", "open": 73.49, "high": 73.6, "low": 73.46, "close": 73.55, "volume": 0}, {"date": "2025-08-21", "open": 73.44, "high": 73.47, "low": 73.29, "close": 73.37, "volume": 0}, {"date": "2025-08-22", "open": 73.5, "high": 73.81, "low": 73.48, "close": 73.74, "volume": 0}, {"date": "2025-08-25", "open": 73.63, "high": 73.72, "low": 73.59, "close": 73.64, "volume": 0}, {"date": "2025-08-26", "open": 73.65, "high": 73.76, "low": 73.59, "close": 73.73, "volume": 0}, {"date": "2025-08-27", "open": 73.66, "high": 73.81, "low": 73.59, "close": 73.8, "volume": 0}, {"date": "2025-08-28", "open": 73.79, "high": 73.92, "low": 73.76, "close": 73.89, "volume": 0}, {"date": "2025-08-29", "open": 73.82, "high": 73.87, "low": 73.76, "close": 73.8, "volume": 0}, {"date": "2025-09-02", "open": 73.34, "high": 73.42, "low": 73.31, "close": 73.4, "volume": 0}, {"date": "2025-09-03", "open": 73.45, "high": 73.72, "low": 73.44, "close": 73.64, "volume": 0}, {"date": "2025-09-04", "open": 73.8, "high": 73.93, "low": 73.72, "close": 73.92, "volume": 0}, {"date": "2025-09-05", "open": 74.29, "high": 74.37, "low": 74.25, "close": 74.27, "volume": 0}, {"date": "2025-09-08", "open": 74.43, "high": 74.52, "low": 74.41, "close": 74.51, "volume": 0}, {"date": "2025-09-09", "open": 74.47, "high": 74.52, "low": 74.3, "close": 74.37, "volume": 0}, {"date": "2025-09-10", "open": 74.49, "high": 74.62, "low": 74.44, "close": 74.5, "volume": 0}, {"date": "2025-09-11", "open": 74.57, "high": 74.76, "low": 74.57, "close": 74.66, "volume": 0}, {"date": "2025-09-12", "open": 74.54, "high": 74.58, "low": 74.43, "close": 74.57, "volume": 0}, {"date": "2025-09-15", "open": 74.66, "high": 74.73, "low": 74.65, "close": 74.71, "volume": 0}, {"date": "2025-09-16", "open": 74.71, "high": 74.77, "low": 74.65, "close": 74.72, "volume": 0}, {"date": "2025-09-17", "open": 74.8, "high": 74.92, "low": 74.53, "close": 74.59, "volume": 0}, {"date": "2025-09-18", "open": 74.39, "high": 74.48, "low": 74.29, "close": 74.4, "volume": 0}, {"date": "2025-09-19", "open": 74.41, "high": 74.45, "low": 74.34, "close": 74.43, "volume": 0}, {"date": "2025-09-22", "open": 74.39, "high": 74.41, "low": 74.27, "close": 74.29, "volume": 0}, {"date": "2025-09-23", "open": 74.37, "high": 74.45, "low": 74.31, "close": 74.44, "volume": 0}, {"date": "2025-09-24", "open": 74.37, "high": 74.38, "low": 74.26, "close": 74.29, "volume": 0}, {"date": "2025-09-25", "open": 74.19, "high": 74.22, "low": 74.07, "close": 74.21, "volume": 0}, {"date": "2025-09-26", "open": 74.22, "high": 74.33, "low": 74.15, "close": 74.21, "volume": 0}, {"date": "2025-09-29", "open": 74.31, "high": 74.44, "low": 74.29, "close": 74.4, "volume": 0}, {"date": "2025-09-30", "open": 74.43, "high": 74.54, "low": 74.34, "close": 74.37, "volume": 0}, {"date": "2025-10-01", "open": 74.32, "high": 74.36, "low": 74.21, "close": 74.32, "volume": 0}, {"date": "2025-10-02", "open": 74.29, "high": 74.42, "low": 74.25, "close": 74.4, "volume": 0}, {"date": "2025-10-03", "open": 74.42, "high": 74.45, "low": 74.29, "close": 74.31, "volume": 0}, {"date": "2025-10-06", "open": 74.17, "high": 74.28, "low": 74.13, "close": 74.14, "volume": 0}, {"date": "2025-10-07", "open": 74.22, "high": 74.35, "low": 74.19, "close": 74.28, "volume": 0}, {"date": "2025-10-08", "open": 74.4, "high": 74.41, "low": 74.26, "close": 74.28, "volume": 0}, {"date": "2025-10-09", "open": 74.24, "high": 74.26, "low": 74.18, "close": 74.23, "volume": 0}, {"date": "2025-10-10", "open": 74.43, "high": 74.58, "low": 74.36, "close": 74.52, "volume": 0}, {"date": "2025-10-13", "open": 74.54, "high": 74.64, "low": 74.45, "close": 74.64, "volume": 0}, {"date": "2025-10-14", "open": 74.63, "high": 74.78, "low": 74.57, "close": 74.75, "volume": 0}, {"date": "2025-10-15", "open": 74.77, "high": 74.87, "low": 74.66, "close": 74.7, "volume": 0}, {"date": "2025-10-16", "open": 74.67, "high": 75.0, "low": 74.67, "close": 74.98, "volume": 0}, {"date": "2025-10-17", "open": 74.91, "high": 74.92, "low": 74.81, "close": 74.88, "volume": 0}, {"date": "2025-10-20", "open": 74.95, "high": 74.99, "low": 74.91, "close": 74.98, "volume": 0}, {"date": "2025-10-21", "open": 75.09, "high": 75.15, "low": 75.05, "close": 75.07, "volume": 0}, {"date": "2025-10-22", "open": 75.03, "high": 75.08, "low": 74.97, "close": 75.07, "volume": 0}, {"date": "2025-10-23", "open": 74.99, "high": 75.02, "low": 74.9, "close": 74.92, "volume": 0}, {"date": "2025-10-24", "open": 75.04, "high": 75.05, "low": 74.91, "close": 75.02, "volume": 0}, {"date": "2025-10-27", "open": 74.96, "high": 75.06, "low": 74.89, "close": 75.06, "volume": 0}, {"date": "2025-10-28", "open": 75.04, "high": 75.12, "low": 75.01, "close": 75.1, "volume": 0}, {"date": "2025-10-29", "open": 75.06, "high": 75.08, "low": 74.71, "close": 74.73, "volume": 0}, {"date": "2025-10-30", "open": 74.51, "high": 74.72, "low": 74.5, "close": 74.6, "volume": 0}, {"date": "2025-10-31", "open": 74.66, "high": 74.68, "low": 74.54, "close": 74.58, "volume": 0}, {"date": "2025-11-03", "open": 74.23, "high": 74.29, "low": 74.17, "close": 74.25, "volume": 0}, {"date": "2025-11-04", "open": 74.26, "high": 74.37, "low": 74.24, "close": 74.29, "volume": 0}, {"date": "2025-11-05", "open": 74.24, "high": 74.26, "low": 74.04, "close": 74.08, "volume": 0}, {"date": "2025-11-06", "open": 74.3, "high": 74.4, "low": 74.28, "close": 74.37, "volume": 0}, {"date": "2025-11-07", "open": 74.26, "high": 74.43, "low": 74.26, "close": 74.33, "volume": 0}, {"date": "2025-11-10", "open": 74.31, "high": 74.37, "low": 74.28, "close": 74.31, "volume": 0}, {"date": "2025-11-11", "open": 74.46, "high": 74.53, "low": 74.42, "close": 74.52, "volume": 0}, {"date": "2025-11-12", "open": 74.48, "high": 74.54, "low": 74.44, "close": 74.49, "volume": 0}, {"date": "2025-11-13", "open": 74.36, "high": 74.41, "low": 74.27, "close": 74.27, "volume": 0}, {"date": "2025-11-14", "open": 74.4, "high": 74.42, "low": 74.16, "close": 74.16, "volume": 0}, {"date": "2025-11-17", "open": 74.21, "high": 74.28, "low": 74.19, "close": 74.2, "volume": 0}, {"date": "2025-11-18", "open": 74.33, "high": 74.38, "low": 74.18, "close": 74.26, "volume": 0}, {"date": "2025-11-19", "open": 74.34, "high": 74.36, "low": 74.2, "close": 74.23, "volume": 0}, {"date": "2025-11-20", "open": 74.31, "high": 74.4, "low": 74.29, "close": 74.34, "volume": 0}, {"date": "2025-11-21", "open": 74.55, "high": 74.55, "low": 74.4, "close": 74.52, "volume": 0}, {"date": "2025-11-24", "open": 74.62, "high": 74.68, "low": 74.55, "close": 74.65, "volume": 0}, {"date": "2025-11-25", "open": 74.7, "high": 74.89, "low": 74.7, "close": 74.82, "volume": 0}, {"date": "2025-11-26", "open": 74.78, "high": 74.9, "low": 74.68, "close": 74.9, "volume": 0}, {"date": "2025-11-28", "open": 74.86, "high": 74.88, "low": 74.7, "close": 74.78, "volume": 0}, {"date": "2025-12-01", "open": 74.27, "high": 74.3, "low": 74.21, "close": 74.25, "volume": 0}, {"date": "2025-12-02", "open": 74.25, "high": 74.36, "low": 74.22, "close": 74.32, "volume": 0}, {"date": "2025-12-03", "open": 74.41, "high": 74.47, "low": 74.34, "close": 74.43, "volume": 0}, {"date": "2025-12-04", "open": 74.36, "high": 74.37, "low": 74.25, "close": 74.29, "volume": 0}, {"date": "2025-12-05", "open": 74.31, "high": 74.33, "low": 74.15, "close": 74.2, "volume": 0}, {"date": "2025-12-08", "open": 74.2, "high": 74.21, "low": 73.98, "close": 74.09, "volume": 0}, {"date": "2025-12-09", "open": 74.21, "high": 74.21, "low": 74.01, "close": 74.04, "volume": 0}, {"date": "2025-12-10", "open": 74.01, "high": 74.27, "low": 74.0, "close": 74.26, "volume": 0}, {"date": "2025-12-11", "open": 74.41, "high": 74.43, "low": 74.24, "close": 74.26, "volume": 0}, {"date": "2025-12-12", "open": 74.05, "high": 74.09, "low": 74.01, "close": 74.03, "volume": 0}, {"date": "2025-12-15", "open": 74.17, "high": 74.23, "low": 74.08, "close": 74.12, "volume": 0}, {"date": "2025-12-16", "open": 74.12, "high": 74.27, "low": 74.06, "close": 74.26, "volume": 0}, {"date": "2025-12-17", "open": 74.18, "high": 74.27, "low": 74.17, "close": 74.24, "volume": 0}, {"date": "2025-12-18", "open": 74.15, "high": 74.2, "low": 74.08, "close": 74.15, "volume": 0}, {"date": "2025-12-19", "open": 74.07, "high": 74.13, "low": 74.02, "close": 74.04, "volume": 0}, {"date": "2025-12-22", "open": 74.03, "high": 74.04, "low": 73.97, "close": 74.02, "volume": 0}, {"date": "2025-12-23", "open": 73.86, "high": 74.02, "low": 73.85, "close": 74.01, "volume": 0}, {"date": "2025-12-24", "open": 74.08, "high": 74.19, "low": 74.05, "close": 74.19, "volume": 0}, {"date": "2025-12-26", "open": 74.25, "high": 74.28, "low": 74.14, "close": 74.19, "volume": 0}, {"date": "2025-12-29", "open": 74.26, "high": 74.3, "low": 74.21, "close": 74.3, "volume": 0}, {"date": "2025-12-30", "open": 74.22, "high": 74.29, "low": 74.18, "close": 74.27, "volume": 0}, {"date": "2025-12-31", "open": 74.17, "high": 74.25, "low": 74.06, "close": 74.07, "volume": 0}, {"date": "2026-01-02", "open": 74.12, "high": 74.16, "low": 74.02, "close": 74.04, "volume": 0}, {"date": "2026-01-05", "open": 74.11, "high": 74.21, "low": 74.08, "close": 74.18, "volume": 0}, {"date": "2026-01-06", "open": 74.12, "high": 74.19, "low": 74.03, "close": 74.18, "volume": 0}, {"date": "2026-01-07", "open": 74.3, "high": 74.32, "low": 74.2, "close": 74.26, "volume": 0}, {"date": "2026-01-08", "open": 74.12, "high": 74.18, "low": 74.1, "close": 74.13, "volume": 0}, {"date": "2026-01-09", "open": 74.18, "high": 74.36, "low": 74.13, "close": 74.29, "volume": 0}, {"date": "2026-01-12", "open": 74.21, "high": 74.3, "low": 74.16, "close": 74.22, "volume": 0}, {"date": "2026-01-13", "open": 74.31, "high": 74.32, "low": 74.22, "close": 74.28, "volume": 0}, {"date": "2026-01-14", "open": 74.32, "high": 74.46, "low": 74.32, "close": 74.43, "volume": 0}, {"date": "2026-01-15", "open": 74.45, "high": 74.47, "low": 74.32, "close": 74.32, "volume": 0}, {"date": "2026-01-16", "open": 74.32, "high": 74.33, "low": 74.18, "close": 74.2, "volume": 0}, {"date": "2026-01-20", "open": 73.91, "high": 74.03, "low": 73.9, "close": 73.93, "volume": 0}, {"date": "2026-01-21", "open": 74.01, "high": 74.16, "low": 73.95, "close": 74.14, "volume": 0}, {"date": "2026-01-22", "open": 74.09, "high": 74.21, "low": 74.05, "close": 74.17, "volume": 0}, {"date": "2026-01-23", "open": 74.2, "high": 74.26, "low": 74.12, "close": 74.25, "volume": 0}, {"date": "2026-01-26", "open": 74.34, "high": 74.38, "low": 74.31, "close": 74.34, "volume": 0}, {"date": "2026-01-27", "open": 74.31, "high": 74.38, "low": 74.25, "close": 74.28, "volume": 0}, {"date": "2026-01-28", "open": 74.24, "high": 74.25, "low": 74.15, "close": 74.25, "volume": 0}, {"date": "2026-01-29", "open": 74.15, "high": 74.32, "low": 74.14, "close": 74.26, "volume": 0}, {"date": "2026-01-30", "open": 74.25, "high": 74.3, "low": 74.17, "close": 74.23, "volume": 0}, {"date": "2026-02-02", "open": 74.03, "high": 74.04, "low": 73.89, "close": 73.91, "volume": 0}, {"date": "2026-02-03", "open": 73.86, "high": 73.94, "low": 73.84, "close": 73.93, "volume": 0}, {"date": "2026-02-04", "open": 73.89, "high": 73.96, "low": 73.85, "close": 73.9, "volume": 0}, {"date": "2026-02-05", "open": 74.06, "high": 74.24, "low": 74.01, "close": 74.22, "volume": 0}, {"date": "2026-02-06", "open": 74.23, "high": 74.25, "low": 74.13, "close": 74.23, "volume": 0}, {"date": "2026-02-09", "open": 74.17, "high": 74.27, "low": 74.14, "close": 74.25, "volume": 0}, {"date": "2026-02-10", "open": 74.45, "high": 74.52, "low": 74.43, "close": 74.47, "volume": 0}, {"date": "2026-02-11", "open": 74.31, "high": 74.48, "low": 74.29, "close": 74.32, "volume": 0}, {"date": "2026-02-12", "open": 74.46, "high": 74.68, "low": 74.43, "close": 74.66, "volume": 0}, {"date": "2026-02-13", "open": 74.84, "high": 74.9, "low": 74.81, "close": 74.88, "volume": 0}, {"date": "2026-02-17", "open": 74.89, "high": 74.91, "low": 74.83, "close": 74.87, "volume": 0}, {"date": "2026-02-18", "open": 74.79, "high": 74.86, "low": 74.77, "close": 74.79, "volume": 0}, {"date": "2026-02-19", "open": 74.72, "high": 74.85, "low": 74.72, "close": 74.82, "volume": 0}, {"date": "2026-02-20", "open": 74.83, "high": 74.84, "low": 74.69, "close": 74.81, "volume": 0}, {"date": "2026-02-23", "open": 74.84, "high": 75.02, "low": 74.84, "close": 74.97, "volume": 0}, {"date": "2026-02-24", "open": 74.95, "high": 74.97, "low": 74.89, "close": 74.93, "volume": 0}, {"date": "2026-02-25", "open": 74.88, "high": 74.97, "low": 74.87, "close": 74.91, "volume": 0}, {"date": "2026-02-26", "open": 74.93, "high": 75.03, "low": 74.93, "close": 75.02, "volume": 0}, {"date": "2026-02-27", "open": 75.15, "high": 75.23, "low": 75.13, "close": 75.17, "volume": 0}, {"date": "2026-03-02", "open": 74.72, "high": 74.74, "low": 74.55, "close": 74.64, "volume": 0}, {"date": "2026-03-03", "open": 74.33, "high": 74.66, "low": 74.31, "close": 74.56, "volume": 0}, {"date": "2026-03-04", "open": 74.56, "high": 74.6, "low": 74.5, "close": 74.51, "volume": 0}, {"date": "2026-03-05", "open": 74.28, "high": 74.37, "low": 74.24, "close": 74.34, "volume": 0}, {"date": "2026-03-06", "open": 74.12, "high": 74.42, "low": 74.06, "close": 74.24, "volume": 0}, {"date": "2026-03-09", "open": 74.15, "high": 74.5, "low": 74.11, "close": 74.45, "volume": 0}, {"date": "2026-03-10", "open": 74.39, "high": 74.45, "low": 74.21, "close": 74.22, "volume": 0}, {"date": "2026-03-11", "open": 74.08, "high": 74.1, "low": 73.85, "close": 73.89, "volume": 0}, {"date": "2026-03-12", "open": 73.78, "high": 73.83, "low": 73.56, "close": 73.62, "volume": 0}, {"date": "2026-03-13", "open": 73.74, "high": 73.8, "low": 73.51, "close": 73.55, "volume": 0}, {"date": "2026-03-16", "open": 73.83, "high": 73.88, "low": 73.74, "close": 73.83, "volume": 0}, {"date": "2026-03-17", "open": 73.93, "high": 74.01, "low": 73.92, "close": 73.98, "volume": 0}, {"date": "2026-03-18", "open": 73.9, "high": 73.95, "low": 73.67, "close": 73.68, "volume": 0}, {"date": "2026-03-19", "open": 73.52, "high": 73.86, "low": 73.5, "close": 73.76, "volume": 0}, {"date": "2026-03-20", "open": 73.51, "high": 73.53, "low": 73.16, "close": 73.17, "volume": 0}, {"date": "2026-03-23", "open": 73.3, "high": 73.61, "low": 73.24, "close": 73.45, "volume": 0}, {"date": "2026-03-24", "open": 73.18, "high": 73.41, "low": 73.12, "close": 73.26, "volume": 0}, {"date": "2026-03-25", "open": 73.56, "high": 73.62, "low": 73.45, "close": 73.54, "volume": 0}, {"date": "2026-03-26", "open": 73.33, "high": 73.42, "low": 73.1, "close": 73.11, "volume": 0}, {"date": "2026-03-27", "open": 72.98, "high": 73.2, "low": 72.94, "close": 73.11, "volume": 0}, {"date": "2026-03-30", "open": 73.48, "high": 73.6, "low": 73.42, "close": 73.48, "volume": 0}, {"date": "2026-03-31", "open": 73.67, "high": 73.78, "low": 73.57, "close": 73.64, "volume": 0}, {"date": "2026-04-01", "open": 73.42, "high": 73.56, "low": 73.39, "close": 73.42, "volume": 0}, {"date": "2026-04-02", "open": 73.36, "high": 73.65, "low": 73.34, "close": 73.58, "volume": 0}, {"date": "2026-04-06", "open": 73.44, "high": 73.56, "low": 73.42, "close": 73.47, "volume": 0}, {"date": "2026-04-07", "open": 73.49, "high": 73.6, "low": 73.25, "close": 73.58, "volume": 0}, {"date": "2026-04-08", "open": 73.94, "high": 73.95, "low": 73.67, "close": 73.72, "volume": 0}, {"date": "2026-04-09", "open": 73.68, "high": 73.89, "low": 73.58, "close": 73.75, "volume": 0}, {"date": "2026-04-10", "open": 73.74, "high": 73.77, "low": 73.63, "close": 73.64, "volume": 0}, {"date": "2026-04-13", "open": 73.64, "high": 73.82, "low": 73.6, "close": 73.8, "volume": 0}, {"date": "2026-04-14", "open": 73.84, "high": 73.99, "low": 73.78, "close": 73.98, "volume": 0}, {"date": "2026-04-15", "open": 73.9, "high": 73.93, "low": 73.82, "close": 73.88, "volume": 0}, {"date": "2026-04-16", "open": 73.94, "high": 73.96, "low": 73.72, "close": 73.77, "volume": 0}, {"date": "2026-04-17", "open": 74.06, "high": 74.15, "low": 74.01, "close": 74.06, "volume": 0}, {"date": "2026-04-20", "open": 74.05, "high": 74.06, "low": 73.92, "close": 74.01, "volume": 0}, {"date": "2026-04-21", "open": 73.94, "high": 73.97, "low": 73.77, "close": 73.78, "volume": 0}, {"date": "2026-04-22", "open": 73.96, "high": 73.98, "low": 73.85, "close": 73.86, "volume": 0}, {"date": "2026-04-23", "open": 73.86, "high": 73.93, "low": 73.62, "close": 73.73, "volume": 0}, {"date": "2026-04-24", "open": 73.75, "high": 73.89, "low": 73.66, "close": 73.86, "volume": 0}, {"date": "2026-04-27", "open": 73.8, "high": 73.84, "low": 73.7, "close": 73.74, "volume": 0}, {"date": "2026-04-28", "open": 73.65, "high": 73.72, "low": 73.6, "close": 73.72, "volume": 0}, {"date": "2026-04-29", "open": 73.55, "high": 73.55, "low": 73.32, "close": 73.39, "volume": 0}, {"date": "2026-04-30", "open": 73.53, "high": 73.58, "low": 73.44, "close": 73.5, "volume": 0}, {"date": "2026-05-01", "open": 73.3, "high": 73.53, "low": 73.26, "close": 73.36, "volume": 0}, {"date": "2026-05-04", "open": 73.26, "high": 73.28, "low": 72.98, "close": 73.11, "volume": 0}, {"date": "2026-05-05", "open": 73.19, "high": 73.31, "low": 73.18, "close": 73.24, "volume": 0}, {"date": "2026-05-06", "open": 73.5, "high": 73.57, "low": 73.47, "close": 73.55, "volume": 0}, {"date": "2026-05-07", "open": 73.64, "high": 73.65, "low": 73.32, "close": 73.36, "volume": 0}, {"date": "2026-05-08", "open": 73.56, "high": 73.61, "low": 73.52, "close": 73.55, "volume": 0}, {"date": "2026-05-11", "open": 73.47, "high": 73.5, "low": 73.36, "close": 73.37, "volume": 0}, {"date": "2026-05-12", "open": 73.21, "high": 73.22, "low": 73.13, "close": 73.15, "volume": 0}, {"date": "2026-05-13", "open": 73.13, "high": 73.19, "low": 73.03, "close": 73.18, "volume": 0}, {"date": "2026-05-14", "open": 73.22, "high": 73.38, "low": 73.15, "close": 73.16, "volume": 0}, {"date": "2026-05-15", "open": 72.82, "high": 72.83, "low": 72.69, "close": 72.74, "volume": 0}, {"date": "2026-05-18", "open": 72.78, "high": 72.86, "low": 72.59, "close": 72.69, "volume": 0}, {"date": "2026-05-19", "open": 72.47, "high": 72.55, "low": 72.34, "close": 72.45, "volume": 0}, {"date": "2026-05-20", "open": 72.47, "high": 72.9, "low": 72.46, "close": 72.85, "volume": 0}, {"date": "2026-05-21", "open": 72.65, "high": 72.94, "low": 72.58, "close": 72.93, "volume": 0}, {"date": "2026-05-22", "open": 73.04, "high": 73.05, "low": 72.82, "close": 73.0, "volume": 0}, {"date": "2026-05-26", "open": 73.26, "high": 73.28, "low": 73.13, "close": 73.21, "volume": 0}, {"date": "2026-05-27", "open": 73.29, "high": 73.34, "low": 73.24, "close": 73.28, "volume": 0}, {"date": "2026-05-28", "open": 73.29, "high": 73.47, "low": 73.24, "close": 73.42, "volume": 0}, {"date": "2026-05-29", "open": 73.47, "high": 73.55, "low": 73.38, "close": 73.46, "volume": 0}, {"date": "2026-06-01", "open": 73.0, "high": 73.19, "low": 72.94, "close": 73.18, "volume": 0}, {"date": "2026-06-02", "open": 73.27, "high": 73.3, "low": 73.16, "close": 73.2, "volume": 0}, {"date": "2026-06-03", "open": 73.04, "high": 73.12, "low": 72.98, "close": 73.06, "volume": 0}, {"date": "2026-06-04", "open": 73.19, "high": 73.23, "low": 73.13, "close": 73.16, "volume": 0}, {"date": "2026-06-05", "open": 72.94, "high": 72.95, "low": 72.82, "close": 72.83, "volume": 0}, {"date": "2026-06-08", "open": 72.98, "high": 73.01, "low": 72.8, "close": 72.81, "volume": 0}, {"date": "2026-06-09", "open": 72.92, "high": 73.0, "low": 72.84, "close": 72.97, "volume": 0}, {"date": "2026-06-10", "open": 72.97, "high": 73.04, "low": 72.84, "close": 72.91, "volume": 0}, {"date": "2026-06-11", "open": 72.98, "high": 73.36, "low": 72.93, "close": 73.33, "volume": 0}, {"date": "2026-06-12", "open": 73.21, "high": 73.28, "low": 73.11, "close": 73.24, "volume": 0}, {"date": "2026-06-15", "open": 73.38, "high": 73.43, "low": 73.29, "close": 73.3, "volume": 7738294}, {"date": "2026-06-16", "open": 73.34, "high": 73.479, "low": 73.3201, "close": 73.41, "volume": 5902839}];
+    // ── 全局数据 ──
+    const FULL_DATA = [{"date": "2026-05-18", "open": 72.78, "high": 72.8599, "low": 72.59, "close": 72.69, "volume": 8771710.604043}, {"date": "2026-05-19", "open": 72.47, "high": 72.55, "low": 72.34, "close": 72.45, "volume": 13221169.974635}, {"date": "2026-05-20", "open": 72.475, "high": 72.8999, "low": 72.46, "close": 72.85, "volume": 11123005.992763}, {"date": "2026-05-21", "open": 72.65, "high": 72.935, "low": 72.575, "close": 72.93, "volume": 10364598.195259}, {"date": "2026-05-22", "open": 73.04, "high": 73.05, "low": 72.82, "close": 73.0, "volume": 6824182.84512}, {"date": "2026-05-26", "open": 73.26, "high": 73.28, "low": 73.1301, "close": 73.21, "volume": 7379325.367871}, {"date": "2026-05-27", "open": 73.29, "high": 73.34, "low": 73.24, "close": 73.28, "volume": 7353305.460522}, {"date": "2026-05-28", "open": 73.29, "high": 73.475, "low": 73.24, "close": 73.42, "volume": 7245493.553668}, {"date": "2026-05-29", "open": 73.47, "high": 73.55, "low": 73.38, "close": 73.46, "volume": 9178332.444652}, {"date": "2026-06-01", "open": 73.0, "high": 73.1866, "low": 72.94, "close": 73.18, "volume": 7268319.197356}, {"date": "2026-06-02", "open": 73.27, "high": 73.2975, "low": 73.16, "close": 73.2, "volume": 7682671.816902}, {"date": "2026-06-03", "open": 73.04, "high": 73.12, "low": 72.9801, "close": 73.06, "volume": 9330688.477831}, {"date": "2026-06-04", "open": 73.19, "high": 73.23, "low": 73.13, "close": 73.16, "volume": 6815029.532446}, {"date": "2026-06-05", "open": 72.94, "high": 72.95, "low": 72.82, "close": 72.83, "volume": 8487197.276357}, {"date": "2026-06-08", "open": 72.98, "high": 73.01, "low": 72.8, "close": 72.81, "volume": 14018968.776767}, {"date": "2026-06-09", "open": 72.92, "high": 73.0, "low": 72.84, "close": 72.97, "volume": 8703469.162581}, {"date": "2026-06-10", "open": 72.97, "high": 73.0399, "low": 72.84, "close": 72.91, "volume": 5252524.227346}, {"date": "2026-06-11", "open": 72.98, "high": 73.355, "low": 72.9345, "close": 73.33, "volume": 9058743.376199}, {"date": "2026-06-12", "open": 73.21, "high": 73.285, "low": 73.105, "close": 73.24, "volume": 7381030.48699}, {"date": "2026-06-15", "open": 73.38, "high": 73.43, "low": 73.29, "close": 73.3, "volume": 7738294.757248}, {"date": "2026-06-16", "open": 73.34, "high": 73.479, "low": 73.3201, "close": 73.41, "volume": 5902839.034892}, {"date": "2026-06-17", "open": 73.42, "high": 73.47, "low": 73.12, "close": 73.14, "volume": 8531607.492409}, {"date": "2026-06-18", "open": 73.32, "high": 73.495, "low": 73.315, "close": 73.34, "volume": 6312452.574742}];
+    const LATEST = {"close": 73.34, "change": 0.27};
+    const COMPARE = [{"ticker": "NVDA", "name": "NVIDIA Corporation", "price": 210.69, "return": -10.19}, {"ticker": "AAPL", "name": "Apple Inc.", "price": 298.01, "return": 0.11}, {"ticker": "MSFT", "name": "Microsoft Corporation", "price": 379.4, "return": -19.76}, {"ticker": "GOOGL", "name": "Alphabet Inc.", "price": 368.03, "return": -14.04}, {"ticker": "AMZN", "name": "Amazon.com Inc.", "price": 244.39, "return": -14.86}, {"ticker": "META", "name": "Meta Platforms Inc.", "price": 577.22, "return": -10.81}];
+    const RATING = {"annual_return": 10.74, "dd_score": 25.0, "latest_close": 73.34, "links": {"seekingalpha": "https://seekingalpha.com/symbol/BND", "tradingview": "https://www.tradingview.com/symbols/AMEX-BND/", "yahoo": "https://finance.yahoo.com/quote/BND/"}, "ma20": 73.16, "ma200": null, "ma50": null, "ma_emoji": "\ud83d\udfe1", "ma_status": "\u504f\u591a", "ma_text": "\u504f\u591a\u6574\u7406", "max_drawdown": -0.88, "name": "\u7f8e\u56fd\u5168\u503a\u5e02\u573a\u8986\u76d6\uff0c\u964d\u606f\u9884\u671f\u76f4\u63a5\u53d7\u76ca\uff0c\u7ec4\u5408\u6297\u8dcc\u5fc5\u5907", "rationale": "\u7f8e\u56fd\u5168\u503a\u5e02\u573a\u8986\u76d6\uff0c\u964d\u606f\u9884\u671f\u76f4\u63a5\u53d7\u76ca\uff0c\u7ec4\u5408\u6297\u8dcc\u5fc5\u5907", "rr_score": 15.0, "score": 75.0, "sharpe": -88.57, "star_emoji": "\u2b50\u2b50\u2b50\u2b50", "stars": 4, "tag": "\u4ef7\u503c\u4f18\u9009", "tag_emoji": "\ud83d\udc8e", "ticker": "BND", "trend_score": 10.0, "vol_score": 25.0, "volatility": 4.4};
     let currentPeriod = '5y';
 
+    // ── 标签样式 ──
+    const TAG_CLASSES = {
+        "强力推荐": "fire", "价值优选": "diamond",
+        "稳健配置": "diamond", "高位观望": "warning", "高风险": "danger",
+    };
+
+    // ── 渲染评级英雄区 ──
+    function renderRatingHero() {
+        if (!RATING || !RATING.ticker) return;
+        const stars = RATING.stars || 3;
+        const tag = RATING.tag || '';
+        const tagCls = TAG_CLASSES[tag] || '';
+        document.getElementById('hero-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(5 - stars);
+        document.getElementById('hero-score').textContent = `综合评分 ${RATING.score || 0} / 100`;
+        const badge = document.getElementById('hero-tag-badge');
+        badge.className = `hero-tag-badge ${tagCls}`;
+        badge.innerHTML = `${RATING.tag_emoji || ''} ${tag}`;
+
+        // 评分条
+        const bars = [
+            { label: '趋势强度', val: RATING.trend_score, cls: 'trend', max: 25 },
+            { label: '风险收益', val: RATING.rr_score, cls: 'rr', max: 25 },
+            { label: '回撤安全', val: RATING.dd_score, cls: 'dd', max: 25 },
+            { label: '波动率适配', val: RATING.vol_score, cls: 'vol', max: 25 },
+        ];
+        const sb = document.getElementById('score-bars');
+        sb.innerHTML = bars.map(b => `
+            <div class="score-bar-item">
+                <div class="score-bar-label">${b.label}</div>
+                <div class="score-bar-track">
+                    <div class="score-bar-fill ${b.cls}" style="width:${(b.val/b.max*100).toFixed(0)}%"></div>
+                </div>
+                <div class="score-bar-value">${b.val.toFixed(0)} / ${b.max}</div>
+            </div>`).join('');
+
+        // 外链按钮
+        const links = RATING.links || {};
+        const dl = document.getElementById('datalinks');
+        dl.innerHTML = `
+            <a class="datalink-btn" href="${links.yahoo || '#'}" target="_blank">📊 Yahoo Finance 行情<span class="ext-icon">↗</span></a>
+            <a class="datalink-btn" href="${links.tradingview || '#'}" target="_blank">📈 TradingView 图表<span class="ext-icon">↗</span></a>
+            <a class="datalink-btn" href="${links.seekingalpha || '#'}" target="_blank">📰 Seeking Alpha 分析<span class="ext-icon">↗</span></a>
+        `;
+
+        // 均线状态
+        const maIcon = RATING.ma_emoji || '⚪';
+        const maText = RATING.ma_text || '中性整理';
+        const statusColor = {
+            "多头": "#3fb950", "偏多": "#f0c040",
+            "中性": "#8b949e", "偏空": "#f0883e", "空头": "#f85149",
+        };
+        const color = statusColor[RATING.ma_status] || "#8b949e";
+        document.getElementById('ma-status-icon').innerHTML = `<span style="color:${color}">${maIcon}</span> <span style="color:${color}">${RATING.score ? RATING.score.toFixed(0) : ''}</span>`;
+        document.getElementById('ma-status-text').textContent = maText;
+    }
+
+    // ── 日涨跌幅 ──
+    function updateChange() {
+        const change = 0.27;
+        const el = document.getElementById('hero-change');
+        el.className = 'hero-change ' + (change >= 0 ? 'up' : 'down');
+        el.textContent = (change >= 0 ? '▲ +' : '▼ ') + change + '% 今日';
+    }
+
+    // ── ECharts 图表 ──
     function calcMA(data, period) {
-        const r = [];
+        const result = [];
         for (let i = 0; i < data.length; i++) {
-            if (i < period - 1) { r.push(null); continue; }
-            let s = 0;
-            for (let j = 0; j < period; j++) s += data[i - j].close;
-            r.push(Math.round(s / period * 100) / 100);
+            if (i < period - 1) { result.push(null); continue; }
+            let sum = 0;
+            for (let j = 0; j < period; j++) sum += data[i - j].close;
+            result.push(Math.round(sum / period * 100) / 100);
         }
-        return r;
+        return result;
     }
 
     function filterByPeriod(data, period) {
-        if (period === 'all') return data;
-        const now = new Date(data[data.length - 1].date);
-        const cutoff = new Date(now);
-        if (period === '1y') cutoff.setFullYear(now.getFullYear() - 1);
-        return data.filter(d => new Date(d.date) >= cutoff);
+        if (period === '5y') {
+            const now = new Date(data[data.length - 1].date);
+            const cutoff = new Date(now);
+            cutoff.setFullYear(now.getFullYear() - 5);
+            return data.filter(d => new Date(d.date) >= cutoff);
+        }
+        return data;
     }
 
     let chart;
     function initChart() {
-        chart = echarts.init(document.getElementById('main-chart'));
-        drawChart();
+        chart = echarts.init(document.getElementById('chart'));
+        drawChart(FULL_DATA);
         window.addEventListener('resize', () => chart.resize());
     }
 
-    function drawChart() {
-        const data = filterByPeriod(CHART_DATA, currentPeriod);
-        if (!data || data.length === 0) return;
+    function drawChart(fullData) {
+        const data = filterByPeriod(fullData, currentPeriod);
         const dates = data.map(d => d.date);
-        const prices = data.map(d => d.close);
         const ma20 = calcMA(data, 20);
         const ma50 = calcMA(data, 50);
+        const ma200 = calcMA(data, 200);
 
-        chart.setOption({
+        const option = {
             backgroundColor: 'transparent',
-            tooltip: { trigger: 'axis', axisPointer: { type: 'cross' }, formatter: function(params) {
-                let res = params[0].name + '<br/>';
-                params.forEach(p => {
-                    if (p.value != null) res += '<span style="color:' + p.color + '">' + p.marker + p.seriesName + ': $' + p.value.toFixed(2) + '</span><br/>';
-                });
-                return res;
-            }},
-            legend: { top: 6, textStyle: { color: '#8b949e', fontSize: 11 } },
-            grid: { left: '1%', right: '2%', top: '18%', bottom: '12%', containLabel: true },
-            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => v ? v.substring(0,7) : '' }, splitLine: { show: false } },
-            yAxis: { type: 'value', scale: true, position: 'right', splitLine: { lineStyle: { color: '#21262d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } },
+            tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
+            legend: { top: 8, textStyle: { color: '#8b949e', fontSize: 12 } },
+            grid: { left: '1%', right: '1%', top: '12%', bottom: '15%', containLabel: true },
+            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } },
+                axisLabel: { color: '#8b949e', fontSize: 11 }, splitLine: { show: false } },
+            yAxis: [
+                { type: 'value', scale: true, position: 'right',
+                  splitLine: { lineStyle: { color: '#21262d' } },
+                  axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } },
+                { type: 'value', scale: true, splitLine: { show: false }, axisLabel: { show: false } }
+            ],
             dataZoom: [
                 { type: 'inside', xAxisIndex: [0], start: 0, end: 100 },
-                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 18, bottom: 8, borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.15)', handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
+                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 20, bottom: 8,
+                  borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.2)',
+                  handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
             ],
             series: [
-                { name: '收盘价', type: 'line', data: prices, smooth: false, symbol: 'none', lineStyle: { width: 1.5, color: '#58a6ff' }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.18)' }, { offset: 1, color: 'rgba(88,166,255,0)' }] } } },
-                { name: 'MA20', type: 'line', data: ma20, smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#f0883e', type: 'dashed' }, connectNulls: true },
-                { name: 'MA50', type: 'line', data: ma50, smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#a371f7', type: 'dashed' }, connectNulls: true }
+                { name: '收盘价', type: 'line', data: data.map(d => d.close), smooth: false, symbol: 'none',
+                  lineStyle: { width: 2, color: '#58a6ff' },
+                  areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+                      colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.15)' }, { offset: 1, color: 'transparent' }] } } },
+                { name: 'MA20', type: 'line', data: ma20.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none',
+                  lineStyle: { width: 1.2, color: '#f0883e', type: 'dashed' }, connectNulls: true },
+                { name: 'MA50', type: 'line', data: ma50.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none',
+                  lineStyle: { width: 1.2, color: '#a371f7', type: 'dashed' }, connectNulls: true },
+                { name: 'MA200', type: 'line', data: ma200.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none',
+                  lineStyle: { width: 1.2, color: '#d4a843', type: 'dashed' }, connectNulls: true },
             ]
-        }, true);
+        };
+        chart.setOption(option);
     }
 
+    // ── 历史价格表 ──
+    function renderTable(data) {
+        const tbody = document.getElementById('price-table-body');
+        tbody.innerHTML = data.slice().reverse().slice(0, 100).map(d =>
+            `<tr><td>${d.date}</td><td>$${d.open.toFixed(2)}</td><td>$${d.high.toFixed(2)}</td><td>$${d.low.toFixed(2)}</td><td>$${d.close.toFixed(2)}</td><td>${d.volume.toLocaleString()}</td></tr>`
+        ).join('');
+    }
+
+    // ── 对比表 ──
+    function renderCompare() {
+        const tbody = document.getElementById('compare-table-body');
+        tbody.innerHTML = COMPARE.map(item =>
+            `<tr><td>${item.ticker}</td><td>$${item.price.toFixed(2)}</td><td style="color:${item.return >= 0 ? 'var(--green)' : 'var(--red)'}">${item.return >= 0 ? '+' : ''}${item.return.toFixed(1)}%</td></tr>`
+        ).join('');
+    }
+
+    // ── 事件绑定 ──
     document.querySelectorAll('.period-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentPeriod = btn.dataset.period;
-            drawChart();
+            drawChart(FULL_DATA);
         });
     });
 
-    // Set initial active button
-    document.querySelector('.period-btn[data-period="1y"]').classList.add('active');
-
+    // ── 启动 ──
+    renderRatingHero();
+    updateChange();
     initChart();
-
-    // ── i18n ──
-    const I18N = {
-        zh: {
-            nav_home: '首页', nav_list: '全部列表',
-            chart_title: '📊 价格走势（K线 + 均线）',
-            section_metrics: '📊 关键财务指标', section_perf: '📈 历史收益表现',
-            section_sector: '🏭 行业分布', section_bond: '🏦 持仓分布',
-            ai_header: '🤖 AI 智能分析', ai_pros: '✓ 优势', ai_cons: '✗ 风险',
-            ai_suggestion: '💡 投资建议',
-            research_title: '📝 投资研报', research_outlook: '📡 短期展望',
-            period_1y: '1年', period_5y: '5年', period_all: '全部',
-            footer: '数据来源：Yahoo Finance · 仅供参考，不构成投资建议',
-            footer_brand: '股道奇货',
-            side_info: '📋 基本信息', side_compare: '⚖️ 同类对比',
-            side_similar: '🔗 相关标的',
-        },
-        en: {
-            nav_home: 'Home', nav_list: 'All',
-            chart_title: '📊 Price Chart (Candlestick + Moving Averages)',
-            section_metrics: '📊 Key Financial Metrics', section_perf: '📈 Historical Performance',
-            section_sector: '🏭 Sector Distribution', section_bond: '🏦 Holdings Breakdown',
-            ai_header: '🤖 AI Analysis', ai_pros: '✓ Strengths', ai_cons: '✗ Risks',
-            ai_suggestion: '💡 Investment Suggestion',
-            research_title: '📝 Investment Research', research_outlook: '📡 Short-term Outlook',
-            period_1y: '1Y', period_5y: '5Y', period_all: 'All',
-            footer: 'Data: Yahoo Finance · For reference only · Not investment advice',
-            footer_brand: 'Gudao Qihuo',
-            side_info: '📋 Overview', side_compare: '⚖️ Peer Comparison',
-            side_similar: '🔗 Related',
-        }
-    };
-    let CURRENT_LANG = localStorage.getItem('gq_lang') || 'zh';
-
-    function setLang(lang) {
-        CURRENT_LANG = lang;
-        localStorage.setItem('gq_lang', lang);
-        document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
-        document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-        applyI18n(lang);
-    }
-
-    function applyI18n(lang) {
-        const t = I18N[lang];
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const key = el.getAttribute('data-i18n');
-            if (t[key] !== undefined) el.textContent = t[key];
-        });
-        // Period buttons
-        document.querySelectorAll('.period-btn[data-period="1y"]').forEach(el => { el.textContent = t.period_1y; });
-        document.querySelectorAll('.period-btn[data-period="5y"]').forEach(el => { el.textContent = t.period_5y; });
-        document.querySelectorAll('.period-btn[data-period="all"]').forEach(el => { el.textContent = t.period_all; });
-        // Footer
-        document.querySelectorAll('[data-i18n-footer]').forEach(el => { el.textContent = t.footer; });
-        document.querySelectorAll('[data-i18n-footer-brand]').forEach(el => { el.textContent = t.footer_brand; });
-        // Sidebar titles
-        const sidebarMap = {
-            zh: { '基本信息': '📋 基本信息', '同类对比': '⚖️ 同类对比', '相关标的': '🔗 相关标的' },
-            en: { '基本信息': '📋 Overview', '同类对比': '⚖️ Peer Comparison', '相关标的': '🔗 Related' }
-        };
-        document.querySelectorAll('.side-title').forEach(el => {
-            const map = sidebarMap[lang];
-            Object.entries(map).forEach(([cn, localized]) => {
-                if (el.textContent.includes(cn)) el.textContent = el.textContent.replace(cn, localized);
-            });
-        });
-    }
-
-    setLang(CURRENT_LANG);
+    renderTable(FULL_DATA);
+    renderCompare();
     </script>
 </body>
 </html>
