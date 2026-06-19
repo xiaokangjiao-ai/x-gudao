@@ -299,6 +299,17 @@
         'LLY':'NYSE','BRK.B':'NYSE',
     };
 
+    // ── 安全取值工具 ──
+    function safeNum(v, fallback=0) {
+        const n = Number(v);
+        return isNaN(n) ? fallback : n;
+    }
+    function safeStr(v) { return v === undefined || v === null ? '' : String(v); }
+    function safeStars(n) {
+        const s = Math.round(safeNum(n, 0));
+        return Math.max(0, Math.min(5, s));
+    }
+
     // ── 工具函数：状态 → Badge HTML ──
     function statusBadge(maStatus) {
         const map = {
@@ -331,18 +342,21 @@
 
     // ── 第2段：Top3 ──
     function renderTop3() {
-        document.getElementById('top3-grid').innerHTML = TOP3.map((r, i) => {
-            const links = getLinks(r.ticker);
+        const grid = document.getElementById('top3-grid');
+        if (!grid) return;
+        grid.innerHTML = TOP3.map((r, i) => {
+            const stars = safeStars(r.stars);
+            const links = getLinks(r.ticker || '');
             return `
-            <a class="top3-card" href="/${r.ticker.toLowerCase()}/">
+            <a class="top3-card" href="/${String(r.ticker || '').toLowerCase()}/">
                 <div class="top3-rank">#${i+1} 推荐</div>
-                <div class="top3-stars">${'⭐'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
-                <div class="top3-ticker">${r.ticker}</div>
-                <div class="top3-name">${r.name}</div>
-                <div class="top3-rationale">${r.rationale}</div>
+                <div class="top3-stars">${'⭐'.repeat(stars)}${'☆'.repeat(5-stars)}</div>
+                <div class="top3-ticker">${safeStr(r.ticker)}</div>
+                <div class="top3-name">${safeStr(r.name)}</div>
+                <div class="top3-rationale">${safeStr(r.rationale)}</div>
                 <div class="top3-scorebar">
-                    <div class="top3-score-track"><div class="top3-score-fill" style="width:${r.score}%"></div></div>
-                    <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">综合评分 ${r.score}/100</div>
+                    <div class="top3-score-track"><div class="top3-score-fill" style="width:${safeNum(r.score)}%"></div></div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">综合评分 ${safeNum(r.score).toFixed(1)}/100</div>
                 </div>
                 <div class="top3-links">
                     <a class="top3-link-btn" href="${links.tradingview}" target="_blank" onclick="event.stopPropagation()">📈 TV图表</a>
@@ -355,31 +369,39 @@
 
     // ── 第3段：全景看板（含行情图占位 + 外链）──
     function renderOverview() {
-        document.getElementById('overview-grid').innerHTML = OVERVIEW.map(o => {
-            const chgCls = o.change_pct >= 0 ? 'up' : 'down';
-            const chgSign = o.change_pct >= 0 ? '+' : '';
-            const starsStr = '⭐'.repeat(Math.round(o.stars || 0)) + '☆'.repeat(5 - Math.round(o.stars || 0));
-            const links = getLinks(o.ticker);
-            const chartImg = o.ticker === 'BRK.B' ? 'BRK_B' : o.ticker;
+        const grid = document.getElementById('overview-grid');
+        if (!grid) return;
+        grid.innerHTML = OVERVIEW.map(o => {
+            const ticker = safeStr(o.ticker);
+            const chg = safeNum(o.change_pct);
+            const chgCls = chg >= 0 ? 'up' : 'down';
+            const chgSign = chg >= 0 ? '+' : '';
+            const stars = safeStars(o.stars);
+            const starsStr = '⭐'.repeat(stars) + '☆'.repeat(5 - stars);
+            const links = getLinks(ticker);
+            const chartImg = ticker === 'BRK.B' ? 'BRK_B' : ticker;
+            const price = safeNum(o.latest_close);
+            const name = safeStr(o.name);
+            const maStatus = o.ma_status || '中性';
             return `
             <div class="overview-card">
-                <a href="/${o.ticker.toLowerCase()}/" style="text-decoration:none;color:inherit;">
+                <a href="/${ticker.toLowerCase()}/" style="text-decoration:none;color:inherit;">
                     <div class="overview-header">
                         <div>
-                            <div class="overview-ticker">${o.ticker}</div>
-                            <div class="overview-name">${o.name}</div>
+                            <div class="overview-ticker">${ticker}</div>
+                            <div class="overview-name">${name}</div>
                         </div>
                         <div class="overview-price">
-                            <div class="overview-price-val">$${o.latest_close.toFixed(2)}</div>
-                            <div class="overview-change ${chgCls}">${chgSign}${o.change_pct.toFixed(2)}%</div>
+                            <div class="overview-price-val">$${price.toFixed(2)}</div>
+                            <div class="overview-change ${chgCls}">${chgSign}${chg.toFixed(2)}%</div>
                         </div>
                     </div>
-                    ${statusBadge(o.ma_status)}
+                    ${statusBadge(maStatus)}
                     <div class="overview-stars">${starsStr}</div>
                 </a>
                 <!-- 行情图占位：点击跳转 TradingView -->
                 <a class="chart-img-wrap" href="${links.tradingview}" target="_blank" title="点击查看 TradingView 实时图表" style="position:relative;">
-                    <img class="local-chart-img" src="/assets/charts/${chartImg}.svg" alt="${o.ticker} 行情图" loading="lazy" onerror="this.style.background='#1e222d';this.alt='📊 图表加载中';">
+                    <img class="local-chart-img" src="/assets/charts/${chartImg}.svg" alt="${ticker} 行情图" loading="lazy" onerror="this.style.background='#1e222d';this.alt='📊 图表加载中';" onload="this.style.opacity=1">
                     <div class="chart-img-overlay"><span>📈 点击查看 TradingView 实时图表</span></div>
                 </a>
                 <!-- 外链按钮组 -->
@@ -464,12 +486,20 @@
         }).join('');
     }
 
-    // ── 启动 ──
-    renderTickerBar();
-    renderTop3();
-    renderOverview();
-    renderHeatmap();
-    renderMATable();
+    // ── 启动（带错误隔离）──
+    function safeRender(fn, name) {
+        try { fn(); }
+        catch (e) {
+            console.error(`[${name}] 渲染失败:`, e);
+            const el = document.getElementById(name.replace('render', '').replace(/([A-Z])/g, '-$1').toLowerCase());
+            if (el) el.innerHTML = `<div style="padding:20px;color:var(--red);font-size:13px;">⚠️ ${name} 渲染出错，请刷新或清除缓存后重试。<br><small>${e.message}</small></div>`;
+        }
+    }
+    safeRender(renderTickerBar, 'renderTickerBar');
+    safeRender(renderTop3, 'renderTop3');
+    safeRender(renderOverview, 'renderOverview');
+    safeRender(renderHeatmap, 'renderHeatmap');
+    safeRender(renderMATable, 'renderMATable');
     </script>
 </body>
 </html>
