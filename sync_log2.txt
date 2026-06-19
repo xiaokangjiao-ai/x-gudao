@@ -1,0 +1,8 @@
+﻿[x-gudao sync] 模式: daily | 标的: 1 个
+[x-gudao sync] 数据库: C:\Users\Administrator\x-gudao\data\market_data.db
+──────────────────────────────────────────────────
+
+[1/1] 📈 AAPL
+  ℹ️  无新数据（或出错: 0）
+
+✅ 完成！共获取 0 条新记录
