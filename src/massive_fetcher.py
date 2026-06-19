@@ -22,16 +22,12 @@ MIN_INTERVAL = 15  # 免费套餐：每分钟5次 → 每次间隔≥15秒
 DATA_DIR = Path(__file__).parent.parent / "data"
 DB_PATH = DATA_DIR / "market_data.db"
 
-# 30个标的（按优先级分组，控制请求顺序）
+# 16个标的：全球资产配置核心标的（2026年6月 v3）
 SYMBOLS = [
-    # ETF（最重要，先拉）
-    "VOO", "QQQ", "SPY", "VTI", "IWM", "GLD", "TLT", "BND",
-    # 科技巨头
-    "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA", "BRK.B", "JPM", "V", "MA",
-    # 大宗商品
-    "GC", "SI", "CL", "HG",
-    # 债券指数
-    "^TNX", "^TYX", "^IRX",
+    # 全球市值 Top 8 股票
+    "NVDA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "LLY", "BRK.B",
+    # 核心 ETF（去重 + 新增）
+    "VOO", "QQQ", "IWM", "BND", "GLD", "SCHD", "VXUS", "SMH",
 ]
 
 

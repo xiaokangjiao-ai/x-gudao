@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全球最具价值的10个基金 | 股道奇货</title>
-    <meta name="description" content="专注全球规模最大、最具影响力的10只ETF基金，提供K线图、技术指标、基金对比等专业分析数据。">
+    <title>全球资产配置 · 16核心标的 | 股道奇货</title>
+    <meta name="description" content="全球资产配置专业分析平台，覆盖16个核心标的（8股票+8ETF），提供专业评级、均线状态、九宫格热力图等投资决策工具。">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -17,8 +17,10 @@
         body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
+
+        /* ── 头部 ── */
         header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
-        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
         .logo { font-size: 18px; font-weight: 700; }
         .logo span { color: var(--gold); }
         nav { display: flex; gap: 24px; }
@@ -26,43 +28,146 @@
         nav a:hover, nav a.active { color: var(--text-primary); text-decoration: none; }
         nav a.active { border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
 
-        .hero { text-align: center; padding: 80px 24px 48px; background: linear-gradient(180deg, rgba(88,166,255,0.06) 0%, transparent 100%); }
-        .hero h1 { font-size: 40px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        /* ── 全局 Badge 样式 ── */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .status-badge.bullish { background: #1a6b1a; color: #fff; }
+        .status-badge.neutral-bull { background: #b8860b; color: #000; }
+        .status-badge.neutral-bear { background: #d2691e; color: #fff; }
+        .status-badge.bearish { background: #b22222; color: #fff; }
+
+        /* ── 第1段：Hero ── */
+        .hero {
+            text-align: center;
+            padding: 60px 24px 40px;
+            background: linear-gradient(180deg, rgba(212,168,67,0.08) 0%, transparent 100%);
+        }
+        .hero h1 { font-size: 42px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
         .hero h1 span { color: var(--gold); }
-        .hero p { font-size: 18px; color: var(--text-secondary); max-width: 600px; margin: 0 auto 32px; }
-        .hero-tags { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-        .tag { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 6px 16px; font-size: 13px; color: var(--text-secondary); }
+        .hero-subtitle {
+            font-size: 16px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 24px;
+            display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+        }
+        .hero-subtitle span { padding: 0 8px; }
+        .hero-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+        .hero-tag { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 13px; color: var(--text-secondary); }
+        .ticker-bar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; max-width: 900px; margin: 0 auto; }
+        .ticker-pill {
+            display: inline-block; padding: 5px 14px; border-radius: 16px; font-size: 13px; font-weight: 600;
+            letter-spacing: 0.5px; transition: all 0.2s;
+        }
+        .ticker-pill.stock { background: rgba(88,166,255,0.15); border: 1px solid rgba(88,166,255,0.3); color: var(--accent); }
+        .ticker-pill.etf { background: rgba(212,168,67,0.15); border: 1px solid rgba(212,168,67,0.3); color: var(--gold); }
+        .ticker-pill:hover { transform: translateY(-2px); text-decoration: none; }
 
-        .main { max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
-        .section-title { font-size: 20px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        /* ── 第2段：Top3推荐 ── */
+        .main { max-width: 1400px; margin: 0 auto; padding: 0 24px 60px; }
+        .section-title { font-size: 22px; font-weight: 600; margin: 40px 0 20px; display: flex; align-items: center; gap: 10px; }
+        .top3-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .top3-card {
+            background: var(--bg-card); border: 1px solid var(--gold-border, rgba(212,168,67,0.35));
+            border-radius: 14px; padding: 24px; transition: all 0.2s; cursor: pointer;
+        }
+        .top3-card:hover { border-color: var(--gold); transform: translateY(-3px); text-decoration: none; }
+        .top3-rank { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 8px; font-weight: 600; }
+        .top3-stars { font-size: 20px; margin-bottom: 8px; }
+        .top3-ticker { font-size: 28px; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
+        .top3-name { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+        .top3-rationale { font-size: 13px; color: var(--text-primary); margin-top: 12px; line-height: 1.6; }
+        .top3-scorebar { margin-top: 14px; }
+        .top3-score-track { height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; }
+        .top3-score-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #f0c040); border-radius: 3px; }
 
-        .fund-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
-        .fund-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.2s, transform 0.2s; cursor: pointer; }
-        .fund-card:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
-        .fund-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
-        .fund-ticker { font-size: 22px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
-        .fund-name { font-size: 14px; color: var(--text-secondary); margin-top: 2px; }
-        .fund-price { font-size: 20px; font-weight: 600; text-align: right; }
-        .fund-change { font-size: 13px; margin-top: 2px; text-align: right; }
-        .fund-change.up { color: var(--green); }
-        .fund-change.down { color: var(--red); }
-        .fund-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; border-top: 1px solid var(--border); padding-top: 12px; }
-        .metric { text-align: center; }
-        .metric-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); }
-        .metric-value { font-size: 14px; font-weight: 600; margin-top: 2px; }
-        .mini-chart { height: 60px; margin: 12px 0; }
-        .fund-tag { display: inline-block; background: rgba(88,166,255,0.1); border: 1px solid rgba(88,166,255,0.2); border-radius: 4px; padding: 2px 8px; font-size: 11px; color: var(--accent); margin-bottom: 8px; }
+        /* ── 第3段：16标的全景看板 ── */
+        .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .overview-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+            padding: 18px; transition: all 0.2s; cursor: pointer;
+        }
+        .overview-card:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+        .overview-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+        .overview-ticker { font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
+        .overview-name { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
+        .overview-price { text-align: right; }
+        .overview-price-val { font-size: 18px; font-weight: 600; }
+        .overview-change { font-size: 12px; margin-top: 2px; }
+        .overview-change.up { color: var(--green); }
+        .overview-change.down { color: var(--red); }
+        .overview-stars { font-size: 14px; margin: 10px 0 8px; }
+        .overview-links { display: flex; gap: 6px; margin-top: 12px; }
+        .overview-link-btn {
+            flex: 1; text-align: center; padding: 6px; border-radius: 6px; font-size: 11px;
+            background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        .overview-link-btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-        .compare-section { margin-top: 48px; }
-        .compare-table-wrap { overflow-x: auto; }
-        .compare-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        .compare-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); padding: 10px 12px; border-bottom: 2px solid var(--border); background: rgba(255,255,255,0.02); }
-        .compare-table td { padding: 10px 12px; border-bottom: 1px solid rgba(48,54,61,0.5); }
-        .compare-table tr:hover td { background: rgba(255,255,255,0.03); }
-        .compare-table .num { text-align: right; font-variant-numeric: tabular-nums; }
-        .compare-table .best { color: var(--gold); font-weight: 700; }
-        .compare-table .ticker-link { font-weight: 600; color: var(--gold); }
+        /* ── 第4段：九宫格热力图 ── */
+        .heatmap-section { margin-top: 48px; }
+        .heatmap-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .heatmap-legend { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
+        .heatmap-legend-item { display: flex; align-items: center; gap: 4px; }
+        .heatmap-legend-color { width: 14px; height: 14px; border-radius: 3px; }
+        .heatmap-grid {
+            display: grid; grid-template-columns: 120px repeat(3, 1fr); grid-template-rows: 40px repeat(3, 140px);
+            gap: 2px; background: var(--border); border: 2px solid var(--border); border-radius: 10px; overflow: hidden;
+        }
+        .heatmap-label {
+            background: var(--bg-secondary); display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 600; color: var(--text-secondary); padding: 4px;
+        }
+        .heatmap-label.row-label { writing-mode: horizontal; text-align: center; }
+        .heatmap-cell {
+            background: var(--bg-card); padding: 10px; display: flex; flex-direction: column;
+            transition: all 0.2s; position: relative;
+        }
+        .heatmap-cell:hover { z-index: 10; box-shadow: 0 0 20px rgba(88,166,255,0.3); }
+        .heatmap-cell-title { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 600; }
+        .heatmap-cell-tickers { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; align-content: flex-start; }
+        .heatmap-ticker {
+            display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+            background: rgba(255,255,255,0.08); color: var(--text-primary); cursor: pointer; transition: all 0.2s;
+        }
+        .heatmap-ticker:hover { background: rgba(88,166,255,0.2); color: var(--accent); text-decoration: none; }
+        .heatmap-best { box-shadow: 0 0 0 2px var(--green) inset; }
+        .heatmap-danger { box-shadow: 0 0 0 2px var(--red) inset; }
 
+        /* ── 第5段：均线状态灯总览 ── */
+        .ma-table-wrap { overflow-x: auto; margin-top: 20px; }
+        .ma-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .ma-table th {
+            text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+            color: var(--text-secondary); padding: 10px 12px; border-bottom: 2px solid var(--border);
+            background: rgba(255,255,255,0.02);
+        }
+        .ma-table td { padding: 10px 12px; border-bottom: 1px solid rgba(48,54,61,0.5); }
+        .ma-table tr:hover td { background: rgba(255,255,255,0.03); }
+        .ma-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+        .ma-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+        .ma-dot.green { background: var(--green); }
+        .ma-dot.red { background: var(--red); }
+        .ma-dot.gray { background: var(--text-secondary); }
+
+        /* ── 响应式 ── */
+        @media (max-width: 1200px) { .overview-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 900px) {
+            .top3-grid { grid-template-columns: 1fr; }
+            .overview-grid { grid-template-columns: repeat(2, 1fr); }
+            .heatmap-grid { grid-template-columns: 80px repeat(3, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 28px; }
+            .overview-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── 页脚 ── */
         footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
         footer a { color: var(--text-secondary); }
     </style>
@@ -70,143 +175,253 @@
 <body>
     <header>
         <div class="header-inner">
-            <div class="logo">📈 <span>股道奇货</span> · 全球最具价值的10个基金</div>
+            <div class="logo">📈 <span>股道奇货</span> · 全球资产配置</div>
             <nav>
                 <a href="/" class="active">首页</a>
-                <a href="/screener.html">基金列表</a>
+                <a href="/screener.html">标的列表</a>
                 <a href="/compare.html">对比</a>
                 <a href="/about.html">关于</a>
             </nav>
         </div>
     </header>
 
+    <!-- 第1段：Hero -->
     <div class="hero">
-        <h1>全球<span>最具价值</span>的10个基金</h1>
-        <p>专注全球规模最大、最具影响力的ETF基金，只选精品。<br>每个基金独立页面，含K线图、技术指标、专业对比数据。</p>
-        <div class="hero-tags">
-            <span class="tag">📊 5年历史数据</span>
-            <span class="tag">📈 MA20 / MA50 / MA200</span>
-            <span class="tag">⚖️ 基金对比分析</span>
-            <span class="tag">🔄 每日自动更新</span>
+        <h1>全球<span>资产配置</span> · 16核心标的</h1>
+        <div class="hero-subtitle">
+            <span>多资产</span>·<span>多行业</span>·<span>攻守兼备</span>·<span>专业评级体系</span>·<span>分析研判</span>·<span>观点输出</span>
         </div>
+        <div class="hero-tags">
+            <span class="hero-tag">🔥 科技成长先锋</span>
+            <span class="hero-tag">💎 价值旗舰(BRK.B)</span>
+            <span class="hero-tag">🏥 医疗防守(LLY)</span>
+            <span class="hero-tag">💰 高股息(SCHD)</span>
+            <span class="hero-tag">🌍 全球分散(VXUS)</span>
+            <span class="hero-tag">💻 半导体(SMH)</span>
+        </div>
+        <div class="ticker-bar" id="ticker-bar"></div>
     </div>
 
     <div class="main">
-        <div class="section-title">📋 全部基金</div>
-        <div class="fund-grid" id="fund-grid"></div>
+        <!-- 第2段：Top3推荐 -->
+        <div class="section-title">🏆 本周最具价值 Top 3</div>
+        <div class="top3-grid" id="top3-grid"></div>
 
-        <div class="compare-section">
-            <div class="section-title">⚖️ 关键指标对比</div>
-            <div class="compare-table-wrap">
-                <table class="compare-table">
-                    <thead>
-                        <tr>
-                            <th>基金</th>
-                            <th>名称</th>
-                            <th class="num">最新价</th>
-                            <th class="num">52W高</th>
-                            <th class="num">52W低</th>
-                            <th class="num">年化收益</th>
-                            <th class="num">波动率</th>
-                            <th class="num">数据点</th>
-                        </tr>
-                    </thead>
-                    <tbody id="compare-tbody"></tbody>
-                </table>
+        <!-- 第3段：16标的全景看板 -->
+        <div class="section-title">📊 16标的全景看板</div>
+        <div class="overview-grid" id="overview-grid"></div>
+
+        <!-- 第4段：九宫格热力图 -->
+        <div class="heatmap-section">
+            <div class="heatmap-header">
+                <div class="section-title" style="margin: 0;">🎯 性价比九宫格 · 3秒决策</div>
+                <div class="heatmap-legend">
+                    <div class="heatmap-legend-item"><div class="heatmap-legend-color" style="background:#1a6b1a;"></div> 👑最佳买点</div>
+                    <div class="heatmap-legend-item"><div class="heatmap-legend-color" style="background:#8b2020;"></div> ⛔危险区</div>
+                </div>
             </div>
+            <div class="heatmap-grid" id="heatmap-grid"></div>
+        </div>
+
+        <!-- 第5段：均线状态灯总览 -->
+        <div class="section-title">⚡ 均线状态灯总览</div>
+        <div class="ma-table-wrap">
+            <table class="ma-table">
+                <thead>
+                    <tr>
+                        <th>代码</th>
+                        <th>名称</th>
+                        <th class="num">最新价</th>
+                        <th class="num">MA20</th>
+                        <th class="num">MA50</th>
+                        <th class="num">MA200</th>
+                        <th>状态</th>
+                        <th class="num">评分</th>
+                    </tr>
+                </thead>
+                <tbody id="ma-tbody"></tbody>
+            </table>
         </div>
     </div>
 
     <footer>
-        <p>数据来源：Yahoo Finance · 仅供参考，不构成投资建议</p>
-        <p style="margin-top:8px;">© 2026 <a href="/">全球最具价值的10个基金</a> · x.gudaoqihuo.com</p>
+        <p>数据来源：Yahoo Finance · TradingView · Seeking Alpha | 仅供参考，不构成投资建议</p>
+        <p style="margin-top:8px;">© 2026 <a href="/">股道奇货</a> · x.gudaoqihuo.com</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script>
     const OVERVIEW = {{ overview_data | safe }};
+    const TOP3 = {{ top3_data | safe }};
 
-    function renderGrid() {
-        const grid = document.getElementById('fund-grid');
-        grid.innerHTML = OVERVIEW.map(f => `
-            <a class="fund-card" href="/${f.ticker.toLowerCase()}/">
-                <div class="fund-card-top">
-                    <div>
-                        <div class="fund-tag">${f.category}</div>
-                        <div class="fund-ticker">${f.ticker}</div>
-                        <div class="fund-name">${f.name}</div>
-                    </div>
-                    <div>
-                        <div class="fund-price">$${f.latest_close.toFixed(2)}</div>
-                        <div class="fund-change ${f.change_pct >= 0 ? 'up' : 'down'}">${f.change_pct >= 0 ? '▲ +' : '▼ '}${f.change_pct.toFixed(2)}%</div>
-                    </div>
+    // ── 工具函数：状态 → Badge HTML ──
+    function statusBadge(maStatus) {
+        const map = {
+            "多头": '<span class="status-badge bullish">🟢 强劲牛市</span>',
+            "偏多": '<span class="status-badge neutral-bull">🟡 震荡蓄势</span>',
+            "中性": '<span class="status-badge neutral-bear">🟠 风险警示</span>',
+            "偏空": '<span class="status-badge neutral-bear">🟠 风险警示</span>',
+            "空头": '<span class="status-badge bearish">🔴 趋势走弱</span>',
+        };
+        return map[maStatus] || '<span class="status-badge neutral-bear">⚪ 未知</span>';
+    }
+
+    // ── 第1段：Ticker栏 ──
+    function renderTickerBar() {
+        const bar = document.getElementById('ticker-bar');
+        const stocks = ['NVDA','AAPL','MSFT','GOOGL','AMZN','META','LLY','BRK.B'];
+        const etfs = ['VOO','QQQ','IWM','BND','GLD','SCHD','VXUS','SMH'];
+        bar.innerHTML = OVERVIEW.map(o => {
+            const cls = stocks.includes(o.ticker) ? 'stock' : 'etf';
+            return `<a class="ticker-pill ${cls}" href="/${o.ticker.toLowerCase()}/">${o.ticker}</a>`;
+        }).join('');
+    }
+
+    // ── 第2段：Top3 ──
+    function renderTop3() {
+        const grid = document.getElementById('top3-grid');
+        grid.innerHTML = TOP3.map((r, i) => `
+            <a class="top3-card" href="/${r.ticker.toLowerCase()}/">
+                <div class="top3-rank">#${i+1} 推荐</div>
+                <div class="top3-stars">${'⭐'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+                <div class="top3-ticker">${r.ticker}</div>
+                <div class="top3-name">${r.name}</div>
+                <div class="top3-rationale">${r.rationale}</div>
+                <div class="top3-scorebar">
+                    <div class="top3-score-track"><div class="top3-score-fill" style="width:${r.score}%"></div></div>
+                    <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">综合评分 ${r.score}/100</div>
                 </div>
-                <div class="fund-metrics">
-                    <div class="metric"><div class="metric-label">年化收益</div><div class="metric-value" style="color:${f.annual_return >= 0 ? 'var(--green)' : 'var(--red)'}">${f.annual_return >= 0 ? '+' : ''}${f.annual_return.toFixed(1)}%</div></div>
-                    <div class="metric"><div class="metric-label">52W高</div><div class="metric-value">$${f.high.toFixed(0)}</div></div>
-                    <div class="metric"><div class="metric-label">52W低</div><div class="metric-value">$${f.low.toFixed(0)}</div></div>
-                </div>
-                <div class="mini-chart" id="mini-${f.ticker}"></div>
             </a>
         `).join('');
     }
 
-    function renderCompare() {
-        const tbody = document.getElementById('compare-tbody');
-        const best = { ret: null, vol: null };
-        OVERVIEW.forEach(f => {
-            if (best.ret === null || f.annual_return > best.ret) best.ret = f.annual_return;
-            if (best.vol === null || f.volatility < best.vol) best.vol = f.volatility;
-        });
-        tbody.innerHTML = OVERVIEW.map(f => `
-            <tr>
-                <td><a class="ticker-link" href="/${f.ticker.toLowerCase()}/">${f.ticker}</a></td>
-                <td>${f.name}</td>
-                <td class="num">$${f.latest_close.toFixed(2)}</td>
-                <td class="num">$${f.high.toFixed(2)}</td>
-                <td class="num">$${f.low.toFixed(2)}</td>
-                <td class="num ${f.annual_return === best.ret ? 'best' : ''}" style="color:${f.annual_return >= 0 ? 'var(--green)' : 'var(--red)'}">${f.annual_return >= 0 ? '+' : ''}${f.annual_return.toFixed(2)}%</td>
-                <td class="num ${f.volatility === best.vol ? 'best' : ''}">${f.volatility.toFixed(2)}%</td>
-                <td class="num">${f.data_points}</td>
-            </tr>
-        `).join('');
+    // ── 第3段：全景看板 ──
+    function renderOverview() {
+        const grid = document.getElementById('overview-grid');
+        grid.innerHTML = OVERVIEW.map(o => {
+            const changeCls = o.change_pct >= 0 ? 'up' : 'down';
+            const changeSign = o.change_pct >= 0 ? '+' : '';
+            const starsStr = '⭐'.repeat(Math.round(o.stars || 0)) + '☆'.repeat(5 - Math.round(o.stars || 0));
+            // 外链
+            const exchange = o.exchange || 'NASDAQ';
+            const tvUrl = `https://www.tradingview.com/symbols/${exchange}-${o.ticker}/`;
+            const saUrl = `https://seekingalpha.com/symbol/${o.ticker}`;
+            const yahooUrl = `https://finance.yahoo.com/quote/${o.ticker}/`;
+            return `
+                <a class="overview-card" href="/${o.ticker.toLowerCase()}/">
+                    <div class="overview-header">
+                        <div>
+                            <div class="overview-ticker">${o.ticker}</div>
+                            <div class="overview-name">${o.name}</div>
+                        </div>
+                        <div class="overview-price">
+                            <div class="overview-price-val">$${o.latest_close.toFixed(2)}</div>
+                            <div class="overview-change ${changeCls}">${changeSign}${o.change_pct.toFixed(2)}%</div>
+                        </div>
+                    </div>
+                    ${statusBadge(o.ma_status)}
+                    <div class="overview-stars">${starsStr}</div>
+                    <div class="overview-links">
+                        <a class="overview-link-btn" href="${tvUrl}" target="_blank" title="TradingView">📈 TV</a>
+                        <a class="overview-link-btn" href="${saUrl}" target="_blank" title="Seeking Alpha">📰 SA</a>
+                        <a class="overview-link-btn" href="${yahooUrl}" target="_blank" title="Yahoo Finance">💬 YF</a>
+                    </div>
+                </a>
+            `;
+        }).join('');
     }
 
-    function drawMiniCharts() {
-        OVERVIEW.forEach(f => {
-            const el = document.getElementById('mini-' + f.ticker);
-            if (!el) return;
-            const chart = echarts.init(el);
-            const prices = f.price_history.map(p => p.close);
-            const min = Math.min(...prices), max = Math.max(...prices);
-            chart.setOption({
-                backgroundColor: 'transparent',
-                grid: { left: 0, right: 0, top: 2, bottom: 0 },
-                xAxis: { type: 'category', show: false, data: f.price_history.map(p => p.date) },
-                yAxis: { type: 'value', show: false, min, max },
-                series: [{
-                    type: 'line',
-                    data: prices,
-                    smooth: true,
-                    symbol: 'none',
-                    lineStyle: { width: 1.5, color: f.change_pct >= 0 ? '#3fb950' : '#f85149' },
-                    areaStyle: {
-                        color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
-                            colorStops: [
-                                { offset: 0, color: f.change_pct >= 0 ? 'rgba(63,185,80,0.2)' : 'rgba(248,81,73,0.2)' },
-                                { offset: 1, color: 'transparent' }
-                            ]
-                        }
-                    }
-                }]
+    // ── 第4段：九宫格热力图 ──
+    function renderHeatmap() {
+        const grid = document.getElementById('heatmap-grid');
+        // 定义9个格子
+        const rows = ['低风险', '中等', '高风险'];
+        const cols = ['空头', '震荡', '多头'];
+
+        // 颜色
+        const colors = {
+            '低风险-空头': '#5a6a5a',
+            '低风险-震荡': '#4a7c2e',
+            '低风险-多头': '#1a6b1a',
+            '中等-空头': '#6a3a3a',
+            '中等-震荡': '#4a4a5a',
+            '中等-多头': '#2a6b6b',
+            '高风险-空头': '#8b2020',
+            '高风险-震荡': '#7a3a2a',
+            '高风险-多头': '#8a5a1a',
+        };
+
+        // 分类标的
+        const cells = {};
+        cols.forEach(c => rows.forEach(r => { cells[`${r}-${c}`] = []; }));
+        OVERVIEW.forEach(o => {
+            const score = o.score || 0;
+            const maStatus = o.ma_status || '中性';
+            let riskRow, trendCol;
+            if (score >= 70) riskRow = '低风险';
+            else if (score >= 40) riskRow = '中等';
+            else riskRow = '高风险';
+            if (maStatus === '多头') trendCol = '多头';
+            else if (['偏多','中性'].includes(maStatus)) trendCol = '震荡';
+            else trendCol = '空头';
+            cells[`${riskRow}-${trendCol}`].push(o);
+        });
+
+        // 渲染
+        let html = '';
+        // 表头
+        html += '<div class="heatmap-label" style="background:transparent;"></div>';
+        cols.forEach(c => { html += `<div class="heatmap-label" style="justify-content:center;font-weight:700;">${c}</div>`; });
+        // 行
+        rows.forEach(r => {
+            html += `<div class="heatmap-label row-label">${r}</div>`;
+            cols.forEach(c => {
+                const key = `${r}-${c}`;
+                const tickers = cells[key];
+                const color = colors[key];
+                const isBest = key === '低风险-多头';
+                const isDanger = key === '高风险-空头';
+                let cls = 'heatmap-cell';
+                if (isBest) cls += ' heatmap-best';
+                if (isDanger) cls += ' heatmap-danger';
+                html += `<div class="${cls}" style="background:${color};">
+                    <div class="heatmap-cell-title">${tickers.length > 0 ? tickers.map(t => `<a class="heatmap-ticker" href="/${t.ticker.toLowerCase()}/" style="color:#fff;">${t.ticker}</a>`).join('') : '<span style="color:rgba(255,255,255,0.3);font-size:11px;">暂无</span>'}</div>
+                </div>`;
             });
         });
+        grid.innerHTML = html;
     }
 
-    renderGrid();
-    renderCompare();
-    setTimeout(drawMiniCharts, 100);
-    window.addEventListener('resize', () => { if (window.drawMiniCharts) drawMiniCharts(); });
+    // ── 第5段：均线状态灯 ──
+    function renderMATable() {
+        const tbody = document.getElementById('ma-tbody');
+        tbody.innerHTML = OVERVIEW.filter(o => o.ma20 && o.ma50 && o.ma200).map(o => {
+            const changeCls = o.change_pct >= 0 ? 'up' : 'down';
+            const changeSign = o.change_pct >= 0 ? '+' : '';
+            // MA 点灯
+            const ma20Dot = o.latest_close > o.ma20 ? '<span class="ma-dot green"></span>' : '<span class="ma-dot red"></span>';
+            const ma50Dot = o.latest_close > o.ma50 ? '<span class="ma-dot green"></span>' : '<span class="ma-dot red"></span>';
+            const ma200Dot = o.latest_close > o.ma200 ? '<span class="ma-dot green"></span>' : '<span class="ma-dot red"></span>';
+            return `
+                <tr>
+                    <td><a href="/${o.ticker.toLowerCase()}/" style="font-weight:600;color:var(--gold);">${o.ticker}</a></td>
+                    <td>${o.name}</td>
+                    <td class="num">$${o.latest_close.toFixed(2)}</td>
+                    <td class="num">${ma20Dot} $${o.ma20.toFixed(2)}</td>
+                    <td class="num">${ma50Dot} $${o.ma50.toFixed(2)}</td>
+                    <td class="num">${ma200Dot} $${o.ma200.toFixed(2)}</td>
+                    <td>${statusBadge(o.ma_status)}</td>
+                    <td class="num" style="font-weight:700;">${o.score ? o.score.toFixed(0) : '-'}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // ── 启动 ──
+    renderTickerBar();
+    renderTop3();
+    renderOverview();
+    renderHeatmap();
+    renderMATable();
     </script>
 </body>
 </html>

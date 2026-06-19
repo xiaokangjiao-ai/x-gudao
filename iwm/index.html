@@ -134,8 +134,21 @@
 
         /* ── 均线状态卡 ── */
         .ma-card { text-align: center; padding: 16px; }
-        .ma-status-large { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .ma-status-text { font-size: 13px; color: var(--text-secondary); }
+
+        /* ── 全局 Badge 样式 ── */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .status-badge.bullish { background: #1a6b1a; color: #fff; }
+        .status-badge.neutral-bull { background: #b8860b; color: #000; }
+        .status-badge.neutral-bear { background: #d2691e; color: #fff; }
+        .status-badge.bearish { background: #b22222; color: #fff; }
         .ma-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
         .ma-dot { text-align: center; }
         .ma-dot-val { font-size: 14px; font-weight: 700; }
@@ -402,25 +415,33 @@
                 <div class="score-bar-value">${b.val.toFixed(0)} / ${b.max}</div>
             </div>`).join('');
 
-        // 外链按钮
-        const links = RATING.links || {};
+        // 外链按钮（更新文案和链接）
+        const ticker = 'IWM';
+        const exchange = RATING.exchange || 'NASDAQ';
+        const tvUrl = `https://www.tradingview.com/symbols/${exchange}-${ticker}/`;
+        const saUrl = `https://seekingalpha.com/symbol/${ticker}`;
+        const yahooCommunityUrl = `https://finance.yahoo.com/quote/${ticker}/community`;
         const dl = document.getElementById('datalinks');
         dl.innerHTML = `
-            <a class="datalink-btn" href="${links.yahoo || '#'}" target="_blank">📊 Yahoo Finance 行情<span class="ext-icon">↗</span></a>
-            <a class="datalink-btn" href="${links.tradingview || '#'}" target="_blank">📈 TradingView 图表<span class="ext-icon">↗</span></a>
-            <a class="datalink-btn" href="${links.seekingalpha || '#'}" target="_blank">📰 Seeking Alpha 分析<span class="ext-icon">↗</span></a>
+            <a class="datalink-btn" href="${tvUrl}" target="_blank">📈 查看实时交互图表<span class="ext-icon">↗</span></a>
+            <a class="datalink-btn" href="${saUrl}" target="_blank">📰 华尔街机构最新研报<span class="ext-icon">↗</span></a>
+            <a class="datalink-btn" href="${yahooCommunityUrl}" target="_blank">💬 查看散户情绪讨论<span class="ext-icon">↗</span></a>
+            <a class="datalink-btn" href="${tvUrl}" target="_blank">🔗 TradingView 交互图表<span class="ext-icon">↗</span></a>
         `;
 
-        // 均线状态
-        const maIcon = RATING.ma_emoji || '⚪';
-        const maText = RATING.ma_text || '中性整理';
-        const statusColor = {
-            "多头": "#3fb950", "偏多": "#f0c040",
-            "中性": "#8b949e", "偏空": "#f0883e", "空头": "#f85149",
-        };
-        const color = statusColor[RATING.ma_status] || "#8b949e";
-        document.getElementById('ma-status-icon').innerHTML = `<span style="color:${color}">${maIcon}</span> <span style="color:${color}">${RATING.score ? RATING.score.toFixed(0) : ''}</span>`;
-        document.getElementById('ma-status-text').textContent = maText;
+        // 均线状态（改为彩色Badge）
+        function getStatusBadge(maStatus) {
+            const map = {
+                "多头": '<span class="status-badge bullish">🟢 强劲牛市</span>',
+                "偏多": '<span class="status-badge neutral-bull">🟡 震荡蓄势</span>',
+                "中性": '<span class="status-badge neutral-bear">🟠 风险警示</span>',
+                "偏空": '<span class="status-badge neutral-bear">🟠 风险警示</span>',
+                "空头": '<span class="status-badge bearish">🔴 趋势走弱</span>',
+            };
+            return map[maStatus] || '<span class="status-badge neutral-bear">⚪ 未知</span>';
+        }
+        document.getElementById('ma-status-icon').innerHTML = getStatusBadge(RATING.ma_status);
+        document.getElementById('ma-status-text').textContent = RATING.ma_text || '中性整理';
     }
 
     // ── 日涨跌幅 ──
