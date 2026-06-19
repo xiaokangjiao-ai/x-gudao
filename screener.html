@@ -68,6 +68,7 @@
         .top3-card {
             background: var(--bg-card); border: 1px solid rgba(212,168,67,0.35);
             border-radius: 14px; padding: 24px; transition: all 0.2s; cursor: pointer;
+            display: flex; flex-direction: column; min-height: 280px;
         }
         .top3-card:hover { border-color: var(--gold); transform: translateY(-3px); text-decoration: none; }
         .top3-rank { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 8px; font-weight: 600; }
@@ -158,10 +159,15 @@
         .heatmap-cell-tickers { display: flex; flex-wrap: wrap; gap: 5px; flex: 1; align-content: flex-start; }
         .heatmap-ticker {
             display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 6px;
-            font-size: 12px; font-weight: 700; background: rgba(255,255,255,0.1); color: #fff;
-            transition: all 0.2s;
+            font-size: 13px; font-weight: 700; background: rgba(255,255,255,0.1); color: #fff;
+            transition: all 0.2s; border: 1px solid transparent;
         }
         .heatmap-ticker:hover { background: rgba(255,255,255,0.25); color: #fff; text-decoration: none; transform: scale(1.05); }
+        .heatmap-ticker[data-status="多头"] { border-color: var(--green); }
+        .heatmap-ticker[data-status="偏多"] { border-color: #b8860b; }
+        .heatmap-ticker[data-status="中性"] { border-color: #d2691e; }
+        .heatmap-ticker[data-status="偏空"] { border-color: #e06030; }
+        .heatmap-ticker[data-status="空头"] { border-color: var(--red); }
         .heatmap-ticker-ext {
             font-size: 9px; opacity: 0.7; margin-left: 2px;
         }
@@ -373,7 +379,7 @@
                 </a>
                 <!-- 行情图占位：点击跳转 TradingView -->
                 <a class="chart-img-wrap" href="${links.tradingview}" target="_blank" title="点击查看 TradingView 实时图表" style="position:relative;">
-                    <img class="local-chart-img" src="/assets/charts/${chartImg}.svg" alt="${o.ticker} 行情图" loading="lazy">
+                    <img class="local-chart-img" src="/assets/charts/${chartImg}.svg" alt="${o.ticker} 行情图" loading="lazy" onerror="this.style.background='#1e222d';this.alt='📊 图表加载中';">
                     <div class="chart-img-overlay"><span>📈 点击查看 TradingView 实时图表</span></div>
                 </a>
                 <!-- 外链按钮组 -->
@@ -422,7 +428,8 @@
                 const tickerHtml = tickers.length > 0
                     ? tickers.map(t => {
                         const links = getLinks(t.ticker);
-                        return `<a class="heatmap-ticker" href="${links.tradingview}" target="_blank" title="${t.ticker} - TradingView">${t.ticker}<span class="heatmap-ticker-ext">↗</span></a>`;
+                        const status = t.ma_status || '中性';
+                        return `<a class="heatmap-ticker" data-status="${status}" href="${links.tradingview}" target="_blank" title="${t.ticker} - ${status}">${t.ticker}<span class="heatmap-ticker-ext">↗</span></a>`;
                     }).join('')
                     : '<span style="color:rgba(255,255,255,0.3);font-size:11px;">暂无</span>';
                 html += `<div class="${cls}" style="background:${colors[key]};">
