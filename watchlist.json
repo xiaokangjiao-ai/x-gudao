@@ -1,18 +1,16 @@
 {
-  "name": "全球最具价值的10个基金",
-  "description": "专注全球规模最大、最具影响力的ETF基金，只选精品",
+  "name": "全球最具价值的16个标的",
+  "description": "8股票+8ETF，专注全球规模最大、最具影响力的标的",
   "groups": {
-    "us_core": ["SPY", "IVV", "VOO"],
-    "us_tech": ["QQQ"],
-    "us_total": ["VTI"],
-    "global": ["VEA", "VWO"],
-    "bonds": ["AGG"],
-    "commodities": ["GLD"]
+    "us_stocks": ["NVDA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "LLY", "BRK.B"],
+    "us_etf_tech": ["QQQ", "SMH"],
+    "us_etf_core": ["VOO", "SCHD", "IWM", "BND"],
+    "global_commodities": ["VXUS", "GLD"]
   },
-  "tickers": ["SPY", "IVV", "VOO", "QQQ", "VTI", "VEA", "VWO", "AGG", "IEFA", "GLD"],
+  "tickers": ["NVDA", "AAPL", "MSFT", "GOOGL", "AMZN", "META", "LLY", "BRK.B", "VOO", "QQQ", "IWM", "BND", "GLD", "SCHD", "VXUS", "SMH"],
   "metadata": {
-    "last_updated": "2026-06-16",
-    "total_count": 10,
-    "source": "按全球ETF管理规模(AUM)排名选取前10"
+    "last_updated": "2026-06-20",
+    "total_count": 16,
+    "source": "2026年6月市值Top8股票 + 8核心ETF"
   }
 }

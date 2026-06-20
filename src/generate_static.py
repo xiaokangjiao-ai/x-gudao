@@ -72,18 +72,20 @@ def fetch_from_db(ticker: str) -> list:
         return []
 
 
-def get_ticker_data(ticker: str) -> dict:
+def get_ticker_data(ticker: str, skip_fetch: bool = False) -> dict:
     """
     获取单个标的完整数据（DB优先，YF兜底）
     自动补全：MA20/50/200，年化收益，波动率等
     """
     data = fetch_from_db(ticker)
     source = "db" if data else "yf"
-    if not data:
+    if not data and not skip_fetch:
         print(f"  [FETCH] {ticker} ← Yahoo Finance (fallback)")
         data = fetch_from_yf(ticker)
-    else:
+    elif data:
         print(f"  [FETCH] {ticker} ← SQLite ({len(data)}条)")
+    elif skip_fetch:
+        print(f"  [SKIP-FETCH] {ticker} 跳过网络获取")
 
     if not data:
         return {}
@@ -320,7 +322,7 @@ def main():
     all_data = []
     for ticker in tickers:
         print(f"[{tickers.index(ticker) + 1}/{len(tickers)}] {ticker}")
-        data = get_ticker_data(ticker)
+        data = get_ticker_data(ticker, skip_fetch=args.skip_fetch)
         if data:
             all_data.append(data)
         else:
