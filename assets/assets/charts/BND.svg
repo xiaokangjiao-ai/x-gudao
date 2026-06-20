@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="120" viewBox="0 0 400 120">
-  <rect width="400" height="120" fill="#0d1117" rx="8"/>
-  <text x="200" y="55" text-anchor="middle" fill="#8b949e" font-family="Inter,sans-serif" font-size="14">📈 BND 行情图</text>
-  <text x="200" y="78" text-anchor="middle" fill="#30363d" font-family="Inter,sans-serif" font-size="11">点击查看 TradingView 实时图表</text>
-</svg>

@@ -1,8 +1,0 @@
-/data/
-# output/ 目录需要被 Git 追踪（存放静态 JSON 数据文件）
-!output/
-!static/data/
-*.pyc
-.env
-.venv/
-.DS_Store
