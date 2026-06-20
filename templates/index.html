@@ -128,16 +128,27 @@
         }
         .chart-img-wrap:hover { border-color: var(--accent); box-shadow: 0 0 16px rgba(88,166,255,0.15); }
         .chart-img-wrap:hover .chart-img-overlay { opacity: 1; }
+        /* ── 裂图防塌陷：强制撑开图表卡片区 ── */
+        .card-v4 a img,
         .local-chart-img, img[alt*="行情图"] {
-            width: 100%; height: 160px; min-height: 120px; display: block;
+            width: 100%; height: 160px; min-height: 150px; display: block;
             object-fit: cover; border-radius: 6px;
-            background-color: #1e222d;
+            background-color: #1e222d; /* TradingView深色垫底 */
+            border: 1px solid #2a2e39;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin: 12px 0;
+            transition: all 0.2s ease;
         }
+        .card-v4 a:hover img,
         .local-chart-img:hover, img[alt*="行情图"]:hover {
+            filter: brightness(1.2);
             transform: scale(1.02);
             box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+        }
+        /* 图表加载失败时的兜底样式 */
+        img[alt*="行情图"]:not([src]),
+        img[src=""], img[src*="placeholder"] {
+            background: linear-gradient(135deg, #1e222d 0%, #2a2e39 100%);
         }
         .chart-img-overlay {
             position: absolute; inset: 0; background: rgba(88,166,255,0.12);
