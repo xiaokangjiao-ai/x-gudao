@@ -80,30 +80,6 @@
         .top3-score-track { height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; }
         .top3-score-fill { height: 100%; background: linear-gradient(90deg, var(--gold), #f0c040); border-radius: 3px; }
         /* ── Top3 外链区：迷你图 + 小按钮 ── */
-        .top3-links { display: flex; gap: 8px; margin-top: 14px; align-items: stretch; }
-        .top3-chart-thumb {
-            flex: 2; display: block; border-radius: 8px; overflow: hidden;
-            border: 1px solid var(--border); transition: all 0.3s; position: relative;
-            min-height: 72px; background: var(--bg-secondary);
-        }
-        .top3-chart-thumb:hover { border-color: var(--accent); box-shadow: 0 0 12px rgba(88,166,255,0.15); }
-        .top3-chart-thumb svg {
-            width: 100%; height: 72px; display: block;
-        }
-        .top3-chart-thumb .thumb-overlay {
-            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-            background: rgba(20,24,35,0.7); font-size: 11px; color: var(--accent); font-weight: 600;
-            opacity: 1; transition: opacity 0.3s;
-        }
-        .top3-chart-thumb:hover .thumb-overlay { opacity: 0; }
-        .top3-mini-btns { flex: 1; display: flex; flex-direction: column; gap: 6px; }
-        .top3-mini-btn {
-            flex: 1; text-align: center; padding: 6px 4px; border-radius: 6px; font-size: 10px; font-weight: 600;
-            background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-secondary);
-            transition: all 0.2s; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 3px;
-        }
-        .top3-mini-btn:hover { border-color: var(--accent); color: var(--accent); }
-
         /* ── 第3段：16标全景看板 ── */
         .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
         .overview-card {
@@ -129,43 +105,6 @@
         .chart-img-wrap:hover { border-color: var(--accent); box-shadow: 0 0 16px rgba(88,166,255,0.15); }
         .chart-img-wrap:hover .chart-img-overlay { opacity: 1; }
         /* ── 裂图防塌陷：强制撑开图表卡片区 ── */
-        .card-v4 a img,
-        .local-chart-img, img[alt*="行情图"] {
-            width: 100%; height: 160px; min-height: 150px; display: block;
-            object-fit: cover; border-radius: 6px;
-            background-color: #1e222d; /* TradingView深色垫底 */
-            border: 1px solid #2a2e39;
-            cursor: pointer;
-            margin: 12px 0;
-            transition: all 0.2s ease;
-        }
-        .card-v4 a:hover img,
-        .local-chart-img:hover, img[alt*="行情图"]:hover {
-            filter: brightness(1.2);
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-        }
-        /* 图表加载失败时的兜底样式 */
-        img[alt*="行情图"]:not([src]),
-        img[src=""], img[src*="placeholder"] {
-            background: linear-gradient(135deg, #1e222d 0%, #2a2e39 100%);
-        }
-        .chart-img-overlay {
-            position: absolute; inset: 0; background: rgba(88,166,255,0.12);
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.3s; border-radius: 7px;
-        }
-        .chart-img-overlay span { font-size: 13px; font-weight: 600; color: var(--accent); }
-
-        /* ── 外链按钮组 ── */
-        .overview-links { display: flex; gap: 6px; margin-top: 10px; }
-        .overview-link-btn {
-            flex: 1; text-align: center; padding: 6px; border-radius: 6px; font-size: 11px;
-            background: var(--bg-secondary); border: 1px solid var(--border); color: var(--text-secondary);
-            transition: all 0.2s;
-        }
-        .overview-link-btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-
         /* ── 第4段：九宫格热力图 ── */
         .heatmap-section { margin-top: 48px; }
         .heatmap-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }

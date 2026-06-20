@@ -227,20 +227,102 @@ def calc_stats(data: list) -> dict:
 def build_index_page(tickers_data: list) -> str:
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(str(TEMPLATES)))
     tmpl = env.get_template("index.html")
-    overview = [{
-        "ticker": d["ticker"],
-        "name": d["name"],
-        "category": d["category"],
-        "latest_close": d["latest_close"],
-        "change_pct": d["day_change"],
-        "annual_return": d["annual_return"],
-        "volatility": d["volatility"],
-        "high": d["high"],
-        "low": d["low"],
-        "data_points": d["data_points"],
-        "price_history": d["price_history"],
-    } for d in tickers_data]
-    return tmpl.render(overview_data=json.dumps(overview, ensure_ascii=False))
+
+    # 构建带评分的 overview 数据
+    overview = []
+    for d in tickers_data:
+        latest = d["latest_close"]
+        ma20, ma50, ma200 = d["ma20"], d["ma50"], d["ma200"]
+
+        # 均线状态判定
+        if ma20 > 0 and ma50 > 0 and ma200 > 0:
+            if latest > ma20 > ma50 > ma200:
+                ma_status = "多头"
+            elif latest > ma20 and latest > ma50:
+                ma_status = "偏多"
+            elif latest < ma20 and latest < ma50:
+                ma_status = "偏空"
+            elif latest < ma200:
+                ma_status = "空头"
+            else:
+                ma_status = "中性"
+        else:
+            ma_status = "中性"
+
+        # 四维评分 (0-100)
+        score_components = {}
+
+        # 1. 趋势分 (40分): 基于均线排列
+        trend_map = {"多头": 40, "偏多": 30, "中性": 20, "偏空": 10, "空头": 5}
+        score_components["trend"] = trend_map.get(ma_status, 20)
+
+        # 2. 波动率分 (20分): 低波动高分
+        vol = d["volatility"] or 0.3
+        if vol < 0.15:
+            score_components["volatility"] = 20
+        elif vol < 0.25:
+            score_components["volatility"] = 16
+        elif vol < 0.35:
+            score_components["volatility"] = 12
+        else:
+            score_components["volatility"] = 6
+
+        # 3. 收益分 (25分): 年化收益
+        ann_ret = d["annual_return"] or 0
+        if ann_ret >= 0.3:
+            score_components["return"] = 25
+        elif ann_ret >= 0.15:
+            score_components["return"] = 20
+        elif ann_ret >= 0:
+            score_components["return"] = 14
+        elif ann_ret >= -0.1:
+            score_components["return"] = 8
+        else:
+            score_components["return"] = 3
+
+        # 4. 动量分 (15分): 日涨跌
+        day_chg = d["day_change"] or 0
+        if day_chg >= 3:
+            score_components["momentum"] = 15
+        elif day_chg >= 1:
+            score_components["momentum"] = 12
+        elif day_chg >= -1:
+            score_components["momentum"] = 9
+        elif day_chg >= -3:
+            score_components["momentum"] = 4
+        else:
+            score_components["momentum"] = 1
+
+        total_score = sum(score_components.values())
+        stars = max(1, min(5, round(total_score / 20)))  # 1-5星
+
+        overview.append({
+            "ticker": d["ticker"],
+            "name": d["name"],
+            "category": d["category"],
+            "latest_close": d["latest_close"],
+            "change_pct": d["day_change"],
+            "annual_return": d["annual_return"],
+            "volatility": d["volatility"],
+            "high": d["high"],
+            "low": d["low"],
+            "data_points": d["data_points"],
+            "price_history": d["price_history"],
+            "ma20": ma20,
+            "ma50": ma50,
+            "ma200": ma200,
+            "ma_status": ma_status,
+            "score": round(total_score, 1),
+            "stars": stars,
+        })
+
+    # Top3: 按评分排序取前3
+    top3 = sorted(overview, key=lambda x: x["score"], reverse=True)[:3]
+
+    return tmpl.render(
+        overview_data=json.dumps(overview, ensure_ascii=False),
+        top3_data=json.dumps(top3, ensure_ascii=False),
+    )
 
 
 def build_ticker_page(ticker_data: dict, all_tickers_data: list) -> str:
