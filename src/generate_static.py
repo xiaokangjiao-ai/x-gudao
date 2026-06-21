@@ -296,6 +296,49 @@ def build_index_page(tickers_data: list) -> str:
         total_score = sum(score_components.values())
         stars = max(1, min(5, round(total_score / 20)))  # 1-5星
 
+        # ═══ 风险等级分类（基于金融常识 + 波动率）═══
+        # 手动定义风险等级，因为算法无法准确捕捉金融常识
+        risk_manual = {
+            # 低风险：债券、防御型、低波动红利ETF
+            "BND": "低风险",
+            "BRK.B": "低风险",
+            "SCHD": "低风险",
+            # 中等风险：大盘ETF、优质蓝筹
+            "VOO": "中等",
+            "QQQ": "中等",
+            "AAPL": "中等",
+            "MSFT": "中等",
+            "GOOGL": "中等",
+            "AMZN": "中等",
+            "META": "中等",
+            # 高风险：高波动科技股、小盘、商品、医药
+            "NVDA": "高风险",
+            "SMH": "高风险",
+            "IWM": "高风险",
+            "GLD": "高风险",
+            "LLY": "高风险",
+            "VXUS": "高风险",
+        }
+        risk_level = risk_manual.get(d["ticker"], "中等")
+
+        # ═══ 趋势细分（引入均线乖离率）═══
+        ma20_bias = (latest - ma20) / ma20 if ma20 > 0 else 0
+        if ma_status == "多头":
+            if ma20_bias > 0.05:  # 乖离率>5%，可能超买
+                trend_category = "超买多头"
+            elif ma20_bias < 0.02:  # 乖离率<2%，初始突破
+                trend_category = "初始多头"
+            else:
+                trend_category = "稳健多头"
+        elif ma_status == "偏多":
+            trend_category = "震荡偏多"
+        elif ma_status == "偏空":
+            trend_category = "震荡偏空"
+        elif ma_status == "空头":
+            trend_category = "空头趋势"
+        else:
+            trend_category = "震荡"
+
         overview.append({
             "ticker": d["ticker"],
             "name": d["name"],
@@ -312,6 +355,8 @@ def build_index_page(tickers_data: list) -> str:
             "ma50": ma50,
             "ma200": ma200,
             "ma_status": ma_status,
+            "risk_level": risk_level,
+            "trend_category": trend_category,
             "score": round(total_score, 1),
             "stars": stars,
         })
