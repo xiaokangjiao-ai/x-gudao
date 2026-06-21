@@ -345,17 +345,7 @@
         <div class="section-title">📊 16标全景看板</div>
         <div class="overview-grid" id="overview-grid"></div>
 
-        <!-- 第4段：九宫格 -->
-        <div class="heatmap-section">
-            <div class="heatmap-header">
-                <div class="section-title" style="margin: 0;">🎯 性价比九宫格 · 3秒决策</div>
-                <div class="heatmap-legend">
-                    <div class="heatmap-legend-item"><div class="heatmap-legend-color" style="background:#1a6b1a;"></div> 👑最佳买点</div>
-                    <div class="heatmap-legend-item"><div class="heatmap-legend-color" style="background:#8b2020;"></div> ⛔危险区</div>
-                </div>
-            </div>
-            <div class="heatmap-grid" id="heatmap-grid"></div>
-        </div>
+
 
         <!-- 第5段：均线状态灯 -->
         <div id="ma-section" style="display:none;">
@@ -582,79 +572,6 @@
         }).join('');
     }
 
-    // ═══ SVG Sparkline生成器 ═══
-    function makeSparkline(priceHistory, w, h) {
-        if (!priceHistory || priceHistory.length < 2) return '';
-        const closes = priceHistory.map(p => p.close);
-        const min = Math.min(...closes), max = Math.max(...closes);
-        const range = max - min || 1;
-        const pts = closes.map((v, i) => {
-            const x = (i / (closes.length - 1)) * w;
-            const y = h - ((v - min) / range) * h * 0.85 - h * 0.05;
-            return `${x.toFixed(1)},${y.toFixed(1)}`;
-        }).join(' ');
-        const isUp = closes[closes.length-1] >= closes[0];
-        const color = isUp ? '#3fb950' : '#f85149';
-        const fill = isUp ? 'rgba(63,185,80,0.15)' : 'rgba(248,81,73,0.15)';
-        return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block;">
-            <polygon points="0,${h} ${pts} ${w},${h}" fill="${fill}"/>
-            <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="${w}" cy="${pts.split(' ').pop().split(',')[1]}" r="2" fill="${color}"/>
-        </svg>`;
-    }
-
-    // ═══ 渲染：九宫格 V5.2 — 带行情图+指标 ═══
-    function renderHeatmap() {
-        const riskRows = ['低风险', '中等', '高风险'];
-        const trendCols = ['空头', '震荡', '多头'];
-        const cellColors = {
-            '低风险-空头':'#1a4a1a','低风险-震荡':'#2a5a2a','低风险-多头':'#1a6b1a',
-            '中等-空头':'#4a3a3a','中等-震荡':'#3a3a28','中等-多头':'#2a5a2a',
-            '高风险-空头':'#6a2020','高风险-震荡':'#5a3020','高风险-多头':'#4a4018'
-        };
-        const cells = {};
-        trendCols.forEach(c => riskRows.forEach(r => { cells[`${r}-${c}`] = []; }));
-        OVERVIEW.forEach(o => {
-            const risk = o.risk_level || '中等';
-            let trend = '震荡';
-            const tc = o.trend_category || '';
-            if (tc.includes('空头')||tc.includes('偏空')) trend='空头';
-            else if (tc.includes('多头')||tc.includes('偏多')) trend='多头';
-            else trend='震荡';
-            cells[`${risk}-${trend}`].push(o);
-        });
-        let html = '';
-        html += '<div class="heatmap-header-cell"></div>';
-        trendCols.forEach(c => { const icons={'空头':'⬇️','震荡':'➡️','多头':'↗️'}; html+=`<div class="heatmap-header-cell">${icons[c]} ${c}</div>`; });
-        riskRows.forEach(r => {
-            const icons={'低风险':'🟢','中等':'🟡','高风险':'🔴'};
-            html+=`<div class="heatmap-header-cell risk-label">${icons[r]} ${r}</div>`;
-            trendCols.forEach(c => {
-                const key=`${r}-${c}`, tickers=cells[key];
-                const isBest=(r==='低风险'&&c==='多头'), isDanger=(r==='高风险'&&c==='空头');
-                let cls='heatmap-cell'; if(isBest)cls+=' heatmap-best'; if(isDanger)cls+=' heatmap-danger';
-                let content='';
-                if(tickers.length>0){
-                    content=tickers.map(t=>{
-                        const links=getLinks(t.ticker);
-                        const chg=t.change_pct||0;
-                        const chgColor=chg>=0?'#3fb950':'#f85149';
-                        const chgSign=chg>=0?'+':'';
-                        const vol=(t.volatility||0).toFixed(0);
-                        const spk=makeSparkline(t.price_history,60,28);
-                        return `<a class="hm-card" href="${links.tradingview}" target="_blank">
-                            <div class="hm-card-top"><span class="hm-ticker">${t.ticker}</span><span class="hm-chg" style="color:${chgColor}">${chgSign}${chg.toFixed(1)}%</span></div>
-                            <div class="hm-spark">${spk}</div>
-                            <div class="hm-meta"><span title="波动率">σ${vol}%</span><span title="评分">⭐${t.stars||'?'}</span></div>
-                        </a>`;
-                    }).join('');
-                }else{content='<span class="heatmap-empty">—</span>';}
-                html+=`<div class="${cls}" style="background:${cellColors[key]};"><div class="heatmap-cell-content">${content}</div></div>`;
-            });
-        });
-        document.getElementById('heatmap-grid').innerHTML=html;
-    }
-
     // ═══ 渲染：均线表 ═══
     function renderMATable() {
         const sec=document.getElementById('ma-section'), tbody=document.getElementById('ma-tbody');
@@ -672,7 +589,6 @@
     function safeRender(fn,name){try{fn();}catch(e){console.error(`[${name}]`,e);}}
     safeRender(renderResearch, 'renderResearch');
     safeRender(renderOverview, 'renderOverview');
-    safeRender(renderHeatmap, 'renderHeatmap');
     safeRender(renderMATable, 'renderMATable');
     </script>
 </body>
