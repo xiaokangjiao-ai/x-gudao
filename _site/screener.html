@@ -331,10 +331,10 @@
                     <div class="top3-score-track"><div class="top3-score-fill" style="width:${safeNum(r.score)}%"></div></div>
                     <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">综合评分 ${safeNum(r.score).toFixed(1)}/100</div>
                 </div>
-                <div class="top3-simple-links">
-                    <a href="${links.tradingview}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:12px;">📈 TV图表</a> ·
-                    <a href="${links.seekingalpha}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:12px;">📰 SA研报</a> ·
-                    <a href="${links.yahoo}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:12px;">💬 YF行情</a>
+                <div style="margin-top:auto;padding-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <a href="${links.tradingview}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:12px;background:rgba(88,166,255,0.1);padding:4px 10px;border-radius:6px;border:1px solid rgba(88,166,255,0.2);">📈 TV图表</a>
+                    <a href="${links.seekingalpha}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:12px;background:rgba(88,166,255,0.1);padding:4px 10px;border-radius:6px;border:1px solid rgba(88,166,255,0.2);">📰 SA研报</a>
+                    <a href="${links.yahoo}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:12px;background:rgba(88,166,255,0.1);padding:4px 10px;border-radius:6px;border:1px solid rgba(88,166,255,0.2);">💬 YF行情</a>
                 </div>
             </a>`;
         }).join('');
