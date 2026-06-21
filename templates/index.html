@@ -316,12 +316,11 @@
     // ── 第2段：Top3 ──
     function renderTop3() {
         const grid = document.getElementById('top3-grid');
-        if (!grid) return;
+        if (!grid || !TOP3 || !TOP3.length) { if(grid) grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:20px;">暂无数据</div>'; return; }
         grid.innerHTML = TOP3.map((r, i) => {
             const stars = safeStars(r.stars);
-            const links = getLinks(r.ticker || '');
-            return `
-            <a class="top3-card" href="/${String(r.ticker || '').toLowerCase()}/" style="text-decoration:none;color:inherit;display:block;">
+            const ticker = String(r.ticker || '').toLowerCase();
+            return `<a class="top3-card" href="/${ticker}/" style="text-decoration:none;color:inherit;display:block;">
                 <div class="top3-rank">#${i+1} 推荐</div>
                 <div class="top3-stars">${'⭐'.repeat(stars)}${'☆'.repeat(5-stars)}</div>
                 <div class="top3-ticker">${safeStr(r.ticker)}</div>
@@ -332,9 +331,7 @@
                     <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">综合评分 ${safeNum(r.score).toFixed(1)}/100</div>
                 </div>
                 <div style="margin-top:auto;padding-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-                    <a href="${links.tradingview}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:12px;background:rgba(88,166,255,0.1);padding:4px 10px;border-radius:6px;border:1px solid rgba(88,166,255,0.2);">📈 TV图表</a>
-                    <a href="${links.seekingalpha}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:12px;background:rgba(88,166,255,0.1);padding:4px 10px;border-radius:6px;border:1px solid rgba(88,166,255,0.2);">📰 SA研报</a>
-                    <a href="${links.yahoo}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);text-decoration:none;font-size:12px;background:rgba(88,166,255,0.1);padding:4px 10px;border-radius:6px;border:1px solid rgba(88,166,255,0.2);">💬 YF行情</a>
+                    <span style="font-size:11px;color:var(--text-secondary);">📊 点击卡片查看详情 →</span>
                 </div>
             </a>`;
         }).join('');
