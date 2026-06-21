@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>全球资产配置 · 16核心标的 | 股道奇货</title>
-    <meta name="description" content="全球资产配置专业分析平台，覆盖16个核心标的（8股票+8ETF），提供专业评级、均线状态、九宫格热力图等投资决策工具。">
+    <meta name="description" content="全球资产配置专业分析平台，覆盖16个核心标的（8股票+8ETF），提供专业评级、关键指标等投资决策工具。">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -18,15 +18,11 @@
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        /* ── 头部 ── */
+        /* ── 头部（只保留 Logo）── */
         header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
-        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; height: 56px; }
         .logo { font-size: 18px; font-weight: 700; }
         .logo span { color: var(--gold); }
-        nav { display: flex; gap: 24px; }
-        nav a { color: var(--text-secondary); font-size: 14px; font-weight: 500; }
-        nav a:hover, nav a.active { color: var(--text-primary); text-decoration: none; }
-        nav a.active { border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
 
         /* ── 全局 Badge ── */
         .status-badge {
@@ -305,20 +301,14 @@
         }
 
         /* ═══ 页脚 ═══ */
-        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
-        footer a { color: var(--text-secondary); }
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
+        footer a { color: var(--text-secondary); margin: 0 8px; }
     </style>
 </head>
 <body>
     <header>
         <div class="header-inner">
             <div class="logo">📈 <span>股道奇货</span> · 全球资产配置</div>
-            <nav>
-                <a href="/" class="active">首页</a>
-                <a href="/screener.html">标的列表</a>
-                <a href="/compare.html">对比</a>
-                <a href="/about.html">关于</a>
-            </nav>
         </div>
     </header>
 
@@ -360,8 +350,11 @@
     </div>
 
     <footer>
-        <p>数据来源：<a href="https://www.tradingview.com" target="_blank">TradingView</a> · <a href="seekingalpha.com" target="_blank">Seeking Alpha</a> · <a href="finance.yahoo.com" target="_blank">Yahoo Finance</a> | 仅供参考，不构成投资建议</p>
-        <p style="margin-top:8px;">© 2026 <a href="/">股道奇货</a> · x.gudaoqihuo.com</p>
+        <p>核心数据源：Yahoo Finance | 股道奇货策略团队独立研判</p>
+        <p style="margin-top:8px;">© 2026 <a href="/">股道奇货</a> · x.gudaoqihuo.com
+            <a href="/about.html">关于我们</a> |
+            <a href="/disclaimer.html">免责声明</a>
+        </p>
     </footer>
 
     <script>

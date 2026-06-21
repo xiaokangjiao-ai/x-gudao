@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BND - BND | 全球最具价值的10个基金</title>
-    <meta name="description" content="BND（BND）历史价格、技术图表、关键指标分析。对标Macrotrends专业金融数据。">
-    <meta name="keywords" content="BND, BND, ETF, 基金, 历史数据, K线图">
+    <title>BND - BND | 股道奇货</title>
+    <meta name="description" content="BND（BND）价格走势、关键指标分析。">
     <link rel="canonical" href="https://x.gudaoqihuo.com/bnd/">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
@@ -29,19 +28,18 @@
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
 
+        /* ── Header（只保留 Logo）── */
         header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
-        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; height: 56px; }
         .logo { font-size: 18px; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
         .logo span { color: var(--gold); }
-        nav { display: flex; gap: 24px; align-items: center; }
-        nav a { color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; }
-        nav a:hover, nav a.active { color: var(--text-primary); text-decoration: none; }
-        nav a.active { border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
 
-        .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 16px 24px; font-size: 13px; color: var(--text-secondary); }
-        .breadcrumb a { color: var(--text-secondary); }
-        .breadcrumb span { margin: 0 8px; }
+        /* ── 面包屑（返回按钮）── */
+        .back-link { max-width: 1400px; margin: 0 auto; padding: 16px 24px; }
+        .back-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .back-btn:hover { color: var(--accent); text-decoration: none; }
 
+        /* ── Hero ── */
         .hero { max-width: 1400px; margin: 0 auto; padding: 24px; }
         .stock-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
         .stock-title { display: flex; align-items: center; gap: 16px; }
@@ -54,66 +52,69 @@
         .price-change.up { color: var(--green); }
         .price-change.down { color: var(--red); }
 
-        .stats-row { display: flex; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
-        .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; flex: 1; min-width: 140px; }
-        .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); margin-bottom: 4px; }
-        .stat-value { font-size: 18px; font-weight: 600; color: var(--text-primary); }
-        .stat-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
-
-        .content { max-width: 1400px; margin: 0 auto; padding: 0 24px 48px; display: grid; grid-template-columns: 1fr 360px; gap: 24px; }
+        /* ── 内容区 ── */
+        .content { max-width: 1400px; margin: 0 auto; padding: 0 24px 48px; display: grid; grid-template-columns: 1fr 320px; gap: 24px; }
+        
+        /* ── 图表区 ── */
         .chart-section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
         .chart-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
         .chart-title { font-size: 15px; font-weight: 600; }
-        .period-selector { display: flex; gap: 4px; }
-        .period-btn { background: transparent; border: 1px solid var(--border); color: var(--text-secondary); padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
-        .period-btn:hover { border-color: var(--accent); color: var(--accent); }
-        .period-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-        #chart { width: 100%; height: 400px; }
+        #chart { width: 100%; height: 320px; }
 
+        /* ── 侧边栏 ── */
         .sidebar { display: flex; flex-direction: column; gap: 16px; }
         .side-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
         .side-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); }
+        
+        /* 状态标签 */
+        .status-tag {
+            display: inline-block; padding: 6px 14px; border-radius: 8px;
+            font-size: 13px; font-weight: 600; margin-bottom: 16px;
+        }
+        .status-tag.bullish { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+        .status-tag.bearish { background: rgba(248,81,73,0.15); color: var(--red); border: 1px solid rgba(248,81,73,0.3); }
+        .status-tag.neutral { background: rgba(212,168,67,0.15); color: var(--gold); border: 1px solid rgba(212,168,67,0.3); }
+        
         .indicator-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
         .indicator-row:last-child { border-bottom: none; }
         .indicator-name { color: var(--text-secondary); }
         .indicator-value { font-weight: 600; color: var(--text-primary); }
+        
+        /* 波动率进度条 */
+        .volatility-bar { margin-top: 12px; }
+        .volatility-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .volatility-track { width: 100%; height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; }
+        .volatility-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+        .volatility-fill.low { background: var(--green); }
+        .volatility-fill.medium { background: var(--gold); }
+        .volatility-fill.high { background: var(--red); }
 
+        /* 对比表格 */
         .compare-table { width: 100%; border-collapse: collapse; }
         .compare-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--border); }
         .compare-table th:first-child { text-align: left; }
         .compare-table td { font-size: 13px; padding: 6px 8px; text-align: right; color: var(--text-primary); }
         .compare-table td:first-child { text-align: left; font-weight: 600; }
         .compare-table tr:hover td { background: rgba(255,255,255,0.03); }
-        .compare-table td.highlight { color: var(--gold); font-weight: 700; }
 
-        .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .data-table th { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
-        .data-table th:first-child { text-align: left; }
-        .data-table td { padding: 7px 10px; text-align: right; color: var(--text-primary); border-bottom: 1px solid rgba(48,54,61,0.5); }
-        .data-table td:first-child { text-align: left; color: var(--text-secondary); }
-        .data-table tr:hover td { background: rgba(255,255,255,0.03); }
-
+        /* ── Footer ── */
         footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
-        footer a { color: var(--text-secondary); }
+        footer a { color: var(--text-secondary); margin: 0 8px; }
 
-        @media (max-width: 900px) { .content { grid-template-columns: 1fr; } .stats-row { gap: 8px; } .stat-card { min-width: 100px; } }
+        @media (max-width: 900px) { 
+            .content { grid-template-columns: 1fr; } 
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="header-inner">
-            <div class="logo">📈 <span>股道奇货</span> · 全球最具价值的10个基金</div>
-            <nav>
-                <a href="/">首页</a>
-                <a href="/screener.html" class="active">基金列表</a>
-                <a href="/compare.html">对比</a>
-                <a href="/about.html">关于</a>
-            </nav>
+            <div class="logo">📈 <span>股道奇货</span></div>
         </div>
     </header>
 
-    <div class="breadcrumb">
-        <a href="/">首页</a> <span>›</span> <a href="/screener.html">基金列表</a> <span>›</span> BND
+    <div class="back-link">
+        <a href="/" class="back-btn">← 返回总览看板</a>
     </div>
 
     <div class="hero">
@@ -130,83 +131,42 @@
                 <div class="price-change" id="price-change"></div>
             </div>
         </div>
-
-        <div class="stats-row">
-            <div class="stat-card">
-                <div class="stat-label">52周最高</div>
-                <div class="stat-value">$73.55</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">52周最低</div>
-                <div class="stat-value">$72.34</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">年化收益率</div>
-                <div class="stat-value" style="color: var(--green)">+1.8%</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">历史数据点</div>
-                <div class="stat-value">23</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">数据范围</div>
-                <div class="stat-value">2026-05-18 ~ 2026-06-18</div>
-            </div>
-        </div>
     </div>
 
     <div class="content">
         <div>
             <div class="chart-section">
                 <div class="chart-header">
-                    <div class="chart-title">📊 价格走势（K线 + 均线）</div>
-                    <div class="period-selector">
-                        <button class="period-btn" data-period="1y">1年</button>
-                        <button class="period-btn active" data-period="5y">5年</button>
-                        <button class="period-btn" data-period="all">全部</button>
-                    </div>
+                    <div class="chart-title">📊 价格走势（1年）</div>
                 </div>
                 <div id="chart"></div>
-            </div>
-
-            <div class="chart-section" style="margin-top: 16px;">
-                <div class="chart-header">
-                    <div class="chart-title">📋 历史价格明细</div>
-                </div>
-                <div style="overflow-x:auto; max-height: 400px; overflow-y: auto;">
-                    <table class="data-table" id="price-table">
-                        <thead>
-                            <tr>
-                                <th>日期</th>
-                                <th>开盘</th>
-                                <th>最高</th>
-                                <th>最低</th>
-                                <th>收盘</th>
-                                <th>成交量</th>
-                            </tr>
-                        </thead>
-                        <tbody id="price-table-body"></tbody>
-                    </table>
-                </div>
             </div>
         </div>
 
         <div class="sidebar">
             <div class="side-card">
                 <div class="side-title">📐 关键指标</div>
+                
                 <div class="indicator-row"><span class="indicator-name">最新收盘</span><span class="indicator-value">$73.34</span></div>
                 <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" style="color: var(--green)">+0.27%</span></div>
-                <div class="indicator-row"><span class="indicator-name">MA20</span><span class="indicator-value">$73.16</span></div>
-                <div class="indicator-row"><span class="indicator-name">MA50</span><span class="indicator-value">$0</span></div>
-                <div class="indicator-row"><span class="indicator-name">MA200</span><span class="indicator-value">$0</span></div>
                 <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--green)">+1.8%</span></div>
                 <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">4.25%</span></div>
+                <div class="volatility-bar">
+                    <div class="volatility-label">
+                        <span>波动率</span>
+                        <span>4.25%</span>
+                    </div>
+                    <div class="volatility-track">
+                        <div class="volatility-fill low" 
+                             style="width: 4.25%"></div>
+                    </div>
+                </div>
             </div>
 
             <div class="side-card">
                 <div class="side-title">⚖️ 与其他基金对比</div>
                 <table class="compare-table">
-                    <thead><tr><th>基金</th><th>最新价</th><th>1年收益</th></tr></thead>
+                    <thead><tr><th>基金</th><th>1年收益</th></tr></thead>
                     <tbody id="compare-table-body"></tbody>
                 </table>
             </div>
@@ -214,26 +174,16 @@
     </div>
 
     <footer>
-        <p>数据来源：Yahoo Finance · 仅供参考，不构成投资建议</p>
-        <p style="margin-top: 8px;">© 2026 <a href="/">全球最具价值的10个基金</a> · <a href="https://x.gudaoqihuo.com">x.gudaoqihuo.com</a></p>
+        <p>核心数据源：Yahoo Finance | 股道奇货策略团队独立研判</p>
+        <p style="margin-top: 8px;">© 2026 股道奇货 · x.gudaoqihuo.com
+            <a href="/about.html">关于我们</a> |
+            <a href="/disclaimer.html">免责声明</a>
+        </p>
     </footer>
 
     <script>
     const FULL_DATA = [{"date": "2026-05-18", "open": 72.78, "high": 72.8599, "low": 72.59, "close": 72.69, "volume": 8771710.604043}, {"date": "2026-05-19", "open": 72.47, "high": 72.55, "low": 72.34, "close": 72.45, "volume": 13221169.974635}, {"date": "2026-05-20", "open": 72.475, "high": 72.8999, "low": 72.46, "close": 72.85, "volume": 11123005.992763}, {"date": "2026-05-21", "open": 72.65, "high": 72.935, "low": 72.575, "close": 72.93, "volume": 10364598.195259}, {"date": "2026-05-22", "open": 73.04, "high": 73.05, "low": 72.82, "close": 73.0, "volume": 6824182.84512}, {"date": "2026-05-26", "open": 73.26, "high": 73.28, "low": 73.1301, "close": 73.21, "volume": 7379325.367871}, {"date": "2026-05-27", "open": 73.29, "high": 73.34, "low": 73.24, "close": 73.28, "volume": 7353305.460522}, {"date": "2026-05-28", "open": 73.29, "high": 73.475, "low": 73.24, "close": 73.42, "volume": 7245493.553668}, {"date": "2026-05-29", "open": 73.47, "high": 73.55, "low": 73.38, "close": 73.46, "volume": 9178332.444652}, {"date": "2026-06-01", "open": 73.0, "high": 73.1866, "low": 72.94, "close": 73.18, "volume": 7268319.197356}, {"date": "2026-06-02", "open": 73.27, "high": 73.2975, "low": 73.16, "close": 73.2, "volume": 7682671.816902}, {"date": "2026-06-03", "open": 73.04, "high": 73.12, "low": 72.9801, "close": 73.06, "volume": 9330688.477831}, {"date": "2026-06-04", "open": 73.19, "high": 73.23, "low": 73.13, "close": 73.16, "volume": 6815029.532446}, {"date": "2026-06-05", "open": 72.94, "high": 72.95, "low": 72.82, "close": 72.83, "volume": 8487197.276357}, {"date": "2026-06-08", "open": 72.98, "high": 73.01, "low": 72.8, "close": 72.81, "volume": 14018968.776767}, {"date": "2026-06-09", "open": 72.92, "high": 73.0, "low": 72.84, "close": 72.97, "volume": 8703469.162581}, {"date": "2026-06-10", "open": 72.97, "high": 73.0399, "low": 72.84, "close": 72.91, "volume": 5252524.227346}, {"date": "2026-06-11", "open": 72.98, "high": 73.355, "low": 72.9345, "close": 73.33, "volume": 9058743.376199}, {"date": "2026-06-12", "open": 73.21, "high": 73.285, "low": 73.105, "close": 73.24, "volume": 7381030.48699}, {"date": "2026-06-15", "open": 73.38, "high": 73.43, "low": 73.29, "close": 73.3, "volume": 7738294.757248}, {"date": "2026-06-16", "open": 73.34, "high": 73.479, "low": 73.3201, "close": 73.41, "volume": 5902839.034892}, {"date": "2026-06-17", "open": 73.42, "high": 73.47, "low": 73.12, "close": 73.14, "volume": 8531607.492409}, {"date": "2026-06-18", "open": 73.32, "high": 73.495, "low": 73.315, "close": 73.34, "volume": 6312452.574742}];
-    const LATEST = {"close": 73.34, "change": 0.27};
     const COMPARE = [{"ticker": "NVDA", "name": "NVDA", "price": 210.69, "return": -10.19}, {"ticker": "AAPL", "name": "AAPL", "price": 298.01, "return": 0.11}, {"ticker": "MSFT", "name": "MSFT", "price": 379.4, "return": -19.76}, {"ticker": "GOOGL", "name": "GOOGL", "price": 368.03, "return": -14.04}, {"ticker": "AMZN", "name": "AMZN", "price": 244.39, "return": -14.86}, {"ticker": "META", "name": "META", "price": 577.22, "return": -10.81}];
-    let currentPeriod = '5y';
-
-    function calcMA(data, period) {
-        const result = [];
-        for (let i = 0; i < data.length; i++) {
-            if (i < period - 1) { result.push(null); continue; }
-            let sum = 0;
-            for (let j = 0; j < period; j++) sum += data[i - j].close;
-            result.push(Math.round(sum / period * 100) / 100);
-        }
-        return result;
-    }
 
     function filterByPeriod(data, period) {
         if (period === 'all') return data;
@@ -247,68 +197,77 @@
     let chart;
     function initChart() {
         chart = echarts.init(document.getElementById('chart'), 'dark');
-        drawChart(FULL_DATA);
+        drawChart();
         window.addEventListener('resize', () => chart.resize());
     }
 
-    function drawChart(fullData) {
-        const data = filterByPeriod(fullData, currentPeriod);
+    function drawChart() {
+        const data = filterByPeriod(FULL_DATA, '1y');
         const dates = data.map(d => d.date);
-        const ma20 = calcMA(data, 20);
-        const ma50 = calcMA(data, 50);
 
         const option = {
             backgroundColor: 'transparent',
-            tooltip: { trigger: 'axis', axisPointer: { type: 'cross' }, formatter: function(params) {
-                const d = params[0];
-                const price = d.data[1];
-                const o = d.data[2], h = d.data[3], l = d.data[4], c = d.data[1];
-                let s = `<strong>${d.axisValue}</strong><br/>`;
-                params.forEach(p => {
-                    if (p.seriesName !== '成交量') s += `${p.marker} ${p.seriesName}: <strong>$${p.value !== null && p.value !== undefined ? (Array.isArray(p.value) ? p.value[1] : p.value) : '-'}</strong><br/>`;
-                });
-                return s;
-            }},
-            legend: { top: 8, textStyle: { color: '#8b949e', fontSize: 12 }, inactiveColor: '#444' },
-            grid: { left: '1%', right: '1%', top: '15%', bottom: '12%', containLabel: true },
-            xAxis: { type: 'category', data: dates, axisLine: { lineStyle: { color: '#30363d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => v.slice(0, 10) }, splitLine: { show: false } },
-            yAxis: [
-                { type: 'value', scale: true, position: 'right', splitLine: { lineStyle: { color: '#21262d' } }, axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } },
-                { type: 'value', scale: true, splitLine: { show: false }, axisLabel: { show: false } }
-            ],
-            dataZoom: [
-                { type: 'inside', xAxisIndex: [0], start: 0, end: 100 },
-                { type: 'slider', xAxisIndex: [0], start: 0, end: 100, height: 20, bottom: 10, borderColor: '#30363d', backgroundColor: '#161b22', fillerColor: 'rgba(88,166,255,0.2)', handleStyle: { color: '#58a6ff' }, textStyle: { color: '#8b949e' } }
-            ],
-            series: [
-                { name: '收盘价', type: 'line', data: data.map(d => [d.date, d.close, d.open, d.high, d.low]), smooth: false, symbol: 'none', lineStyle: { width: 1.5, color: '#58a6ff' }, areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(88,166,255,0.2)' }, { offset: 1, color: 'rgba(88,166,255,0)' }] } } },
-                { name: 'MA20', type: 'line', data: ma20.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#f0883e', type: 'dashed' }, connectNulls: true },
-                { name: 'MA50', type: 'line', data: ma50.map((v, i) => [data[i].date, v]), smooth: true, symbol: 'none', lineStyle: { width: 1, color: '#a371f7', type: 'dashed' }, connectNulls: true }
-            ]
+            tooltip: { 
+                trigger: 'axis', 
+                axisPointer: { type: 'cross' },
+                formatter: function(params) {
+                    const d = params[0];
+                    let s = `<strong>${d.axisValue}</strong><br/>`;
+                    params.forEach(p => {
+                        if (p.seriesName === '收盘价') {
+                            s += `${p.marker} ${p.seriesName}: <strong>$${p.value !== null ? p.value.toFixed(2) : '-'}</strong><br/>`;
+                        }
+                    });
+                    return s;
+                }
+            },
+            grid: { left: '1%', right: '1%', top: '8%', bottom: '8%', containLabel: true },
+            xAxis: { 
+                type: 'category', 
+                data: dates, 
+                axisLine: { lineStyle: { color: '#30363d' } }, 
+                axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => v.slice(0, 10) }, 
+                splitLine: { show: false } 
+            },
+            yAxis: [{
+                type: 'value', 
+                scale: true, 
+                position: 'right', 
+                splitLine: { lineStyle: { color: '#21262d' } }, 
+                axisLabel: { color: '#8b949e', fontSize: 11, formatter: v => '$' + v.toFixed(0) } 
+            }],
+            dataZoom: [{
+                type: 'inside', 
+                xAxisIndex: [0], 
+                start: 0, 
+                end: 100 
+            }],
+            series: [{
+                name: '收盘价',
+                type: 'line',
+                data: data.map(d => [d.date, d.close]),
+                smooth: true,
+                symbol: 'none',
+                lineStyle: { width: 2, color: '#58a6ff' },
+                areaStyle: { 
+                    color: { 
+                        type: 'linear', 
+                        x: 0, y: 0, x2: 0, y2: 1, 
+                        colorStops: [
+                            { offset: 0, color: 'rgba(88,166,255,0.25)' }, 
+                            { offset: 1, color: 'rgba(88,166,255,0.02)' }
+                        ] 
+                    } 
+                }
+            }]
         };
         chart.setOption(option);
-    }
-
-    document.querySelectorAll('.period-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentPeriod = btn.dataset.period;
-            drawChart(FULL_DATA);
-        });
-    });
-
-    function renderTable(data) {
-        const tbody = document.getElementById('price-table-body');
-        tbody.innerHTML = data.slice().reverse().slice(0, 100).map(d =>
-            `<tr><td>${d.date}</td><td>$${d.open.toFixed(2)}</td><td>$${d.high.toFixed(2)}</td><td>$${d.low.toFixed(2)}</td><td>$${d.close.toFixed(2)}</td><td>${d.volume.toLocaleString()}</td></tr>`
-        ).join('');
     }
 
     function renderCompare() {
         const tbody = document.getElementById('compare-table-body');
         tbody.innerHTML = COMPARE.map(item =>
-            `<tr><td>${item.ticker}</td><td>$${item.price.toFixed(2)}</td><td style="color:${item.return >= 0 ? 'var(--green)' : 'var(--red)'}">${item.return >= 0 ? '+' : ''}${item.return.toFixed(1)}%</td></tr>`
+            `<tr><td>${item.ticker}</td><td style="color:${item.return >= 0 ? 'var(--green)' : 'var(--red)'}">${item.return >= 0 ? '+' : ''}${item.return.toFixed(1)}%</td></tr>`
         ).join('');
     }
 
@@ -320,7 +279,6 @@
     }
 
     initChart();
-    renderTable(FULL_DATA);
     renderCompare();
     updatePriceChange();
     </script>
