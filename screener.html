@@ -157,7 +157,7 @@
         .heatmap-grid {
             display: grid; 
             grid-template-columns: 100px repeat(3, 1fr); 
-            grid-template-rows: 40px repeat(3, 130px);
+            grid-template-rows: 40px repeat(3, 160px);
             gap: 2px; 
             background: var(--border); 
             border: 2px solid var(--border); 
@@ -207,28 +207,53 @@
             overflow-y: auto;
         }
         
-        /* 标的代码标签（小型tag） */
-        .heatmap-tag {
-            display: inline-flex; 
-            align-items: center; 
-            gap: 4px; 
-            padding: 5px 10px; 
-            border-radius: 6px;
-            font-size: 12px; 
-            font-weight: 700; 
-            background: rgba(255,255,255,0.15); 
-            color: #fff;
-            transition: all 0.2s; 
-            border: 1px solid rgba(255,255,255,0.2);
+        /* 标的代码卡片（带sparkline+指标） */
+        .hm-card {
+            display: flex;
+            flex-direction: column;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            padding: 6px 8px 5px;
             text-decoration: none;
+            color: #e6edf3;
+            transition: all 0.2s;
+            min-width: 90px;
+            cursor: pointer;
         }
-        
-        .heatmap-tag:hover { 
-            background: rgba(88,166,255,0.3); 
-            color: #fff; 
-            text-decoration: none; 
-            transform: scale(1.08);
+        .hm-card:hover {
+            background: rgba(88,166,255,0.15);
             border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+        .hm-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3px;
+        }
+        .hm-ticker {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.3px;
+        }
+        .hm-chg {
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .hm-spark {
+            margin: 2px 0 3px;
+            border-radius: 3px;
+            overflow: hidden;
+            line-height: 0;
+        }
+        .hm-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: rgba(255,255,255,0.5);
         }
         
         /* 空单元格 */
@@ -557,78 +582,77 @@
         }).join('');
     }
 
-    // ═══ 渲染：九宫格（改进版 - 使用预计算分类）═══
+    // ═══ SVG Sparkline生成器 ═══
+    function makeSparkline(priceHistory, w, h) {
+        if (!priceHistory || priceHistory.length < 2) return '';
+        const closes = priceHistory.map(p => p.close);
+        const min = Math.min(...closes), max = Math.max(...closes);
+        const range = max - min || 1;
+        const pts = closes.map((v, i) => {
+            const x = (i / (closes.length - 1)) * w;
+            const y = h - ((v - min) / range) * h * 0.85 - h * 0.05;
+            return `${x.toFixed(1)},${y.toFixed(1)}`;
+        }).join(' ');
+        const isUp = closes[closes.length-1] >= closes[0];
+        const color = isUp ? '#3fb950' : '#f85149';
+        const fill = isUp ? 'rgba(63,185,80,0.15)' : 'rgba(248,81,73,0.15)';
+        return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" style="display:block;">
+            <polygon points="0,${h} ${pts} ${w},${h}" fill="${fill}"/>
+            <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="${w}" cy="${pts.split(' ').pop().split(',')[1]}" r="2" fill="${color}"/>
+        </svg>`;
+    }
+
+    // ═══ 渲染：九宫格 V5.2 — 带行情图+指标 ═══
     function renderHeatmap() {
-        // 定义3x3矩阵的横纵轴
         const riskRows = ['低风险', '中等', '高风险'];
         const trendCols = ['空头', '震荡', '多头'];
-        
-        // 颜色方案：绿色系=买点，红色系=危险，黄色系=观望
         const cellColors = {
-            '低风险-空头': '#1a4a1a', '低风险-震荡': '#2a5a2a', '低风险-多头': '#1a6b1a',
-            '中等-空头': '#4a3a3a', '中等-震荡': '#4a4a2a', '中等-多头': '#2a6b3a',
-            '高风险-空头': '#6a2020', '高风险-震荡': '#5a3a2a', '高风险-多头': '#4a4a1a'
+            '低风险-空头':'#1a4a1a','低风险-震荡':'#2a5a2a','低风险-多头':'#1a6b1a',
+            '中等-空头':'#4a3a3a','中等-震荡':'#3a3a28','中等-多头':'#2a5a2a',
+            '高风险-空头':'#6a2020','高风险-震荡':'#5a3020','高风险-多头':'#4a4018'
         };
-        
-        // 初始化cells对象
         const cells = {};
         trendCols.forEach(c => riskRows.forEach(r => { cells[`${r}-${c}`] = []; }));
-        
-        // 分类逻辑：使用Python预计算的风险等级和趋势细分
         OVERVIEW.forEach(o => {
             const risk = o.risk_level || '中等';
-            let trend = '震荡'; // 默认
-            
-            // 将趋势细分映射到九宫格的横轴
+            let trend = '震荡';
             const tc = o.trend_category || '';
-            if (tc.includes('空头') || tc.includes('偏空')) trend = '空头';
-            else if (tc.includes('多头') || tc.includes('偏多')) trend = '多头';
-            else trend = '震荡';
-            
+            if (tc.includes('空头')||tc.includes('偏空')) trend='空头';
+            else if (tc.includes('多头')||tc.includes('偏多')) trend='多头';
+            else trend='震荡';
             cells[`${risk}-${trend}`].push(o);
         });
-        
-        // 构建3x3热力图HTML（真正的网格布局）
         let html = '';
-        
-        // 表头：左上角空白 + 三个趋势标签
         html += '<div class="heatmap-header-cell"></div>';
-        trendCols.forEach(c => {
-            const icons = {'空头':'⬇️', '震荡':'➡️', '多头':'↗️'};
-            html += `<div class="heatmap-header-cell">${icons[c]} ${c}</div>`;
-        });
-        
-        // 3行数据
+        trendCols.forEach(c => { const icons={'空头':'⬇️','震荡':'➡️','多头':'↗️'}; html+=`<div class="heatmap-header-cell">${icons[c]} ${c}</div>`; });
         riskRows.forEach(r => {
-            const icons = {'低风险':'🟢', '中等':'🟡', '高风险':'🔴'};
-            html += `<div class="heatmap-header-cell risk-label">${icons[r]} ${r}</div>`;
-            
+            const icons={'低风险':'🟢','中等':'🟡','高风险':'🔴'};
+            html+=`<div class="heatmap-header-cell risk-label">${icons[r]} ${r}</div>`;
             trendCols.forEach(c => {
-                const key = `${r}-${c}`;
-                const tickers = cells[key];
-                const isBest = (r === '低风险' && c === '多头');
-                const isDanger = (r === '高风险' && c === '空头');
-                
-                let cellClass = 'heatmap-cell';
-                if (isBest) cellClass += ' heatmap-best';
-                if (isDanger) cellClass += ' heatmap-danger';
-                
-                // 构建单元格内容：用小型tag展示标的
-                let cellContent = '';
-                if (tickers.length > 0) {
-                    cellContent = tickers.map(t => {
-                        const links = getLinks(t.ticker);
-                        return `<a class="heatmap-tag" href="${links.tradingview}" target="_blank" title="${t.name}\n评分:${t.score} | ${t.trend_category}">${t.ticker}</a>`;
+                const key=`${r}-${c}`, tickers=cells[key];
+                const isBest=(r==='低风险'&&c==='多头'), isDanger=(r==='高风险'&&c==='空头');
+                let cls='heatmap-cell'; if(isBest)cls+=' heatmap-best'; if(isDanger)cls+=' heatmap-danger';
+                let content='';
+                if(tickers.length>0){
+                    content=tickers.map(t=>{
+                        const links=getLinks(t.ticker);
+                        const chg=t.change_pct||0;
+                        const chgColor=chg>=0?'#3fb950':'#f85149';
+                        const chgSign=chg>=0?'+':'';
+                        const vol=(t.volatility||0).toFixed(0);
+                        const spk=makeSparkline(t.price_history,60,28);
+                        return `<a class="hm-card" href="${links.tradingview}" target="_blank">
+                            <div class="hm-card-top"><span class="hm-ticker">${t.ticker}</span><span class="hm-chg" style="color:${chgColor}">${chgSign}${chg.toFixed(1)}%</span></div>
+                            <div class="hm-spark">${spk}</div>
+                            <div class="hm-meta"><span title="波动率">σ${vol}%</span><span title="评分">⭐${t.stars||'?'}</span></div>
+                        </a>`;
                     }).join('');
-                } else {
-                    cellContent = '<span class="heatmap-empty">—</span>';
-                }
-                
-                html += `<div class="${cellClass}" style="background:${cellColors[key]};"><div class="heatmap-cell-content">${cellContent}</div></div>`;
+                }else{content='<span class="heatmap-empty">—</span>';}
+                html+=`<div class="${cls}" style="background:${cellColors[key]};"><div class="heatmap-cell-content">${content}</div></div>`;
             });
         });
-        
-        document.getElementById('heatmap-grid').innerHTML = html;
+        document.getElementById('heatmap-grid').innerHTML=html;
     }
 
     // ═══ 渲染：均线表 ═══
