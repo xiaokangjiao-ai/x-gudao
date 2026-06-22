@@ -3,111 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>每周深度研判 · 全球核心资产 | 股道奇货</title>
+    <title>每周深度研判 · 全球核心资产 | 股道研判</title>
     <meta name="description" content="6大板块精选标的，每周深度研判，观点驱动的全球核心资产配置平台。">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-primary: #0d1117; --bg-secondary: #161b22; --bg-card: #1c2128;
-            --border: #30363d; --text-primary: #e6edf3; --text-secondary: #8b949e;
-            --accent: #58a6ff; --green: #3fb950; --red: #f85149; --gold: #d4a843;
+            --bg-primary: #0a0e17; --bg-secondary: #111827; --bg-card: #151c2c;
+            --border: rgba(212,168,67,0.12); --border-hover: rgba(212,168,67,0.35);
+            --text-primary: #f0f4fc; --text-secondary: #8b95a8; --text-dim: #5a6478;
+            --accent: #6ba3ff; --green: #34d399; --red: #f87171;
+            --gold: #d4a843; --gold-light: #e8c76a; --gold-dark: #b8922e;
+            --glow-gold: 0 0 24px rgba(212,168,67,0.18);
+            --radius-sm: 10px; --radius-md: 16px; --radius-lg: 22px; --radius-xl: 28px;
         }
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
-        a { color: var(--accent); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.65; min-height: 100vh; }
+        a { color: var(--accent); text-decoration: none; transition: color .2s; }
+        a:hover { color: var(--gold-light); }
 
-        header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
-        .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; height: 56px; }
-        .logo { font-size: 18px; font-weight: 700; }
-        .logo span { color: var(--gold); }
+        /* ── 背景装饰 ── */
+        body::before {
+            content:''; position:fixed; top:-50%; left:-50%; width:200%; height:200%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(212,168,67,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(107,163,255,0.03) 0%, transparent 50%);
+            pointer-events:none; z-index:0;
+        }
 
-        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap; }
-        .status-badge.bullish { background: #1a6b1a; color: #fff; }
-        .status-badge.neutral-bull { background: #b8860b; color: #000; }
-        .status-badge.neutral-bear { background: #d2691e; color: #fff; }
-        .status-badge.bearish { background: #b22222; color: #fff; }
+        /* ── Header ── */
+        header { position: sticky; top:0; z-index:200; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            background: rgba(10,14,23,0.85); border-bottom: 1px solid var(--border); padding: 0 32px; }
+        .header-inner { max-width: 1320px; margin: 0 auto; display: flex; align-items: center; height: 60px; gap: 12px; }
+        .logo { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; display:flex; align-items:center; gap:8px; }
+        .logo span { color: var(--gold-light); background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .logo-divider { color: var(--text-dim); font-weight: 300; letter-spacing: 2px; font-size:13px; }
+        .logo-sub { color: var(--text-secondary); font-size: 15px; font-weight: 400; }
 
-        .hero { text-align: center; padding: 50px 24px 30px; background: linear-gradient(180deg, rgba(212,168,67,0.08) 0%, transparent 100%); }
-        .hero h1 { font-size: 38px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
-        .hero h1 span { color: var(--gold); }
-        .hero-subtitle { font-size: 15px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 24px; }
+        /* ── Hero ── */
+        .hero { text-align: center; padding: 56px 24px 36px; position:relative; z-index:1;
+            background: linear-gradient(180deg, rgba(212,168,67,0.06) 0%, transparent 60%); }
+        .hero-badge { display:inline-flex; align-items:center; gap:6px; padding:6px 16px; border-radius:20px;
+            background: rgba(212,168,67,0.08); border: 1px solid rgba(212,168,67,0.2); font-size:12px; font-weight:600;
+            color: var(--gold-light); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px; }
+        .hero h1 { font-size: 42px; font-weight: 800; letter-spacing: -1px; line-height: 1.15; margin-bottom: 12px; }
+        .hero h1 span { background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-subtitle { font-size: 16px; color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-weight: 300; letter-spacing: 0.3px; }
 
         /* ── 板块导航 ── */
-        .sector-nav { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; padding: 0 24px; max-width: 1100px; margin: 0 auto; }
+        .sector-nav { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; padding: 8px 24px 0; max-width: 1100px; margin: 0 auto; position:relative; z-index:1; }
         .sector-btn {
-            padding: 12px 24px; border-radius: 24px; background: var(--bg-card);
-            border: 1px solid rgba(212,168,67,0.5); color: var(--text-primary);
-            font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s;
-            font-family: inherit; white-space: nowrap; user-select: none;
+            padding: 13px 26px; border-radius: var(--radius-xl); background: var(--bg-card);
+            border: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: all .3s cubic-bezier(.4,0,.2,1); font-family: inherit; white-space: nowrap;
+            user-select: none; position:relative; overflow:hidden; letter-spacing: 0.2px;
         }
-        .sector-btn:hover { border-color: var(--gold); box-shadow: 0 0 16px rgba(212,168,67,0.25); background: rgba(212,168,67,0.06); }
-        .sector-btn.active { background: rgba(212,168,67,0.15); border-color: var(--gold); color: var(--gold); box-shadow: 0 0 20px rgba(212,168,67,0.3); }
+        .sector-btn::before { content:''; position:absolute; inset:0; background: radial-gradient(circle at 50% 0, rgba(212,168,67,0.15), transparent 70%); opacity:0; transition: opacity .3s; }
+        .sector-btn:hover { border-color: var(--border-hover); color: var(--text-primary); transform: translateY(-2px); box-shadow: var(--glow-gold); }
+        .sector-btn:hover::before { opacity:1; }
+        .sector-btn.active { background: linear-gradient(135deg, rgba(212,168,67,0.12), rgba(212,168,67,0.05));
+            border-color: var(--gold); color: var(--gold-light); box-shadow: var(--glow-gold), inset 0 1px 0 rgba(255,255,255,0.05); }
+        .sector-btn.active::before { opacity:1; }
 
         /* ── 板块内容区 ── */
-        .sector-content { max-width: 1400px; margin: 24px auto 0; padding: 0 24px 60px; }
-        .sector-panel { display: none; animation: fadeIn 0.35s ease; }
-        .sector-panel.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .section-label { font-size: 18px; font-weight: 600; margin-bottom: 18px; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+        .sector-content { max-width: 1280px; margin: 28px auto 0; padding: 0 24px 72px; position:relative; z-index:1; }
+        .sector-panel { display:none; animation: panelIn .45s cubic-bezier(.4,0,.2,1) forwards; }
+        .sector-panel.active { display:block; }
+        @keyframes panelIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        .section-label { font-size: 17px; font-weight: 600; margin-bottom: 20px; color: var(--gold-light); display:flex; align-items:center; gap:10px; letter-spacing: 0.3px; }
+        .section-label::after { content:''; flex:1; height:1px; background: linear-gradient(90deg, var(--border), transparent); }
 
-        /* ── 研报卡片 ── */
-        .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .research-card { background: var(--bg-card); border: 1px solid rgba(212,168,67,0.35); border-radius: 16px; overflow: hidden; transition: all 0.3s; display: flex; flex-direction: column; }
-        .research-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(212,168,67,0.15); }
-        .research-chart-area { height: 140px; background: linear-gradient(135deg, #0d1117 0%, #161b22 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        /* ── 研报卡片网格 ── */
+        .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+        .research-card {
+            background: linear-gradient(145deg, var(--bg-card), rgba(21,28,44,0.7));
+            border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;
+            transition: all .35s cubic-bezier(.4,0,.2,1); display: flex; flex-direction: column;
+            position:relative;
+        }
+        .research-card::before { content:''; position:absolute; inset:0; border-radius: var(--radius-lg); padding:1px;
+            background: linear-gradient(145deg, transparent 60%, rgba(212,168,67,0.15)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite:exclude; -webkit-mask-composite: xor; pointer-events:none; opacity:0; transition: opacity .35s; }
+        .research-card:hover { border-color: var(--border-hover); transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(212,168,67,0.08); }
+        .research-card:hover::before { opacity:1; }
+
+        /* ── 图表区 ── */
+        .research-chart-area { height: 150px; background: linear-gradient(160deg, #0d1220 0%, #131b2e 100%);
+            display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         .research-chart-area svg { width: 100%; height: 100%; }
-        .research-body { padding: 20px 22px 18px; flex: 1; display: flex; flex-direction: column; }
-        .research-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .research-ticker { font-size: 26px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
-        .research-name { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-        .research-score-val { font-size: 28px; font-weight: 700; color: var(--gold); }
-        .research-score-label { font-size: 11px; color: var(--text-secondary); }
-        .research-stars { font-size: 16px; margin-bottom: 10px; letter-spacing: 2px; }
-        .research-content { font-size: 13.5px; line-height: 1.75; color: var(--text-primary); margin-bottom: 14px; flex: 1; }
-        .research-content strong { color: var(--gold); }
-        .research-content em { color: var(--accent); font-style: normal; }
-        .research-highlight { background: rgba(212,168,67,0.08); border-left: 3px solid var(--gold); padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 13px; line-height: 1.65; }
-        .research-highlight .hl-label { font-size: 11px; color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .research-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: auto; }
-        .research-metric { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; text-align: center; }
-        .research-metric-val { font-size: 15px; font-weight: 700; }
+        .research-chart-area::after { content:''; position:absolute; bottom:0; left:0; right:0; height:40px;
+            background: linear-gradient(to top, var(--bg-card), transparent); pointer-events:none; }
+
+        /* ── 卡片主体 ── */
+        .research-body { padding: 22px 24px 18px; flex:1; display: flex; flex-direction: column; }
+        .research-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; gap: 12px; }
+        .research-ticker { font-size: 28px; font-weight: 800; letter-spacing: 0.5px;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .research-name { font-size: 12.5px; color: var(--text-secondary); margin-top: 3px; font-weight: 500; line-height: 1.4; }
+        .score-wrap { text-align:right; min-width:64px; }
+        .research-score-val { font-size: 32px; font-weight: 800; color: var(--gold-light); line-height: 1; }
+        .research-score-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-top: 2px; }
+        .research-stars { font-size: 15px; margin-bottom: 14px; letter-spacing: 3px; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); }
+
+        /* ── 内容文字 ── */
+        .research-content { font-size: 13.2px; line-height: 1.78; color: var(--text-secondary); margin-bottom: 14px; flex:1; }
+        .research-content strong { color: var(--gold-light); font-weight: 600; }
+        .research-content em { color: var(--accent); font-style: normal; font-weight: 500; }
+        .research-highlight {
+            background: linear-gradient(135deg, rgba(212,168,67,0.07), rgba(212,168,67,0.03));
+            border-left: 3px solid var(--gold); padding: 12px 16px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 12px 0; font-size: 12.8px; line-height: 1.7; }
+        .research-highlight .hl-label { font-size: 10.5px; color: var(--gold); font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; display:block; }
+
+        /* ── 指标格 ── */
+        .research-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: auto; }
+        .research-metric { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; text-align: center; transition: border-color .2s; }
+        .research-metric:hover { border-color: var(--border-hover); }
+        .research-metric-val { font-size: 16px; font-weight: 700; }
         .research-metric-val.up { color: var(--green); }
         .research-metric-val.down { color: var(--red); }
-        .research-metric-label { font-size: 10px; color: var(--text-secondary); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .research-footer { border-top: 1px solid var(--border); padding: 12px 22px; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.2); }
-        .research-link-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--accent); padding: 5px 12px; border-radius: 6px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.15); transition: all 0.2s; }
-        .research-link-btn:hover { background: rgba(88,166,255,0.18); text-decoration: none; color: var(--accent); }
+        .research-metric-label { font-size: 9.5px; color: var(--text-dim); margin-top: 3px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+
+        /* ── 底部操作栏 ── */
+        .research-footer { border-top: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.25); }
+        .verdict-tag { font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; padding: 4px 12px; border-radius: 8px; }
+        .verdict-tag.core { background: rgba(52,211,153,0.1); color: var(--green); border: 1px solid rgba(52,211,153,0.2); }
+        .verdict-tag.watch { background: rgba(212,168,67,0.1); color: var(--gold-light); border: 1px solid rgba(212,168,67,0.2); }
+        .verdict-tag.wait { background: rgba(248,113,113,0.1); color: var(--red); border: 1px solid rgba(248,113,113,0.2); }
+        .research-link-btn { display:inline-flex; align-items:center; gap:5px; font-size:12px; font-weight:600; color:var(--accent); padding:6px 16px; border-radius:8px; background:rgba(107,163,255,0.08); border:1px solid rgba(107,163,255,0.15); transition:all .25s; letter-spacing:0.2px; }
+        .research-link-btn:hover { background:rgba(107,163,255,0.18); border-color:rgba(107,163,255,0.3); text-decoration:none; color:#8ec5ff; transform: translateX(3px); }
 
         /* ── 响应式 ── */
-        @media (max-width: 900px) { .research-grid { grid-template-columns: 1fr; } }
-        @media (max-width: 600px) { .hero h1 { font-size: 26px; } .sector-btn { padding: 10px 16px; font-size: 13px; } }
+        @media (max-width: 1024px) { .research-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 720px) { .research-grid { grid-template-columns: 1fr; } .hero h1 { font-size: 30px; } .sector-btn { padding: 11px 18px; font-size: 13px; border-radius: 20px; } header { padding: 0 20px; } .hero { padding: 40px 16px 28px; } .sector-content { padding: 0 16px 56px; } }
 
-        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
-        footer a { color: var(--text-secondary); margin: 0 8px; }
+        /* ── Footer ── */
+        footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 32px 24px; text-align: center; position:relative; z-index:1; }
+        footer p { font-size: 12.5px; color: var(--text-dim); line-height: 1.8; }
+        footer a { color: var(--text-secondary); margin: 0 6px; transition: color .2s; }
+        footer a:hover { color: var(--gold-light); }
+
+        /* ── Status Badge ── */
+        .status-badge { display:inline-block; padding:4px 12px; border-radius:10px; font-size:11px; font-weight:700; letter-spacing:.5px; white-space:nowrap; }
+        .status-badge.bullish { background:rgba(52,211,153,0.12); color:var(--green); border:1px solid rgba(52,211,153,0.25); }
+        .status-badge.neutral-bull { background:rgba(212,168,67,0.12); color:var(--gold-light); border:1px solid rgba(212,168,67,0.25); }
+        .status-badge.neutral-bear { background:rgba(245,158,11,0.12); color:#f59e0b; border:1px solid rgba(245,158,11,0.25); }
+        .status-badge.bearish { background:rgba(248,113,113,0.12); color:var(--red); border:1px solid rgba(248,113,113,0.25); }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-inner">
-            <div class="logo">📈 <span>股道奇货</span> · 全球资产配置</div>
-        </div>
-    </header>
+    <header><div class="header-inner">
+        <div class="logo">📈 <span>股道研判</span></div>
+        <div class="logo-divider">·</div>
+        <div class="logo-sub">全球资产配置</div>
+    </div></header>
 
     <div class="hero">
+        <div class="hero-badge">📊 Weekly Deep Research</div>
         <h1>每周深度研判 · 全球<span>核心资产</span></h1>
-        <div class="hero-subtitle">6大板块 · 精选标的 · 观点驱动</div>
+        <div class="hero-subtitle">6大板块 · 精选标的 · 观点驱动 · 数据为证</div>
     </div>
 
     <nav class="sector-nav" id="sector-nav"></nav>
     <div class="sector-content" id="sector-content"></div>
 
     <footer>
-        <p>核心数据源：Yahoo Finance | 股道奇货策略团队独立研判</p>
-        <p style="margin-top:8px;">© 2026 <a href="/">股道奇货</a> · x.gudaoqihuo.com
-            <a href="/about.html">关于我们</a> |
-            <a href="/disclaimer.html">免责声明</a>
+        <p>数据源：Yahoo Finance &nbsp;|&nbsp; 股道研判策略团队独立出品</p>
+        <p style="margin-top:6px;">© 2026 <a href="/">股道研判</a> · x.gudaoqihuo.com
+            &nbsp;<a href="/about.html">关于我们</a>&nbsp;|&nbsp;<a href="/disclaimer.html">免责声明</a>
         </p>
     </footer>
 
@@ -115,14 +177,6 @@
 const OVERVIEW = [{"ticker": "NVDA", "name": "NVDA", "category": "ETF", "latest_close": 210.69, "change_pct": 2.95, "annual_return": -10.19, "volatility": 42.41, "high": 232.28, "low": 199.34, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 229.87, "high": 230.0, "low": 218.37, "close": 222.32, "volume": 146280896.910423}, {"date": "2026-05-19", "open": 219.62, "high": 224.48, "low": 217.91, "close": 220.61, "volume": 140948207.677458}, {"date": "2026-05-20", "open": 223.18, "high": 226.13, "low": 220.495, "close": 223.47, "volume": 184201587.82524}, {"date": "2026-05-21", "open": 222.29, "high": 227.3999, "low": 217.93, "close": 219.51, "volume": 203381760.096682}, {"date": "2026-05-22", "open": 220.904, "high": 221.01, "low": 214.8, "close": 215.33, "volume": 169275710.380155}, {"date": "2026-05-26", "open": 216.54, "high": 218.18, "low": 212.0, "close": 214.86, "volume": 187202576.633847}, {"date": "2026-05-27", "open": 214.12, "high": 214.15, "low": 208.78, "close": 212.6, "volume": 167601172.9687}, {"date": "2026-05-28", "open": 211.275, "high": 215.5191, "low": 211.22, "close": 214.25, "volume": 143996048.997874}, {"date": "2026-05-29", "open": 214.575, "high": 217.8599, "low": 211.13, "close": 211.14, "volume": 289410623.540969}, {"date": "2026-06-01", "open": 215.73, "high": 224.87, "low": 215.7, "close": 224.36, "volume": 212850685.062286}, {"date": "2026-06-02", "open": 227.18, "high": 232.28, "low": 221.35, "close": 222.82, "volume": 193362903.350246}, {"date": "2026-06-03", "open": 221.72, "high": 222.82, "low": 214.51, "close": 214.75, "volume": 160907001.706774}, {"date": "2026-06-04", "open": 213.905, "high": 221.6, "low": 210.97, "close": 218.66, "volume": 169022152.423913}, {"date": "2026-06-05", "open": 214.53, "high": 214.87, "low": 204.33, "close": 205.1, "volume": 219655531.955688}, {"date": "2026-06-08", "open": 210.18, "high": 210.47, "low": 206.0, "close": 208.64, "volume": 138372837.455275}, {"date": "2026-06-09", "open": 210.615, "high": 211.4, "low": 199.34, "close": 208.19, "volume": 180962450.330624}, {"date": "2026-06-10", "open": 204.43, "high": 207.22, "low": 199.92, "close": 200.42, "volume": 161746587.544386}, {"date": "2026-06-11", "open": 201.49, "high": 205.66, "low": 199.54, "close": 204.87, "volume": 158643204.463725}, {"date": "2026-06-12", "open": 204.86, "high": 207.07, "low": 203.4385, "close": 205.19, "volume": 112345314.67054}, {"date": "2026-06-15", "open": 208.92, "high": 212.7107, "low": 208.34, "close": 212.45, "volume": 149936688.832444}, {"date": "2026-06-16", "open": 211.18, "high": 211.49, "low": 207.29, "close": 207.41, "volume": 125694100.720295}, {"date": "2026-06-17", "open": 208.53, "high": 209.21, "low": 203.08, "close": 204.65, "volume": 128363473.654605}, {"date": "2026-06-18", "open": 207.33, "high": 211.39, "low": 206.5, "close": 210.69, "volume": 241272013.819691}], "ma20": 211.79, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 41, "stars": 2}, {"ticker": "AAPL", "name": "AAPL", "category": "ETF", "latest_close": 298.01, "change_pct": 0.7, "annual_return": 0.11, "volatility": 23.4, "high": 317.4, "low": 287.38, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 300.24, "high": 300.66, "low": 294.91, "close": 297.84, "volume": 34482959.706124}, {"date": "2026-05-19", "open": 296.97, "high": 300.51, "low": 296.35, "close": 298.97, "volume": 42243561.907215}, {"date": "2026-05-20", "open": 298.18, "high": 302.8, "low": 298.08, "close": 302.25, "volume": 38229843.71746}, {"date": "2026-05-21", "open": 301.055, "high": 305.54, "low": 300.4, "close": 304.99, "volume": 42965126.525132}, {"date": "2026-05-22", "open": 306.12, "high": 311.4, "low": 305.84, "close": 308.82, "volume": 43670223.711414}, {"date": "2026-05-26", "open": 309.56, "high": 311.82, "low": 307.67, "close": 308.33, "volume": 48000493.679542}, {"date": "2026-05-27", "open": 308.33, "high": 313.26, "low": 308.3, "close": 310.85, "volume": 50430919.731346}, {"date": "2026-05-28", "open": 310.68, "high": 312.8, "low": 309.57, "close": 312.51, "volume": 48220390.299506}, {"date": "2026-05-29", "open": 311.775, "high": 315.0, "low": 309.53, "close": 312.06, "volume": 70026752.782678}, {"date": "2026-06-01", "open": 309.625, "high": 310.94, "low": 305.02, "close": 306.31, "volume": 48849933.693351}, {"date": "2026-06-02", "open": 307.46, "high": 315.45, "low": 306.685, "close": 315.2, "volume": 44534716.420134}, {"date": "2026-06-03", "open": 314.175, "high": 316.94, "low": 308.85, "close": 310.26, "volume": 50836705.186145}, {"date": "2026-06-04", "open": 313.23, "high": 313.54, "low": 309.65, "close": 311.23, "volume": 44869134.400348}, {"date": "2026-06-05", "open": 312.86, "high": 315.17, "low": 307.15, "close": 307.34, "volume": 65310502.632512}, {"date": "2026-06-08", "open": 308.739, "high": 317.4, "low": 301.17, "close": 301.54, "volume": 77949082.219335}, {"date": "2026-06-09", "open": 300.275, "high": 300.75, "low": 287.78, "close": 290.55, "volume": 70108847.597585}, {"date": "2026-06-10", "open": 290.74, "high": 294.75, "low": 287.38, "close": 291.58, "volume": 52793266.201966}, {"date": "2026-06-11", "open": 293.72, "high": 297.0, "low": 289.59, "close": 295.63, "volume": 42572497.853978}, {"date": "2026-06-12", "open": 296.03, "high": 297.14, "low": 289.62, "close": 291.13, "volume": 38784789.576708}, {"date": "2026-06-15", "open": 294.12, "high": 297.78, "low": 291.7, "close": 296.42, "volume": 45732573.320234}, {"date": "2026-06-16", "open": 295.245, "high": 300.48, "low": 293.97, "close": 299.24, "volume": 39874404.494416}, {"date": "2026-06-17", "open": 300.845, "high": 302.07, "low": 294.36, "close": 295.95, "volume": 42745060.273941}, {"date": "2026-06-18", "open": 298.11, "high": 300.57, "low": 295.62, "close": 298.01, "volume": 85962201.899097}], "ma20": 303.4, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "中等", "trend_category": "震荡", "score": 49, "stars": 2}, {"ticker": "MSFT", "name": "MSFT", "category": "ETF", "latest_close": 379.4, "change_pct": 0.13, "annual_return": -19.76, "volatility": 36.04, "high": 466.32, "low": 373.28, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 416.62, "high": 425.12, "low": 415.61, "close": 423.54, "volume": 32564130.131405}, {"date": "2026-05-19", "open": 429.9, "high": 432.7, "low": 416.49, "close": 417.42, "volume": 33018678.921238}, {"date": "2026-05-20", "open": 414.165, "high": 422.1, "low": 411.3001, "close": 421.06, "volume": 27864016.16457}, {"date": "2026-05-21", "open": 424.75, "high": 426.34, "low": 415.71, "close": 419.09, "volume": 31393469.373012}, {"date": "2026-05-22", "open": 419.535, "high": 424.4, "low": 416.33, "close": 418.57, "volume": 22390344.11397}, {"date": "2026-05-26", "open": 416.43, "high": 419.77, "low": 413.02, "close": 416.03, "volume": 30398049.834428}, {"date": "2026-05-27", "open": 411.01, "high": 415.94, "low": 409.58, "close": 412.67, "volume": 28901479.934374}, {"date": "2026-05-28", "open": 412.975, "high": 429.49, "low": 412.67, "close": 426.99, "volume": 47250541.314879}, {"date": "2026-05-29", "open": 432.545, "high": 450.33, "low": 432.36, "close": 450.24, "volume": 79654376.285195}, {"date": "2026-06-01", "open": 464.84, "high": 466.32, "low": 458.27, "close": 460.52, "volume": 53628910.017535}, {"date": "2026-06-02", "open": 446.88, "high": 453.5, "low": 440.43, "close": 441.31, "volume": 37036801.506484}, {"date": "2026-06-03", "open": 438.45, "high": 440.39, "low": 424.25, "close": 427.34, "volume": 39037007.174846}, {"date": "2026-06-04", "open": 435.81, "high": 436.15, "low": 426.41, "close": 428.05, "volume": 26899511.802233}, {"date": "2026-06-05", "open": 428.34, "high": 429.47, "low": 414.4, "close": 416.67, "volume": 34782164.985064}, {"date": "2026-06-08", "open": 414.14, "high": 417.1599, "low": 408.56, "close": 411.74, "volume": 32086714.635587}, {"date": "2026-06-09", "open": 409.03, "high": 411.98, "low": 398.48, "close": 403.41, "volume": 35317302.699492}, {"date": "2026-06-10", "open": 398.55, "high": 405.04, "low": 397.16, "close": 397.36, "volume": 32576041.704457}, {"date": "2026-06-11", "open": 395.205, "high": 396.85, "low": 384.0, "close": 390.34, "volume": 47224135.068075}, {"date": "2026-06-12", "open": 391.43, "high": 391.74, "low": 382.27, "close": 390.74, "volume": 34922036.300172}, {"date": "2026-06-15", "open": 396.795, "high": 401.75, "low": 392.845, "close": 399.76, "volume": 32266437.464578}, {"date": "2026-06-16", "open": 395.79, "high": 396.84, "low": 390.69, "close": 393.83, "volume": 31506846.820523}, {"date": "2026-06-17", "open": 390.25, "high": 390.37, "low": 377.32, "close": 378.91, "volume": 41987834.385072}, {"date": "2026-06-18", "open": 377.82, "high": 381.37, "low": 373.28, "close": 379.4, "volume": 59714157.698213}], "ma20": 413.15, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "中等", "trend_category": "震荡", "score": 38, "stars": 2}, {"ticker": "GOOGL", "name": "GOOGL", "category": "ETF", "latest_close": 368.03, "change_pct": 1.17, "annual_return": -14.04, "volatility": 27.9, "high": 408.61, "low": 346.36, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 395.685, "high": 408.61, "low": 394.53, "close": 396.94, "volume": 26837196.378217}, {"date": "2026-05-19", "open": 396.96, "high": 397.15, "low": 386.11, "close": 387.66, "volume": 39545672.941587}, {"date": "2026-05-20", "open": 387.7, "high": 393.8599, "low": 382.9, "close": 388.91, "volume": 31744404.183478}, {"date": "2026-05-21", "open": 385.7, "high": 392.5, "low": 383.02, "close": 387.66, "volume": 24852843.499244}, {"date": "2026-05-22", "open": 387.345, "high": 388.74, "low": 381.7716, "close": 382.97, "volume": 20442123.92761}, {"date": "2026-05-26", "open": 384.51, "high": 389.2599, "low": 382.6, "close": 388.88, "volume": 27747388.911968}, {"date": "2026-05-27", "open": 386.665, "high": 393.88, "low": 385.9, "close": 388.83, "volume": 23087287.246948}, {"date": "2026-05-28", "open": 388.0, "high": 391.87, "low": 385.16, "close": 390.13, "volume": 24357455.824498}, {"date": "2026-05-29", "open": 385.24, "high": 385.24, "low": 378.46, "close": 380.34, "volume": 44415846.644154}, {"date": "2026-06-01", "open": 376.52, "high": 378.56, "low": 373.52, "close": 376.37, "volume": 28672120.212431}, {"date": "2026-06-02", "open": 366.59, "high": 373.54, "low": 358.44, "close": 361.85, "volume": 50412300.205244}, {"date": "2026-06-03", "open": 362.03, "high": 366.45, "low": 358.08, "close": 358.99, "volume": 55441583.529251}, {"date": "2026-06-04", "open": 358.9, "high": 373.2499, "low": 358.21, "close": 372.19, "volume": 44055520.601694}, {"date": "2026-06-05", "open": 366.34, "high": 372.08, "low": 364.1207, "close": 368.53, "volume": 37471206.697303}, {"date": "2026-06-08", "open": 365.18, "high": 366.2, "low": 360.5309, "close": 363.31, "volume": 27942464.50757}, {"date": "2026-06-09", "open": 367.09, "high": 372.08, "low": 357.3, "close": 364.26, "volume": 29535072.426084}, {"date": "2026-06-10", "open": 363.19, "high": 368.555, "low": 355.2, "close": 356.38, "volume": 32357132.911599}, {"date": "2026-06-11", "open": 355.925, "high": 358.8, "low": 346.36, "close": 357.77, "volume": 35538165.547053}, {"date": "2026-06-12", "open": 362.62, "high": 366.57, "low": 354.94, "close": 359.68, "volume": 24731019.966051}, {"date": "2026-06-15", "open": 367.93, "high": 372.99, "low": 366.55, "close": 369.35, "volume": 27727493.239049}, {"date": "2026-06-16", "open": 369.6, "high": 376.0, "low": 367.06, "close": 373.25, "volume": 24876095.678085}, {"date": "2026-06-17", "open": 369.125, "high": 372.33, "low": 362.02, "close": 363.79, "volume": 24543644.14853}, {"date": "2026-06-18", "open": 365.75, "high": 369.48, "low": 358.67, "close": 368.03, "volume": 44470070.214185}], "ma20": 371.63, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "中等", "trend_category": "震荡", "score": 41, "stars": 2}, {"ticker": "AMZN", "name": "AMZN", "category": "ETF", "latest_close": 244.39, "change_pct": 2.9, "annual_return": -14.86, "volatility": 32.31, "high": 274.75, "low": 233.59, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 263.865, "high": 268.85, "low": 262.53, "close": 264.86, "volume": 33690787.061047}, {"date": "2026-05-19", "open": 262.04, "high": 262.25, "low": 255.19, "close": 259.34, "volume": 40340697.995327}, {"date": "2026-05-20", "open": 260.05, "high": 265.58, "low": 259.533, "close": 265.01, "volume": 34933152.428413}, {"date": "2026-05-21", "open": 263.5, "high": 269.4899, "low": 261.37, "close": 268.46, "volume": 36591743.768362}, {"date": "2026-05-22", "open": 268.655, "high": 269.785, "low": 266.235, "close": 266.32, "volume": 27535526.478574}, {"date": "2026-05-26", "open": 267.94, "high": 269.3, "low": 262.07, "close": 265.29, "volume": 38028118.450225}, {"date": "2026-05-27", "open": 266.15, "high": 272.41, "low": 265.7001, "close": 271.85, "volume": 40061864.339068}, {"date": "2026-05-28", "open": 272.27, "high": 274.5, "low": 267.44, "close": 274.0, "volume": 40630385.371083}, {"date": "2026-05-29", "open": 271.29, "high": 274.75, "low": 269.64, "close": 270.64, "volume": 54749561.81571}, {"date": "2026-06-01", "open": 266.285, "high": 266.63, "low": 260.7, "close": 261.26, "volume": 53604380.861687}, {"date": "2026-06-02", "open": 257.16, "high": 261.2025, "low": 254.37, "close": 256.52, "volume": 41810982.727591}, {"date": "2026-06-03", "open": 254.7, "high": 257.09, "low": 247.71, "close": 250.02, "volume": 51394191.354133}, {"date": "2026-06-04", "open": 253.12, "high": 255.83, "low": 251.75, "close": 253.79, "volume": 35609769.114686}, {"date": "2026-06-05", "open": 254.255, "high": 256.38, "low": 245.78, "close": 246.03, "volume": 55607844.252243}, {"date": "2026-06-08", "open": 246.68, "high": 249.42, "low": 243.36, "close": 245.22, "volume": 33899525.449444}, {"date": "2026-06-09", "open": 247.73, "high": 250.43, "low": 240.4, "close": 244.19, "volume": 44425363.501668}, {"date": "2026-06-10", "open": 243.605, "high": 244.065, "low": 237.45, "close": 238.0, "volume": 38590237.173965}, {"date": "2026-06-11", "open": 237.93, "high": 242.14, "low": 235.18, "close": 241.51, "volume": 41335399.436279}, {"date": "2026-06-12", "open": 243.21, "high": 243.36, "low": 233.59, "close": 238.55, "volume": 51251141.707748}, {"date": "2026-06-15", "open": 245.02, "high": 247.805, "low": 244.73, "close": 246.02, "volume": 41711576.245447}, {"date": "2026-06-16", "open": 248.0, "high": 249.51, "low": 245.4511, "close": 246.0, "volume": 35187406.889795}, {"date": "2026-06-17", "open": 244.9, "high": 245.91, "low": 236.0, "close": 237.5, "volume": 44780767.374573}, {"date": "2026-06-18", "open": 240.12, "high": 245.73, "low": 236.02, "close": 244.39, "volume": 75624415.106909}], "ma20": 253.28, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "中等", "trend_category": "震荡", "score": 41, "stars": 2}, {"ticker": "META", "name": "META", "category": "ETF", "latest_close": 577.22, "change_pct": 1.7, "annual_return": -10.81, "volatility": 41.92, "high": 643.0, "low": 557.01, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 609.105, "high": 615.59, "low": 603.69, "close": 611.21, "volume": 13772443.258646}, {"date": "2026-05-19", "open": 608.92, "high": 613.93, "low": 600.55, "close": 602.61, "volume": 11749947.170711}, {"date": "2026-05-20", "open": 600.755, "high": 608.0, "low": 597.81, "close": 605.06, "volume": 11329709.336983}, {"date": "2026-05-21", "open": 600.0, "high": 609.6, "low": 594.8083, "close": 607.38, "volume": 13476078.833505}, {"date": "2026-05-22", "open": 607.88, "high": 614.81, "low": 606.95, "close": 610.26, "volume": 11688623.73326}, {"date": "2026-05-26", "open": 608.89, "high": 614.47, "low": 605.3001, "close": 612.34, "volume": 12234166.915436}, {"date": "2026-05-27", "open": 609.395, "high": 638.4999, "low": 609.0, "close": 635.255, "volume": 23143594.138809}, {"date": "2026-05-28", "open": 639.495, "high": 643.0, "low": 629.31, "close": 635.29, "volume": 16772379.280322}, {"date": "2026-05-29", "open": 633.5, "high": 634.5, "low": 623.35, "close": 632.51, "volume": 19806536.266784}, {"date": "2026-06-01", "open": 630.4, "high": 635.7499, "low": 599.53, "close": 600.47, "volume": 29138805.190361}, {"date": "2026-06-02", "open": 603.24, "high": 608.88, "low": 596.68, "close": 597.63, "volume": 18251964.625661}, {"date": "2026-06-03", "open": 603.0, "high": 624.15, "low": 600.27, "close": 622.98, "volume": 23020056.279322}, {"date": "2026-06-04", "open": 623.67, "high": 642.4, "low": 622.43, "close": 627.57, "volume": 21469248.475394}, {"date": "2026-06-05", "open": 623.46, "high": 629.145, "low": 582.91, "close": 593.0, "volume": 30091610.811878}, {"date": "2026-06-08", "open": 592.0, "high": 592.0, "low": 579.22, "close": 585.39, "volume": 19512436.798377}, {"date": "2026-06-09", "open": 591.0, "high": 597.63, "low": 581.01, "close": 584.59, "volume": 16977383.817295}, {"date": "2026-06-10", "open": 580.73, "high": 591.32, "low": 570.6, "close": 570.98, "volume": 17064048.521937}, {"date": "2026-06-11", "open": 565.83, "high": 572.17, "low": 557.01, "close": 568.43, "volume": 17627966.738078}, {"date": "2026-06-12", "open": 572.95, "high": 576.07, "low": 560.9, "close": 566.98, "volume": 14347769.818959}, {"date": "2026-06-15", "open": 579.9, "high": 601.27, "low": 579.2975, "close": 593.48, "volume": 17653258.311629}, {"date": "2026-06-16", "open": 593.65, "high": 605.81, "low": 592.0, "close": 600.21, "volume": 11344421.336644}, {"date": "2026-06-17", "open": 592.002, "high": 593.81, "low": 566.19, "close": 567.58, "volume": 20478308.932157}, {"date": "2026-06-18", "open": 572.82, "high": 580.215, "low": 563.1, "close": 577.22, "volume": 28824630.298097}], "ma20": 599.48, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "中等", "trend_category": "震荡", "score": 41, "stars": 2}, {"ticker": "LLY", "name": "LLY", "category": "ETF", "latest_close": 736.98, "change_pct": 2.34, "annual_return": 1.84, "volatility": 29.64, "high": 741.05, "low": 706.85, "data_points": 5, "price_history": [{"date": "2026-06-14", "open": 724.8236162632276, "high": 735.9846248841376, "low": 722.7577540965709, "close": 730.2792130254372, "volume": 24229463}, {"date": "2026-06-15", "open": 723.3208342343586, "high": 734.3936969449344, "low": 718.9118574914557, "close": 730.3399923020144, "volume": 23505546}, {"date": "2026-06-16", "open": 715.7166747682969, "high": 717.5996260134606, "low": 706.8475055128685, "close": 710.950743199679, "volume": 19579865}, {"date": "2026-06-17", "open": 720.7979157774256, "high": 727.4358111395851, "low": 716.5144909775848, "close": 720.1466256052211, "volume": 28964593}, {"date": "2026-06-18", "open": 723.3474954711004, "high": 741.0475895400892, "low": 718.551103897835, "close": 736.9766438858979, "volume": 20948117}], "ma20": 0, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 63, "stars": 3}, {"ticker": "BRK.B", "name": "BRK.B", "category": "ETF", "latest_close": 489.46, "change_pct": -0.37, "annual_return": 0.44, "volatility": 13.43, "high": 499.79, "low": 467.96, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 481.13, "high": 489.36, "low": 481.0, "close": 488.38, "volume": 5030660.066896}, {"date": "2026-05-19", "open": 487.0, "high": 488.13, "low": 480.11, "close": 480.46, "volume": 5599874.380428}, {"date": "2026-05-20", "open": 482.0, "high": 482.72, "low": 477.62, "close": 480.9, "volume": 4647470.160729}, {"date": "2026-05-21", "open": 479.99, "high": 480.5, "low": 475.5, "close": 479.98, "volume": 3294027.54905}, {"date": "2026-05-22", "open": 479.65, "high": 487.1893, "low": 479.49, "close": 486.38, "volume": 4342154.821021}, {"date": "2026-05-26", "open": 485.5, "high": 487.78, "low": 483.21, "close": 483.62, "volume": 4357449.670363}, {"date": "2026-05-27", "open": 482.665, "high": 486.25, "low": 479.02, "close": 479.92, "volume": 4152532.18519}, {"date": "2026-05-28", "open": 479.36, "high": 481.81, "low": 477.0, "close": 477.42, "volume": 4127459.581934}, {"date": "2026-05-29", "open": 476.91, "high": 477.29, "low": 472.27, "close": 474.48, "volume": 7909855.658057}, {"date": "2026-06-01", "open": 473.05, "high": 473.39, "low": 467.96, "close": 470.29, "volume": 6203561.181225}, {"date": "2026-06-02", "open": 470.0, "high": 473.88, "low": 468.2082, "close": 471.51, "volume": 4704690.813378}, {"date": "2026-06-03", "open": 470.885, "high": 480.59, "low": 470.41, "close": 475.37, "volume": 6586257.677399}, {"date": "2026-06-04", "open": 481.595, "high": 482.94, "low": 474.65, "close": 478.63, "volume": 5275955.725724}, {"date": "2026-06-05", "open": 480.99, "high": 491.0, "low": 479.35, "close": 488.13, "volume": 8475844.943242}, {"date": "2026-06-08", "open": 486.13, "high": 490.7599, "low": 484.9199, "close": 487.0, "volume": 5188380.3523}, {"date": "2026-06-09", "open": 486.44, "high": 490.79, "low": 484.6, "close": 487.77, "volume": 4912157.64148}, {"date": "2026-06-10", "open": 488.13, "high": 490.3, "low": 483.11, "close": 483.68, "volume": 5062666.695469}, {"date": "2026-06-11", "open": 482.88, "high": 486.47, "low": 481.06, "close": 485.79, "volume": 5664301.767794}, {"date": "2026-06-12", "open": 486.67, "high": 489.99, "low": 484.51, "close": 489.25, "volume": 4591336.587869}, {"date": "2026-06-15", "open": 487.56, "high": 497.11, "low": 487.56, "close": 495.52, "volume": 6253628.291234}, {"date": "2026-06-16", "open": 497.0, "high": 499.79, "low": 492.43, "close": 494.95, "volume": 4345886.51262}, {"date": "2026-06-17", "open": 493.24, "high": 494.7681, "low": 487.9, "close": 491.28, "volume": 5411956.724336}, {"date": "2026-06-18", "open": 492.75, "high": 493.57, "low": 485.77, "close": 489.46, "volume": 8882313.285512}], "ma20": 483.52, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "低风险", "trend_category": "震荡", "score": 60, "stars": 3}, {"ticker": "VOO", "name": "Vanguard S&P 500 ETF", "category": "美国核心", "latest_close": 688.11, "change_pct": 0.98, "annual_return": 2.73, "volatility": 15.65, "high": 699.15, "low": 664.32, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 680.18, "high": 681.61, "low": 674.25, "close": 678.91, "volume": 7585446.911652}, {"date": "2026-05-19", "open": 675.56, "high": 678.15, "low": 672.55, "close": 674.59, "volume": 5664173.970429}, {"date": "2026-05-20", "open": 676.32, "high": 682.0, "low": 674.7401, "close": 681.57, "volume": 5506830.023701}, {"date": "2026-05-21", "open": 679.08, "high": 684.825, "low": 677.62, "close": 682.84, "volume": 7335368.486953}, {"date": "2026-05-22", "open": 686.1, "high": 688.58, "low": 684.4799, "close": 685.55, "volume": 4319794.767496}, {"date": "2026-05-26", "open": 689.65, "high": 691.5105, "low": 688.08, "close": 690.01, "volume": 6633811.880301}, {"date": "2026-05-27", "open": 690.36, "high": 690.78, "low": 687.92, "close": 689.96, "volume": 7386546.968042}, {"date": "2026-05-28", "open": 689.76, "high": 694.29, "low": 688.85, "close": 693.91, "volume": 8477086.045666}, {"date": "2026-05-29", "open": 695.0, "high": 697.0, "low": 693.89, "close": 695.49, "volume": 5080413.16792}, {"date": "2026-06-01", "open": 694.54, "high": 699.06, "low": 693.94, "close": 697.3, "volume": 10051191.69233}, {"date": "2026-06-02", "open": 696.06, "high": 699.15, "low": 695.78, "close": 698.26, "volume": 4750749.478765}, {"date": "2026-06-03", "open": 697.08, "high": 697.6499, "low": 692.85, "close": 693.36, "volume": 5970449.426993}, {"date": "2026-06-04", "open": 691.49, "high": 697.2, "low": 690.9, "close": 696.06, "volume": 6630041.988221}, {"date": "2026-06-05", "open": 691.71, "high": 692.18, "low": 676.25, "close": 678.0, "volume": 10846494.154314}, {"date": "2026-06-08", "open": 683.47, "high": 685.29, "low": 678.7, "close": 679.68, "volume": 8867185.78419}, {"date": "2026-06-09", "open": 683.71, "high": 686.76, "low": 664.3201, "close": 677.7, "volume": 16197168.478197}, {"date": "2026-06-10", "open": 674.315, "high": 678.875, "low": 666.88, "close": 667.05, "volume": 16472693.607817}, {"date": "2026-06-11", "open": 670.1, "high": 680.38, "low": 666.0, "close": 678.23, "volume": 19974197.583836}, {"date": "2026-06-12", "open": 681.075, "high": 684.4387, "low": 675.81, "close": 681.95, "volume": 6327977.222808}, {"date": "2026-06-15", "open": 691.3, "high": 695.75, "low": 691.26, "close": 693.83, "volume": 14068861.720722}, {"date": "2026-06-16", "open": 693.83, "high": 694.57, "low": 689.44, "close": 689.75, "volume": 13324141.823476}, {"date": "2026-06-17", "open": 690.76, "high": 691.53, "low": 679.64, "close": 681.41, "volume": 15029583.746295}, {"date": "2026-06-18", "open": 689.3, "high": 689.7, "low": 685.7, "close": 688.11, "volume": 17747861.925008}], "ma20": 686.92, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "中等", "trend_category": "震荡", "score": 60, "stars": 3}, {"ticker": "QQQ", "name": "Invesco QQQ Trust (纳指100)", "category": "美国科技", "latest_close": 740.62, "change_pct": 2.51, "annual_return": 10.09, "volatility": 28.39, "high": 748.65, "low": 686.37, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 711.54, "high": 712.07, "low": 698.85, "close": 705.88, "volume": 49834549.723967}, {"date": "2026-05-19", "open": 699.81, "high": 706.49, "low": 695.25, "close": 701.53, "volume": 46827529.874472}, {"date": "2026-05-20", "open": 705.29, "high": 713.15, "low": 703.79, "close": 713.15, "volume": 36779222.541155}, {"date": "2026-05-21", "open": 708.99, "high": 717.12, "low": 706.77, "close": 714.51, "volume": 36415360.860435}, {"date": "2026-05-22", "open": 718.07, "high": 722.12, "low": 715.95, "close": 717.54, "volume": 33118575.05345}, {"date": "2026-05-26", "open": 725.96, "high": 731.17, "low": 724.16, "close": 730.28, "volume": 34254692.688505}, {"date": "2026-05-27", "open": 732.96, "high": 733.32, "low": 725.44, "close": 729.45, "volume": 35148674.176195}, {"date": "2026-05-28", "open": 729.73, "high": 736.6, "low": 726.41, "close": 735.6, "volume": 32839952.529603}, {"date": "2026-05-29", "open": 737.84, "high": 741.63, "low": 735.25, "close": 738.31, "volume": 37541668.803944}, {"date": "2026-06-01", "open": 737.04, "high": 745.65, "low": 735.99, "close": 742.74, "volume": 33890559.792122}, {"date": "2026-06-02", "open": 742.4, "high": 746.44, "low": 739.23, "close": 746.16, "volume": 30085237.969345}, {"date": "2026-06-03", "open": 747.31, "high": 748.65, "low": 741.01, "close": 744.21, "volume": 40270198.385922}, {"date": "2026-06-04", "open": 735.48, "high": 743.4988, "low": 732.62, "close": 740.61, "volume": 40782580.072971}, {"date": "2026-06-05", "open": 730.06, "high": 731.69, "low": 704.32, "close": 705.06, "volume": 99606571.98303}, {"date": "2026-06-08", "open": 717.81, "high": 723.03, "low": 713.07, "close": 716.07, "volume": 47401451.421172}, {"date": "2026-06-09", "open": 722.98, "high": 725.66, "low": 686.37, "close": 707.83, "volume": 91932171.420546}, {"date": "2026-06-10", "open": 701.66, "high": 711.28, "low": 692.93, "close": 693.69, "volume": 65334283.425864}, {"date": "2026-06-11", "open": 699.29, "high": 718.3721, "low": 695.0, "close": 717.12, "volume": 71798857.404739}, {"date": "2026-06-12", "open": 717.61, "high": 724.01, "low": 711.28, "close": 721.34, "volume": 51236021.374119}, {"date": "2026-06-15", "open": 738.1, "high": 744.7599, "low": 737.38, "close": 744.0, "volume": 46710216.449718}, {"date": "2026-06-16", "open": 742.25, "high": 744.22, "low": 729.64, "close": 729.86, "volume": 45348675.743651}, {"date": "2026-06-17", "open": 735.19, "high": 735.68, "low": 720.85, "close": 722.51, "volume": 51669322.33773}, {"date": "2026-06-18", "open": 737.2, "high": 741.82, "low": 732.51, "close": 740.62, "volume": 50154595.664066}], "ma20": 726.88, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "中等", "trend_category": "震荡", "score": 63, "stars": 3}, {"ticker": "IWM", "name": "IWM", "category": "ETF", "latest_close": 295.59, "change_pct": 1.97, "annual_return": 14.72, "volatility": 22.96, "high": 297.91, "low": 270.63, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 278.74, "high": 279.08, "low": 273.94, "close": 275.97, "volume": 27243341.326318}, {"date": "2026-05-19", "open": 273.805, "high": 275.075, "low": 270.63, "close": 273.0, "volume": 30276939.724735}, {"date": "2026-05-20", "open": 274.91, "high": 280.09, "low": 273.41, "close": 279.87, "volume": 31562006.939994}, {"date": "2026-05-21", "open": 278.66, "high": 283.68, "low": 277.15, "close": 282.49, "volume": 31680475.978186}, {"date": "2026-05-22", "open": 284.1, "high": 286.61, "low": 283.67, "close": 285.12, "volume": 23849296.785952}, {"date": "2026-05-26", "open": 288.39, "high": 290.55, "low": 287.74, "close": 290.51, "volume": 24506452.573967}, {"date": "2026-05-27", "open": 291.16, "high": 291.72, "low": 289.31, "close": 290.37, "volume": 24519854.370219}, {"date": "2026-05-28", "open": 289.64, "high": 292.74, "low": 287.98, "close": 292.03, "volume": 23710563.301043}, {"date": "2026-05-29", "open": 291.38, "high": 291.41, "low": 288.33, "close": 290.43, "volume": 26961014.572352}, {"date": "2026-06-01", "open": 288.37, "high": 290.61, "low": 286.27, "close": 288.98, "volume": 23826067.250533}, {"date": "2026-06-02", "open": 288.46, "high": 291.865, "low": 288.4, "close": 291.66, "volume": 18378829.72447}, {"date": "2026-06-03", "open": 289.99, "high": 290.01, "low": 286.78, "close": 287.67, "volume": 29167270.159052}, {"date": "2026-06-04", "open": 287.56, "high": 292.875, "low": 286.66, "close": 292.01, "volume": 24307765.171068}, {"date": "2026-06-05", "open": 289.1, "high": 289.395, "low": 280.15, "close": 281.65, "volume": 35812835.987069}, {"date": "2026-06-08", "open": 285.51, "high": 286.84, "low": 283.575, "close": 284.11, "volume": 27277379.569027}, {"date": "2026-06-09", "open": 287.18, "high": 290.87, "low": 277.62, "close": 285.02, "volume": 41761260.936943}, {"date": "2026-06-10", "open": 284.59, "high": 289.0, "low": 281.76, "close": 282.05, "volume": 39285001.7347}, {"date": "2026-06-11", "open": 284.44, "high": 291.06, "low": 284.07, "close": 290.41, "volume": 41468782.979752}, {"date": "2026-06-12", "open": 291.63, "high": 295.72, "low": 290.31, "close": 292.95, "volume": 34415247.456327}, {"date": "2026-06-15", "open": 296.56, "high": 297.91, "low": 293.92, "close": 294.64, "volume": 23888987.746338}, {"date": "2026-06-16", "open": 295.5, "high": 296.8, "low": 291.58, "close": 292.08, "volume": 23807721.490582}, {"date": "2026-06-17", "open": 292.47, "high": 295.82, "low": 288.93, "close": 289.88, "volume": 39920145.938608}, {"date": "2026-06-18", "open": 294.55, "high": 295.97, "low": 291.42, "close": 295.59, "volume": 32463155.71409}], "ma20": 288.98, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 63, "stars": 3}, {"ticker": "BND", "name": "BND", "category": "ETF", "latest_close": 73.34, "change_pct": 0.27, "annual_return": 1.8, "volatility": 4.25, "high": 73.55, "low": 72.34, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 72.78, "high": 72.8599, "low": 72.59, "close": 72.69, "volume": 8771710.604043}, {"date": "2026-05-19", "open": 72.47, "high": 72.55, "low": 72.34, "close": 72.45, "volume": 13221169.974635}, {"date": "2026-05-20", "open": 72.475, "high": 72.8999, "low": 72.46, "close": 72.85, "volume": 11123005.992763}, {"date": "2026-05-21", "open": 72.65, "high": 72.935, "low": 72.575, "close": 72.93, "volume": 10364598.195259}, {"date": "2026-05-22", "open": 73.04, "high": 73.05, "low": 72.82, "close": 73.0, "volume": 6824182.84512}, {"date": "2026-05-26", "open": 73.26, "high": 73.28, "low": 73.1301, "close": 73.21, "volume": 7379325.367871}, {"date": "2026-05-27", "open": 73.29, "high": 73.34, "low": 73.24, "close": 73.28, "volume": 7353305.460522}, {"date": "2026-05-28", "open": 73.29, "high": 73.475, "low": 73.24, "close": 73.42, "volume": 7245493.553668}, {"date": "2026-05-29", "open": 73.47, "high": 73.55, "low": 73.38, "close": 73.46, "volume": 9178332.444652}, {"date": "2026-06-01", "open": 73.0, "high": 73.1866, "low": 72.94, "close": 73.18, "volume": 7268319.197356}, {"date": "2026-06-02", "open": 73.27, "high": 73.2975, "low": 73.16, "close": 73.2, "volume": 7682671.816902}, {"date": "2026-06-03", "open": 73.04, "high": 73.12, "low": 72.9801, "close": 73.06, "volume": 9330688.477831}, {"date": "2026-06-04", "open": 73.19, "high": 73.23, "low": 73.13, "close": 73.16, "volume": 6815029.532446}, {"date": "2026-06-05", "open": 72.94, "high": 72.95, "low": 72.82, "close": 72.83, "volume": 8487197.276357}, {"date": "2026-06-08", "open": 72.98, "high": 73.01, "low": 72.8, "close": 72.81, "volume": 14018968.776767}, {"date": "2026-06-09", "open": 72.92, "high": 73.0, "low": 72.84, "close": 72.97, "volume": 8703469.162581}, {"date": "2026-06-10", "open": 72.97, "high": 73.0399, "low": 72.84, "close": 72.91, "volume": 5252524.227346}, {"date": "2026-06-11", "open": 72.98, "high": 73.355, "low": 72.9345, "close": 73.33, "volume": 9058743.376199}, {"date": "2026-06-12", "open": 73.21, "high": 73.285, "low": 73.105, "close": 73.24, "volume": 7381030.48699}, {"date": "2026-06-15", "open": 73.38, "high": 73.43, "low": 73.29, "close": 73.3, "volume": 7738294.757248}, {"date": "2026-06-16", "open": 73.34, "high": 73.479, "low": 73.3201, "close": 73.41, "volume": 5902839.034892}, {"date": "2026-06-17", "open": 73.42, "high": 73.47, "low": 73.12, "close": 73.14, "volume": 8531607.492409}, {"date": "2026-06-18", "open": 73.32, "high": 73.495, "low": 73.315, "close": 73.34, "volume": 6312452.574742}], "ma20": 73.16, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "低风险", "trend_category": "震荡", "score": 60, "stars": 3}, {"ticker": "GLD", "name": "SPDR Gold Shares", "category": "黄金", "latest_close": 387.12, "change_pct": -0.38, "annual_return": -14.41, "volatility": 27.44, "high": 421.82, "low": 371.88, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 419.82, "high": 420.9299, "low": 416.06, "close": 418.43, "volume": 5628254.796982}, {"date": "2026-05-19", "open": 412.45, "high": 414.47, "low": 409.8808, "close": 411.5, "volume": 5419418.141834}, {"date": "2026-05-20", "open": 412.14, "high": 417.99, "low": 410.08, "close": 417.4, "volume": 6004981.619205}, {"date": "2026-05-21", "open": 413.14, "high": 418.42, "low": 411.95, "close": 416.99, "volume": 4679936.041864}, {"date": "2026-05-22", "open": 415.17, "high": 415.68, "low": 412.0, "close": 413.82, "volume": 5528437.468261}, {"date": "2026-05-26", "open": 415.16, "high": 415.98, "low": 411.5, "close": 414.0, "volume": 5098408.343422}, {"date": "2026-05-27", "open": 404.335, "high": 409.25, "low": 404.3, "close": 408.49, "volume": 6624575.582646}, {"date": "2026-05-28", "open": 406.48, "high": 414.51, "low": 405.4108, "close": 412.77, "volume": 7184086.887638}, {"date": "2026-05-29", "open": 415.62, "high": 421.82, "low": 415.08, "close": 417.12, "volume": 7705706.474199}, {"date": "2026-06-01", "open": 409.86, "high": 412.61, "low": 408.24, "close": 411.26, "volume": 6158855.302714}, {"date": "2026-06-02", "open": 414.08, "high": 414.3999, "low": 411.1, "close": 411.95, "volume": 3823879.294062}, {"date": "2026-06-03", "open": 408.38, "high": 409.38, "low": 406.225, "close": 407.87, "volume": 5038037.646739}, {"date": "2026-06-04", "open": 413.37, "high": 414.37, "low": 409.01, "close": 411.27, "volume": 4646545.896305}, {"date": "2026-06-05", "open": 404.38, "high": 404.719, "low": 395.92, "close": 396.24, "volume": 11473872.612055}, {"date": "2026-06-08", "open": 397.52, "high": 398.98, "low": 396.03, "close": 397.27, "volume": 8057349.091053}, {"date": "2026-06-09", "open": 397.57, "high": 400.48, "low": 388.75, "close": 390.78, "volume": 9567301.189266}, {"date": "2026-06-10", "open": 380.75, "high": 384.21, "low": 374.55, "close": 374.58, "volume": 13956163.019166}, {"date": "2026-06-11", "open": 373.96, "high": 387.21, "low": 371.88, "close": 386.32, "volume": 12622475.492047}, {"date": "2026-06-12", "open": 385.73, "high": 388.77, "low": 383.35, "close": 386.54, "volume": 7532577.932688}, {"date": "2026-06-15", "open": 399.49, "high": 401.0, "low": 396.15, "close": 396.55, "volume": 10477124.489355}, {"date": "2026-06-16", "open": 397.83, "high": 398.96, "low": 395.82, "close": 397.63, "volume": 6003963.594254}, {"date": "2026-06-17", "open": 397.82, "high": 402.04, "low": 387.08, "close": 388.6, "volume": 13343023.685067}, {"date": "2026-06-18", "open": 391.24, "high": 392.5, "low": 385.6, "close": 387.12, "volume": 7627319.724018}], "ma20": 401.36, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 38, "stars": 2}, {"ticker": "SCHD", "name": "SCHD", "category": "ETF", "latest_close": 91.04, "change_pct": 1.37, "annual_return": -5.68, "volatility": 30.05, "high": 93.83, "low": 89.28, "data_points": 5, "price_history": [{"date": "2026-06-14", "open": 92.17665042679363, "high": 93.8250467211291, "low": 91.93539079661623, "close": 93.74340636541788, "volume": 17468699}, {"date": "2026-06-15", "open": 92.63589102610761, "high": 93.16278617122316, "low": 90.04895496959749, "close": 90.33653999017609, "volume": 14347427}, {"date": "2026-06-16", "open": 92.50206112019515, "high": 92.7752039669992, "low": 90.17951077505148, "close": 90.74961316815134, "volume": 30378725}, {"date": "2026-06-17", "open": 92.24756612118927, "high": 92.94918321543567, "low": 89.2754123079736, "close": 89.81366396448698, "volume": 30122588}, {"date": "2026-06-18", "open": 91.6528871233687, "high": 91.74553915672571, "low": 90.44657934229171, "close": 91.04185950339915, "volume": 13016751}], "ma20": 0, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "低风险", "trend_category": "震荡", "score": 41, "stars": 2}, {"ticker": "VXUS", "name": "VXUS", "category": "ETF", "latest_close": 64.15, "change_pct": -0.59, "annual_return": 1.95, "volatility": 31.52, "high": 66.33, "low": 63.32, "data_points": 5, "price_history": [{"date": "2026-06-14", "open": 65.24476264029609, "high": 65.62022546002812, "low": 63.316793140133285, "close": 63.53563774134364, "volume": 30379798}, {"date": "2026-06-15", "open": 65.61609109656824, "high": 66.20350081874201, "low": 64.27652750507465, "close": 64.35221854716832, "volume": 20372080}, {"date": "2026-06-16", "open": 65.24633758068315, "high": 66.32833079044669, "low": 65.18496158907385, "close": 66.16646950345728, "volume": 39444147}, {"date": "2026-06-17", "open": 65.0606923344394, "high": 65.67854906637989, "low": 64.52093388256839, "close": 64.53271238820157, "volume": 30825955}, {"date": "2026-06-18", "open": 65.51658269052682, "high": 65.63405763154499, "low": 63.80997859222212, "close": 64.15335716032709, "volume": 13516774}], "ma20": 0, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 60, "stars": 3}, {"ticker": "SMH", "name": "SMH", "category": "ETF", "latest_close": 246.19, "change_pct": -0.65, "annual_return": -1.75, "volatility": 11.78, "high": 251.57, "low": 241.18, "data_points": 5, "price_history": [{"date": "2026-06-14", "open": 246.43801124048525, "high": 250.345266748224, "low": 245.0235065704591, "close": 248.37270347158494, "volume": 27774655}, {"date": "2026-06-15", "open": 246.951409751457, "high": 251.5700704888264, "low": 245.726272082467, "close": 249.99259561516854, "volume": 37981034}, {"date": "2026-06-16", "open": 246.08593604906892, "high": 247.90656558124147, "low": 244.32161428819305, "close": 246.99140025119996, "volume": 18377751}, {"date": "2026-06-17", "open": 244.59367716157237, "high": 247.9016220585623, "low": 244.54207361107532, "close": 247.79901628251073, "volume": 33628321}, {"date": "2026-06-18", "open": 243.31957072467796, "high": 248.22174229953183, "low": 241.17956400385867, "close": 246.19448790308672, "volume": 28262798}], "ma20": 0, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 38, "stars": 2}];
 const TOP3 = [{"ticker": "LLY", "name": "LLY", "category": "ETF", "latest_close": 736.98, "change_pct": 2.34, "annual_return": 1.84, "volatility": 29.64, "high": 741.05, "low": 706.85, "data_points": 5, "price_history": [{"date": "2026-06-14", "open": 724.8236162632276, "high": 735.9846248841376, "low": 722.7577540965709, "close": 730.2792130254372, "volume": 24229463}, {"date": "2026-06-15", "open": 723.3208342343586, "high": 734.3936969449344, "low": 718.9118574914557, "close": 730.3399923020144, "volume": 23505546}, {"date": "2026-06-16", "open": 715.7166747682969, "high": 717.5996260134606, "low": 706.8475055128685, "close": 710.950743199679, "volume": 19579865}, {"date": "2026-06-17", "open": 720.7979157774256, "high": 727.4358111395851, "low": 716.5144909775848, "close": 720.1466256052211, "volume": 28964593}, {"date": "2026-06-18", "open": 723.3474954711004, "high": 741.0475895400892, "low": 718.551103897835, "close": 736.9766438858979, "volume": 20948117}], "ma20": 0, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 63, "stars": 3}, {"ticker": "QQQ", "name": "Invesco QQQ Trust (纳指100)", "category": "美国科技", "latest_close": 740.62, "change_pct": 2.51, "annual_return": 10.09, "volatility": 28.39, "high": 748.65, "low": 686.37, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 711.54, "high": 712.07, "low": 698.85, "close": 705.88, "volume": 49834549.723967}, {"date": "2026-05-19", "open": 699.81, "high": 706.49, "low": 695.25, "close": 701.53, "volume": 46827529.874472}, {"date": "2026-05-20", "open": 705.29, "high": 713.15, "low": 703.79, "close": 713.15, "volume": 36779222.541155}, {"date": "2026-05-21", "open": 708.99, "high": 717.12, "low": 706.77, "close": 714.51, "volume": 36415360.860435}, {"date": "2026-05-22", "open": 718.07, "high": 722.12, "low": 715.95, "close": 717.54, "volume": 33118575.05345}, {"date": "2026-05-26", "open": 725.96, "high": 731.17, "low": 724.16, "close": 730.28, "volume": 34254692.688505}, {"date": "2026-05-27", "open": 732.96, "high": 733.32, "low": 725.44, "close": 729.45, "volume": 35148674.176195}, {"date": "2026-05-28", "open": 729.73, "high": 736.6, "low": 726.41, "close": 735.6, "volume": 32839952.529603}, {"date": "2026-05-29", "open": 737.84, "high": 741.63, "low": 735.25, "close": 738.31, "volume": 37541668.803944}, {"date": "2026-06-01", "open": 737.04, "high": 745.65, "low": 735.99, "close": 742.74, "volume": 33890559.792122}, {"date": "2026-06-02", "open": 742.4, "high": 746.44, "low": 739.23, "close": 746.16, "volume": 30085237.969345}, {"date": "2026-06-03", "open": 747.31, "high": 748.65, "low": 741.01, "close": 744.21, "volume": 40270198.385922}, {"date": "2026-06-04", "open": 735.48, "high": 743.4988, "low": 732.62, "close": 740.61, "volume": 40782580.072971}, {"date": "2026-06-05", "open": 730.06, "high": 731.69, "low": 704.32, "close": 705.06, "volume": 99606571.98303}, {"date": "2026-06-08", "open": 717.81, "high": 723.03, "low": 713.07, "close": 716.07, "volume": 47401451.421172}, {"date": "2026-06-09", "open": 722.98, "high": 725.66, "low": 686.37, "close": 707.83, "volume": 91932171.420546}, {"date": "2026-06-10", "open": 701.66, "high": 711.28, "low": 692.93, "close": 693.69, "volume": 65334283.425864}, {"date": "2026-06-11", "open": 699.29, "high": 718.3721, "low": 695.0, "close": 717.12, "volume": 71798857.404739}, {"date": "2026-06-12", "open": 717.61, "high": 724.01, "low": 711.28, "close": 721.34, "volume": 51236021.374119}, {"date": "2026-06-15", "open": 738.1, "high": 744.7599, "low": 737.38, "close": 744.0, "volume": 46710216.449718}, {"date": "2026-06-16", "open": 742.25, "high": 744.22, "low": 729.64, "close": 729.86, "volume": 45348675.743651}, {"date": "2026-06-17", "open": 735.19, "high": 735.68, "low": 720.85, "close": 722.51, "volume": 51669322.33773}, {"date": "2026-06-18", "open": 737.2, "high": 741.82, "low": 732.51, "close": 740.62, "volume": 50154595.664066}], "ma20": 726.88, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "中等", "trend_category": "震荡", "score": 63, "stars": 3}, {"ticker": "IWM", "name": "IWM", "category": "ETF", "latest_close": 295.59, "change_pct": 1.97, "annual_return": 14.72, "volatility": 22.96, "high": 297.91, "low": 270.63, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 278.74, "high": 279.08, "low": 273.94, "close": 275.97, "volume": 27243341.326318}, {"date": "2026-05-19", "open": 273.805, "high": 275.075, "low": 270.63, "close": 273.0, "volume": 30276939.724735}, {"date": "2026-05-20", "open": 274.91, "high": 280.09, "low": 273.41, "close": 279.87, "volume": 31562006.939994}, {"date": "2026-05-21", "open": 278.66, "high": 283.68, "low": 277.15, "close": 282.49, "volume": 31680475.978186}, {"date": "2026-05-22", "open": 284.1, "high": 286.61, "low": 283.67, "close": 285.12, "volume": 23849296.785952}, {"date": "2026-05-26", "open": 288.39, "high": 290.55, "low": 287.74, "close": 290.51, "volume": 24506452.573967}, {"date": "2026-05-27", "open": 291.16, "high": 291.72, "low": 289.31, "close": 290.37, "volume": 24519854.370219}, {"date": "2026-05-28", "open": 289.64, "high": 292.74, "low": 287.98, "close": 292.03, "volume": 23710563.301043}, {"date": "2026-05-29", "open": 291.38, "high": 291.41, "low": 288.33, "close": 290.43, "volume": 26961014.572352}, {"date": "2026-06-01", "open": 288.37, "high": 290.61, "low": 286.27, "close": 288.98, "volume": 23826067.250533}, {"date": "2026-06-02", "open": 288.46, "high": 291.865, "low": 288.4, "close": 291.66, "volume": 18378829.72447}, {"date": "2026-06-03", "open": 289.99, "high": 290.01, "low": 286.78, "close": 287.67, "volume": 29167270.159052}, {"date": "2026-06-04", "open": 287.56, "high": 292.875, "low": 286.66, "close": 292.01, "volume": 24307765.171068}, {"date": "2026-06-05", "open": 289.1, "high": 289.395, "low": 280.15, "close": 281.65, "volume": 35812835.987069}, {"date": "2026-06-08", "open": 285.51, "high": 286.84, "low": 283.575, "close": 284.11, "volume": 27277379.569027}, {"date": "2026-06-09", "open": 287.18, "high": 290.87, "low": 277.62, "close": 285.02, "volume": 41761260.936943}, {"date": "2026-06-10", "open": 284.59, "high": 289.0, "low": 281.76, "close": 282.05, "volume": 39285001.7347}, {"date": "2026-06-11", "open": 284.44, "high": 291.06, "low": 284.07, "close": 290.41, "volume": 41468782.979752}, {"date": "2026-06-12", "open": 291.63, "high": 295.72, "low": 290.31, "close": 292.95, "volume": 34415247.456327}, {"date": "2026-06-15", "open": 296.56, "high": 297.91, "low": 293.92, "close": 294.64, "volume": 23888987.746338}, {"date": "2026-06-16", "open": 295.5, "high": 296.8, "low": 291.58, "close": 292.08, "volume": 23807721.490582}, {"date": "2026-06-17", "open": 292.47, "high": 295.82, "low": 288.93, "close": 289.88, "volume": 39920145.938608}, {"date": "2026-06-18", "open": 294.55, "high": 295.97, "low": 291.42, "close": 295.59, "volume": 32463155.71409}], "ma20": 288.98, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 63, "stars": 3}];
 
-const EXCHANGE_MAP = {
-    'VOO':'AMEX','QQQ':'NASDAQ','IWM':'AMEX','BND':'AMEX','GLD':'AMEX',
-    'SCHD':'AMEX','VXUS':'AMEX','SMH':'AMEX',
-    'NVDA':'NASDAQ','AAPL':'NASDAQ','MSFT':'NASDAQ','GOOGL':'NASDAQ','AMZN':'NASDAQ','META':'NASDAQ',
-    'LLY':'NYSE','BRK.B':'NYSE',
-};
-
-// 6大板块 → tickers 映射
 const SECTORS = [
     { id: 'tech',     label: '🔥 科技成长先锋',   tickers: ['NVDA', 'AAPL', 'MSFT'] },
     { id: 'value',    label: '💎 价值旗舰',       tickers: ['GOOGL', 'AMZN', 'META'] },
@@ -132,25 +186,71 @@ const SECTORS = [
     { id: 'chip',     label: '💻 半导体',          tickers: ['SMH', 'NVDA', 'AAPL'] },
 ];
 
-// 研报内容库
 const REPORTS = {
-    'NVDA': { title:'英伟达：AI 算力绝对垄断', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。NVDA 凭借 <em>H100/H200/B200 系列 GPU</em>，在 AI 训练芯片市场占据约 80%+ 份额，是这轮生成式 AI 浪潮最确定的受益者。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。近期运行区间 $${d.lo.toFixed(0)}-$${d.hi.toFixed(0)}，回撤 ${d.drawdown}%。Blackwell 架构芯片需求超预期，CoWoS 封装产能是核心瓶颈。`, viewFn:d=>`<em>AI 算力需求远未见顶</em>——2025-2026 年各大云厂商（微软/谷歌/亚马逊/Meta）资本支出持续创历史新高，直接拉动 GPU 订单。数据中心业务已超越游戏成为 NVDA 第一大收入来源，估值逻辑正在从「显卡公司」切换为「AI Infrastructure」。` },
-    'AAPL': { title:'苹果：生态护城河+AI手机换机潮', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。Apple 凭借 <em>iOS 生态粘性 + 服务收入持续高增长</em>，是美股最具防御性的科技巨头之一。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。iPhone 16 系列搭载 Apple Intelligence，<strong>AI 手机换机潮</strong>有望在 2025-2026 年集中释放，成为业绩核心催化剂。`, viewFn:d=>`<em>服务收入（App Store/Apple TV+/iCloud）毛利率高达 70%+</em>，是 Apple 的「现金牛」。随着 AI 功能推动换机周期缩短，硬件收入也有望迎来复苏。当前估值处于历史中位数附近，长线具备配置价值。` },
-    'MSFT': { title:'微软：Copilot AI 商业化领头羊', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>Azure 云计算 + GitHub Copilot + Microsoft 365 Copilot</em> 三引擎驱动，微软是 AI 商业化落地最成功的科技巨头。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。Azure 市场份额稳步提升（vs 亚马逊 AWS），AI 需求驱动微软 CAPEX 创历史新高，OpenAI 深度绑定是独家优势。`, viewFn:d=>`<em>Microsoft 365 Copilot ARPU 提升逻辑清晰</em>，企业级 AI 渗透率仍处早期。2025 财年业绩指引持续上调，长期看好。风险点：AI 投入回报周期不确定，短期估值偏高。` },
-    'GOOGL': { title:'谷歌：搜索+云+AI 一体化布局', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。Google 拥有 <em>搜索（90%+ 份额）+ GCP 云服务 + Gemini AI</em> 三位一体布局，广告业务稳健，AI 正在重塑竞争格局。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。Gemini 大模型正在整合进搜索、Workspace、Android 全产品线，YouTube 广告收入持续增长。`, viewFn:d=>`<em>GCP 增速领跑云市场</em>（AWS/Azure/Google Cloud 中增速最快），AI 差异化竞争在于自有算力+TPU芯片。长线价值被市场低估，Pandora's Box（反垄断风险）是主要风险。` },
-    'AMZN': { title:'亚马逊：电商+AWS 双王炸', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>AWS（全球最大公有云）+ 电商（FBA 生态）</em>，亚马逊是美股最稳健的成长股之一。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。AWS 利润触底反弹（2023年裁员降本），AI 工作负载驱动云需求复苏，广告业务成为新增长极。`, viewFn:d=>`<em>亚马逊的飞轮效应：更多卖家→更多商品→更多用户→更多数据→更精准推荐→更多广告收入</em>。AWS AI CapEx 爆发直接利好，2025 年估值具备吸引力。` },
-    'META': { title:'Meta：AI+元宇宙双线并进', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>Facebook/Instagram/Reels + Llama 大模型 + 元宇宙</em>，Meta 是全球社交广告的绝对王者。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。Reels 货币化率持续提升，AI 推荐引擎显著改善用户时长，Llama 开源生态加速商业化。`, viewFn:d=>`<em>Threads 月活超 2 亿，商业化加速</em>。AI 驱动广告 ROI 提升，2025 年有望继续超预期。风险：欧盟监管+元宇宙持续烧钱（但已大幅削减）。` },
-    'LLY': { title:'礼来：GLP-1 双寡头之一', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。作为 <em>GLP-1 减肥/糖尿病双赛道绝对龙头</em>，礼来凭借 Zepbound® 和 Mounjaro® 双引擎驱动，2025-2026 年营收增速持续领跑。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。GLP-1 市场远未触顶——双寡头格局至少维持至 2028 年，估值偏高但成长性匹配。`, viewFn:d=>`<em>关键催化剂：Zepbound 减肥适应症扩展 + 口服版 GLP-1 + 中国区放量</em>。风险：估值PE 40x+，政策压力。适合高风险偏好长线持有。` },
-    'BRK.B': { title:'伯克希尔：价值投资的永恒旗帜', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>巴菲特执掌</em>，保险+投资双轮驱动，是穿越牛熊的终极防御型标的。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率极低（<strong>${d.vol.toFixed(1)}%</strong>）。伯克希尔股价与经济周期低相关，手握超 1500 亿美元现金等待机会，是「下跌时最抗跌的股票」。`, viewFn:d=>`<em>巴菲特最新持仓：大幅加仓能源（日本五大商事）+ 西方石油+苹果持仓</em>。在当前高利率环境下，BRK.B 的保险浮存金业务反而受益。适合保守型投资者作为核心底仓。` },
-    'BND': { title:'Vanguard 全市场债券 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国综合债券市场</em>，是所有资产配置组合的「稳定器」。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率仅 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。债券与股票相关性低，在美股高波动时期具备对冲价值。美联储降息预期下，债券价格有望反弹。`, viewFn:d=>`<em>BND 是组合的「压艙石」</em>——建议任何持仓组合中至少配置 10-20% 债券 ETF。当前债券收益率处于多年高点，长端利率下行趋势确立，债券已迎来战略性配置窗口。` },
-    'VOO': { title:'Vanguard 标普 500 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国大盘股核心指数</em>，代表 S&P 500，是全球被动投资首选。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>。VOO 手续费率仅 0.03%/年，50年复利效应显著——相当于免费获取美国经济整体增长。`, viewFn:d=>`<em>标普500≈美国经济晴雨表</em>。长期定投 VOO 是普通人分享资本市场红利的最优解。当前估值处于历史中偏高，但优质资产值得持有。` },
-    'QQQ': { title:'Invesco 纳指 100 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>纳斯达克 100 指数</em>，科技股集中地（NVDA+AAPL+MSFT+GOOGL+META+AMZN 权重>45%）。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。QQQ 本质是「美国科技 Beta」——买 QQQ = 押注 AI 算力+云计算+数字广告三大趋势。`, viewFn:d=>`<em>纳指 100 的超额收益来自质量因子</em>：自动剔除弱势标的，每季度优胜劣汰。AI 时代 NVDA/META/GOOGL 领涨格局清晰，QOQ 是科技多头的核心工具。` },
-    'IWM': { title:'IWM 罗素 2000 小盘股 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国小盘股风向标</em>，高弹性高Beta，是经济复苏的「先锋信号」。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。小盘股对经济周期最敏感——<strong>降息周期开启时</strong>，IWM 通常领先大盘 3-6 个月启动行情。`, viewFn:d=>`<em>历史规律：Fed降息后小盘股往往跑赢大盘 20%+</em>。若美国经济软着陆，IWM 是最具性价比的进攻型工具。当前估值处于历史底部，赔率吸引。` },
-    'GLD': { title:'SPDR 黄金 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>实物黄金追踪</em>，是「乱世黄金」逻辑的终极载体。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。黄金与股票/债券相关性极低，是组合对冲的不二之选。央行购金+美元走弱+地缘风险三重利好共振。`, viewFn:d=>`<em>2024-2025 年黄金创历史新高</em>：各国央行（尤其是中国/印度/波兰）持续增持，美联储降息预期利好金价。地缘风险（俄乌/中东）长期化，黄金配置价值凸显。` },
-    'SCHD': { title:'Schwab 高股息 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国高股息价值股精选组合</em>（约 100 只），专注股息增长和质量，是存续型投资者的最爱。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率仅 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。SCHD 股息率约 3.5-4%，且连续 10+ 年股息增长，「股利贵族」策略长期有效。`, viewFn:d=>`<em>价值股在美联储降息周期通常跑赢成长股</em>。SCHD 持仓（KO/JNJ/PG/PEP 等）兼具防御性和股息增长，适合退休组合或稳健型账户。` },
-    'VXUS': { title:'Vanguard 全球除美 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>全球发达市场（除美国）</em>，欧洲+日本+英国+加拿大+澳大利亚等约 20+ 国家，覆盖 9000+ 只股票。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>。VXUS 是「全球分散」的最佳工具——降低单一市场风险，同时捕捉欧/日/新兴市场复苏机会。`, viewFn:d=>`<em>欧洲/日本股市估值显著低于美股</em>（日经225除外）。欧洲央行降息+日本企业治理改革（半导体重估）+新兴市场消费升级——VXUS 在美股高估时提供天然对冲。` },
-    'SMH': { title:'VanEck 半导体 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>全球半导体龙头集中营</em>（NVDA+ASML+TSMC+AMD+INTC 权重>60%），是 AI 算力革命最直接的 ETF 工具。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。SMH 本质是「半导体行业 Beta」——买 SMH = 买全球芯片产业链。`, viewFn:d=>`<em>AI 推理侧芯片需求爆发——2025 年算力芯片短缺持续</em>。TSMC 3nm/2nm 产能被苹果/NVDA/AMD/高通抢空，半导体上行周期未完。SMH 是高风险偏好者的科技进攻利器。` },
-    'AMD': { title:'AMD：GPU 第二极崛起', summaryFn:d=>`MI300X 异军突起，正在 NVIDIA 垄断的 AI 训练芯片市场撕开一道口子。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率极高 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。AMD GPU 在推理市场已具备竞争力（成本优势），MI300X 出货量超预期。`, viewFn:d=>`<em>AMD 是 AI 芯片格局的「颠覆变量」</em>——若 MI350/MI400 系列追赶上 NVDA，估值重估空间巨大。但竞争不确定性也高，属于高风险高回报标的。` },
+    'NVDA': { title:'英伟达：AI算力绝对垄断',
+        summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。NVDA 凭借 <em>H100/H200/B200 系列 GPU</em>，在 AI 训练芯片市场占据约 80%+ 份额，是这轮生成式 AI 浪潮最确定的受益者。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。近期运行区间 $${d.lo.toFixed(0)}-$${d.hi.toFixed(0)}，回撤 ${d.drawdown}%。Blackwell 架构芯片需求超预期，CoWoS 封装产能是核心瓶颈。`,
+        viewFn:d=>`<em>AI 算力需求远未见顶</em>——2025-2026 年各大云厂商资本支出持续创历史新高，直接拉动 GPU 订单。数据中心业务已超越游戏成为 NVDA 第一大收入来源，估值逻辑正在从「显卡公司」切换为「AI Infrastructure」。` },
+    'AAPL': { title:'苹果：生态护城河+AI手机换机潮',
+        summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。Apple 凭借 <em>iOS 生态粘性 + 服务收入持续高增长</em>，是美股最具防御性的科技巨头之一。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。iPhone 16 系列搭载 Apple Intelligence，<strong>AI 手机换机潮</strong>有望在 2025-2026 年集中释放，成为业绩核心催化剂。`,
+        viewFn:d=>`<em>服务收入（App Store/Apple TV+/iCloud）毛利率高达 70%+</em>，是 Apple 的「现金牛」。随着 AI 功能推动换机周期缩短，硬件收入也有望迎来复苏。当前估值处于历史中位数附近，长线具备配置价值。` },
+    'MSFT': { title:'微软：Copilot AI 商业化领头羊',
+        summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>Azure 云计算 + GitHub Copilot + Microsoft 365 Copilot</em> 三引擎驱动，微软是 AI 商业化落地最成功的科技巨头。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。Azure 市场份额稳步提升（vs 亚马逊 AWS），AI 需求驱动微软 CAPEX 创历史新高，OpenAI 深度绑定是独家优势。`,
+        viewFn:d=>`<em>Microsoft 365 Copilot ARPU 提升逻辑清晰</em>，企业级 AI 渗透率仍处早期。2025 财年业绩指引持续上调，长期看好。风险点：AI 投入回报周期不确定，短期估值偏高。` },
+    'GOOGL': { title:'谷歌：搜索+云+AI 一体化布局',
+        summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。Google 拥有 <em>搜索（90%+ 份额）+ GCP 云服务 + Gemini AI</em> 三位一体布局，广告业务稳健，AI 正在重塑竞争格局。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。Gemini 大模型正在整合进搜索、Workspace、Android 全产品线，YouTube 广告收入持续增长。`,
+        viewFn:d=>`<em>GCP 增速领跑云市场</em>（AWS/Azure/Google Cloud 中增速最快），AI 差异化竞争在于自有算力+TPU芯片。长线价值被市场低估，Pandora's Box（反垄断风险）是主要风险。` },
+    'AMZN': { title:'亚马逊：电商+AWS 双王炸',
+        summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>AWS（全球最大公有云）+ 电商（FBA 生态）</em>，亚马逊是美股最稳健的成长股之一。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。AWS 利润触底反弹（2023年裁员降本），AI 工作负载驱动云需求复苏，广告业务成为新增长极。`,
+        viewFn:d=>`<em>亚马逊的飞轮效应：更多卖家→更多商品→更多用户→更精准推荐→更多广告收入</em>。AWS AI CapEx 爆发直接利好，2025 年估值具备吸引力。` },
+    'META': { title:'Meta：AI+社交帝国双线并进',
+        summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>Facebook/Instagram/Reels + Llama 大模型</em>，Meta 是全球社交广告的绝对王者。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。Reels 货币化率持续提升，AI 推荐引擎显著改善用户时长，Llama 开源生态加速商业化。`,
+        viewFn:d=>`<em>Threads 月活超 2 亿，商业化加速</em>。AI 驱动广告 ROI 提升，2025 年有望继续超预期。风险：欧盟监管+元宇宙持续烧钱（但已大幅削减）。` },
+    'LLY': { title:'礼来：GLP-1 双寡头之一',
+        summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。作为 <em>GLP-1 减肥/糖尿病双赛道绝对龙头</em>，礼来凭借 Zepbound® 和 Mounjaro® 双引擎驱动。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。GLP-1 市场远未触顶——双寡头格局至少维持至 2028 年，估值偏高但成长性匹配。`,
+        viewFn:d=>`<em>关键催化剂：Zepbound 减肥适应症扩展 + 口服版 GLP-1 + 中国区放量</em>。风险：估值PE 40x+，政策压力。适合高风险偏好长线持有。` },
+    'BRK.B': { title:'伯克希尔：价值投资的永恒旗帜',
+        summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>巴菲特执掌</em>，保险+投资双轮驱动，是穿越牛熊的终极防御型标的。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率极低（<strong>${d.vol.toFixed(1)}%</strong>）。伯克希尔股价与经济周期低相关，手握超 1500 亿美元现金等待机会，是「下跌时最抗跌的股票」。`,
+        viewFn:d=>`<em>巴菲特最新持仓：大幅加仓能源（日本五大商事）+ 西方石油+苹果持仓</em>。在当前高利率环境下，BRK.B 的保险浮存金业务反而受益。适合保守型投资者作为核心底仓。` },
+    'BND': { title:'Vanguard 全市场债券 ETF',
+        summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国综合债券市场</em>，是所有资产配置组合的「稳定器」。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率仅 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。债券与股票相关性低，在美股高波动时期具备对冲价值。美联储降息预期下，债券价格有望反弹。`,
+        viewFn:d=>`<em>BND 是组合的「压艙石」</em>——建议任何持仓组合中至少配置 10-20% 债券 ETF。当前债券收益率处于多年高点，长端利率下行趋势确立，债券已迎来战略性配置窗口。` },
+    'VOO': { title:'Vanguard 标普 500 ETF',
+        summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国大盘股核心指数</em>，代表 S&P 500，是全球被动投资首选。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>。VOO 手续费率仅 0.03%/年，50年复利效应显著——相当于免费获取美国经济整体增长。`,
+        viewFn:d=>`<em>标普500≈美国经济晴雨表</em>。长期定投 VOO 是普通人分享资本市场红利的最优解。当前估值处于历史中偏高，但优质资产值得持有。` },
+    'QQQ': { title:'Invesco 纳指 100 ETF',
+        summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>纳斯达克 100 指数</em>，科技股集中地（NVDA+AAPL+MSFT+GOOGL+META+AMZN 权重>45%）。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。QQQ 本质是「美国科技 Beta」——买 QQQ = 押注 AI 算力+云计算+数字广告三大趋势。`,
+        viewFn:d=>`<em>纳指 100 的超额收益来自质量因子</em>：自动剔除弱势标的，每季度优胜劣汰。AI 时代 NVDA/META/GOOGL 领涨格局清晰，QQQ 是科技多头的核心工具。` },
+    'IWM': { title:'IWM 罗素 2000 小盘股 ETF',
+        summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国小盘股风向标</em>，高弹性高Beta，是经济复苏的「先锋信号」。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。小盘股对经济周期最敏感——<strong>降息周期开启时</strong>，IWM 通常领先大盘 3-6 个月启动行情。`,
+        viewFn:d=>`<em>历史规律：Fed降息后小盘股往往跑赢大盘 20%+</em>。若美国经济软着陆，IWM 是最具性价比的进攻型工具。当前估值处于历史底部，赔率吸引。` },
+    'GLD': { title:'SPDR 黄金 ETF',
+        summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>实物黄金追踪</em>，是「乱世黄金」逻辑的终极载体。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。黄金与股票/债券相关性极低，是组合对冲的不二之选。央行购金+美元走弱+地缘风险三重利好共振。`,
+        viewFn:d=>`<em>2024-2025 年黄金创历史新高</em>：各国央行（尤其是中国/印度/波兰）持续增持，美联储降息预期利好金价。地缘风险（俄乌/中东）长期化，黄金配置价值凸显。` },
+    'SCHD': { title:'Schwab 高股息 ETF',
+        summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国高股息价值股精选组合</em>（约 100 只），专注股息增长和质量，是存续型投资者的最爱。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率仅 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。SCHD 股息率约 3.5-4%，且连续 10+ 年股息增长，「股利贵族」策略长期有效。`,
+        viewFn:d=>`<em>价值股在美联储降息周期通常跑赢成长股</em>。SCHD 持仓（KO/JNJ/PG/PEP 等）兼具防御性和股息增长，适合退休组合或稳健型账户。` },
+    'VXUS': { title:'Vanguard 全球除美 ETF',
+        summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>全球发达市场（除美国）</em>，欧洲+日本+英国+加拿大+澳大利亚等约 20+ 国家，覆盖 9000+ 只股票。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。VXUS 是「全球分散」的最佳工具——降低单一市场风险，同时捕捉欧/日/新兴市场复苏机会。`,
+        viewFn:d=>`<em>欧洲/日本股市估值显著低于美股</em>（日经225除外）。欧洲央行降息+日本企业治理改革（半导体重估）+新兴市场消费升级——VXUS 在美股高估时提供天然对冲。` },
+    'SMH': { title:'VanEck 半导体 ETF',
+        summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>全球半导体龙头集中营</em>（NVDA+ASML+TSMC+AMD+INTC 权重>60%），是 AI 算力革命最直接的 ETF 工具。`,
+        analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。SMH 本质是「半导体行业 Beta」——买 SMH = 买全球芯片产业链。`,
+        viewFn:d=>`<em>AI 推理侧芯片需求爆发——2025 年算力芯片短缺持续</em>。TSMC 3nm/2nm 产能被苹果/NVDA/AMD/高通抢空，半导体上行周期未完。SMH 是高风险偏好者的科技进攻利器。` },
 };
 
 function safeNum(v, fb=0) { const n=Number(v); return isNaN(n)?fb:n; }
@@ -168,22 +268,22 @@ function statusBadge(ms) {
     return m[ms]||'<span class="status-badge neutral-bear">⚪ 未知</span>';
 }
 
-function buildSparklineSVG(prices, w=340, h=130) {
+function buildSparklineSVG(prices, w=340, h=150) {
     if (!prices || prices.length < 2) return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><text x="${w/2}" y="${h/2}" text-anchor="middle" fill="#555" font-size="12">暂无数据</text></svg>`;
     const min=Math.min(...prices), max=Math.max(...prices), range=max-min||1;
-    const pad=8;
+    const pad=10;
     const pts=prices.map((p,i)=>{const x=pad+(i/(prices.length-1))*(w-2*pad);const y=h-pad-((p-min)/range)*(h-2*pad);return`${x},${y}`}).join(' ');
     const areaPts=`${pad},${h-pad} ${pts} ${w-pad},${h-pad}`;
     const lastPrice=prices[prices.length-1], firstPrice=prices[0];
     const chgPct=((lastPrice-firstPrice)/firstPrice*100).toFixed(2);
-    const lc=lastPrice>=firstPrice?'#3fb950':'#f85149';
-    const fc=lastPrice>=firstPrice?'rgba(63,185,80,0.12)':'rgba(248,81,73,0.12)';
+    const lc=lastPrice>=firstPrice?'#34d399':'#f87171';
+    const fc=lastPrice>=firstPrice?'rgba(52,211,153,0.10)':'rgba(248,113,113,0.10)';
     return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
         <defs><linearGradient id="gd" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="${fc}"/><stop offset="100%" stop-color="transparent"/></linearGradient></defs>
         <polygon points="${areaPts}" fill="url(#gd)"/>
-        <polyline points="${pts}" fill="none" stroke="${lc}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="${pad+(prices.length-1)/(prices.length-1)*(w-2*pad)}" cy="${h-pad-((lastPrice-min)/range)*(h-2*pad)}" r="3.5" fill="${lc}" stroke="#0d1117" stroke-width="1.5"/>
-        <text x="${w-4}" y="14" text-anchor="end" fill="${lc}" font-size="11" font-weight="600">${chgPct>0?'+':''}${chgPct}%</text>
+        <polyline points="${pts}" fill="none" stroke="${lc}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="${pad+(prices.length-1)/(prices.length-1)*(w-2*pad)}" cy="${h-pad-((lastPrice-min)/range)*(h-2*pad)}" r="4" fill="${lc}" stroke="#0d1220" stroke-width="1.8"/>
+        <rect x="${w-68}" y="6" width="62" height="22" rx="6" fill="${lc}" fill-opacity="0.12"/><text x="${w-37}" y="21" text-anchor="middle" fill="${lc}" font-size="11.5" font-weight="700">${chgPct>0?'+':''}${chgPct}%</text>
     </svg>`;
 }
 
@@ -199,7 +299,7 @@ function getReportData(ticker, o) {
     const history=(o.price_history||[]).map(p=>p.close);
     const drawdown=hi>lo?((hi-lo)/hi*100).toFixed(1):'0.0';
     const volLevel=vol>30?'极高':vol>25?'较高':vol>18?'适中':vol<12?'偏低':'正常';
-    const rpt=REPORTS[ticker]||REPORTS[Object.keys(REPORTS)[0]];
+    const rpt=REPORTS[ticker]||REPORTS['NVDA'];
     return {
         price,chg,ret,vol,score,stars,dp,hi,lo,drawdown,volLevel,history,
         title:rpt.title,
@@ -216,7 +316,7 @@ function renderSectorPanel(sector) {
         if (!o) return '';
         const d = getReportData(ticker, o);
         const sparkSVG = buildSparklineSVG(d.history);
-        const name = o.name || ticker;
+        const vClass = d.score>=70?'core':d.score>=50?'watch':'wait';
         return `
         <div class="research-card">
             <div class="research-chart-area">${sparkSVG}</div>
@@ -226,9 +326,9 @@ function renderSectorPanel(sector) {
                         <div class="research-ticker">${ticker}</div>
                         <div class="research-name">${d.title}</div>
                     </div>
-                    <div style="text-align:right;">
+                    <div class="score-wrap">
                         <div class="research-score-val">${d.score.toFixed(0)}</div>
-                        <div class="research-score-label">综合评分</div>
+                        <div class="research-score-label">评分</div>
                     </div>
                 </div>
                 <div class="research-stars">${'⭐'.repeat(d.stars)}${'☆'.repeat(5-d.stars)}</div>
@@ -243,15 +343,14 @@ function renderSectorPanel(sector) {
                 <div class="research-metrics">
                     <div class="research-metric"><div class="research-metric-val">$${d.price.toFixed(2)}</div><div class="research-metric-label">最新价</div></div>
                     <div class="research-metric"><div class="research-metric-val ${d.chg>=0?'up':'down'}">${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</div><div class="research-metric-label">周涨跌</div></div>
-                    <div class="research-metric"><div class="research-metric-val" style="color:var(--gold);">${d.drawdown}%</div><div class="research-metric-label">区间回撤</div></div>
+                    <div class="research-metric"><div class="research-metric-val" style="color:var(--gold-light);">${d.drawdown}%</div><div class="research-metric-label">区间回撤</div></div>
                 </div>
             </div>
             <div class="research-footer">
-                <div style="font-size:12px;color:var(--text-secondary);font-weight:600;">${d.verdict}</div>
-                <a class="research-link-btn" href="/${ticker.toLowerCase()}/">📋 详情 →</a>
+                <div class="verdict-tag ${vClass}">${d.verdict}</div>
+                <a class="research-link-btn" href="/${ticker.toLowerCase()}/">详情 →</a>
             </div>
-        </div>`;
-    }).join('');
+        </div>`}).join('');
     return `<div class="section-label">${sector.label} · 本周精选</div><div class="research-grid">${cards}</div>`;
 }
 
@@ -259,35 +358,23 @@ function initSectors() {
     const nav = document.getElementById('sector-nav');
     const content = document.getElementById('sector-content');
 
-    // 渲染按钮
-    nav.innerHTML = SECTORS.map(s =>
-        `<button class="sector-btn" data-id="${s.id}">${s.label}</button>`
-    ).join('');
+    nav.innerHTML = SECTORS.map(s => `<button class="sector-btn" data-id="${s.id}">${s.label}</button>`).join('');
+    content.innerHTML = SECTORS.map(s => `<div class="sector-panel" id="panel-${s.id}">${renderSectorPanel(s)}</div>`).join('');
 
-    // 渲染内容面板
-    content.innerHTML = SECTORS.map(s =>
-        `<div class="sector-panel" id="panel-${s.id}">${renderSectorPanel(s)}</div>`
-    ).join('');
-
-    // 默认展开第一个板块
     let activeId = SECTORS[0].id;
     document.querySelector(`.sector-btn[data-id="${activeId}"]`).classList.add('active');
     document.getElementById(`panel-${activeId}`).classList.add('active');
 
-    // 点击事件
     nav.addEventListener('click', e => {
         const btn = e.target.closest('.sector-btn');
-        if (!btn) return;
-        const id = btn.dataset.id;
-        if (id === activeId) return;
+        if (!btn || btn.dataset.id === activeId) return;
         document.querySelectorAll('.sector-btn').forEach(b=>b.classList.remove('active'));
         document.querySelectorAll('.sector-panel').forEach(p=>p.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById(`panel-${id}`).classList.add('active');
-        activeId = id;
+        document.getElementById(`panel-${btn.dataset.id}`).classList.add('active');
+        activeId = btn.dataset.id;
     });
 }
-
 try { initSectors(); } catch(e) { console.error('[initSectors]', e); }
 </script>
 </body>
