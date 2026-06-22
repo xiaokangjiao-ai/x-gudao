@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>全球资产配置 · 16核心标的 | 股道奇货</title>
-    <meta name="description" content="全球资产配置专业分析平台，覆盖16个核心标的（8股票+8ETF），提供专业评级、关键指标等投资决策工具。">
+    <title>每周深度研判 · 全球核心资产 | 股道奇货</title>
+    <meta name="description" content="6大板块精选标的，每周深度研判，观点驱动的全球核心资产配置平台。">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -18,289 +18,72 @@
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
 
-        /* ── 头部（只保留 Logo）── */
         header { background: var(--bg-secondary); border-bottom: 1px solid var(--border); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
         .header-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; height: 56px; }
         .logo { font-size: 18px; font-weight: 700; }
         .logo span { color: var(--gold); }
 
-        /* ── 全局 Badge ── */
-        .status-badge {
-            display: inline-block; padding: 4px 12px; border-radius: 12px;
-            font-size: 12px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap;
-        }
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; letter-spacing: 0.5px; white-space: nowrap; }
         .status-badge.bullish { background: #1a6b1a; color: #fff; }
         .status-badge.neutral-bull { background: #b8860b; color: #000; }
         .status-badge.neutral-bear { background: #d2691e; color: #fff; }
         .status-badge.bearish { background: #b22222; color: #fff; }
 
-        /* ── Hero ── */
-        .hero {
-            text-align: center; padding: 50px 24px 30px;
-            background: linear-gradient(180deg, rgba(212,168,67,0.08) 0%, transparent 100%);
-        }
-        .hero h1 { font-size: 40px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
+        .hero { text-align: center; padding: 50px 24px 30px; background: linear-gradient(180deg, rgba(212,168,67,0.08) 0%, transparent 100%); }
+        .hero h1 { font-size: 38px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
         .hero h1 span { color: var(--gold); }
-        .hero-subtitle { font-size: 15px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 20px; }
-        .hero-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 0; }
-        .hero-tag { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 13px; color: var(--text-secondary); }
+        .hero-subtitle { font-size: 15px; color: var(--text-secondary); max-width: 700px; margin: 0 auto 24px; }
 
-        /* ════════════════ V5.0: 研报式 Top3 ════════════════ */
-        .main { max-width: 1400px; margin: 0 auto; padding: 0 24px 60px; }
-        .section-title { font-size: 22px; font-weight: 600; margin: 40px 0 24px; display: flex; align-items: center; gap: 10px; }
+        /* ── 板块导航 ── */
+        .sector-nav { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; padding: 0 24px; max-width: 1100px; margin: 0 auto; }
+        .sector-btn {
+            padding: 12px 24px; border-radius: 24px; background: var(--bg-card);
+            border: 1px solid rgba(212,168,67,0.5); color: var(--text-primary);
+            font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s;
+            font-family: inherit; white-space: nowrap; user-select: none;
+        }
+        .sector-btn:hover { border-color: var(--gold); box-shadow: 0 0 16px rgba(212,168,67,0.25); background: rgba(212,168,67,0.06); }
+        .sector-btn.active { background: rgba(212,168,67,0.15); border-color: var(--gold); color: var(--gold); box-shadow: 0 0 20px rgba(212,168,67,0.3); }
 
+        /* ── 板块内容区 ── */
+        .sector-content { max-width: 1400px; margin: 24px auto 0; padding: 0 24px 60px; }
+        .sector-panel { display: none; animation: fadeIn 0.35s ease; }
+        .sector-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .section-label { font-size: 18px; font-weight: 600; margin-bottom: 18px; color: var(--gold); display: flex; align-items: center; gap: 8px; }
+
+        /* ── 研报卡片 ── */
         .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        .research-card {
-            background: var(--bg-card); border: 1px solid rgba(212,168,67,0.35);
-            border-radius: 16px; overflow: hidden; transition: all 0.3s;
-            display: flex; flex-direction: column;
-        }
+        .research-card { background: var(--bg-card); border: 1px solid rgba(212,168,67,0.35); border-radius: 16px; overflow: hidden; transition: all 0.3s; display: flex; flex-direction: column; }
         .research-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(212,168,67,0.15); }
-
-        /* 研报头部：迷你走势图 */
-        .research-chart-area {
-            height: 140px; background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
-            display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden;
-        }
+        .research-chart-area { height: 140px; background: linear-gradient(135deg, #0d1117 0%, #161b22 100%); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         .research-chart-area svg { width: 100%; height: 100%; }
-
-        /* 研报主体 */
         .research-body { padding: 20px 22px 18px; flex: 1; display: flex; flex-direction: column; }
         .research-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .research-ticker-group { }
         .research-ticker { font-size: 26px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
         .research-name { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-        .research-score-badge {
-            text-align: right;
-        }
         .research-score-val { font-size: 28px; font-weight: 700; color: var(--gold); }
         .research-score-label { font-size: 11px; color: var(--text-secondary); }
         .research-stars { font-size: 16px; margin-bottom: 10px; letter-spacing: 2px; }
-
-        /* 研报正文 */
         .research-content { font-size: 13.5px; line-height: 1.75; color: var(--text-primary); margin-bottom: 14px; flex: 1; }
         .research-content strong { color: var(--gold); }
         .research-content em { color: var(--accent); font-style: normal; }
-        .research-highlight {
-            background: rgba(212,168,67,0.08); border-left: 3px solid var(--gold);
-            padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0;
-            font-size: 13px; line-height: 1.65;
-        }
+        .research-highlight { background: rgba(212,168,67,0.08); border-left: 3px solid var(--gold); padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 10px 0; font-size: 13px; line-height: 1.65; }
         .research-highlight .hl-label { font-size: 11px; color: var(--gold); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-
-        /* 数据指标行 */
         .research-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: auto; }
-        .research-metric {
-            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-            border-radius: 8px; padding: 8px 10px; text-align: center;
-        }
+        .research-metric { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; text-align: center; }
         .research-metric-val { font-size: 15px; font-weight: 700; }
         .research-metric-val.up { color: var(--green); }
         .research-metric-val.down { color: var(--red); }
         .research-metric-label { font-size: 10px; color: var(--text-secondary); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* 研报底部操作栏 */
-        .research-footer {
-            border-top: 1px solid var(--border); padding: 12px 22px;
-            display: flex; align-items: center; justify-content: space-between;
-            background: rgba(0,0,0,0.2);
-        }
-        .research-links { display: flex; gap: 12px; }
-        .research-link-btn {
-            display: inline-flex; align-items: center; gap: 4px;
-            font-size: 12px; color: var(--accent); padding: 5px 12px;
-            border-radius: 6px; background: rgba(88,166,255,0.08);
-            border: 1px solid rgba(88,166,255,0.15); transition: all 0.2s;
-        }
+        .research-footer { border-top: 1px solid var(--border); padding: 12px 22px; display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.2); }
+        .research-link-btn { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--accent); padding: 5px 12px; border-radius: 6px; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.15); transition: all 0.2s; }
         .research-link-btn:hover { background: rgba(88,166,255,0.18); text-decoration: none; color: var(--accent); }
 
-        /* ════════════════ 全景看板（带SVG走势图）════════════════ */
-        .overview-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-        .overview-card {
-            background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-            padding: 0; overflow: hidden; transition: all 0.2s;
-        }
-        .overview-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(88,166,255,0.1); }
+        /* ── 响应式 ── */
+        @media (max-width: 900px) { .research-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .hero h1 { font-size: 26px; } .sector-btn { padding: 10px 16px; font-size: 13px; } }
 
-        /* 迷你 SVG 走势图 */
-        .overview-sparkline {
-            height: 70px; background: linear-gradient(180deg, rgba(88,166,255,0.03) 0%, transparent 100%);
-            display: flex; align-items: flex-end; justify-content: center; padding: 6px 8px 4px;
-        }
-        .overview-sparkline svg { width: 100%; height: 100%; }
-
-        .overview-info { padding: 12px 14px; }
-        .overview-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-        .overview-ticker { font-size: 17px; font-weight: 700; color: var(--gold); letter-spacing: 1px; }
-        .overview-name { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
-        .overview-price { text-align: right; }
-        .overview-price-val { font-size: 16px; font-weight: 600; }
-        .overview-change { font-size: 11px; margin-top: 1px; font-weight: 600; }
-        .overview-change.up { color: var(--green); }
-        .overview-change.down { color: var(--red); }
-        .overview-stars { font-size: 13px; margin: 6px 0 4px; }
-        .overview-status { margin-top: 6px; }
-
-        /* ═══════════════ 九宫格热力图（改进版）═══════════════ */
-        .heatmap-section { margin-top: 48px; }
-        .heatmap-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-        .heatmap-legend { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
-        .heatmap-legend-item { display: flex; align-items: center; gap: 4px; }
-        .heatmap-legend-color { width: 14px; height: 14px; border-radius: 3px; }
-        
-        /* 3x3热力图网格 */
-        .heatmap-grid {
-            display: grid; 
-            grid-template-columns: 100px repeat(3, 1fr); 
-            grid-template-rows: 40px repeat(3, 160px);
-            gap: 2px; 
-            background: var(--border); 
-            border: 2px solid var(--border); 
-            border-radius: 10px; 
-            overflow: hidden;
-        }
-        
-        /* 表头单元格 */
-        .heatmap-header-cell {
-            background: var(--bg-secondary); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 13px; 
-            font-weight: 600; 
-            color: var(--text-secondary); 
-            padding: 4px;
-        }
-        
-        .heatmap-header-cell.risk-label {
-            justify-content: flex-start;
-            padding-left: 12px;
-        }
-        
-        /* 数据单元格 */
-        .heatmap-cell { 
-            padding: 10px; 
-            display: flex; 
-            flex-direction: column; 
-            transition: all 0.2s; 
-            position: relative; 
-            overflow: hidden;
-        }
-        
-        .heatmap-cell:hover { 
-            z-index: 10; 
-            box-shadow: 0 0 20px rgba(88,166,255,0.4); 
-            transform: scale(1.02);
-        }
-        
-        .heatmap-cell-content { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 6px; 
-            flex: 1; 
-            align-content: flex-start; 
-            overflow-y: auto;
-        }
-        
-        /* 标的代码卡片（带sparkline+指标） */
-        .hm-card {
-            display: flex;
-            flex-direction: column;
-            background: rgba(0,0,0,0.35);
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 8px;
-            padding: 6px 8px 5px;
-            text-decoration: none;
-            color: #e6edf3;
-            transition: all 0.2s;
-            min-width: 90px;
-            cursor: pointer;
-        }
-        .hm-card:hover {
-            background: rgba(88,166,255,0.15);
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-        }
-        .hm-card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 3px;
-        }
-        .hm-ticker {
-            font-size: 12px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 0.3px;
-        }
-        .hm-chg {
-            font-size: 11px;
-            font-weight: 600;
-        }
-        .hm-spark {
-            margin: 2px 0 3px;
-            border-radius: 3px;
-            overflow: hidden;
-            line-height: 0;
-        }
-        .hm-meta {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-            color: rgba(255,255,255,0.5);
-        }
-        
-        /* 空单元格 */
-        .heatmap-empty {
-            color: rgba(255,255,255,0.2);
-            font-size: 24px;
-            line-height: 1;
-        }
-        
-        /* 最佳买点 & 危险区高亮 */
-        .heatmap-best { 
-            box-shadow: 0 0 0 3px var(--green) inset; 
-            animation: bestPulse 2s ease-in-out infinite;
-        }
-        
-        .heatmap-danger { 
-            box-shadow: 0 0 0 3px var(--red) inset; 
-        }
-        
-        @keyframes bestPulse {
-            0%, 100% { box-shadow: 0 0 0 3px var(--green) inset; }
-            50% { box-shadow: 0 0 0 5px var(--green) inset, 0 0 15px rgba(63,185,80,0.3); }
-        }
-        .heatmap-danger { box-shadow: 0 0 0 2px var(--red) inset; }
-
-        /* ════════════════ 均线状态灯 ════════════════ */
-        .ma-table-wrap { overflow-x: auto; margin-top: 20px; }
-        .ma-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        .ma-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); padding: 10px 12px; border-bottom: 2px solid var(--border); background: rgba(255,255,255,0.02); }
-        .ma-table td { padding: 10px 12px; border-bottom: 1px solid rgba(48,54,61,0.5); }
-        .ma-table tr:hover td { background: rgba(255,255,255,0.03); }
-        .ma-table .num { text-align: right; font-variant-numeric: tabular-nums; }
-        .ma-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
-        .ma-dot.green { background: var(--green); }
-        .ma-dot.red { background: var(--red); }
-        .ma-dot.gray { background: var(--text-secondary); }
-
-        /* ════════════════ 响应式 ════════════════ */
-        @media (max-width: 1200px) { .overview-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 900px) {
-            .research-grid { grid-template-columns: 1fr; }
-            .overview-grid { grid-template-columns: repeat(2, 1fr); }
-            .heatmap-grid { grid-template-columns: 80px repeat(3, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 28px; }
-            .overview-grid { grid-template-columns: 1fr; }
-            .heatmap-grid { grid-template-columns: 60px repeat(3, 1fr); grid-template-rows: 36px repeat(3, 90px); }
-        }
-
-        /* ═══ 页脚 ═══ */
         footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 24px; text-align: center; font-size: 13px; color: var(--text-secondary); }
         footer a { color: var(--text-secondary); margin: 0 8px; }
     </style>
@@ -312,42 +95,13 @@
         </div>
     </header>
 
-    <!-- Hero -->
     <div class="hero">
-        <h1>全球<span>资产配置</span> · 16核心标的</h1>
-        <div class="hero-subtitle">多资产 · 多行业 · 攻守兼备 · 专业评级体系 · 分析研判 · 观点输出</div>
-        <div class="hero-tags">
-            <span class="hero-tag">🔥 科技成长先锋</span>
-            <span class="hero-tag">💎 价值旗舰(BRK.B)</span>
-            <span class="hero-tag">🏥 医疗防守(LLY)</span>
-            <span class="hero-tag">💰 高股息(SCHD)</span>
-            <span class="hero-tag">🌍 全球分散(VXUS)</span>
-            <span class="hero-tag">💻 半导体(SMH)</span>
-        </div>
+        <h1>每周深度研判 · 全球<span>核心资产</span></h1>
+        <div class="hero-subtitle">6大板块 · 精选标的 · 观点驱动</div>
     </div>
 
-    <div class="main">
-        <!-- 第2段：研报式 Top3 -->
-        <div class="section-title">🏆 本周深度研判 Top 3</div>
-        <div class="research-grid" id="research-grid"></div>
-
-        <!-- 第3段：16标全景看板（带走势图） -->
-        <div class="section-title">📊 16标全景看板</div>
-        <div class="overview-grid" id="overview-grid"></div>
-
-
-
-        <!-- 第5段：均线状态灯 -->
-        <div id="ma-section" style="display:none;">
-            <div class="section-title">⚡ 均线状态灯总览</div>
-            <div class="ma-table-wrap">
-                <table class="ma-table">
-                    <thead><tr><th>代码</th><th>名称</th><th class="num">最新价</th><th class="num">MA20</th><th class="num">MA50</th><th class="num">MA200</th><th>状态</th><th class="num">评分</th></tr></thead>
-                    <tbody id="ma-tbody"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <nav class="sector-nav" id="sector-nav"></nav>
+    <div class="sector-content" id="sector-content"></div>
 
     <footer>
         <p>核心数据源：Yahoo Finance | 股道奇货策略团队独立研判</p>
@@ -357,232 +111,184 @@
         </p>
     </footer>
 
-    <script>
-    const OVERVIEW = {{ overview_data | safe }};
-    const TOP3 = {{ top3_data | safe }};
+<script>
+const OVERVIEW = {{ overview_data | safe }};
+const TOP3 = {{ top3_data | safe }};
 
-    const EXCHANGE_MAP = {
-        'VOO':'AMEX','QQQ':'NASDAQ','IWM':'AMEX','BND':'AMEX','GLD':'AMEX',
-        'SCHD':'AMEX','VXUS':'AMEX','SMH':'AMEX',
-        'NVDA':'NASDAQ','AAPL':'NASDAQ','MSFT':'NASDAQ','GOOGL':'NASDAQ','AMZN':'NASDAQ','META':'NASDAQ',
-        'LLY':'NYSE','BRK.B':'NYSE',
+const EXCHANGE_MAP = {
+    'VOO':'AMEX','QQQ':'NASDAQ','IWM':'AMEX','BND':'AMEX','GLD':'AMEX',
+    'SCHD':'AMEX','VXUS':'AMEX','SMH':'AMEX',
+    'NVDA':'NASDAQ','AAPL':'NASDAQ','MSFT':'NASDAQ','GOOGL':'NASDAQ','AMZN':'NASDAQ','META':'NASDAQ',
+    'LLY':'NYSE','BRK.B':'NYSE',
+};
+
+// 6大板块 → tickers 映射
+const SECTORS = [
+    { id: 'tech',     label: '🔥 科技成长先锋',   tickers: ['NVDA', 'AAPL', 'MSFT'] },
+    { id: 'value',    label: '💎 价值旗舰',       tickers: ['GOOGL', 'AMZN', 'META'] },
+    { id: 'health',   label: '🏥 医疗防守',        tickers: ['LLY', 'BRK.B', 'BND'] },
+    { id: 'dividend', label: '💰 高股息',          tickers: ['SCHD', 'VOO', 'GLD'] },
+    { id: 'global',   label: '🌍 全球分散',        tickers: ['VXUS', 'QQQ', 'IWM'] },
+    { id: 'chip',     label: '💻 半导体',          tickers: ['SMH', 'NVDA', 'AMD'] },
+];
+
+// 研报内容库
+const REPORTS = {
+    'NVDA': { title:'英伟达：AI 算力绝对垄断', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。NVDA 凭借 <em>H100/H200/B200 系列 GPU</em>，在 AI 训练芯片市场占据约 80%+ 份额，是这轮生成式 AI 浪潮最确定的受益者。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。近期运行区间 $${d.lo.toFixed(0)}-$${d.hi.toFixed(0)}，回撤 ${d.drawdown}%。Blackwell 架构芯片需求超预期，CoWoS 封装产能是核心瓶颈。`, viewFn:d=>`<em>AI 算力需求远未见顶</em>——2025-2026 年各大云厂商（微软/谷歌/亚马逊/Meta）资本支出持续创历史新高，直接拉动 GPU 订单。数据中心业务已超越游戏成为 NVDA 第一大收入来源，估值逻辑正在从「显卡公司」切换为「AI Infrastructure」。` },
+    'AAPL': { title:'苹果：生态护城河+AI手机换机潮', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。Apple 凭借 <em>iOS 生态粘性 + 服务收入持续高增长</em>，是美股最具防御性的科技巨头之一。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。iPhone 16 系列搭载 Apple Intelligence，<strong>AI 手机换机潮</strong>有望在 2025-2026 年集中释放，成为业绩核心催化剂。`, viewFn:d=>`<em>服务收入（App Store/Apple TV+/iCloud）毛利率高达 70%+</em>，是 Apple 的「现金牛」。随着 AI 功能推动换机周期缩短，硬件收入也有望迎来复苏。当前估值处于历史中位数附近，长线具备配置价值。` },
+    'MSFT': { title:'微软：Copilot AI 商业化领头羊', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>Azure 云计算 + GitHub Copilot + Microsoft 365 Copilot</em> 三引擎驱动，微软是 AI 商业化落地最成功的科技巨头。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。Azure 市场份额稳步提升（vs 亚马逊 AWS），AI 需求驱动微软 CAPEX 创历史新高，OpenAI 深度绑定是独家优势。`, viewFn:d=>`<em>Microsoft 365 Copilot ARPU 提升逻辑清晰</em>，企业级 AI 渗透率仍处早期。2025 财年业绩指引持续上调，长期看好。风险点：AI 投入回报周期不确定，短期估值偏高。` },
+    'GOOGL': { title:'谷歌：搜索+云+AI 一体化布局', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。Google 拥有 <em>搜索（90%+ 份额）+ GCP 云服务 + Gemini AI</em> 三位一体布局，广告业务稳健，AI 正在重塑竞争格局。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。Gemini 大模型正在整合进搜索、Workspace、Android 全产品线，YouTube 广告收入持续增长。`, viewFn:d=>`<em>GCP 增速领跑云市场</em>（AWS/Azure/Google Cloud 中增速最快），AI 差异化竞争在于自有算力+TPU芯片。长线价值被市场低估，Pandora's Box（反垄断风险）是主要风险。` },
+    'AMZN': { title:'亚马逊：电商+AWS 双王炸', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>AWS（全球最大公有云）+ 电商（FBA 生态）</em>，亚马逊是美股最稳健的成长股之一。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。AWS 利润触底反弹（2023年裁员降本），AI 工作负载驱动云需求复苏，广告业务成为新增长极。`, viewFn:d=>`<em>亚马逊的飞轮效应：更多卖家→更多商品→更多用户→更多数据→更精准推荐→更多广告收入</em>。AWS AI CapEx 爆发直接利好，2025 年估值具备吸引力。` },
+    'META': { title:'Meta：AI+元宇宙双线并进', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>Facebook/Instagram/Reels + Llama 大模型 + 元宇宙</em>，Meta 是全球社交广告的绝对王者。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。Reels 货币化率持续提升，AI 推荐引擎显著改善用户时长，Llama 开源生态加速商业化。`, viewFn:d=>`<em>Threads 月活超 2 亿，商业化加速</em>。AI 驱动广告 ROI 提升，2025 年有望继续超预期。风险：欧盟监管+元宇宙持续烧钱（但已大幅削减）。` },
+    'LLY': { title:'礼来：GLP-1 双寡头之一', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。作为 <em>GLP-1 减肥/糖尿病双赛道绝对龙头</em>，礼来凭借 Zepbound® 和 Mounjaro® 双引擎驱动，2025-2026 年营收增速持续领跑。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。GLP-1 市场远未触顶——双寡头格局至少维持至 2028 年，估值偏高但成长性匹配。`, viewFn:d=>`<em>关键催化剂：Zepbound 减肥适应症扩展 + 口服版 GLP-1 + 中国区放量</em>。风险：估值PE 40x+，政策压力。适合高风险偏好长线持有。` },
+    'BRK.B': { title:'伯克希尔：价值投资的永恒旗帜', summaryFn:d=>`当前股价 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>巴菲特执掌</em>，保险+投资双轮驱动，是穿越牛熊的终极防御型标的。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率极低（<strong>${d.vol.toFixed(1)}%</strong>）。伯克希尔股价与经济周期低相关，手握超 1500 亿美元现金等待机会，是「下跌时最抗跌的股票」。`, viewFn:d=>`<em>巴菲特最新持仓：大幅加仓能源（日本五大商事）+ 西方石油+苹果持仓</em>。在当前高利率环境下，BRK.B 的保险浮存金业务反而受益。适合保守型投资者作为核心底仓。` },
+    'BND': { title:'Vanguard 全市场债券 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国综合债券市场</em>，是所有资产配置组合的「稳定器」。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率仅 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。债券与股票相关性低，在美股高波动时期具备对冲价值。美联储降息预期下，债券价格有望反弹。`, viewFn:d=>`<em>BND 是组合的「压艙石」</em>——建议任何持仓组合中至少配置 10-20% 债券 ETF。当前债券收益率处于多年高点，长端利率下行趋势确立，债券已迎来战略性配置窗口。` },
+    'VOO': { title:'Vanguard 标普 500 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国大盘股核心指数</em>，代表 S&P 500，是全球被动投资首选。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>。VOO 手续费率仅 0.03%/年，50年复利效应显著——相当于免费获取美国经济整体增长。`, viewFn:d=>`<em>标普500≈美国经济晴雨表</em>。长期定投 VOO 是普通人分享资本市场红利的最优解。当前估值处于历史中偏高，但优质资产值得持有。` },
+    'QQQ': { title:'Invesco 纳指 100 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>纳斯达克 100 指数</em>，科技股集中地（NVDA+AAPL+MSFT+GOOGL+META+AMZN 权重>45%）。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。QQQ 本质是「美国科技 Beta」——买 QQQ = 押注 AI 算力+云计算+数字广告三大趋势。`, viewFn:d=>`<em>纳指 100 的超额收益来自质量因子</em>：自动剔除弱势标的，每季度优胜劣汰。AI 时代 NVDA/META/GOOGL 领涨格局清晰，QOQ 是科技多头的核心工具。` },
+    'IWM': { title:'IWM 罗素 2000 小盘股 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国小盘股风向标</em>，高弹性高Beta，是经济复苏的「先锋信号」。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。小盘股对经济周期最敏感——<strong>降息周期开启时</strong>，IWM 通常领先大盘 3-6 个月启动行情。`, viewFn:d=>`<em>历史规律：Fed降息后小盘股往往跑赢大盘 20%+</em>。若美国经济软着陆，IWM 是最具性价比的进攻型工具。当前估值处于历史底部，赔率吸引。` },
+    'GLD': { title:'SPDR 黄金 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>实物黄金追踪</em>，是「乱世黄金」逻辑的终极载体。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。黄金与股票/债券相关性极低，是组合对冲的不二之选。央行购金+美元走弱+地缘风险三重利好共振。`, viewFn:d=>`<em>2024-2025 年黄金创历史新高</em>：各国央行（尤其是中国/印度/波兰）持续增持，美联储降息预期利好金价。地缘风险（俄乌/中东）长期化，黄金配置价值凸显。` },
+    'SCHD': { title:'Schwab 高股息 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>美国高股息价值股精选组合</em>（约 100 只），专注股息增长和质量，是存续型投资者的最爱。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率仅 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。SCHD 股息率约 3.5-4%，且连续 10+ 年股息增长，「股利贵族」策略长期有效。`, viewFn:d=>`<em>价值股在美联储降息周期通常跑赢成长股</em>。SCHD 持仓（KO/JNJ/PG/PEP 等）兼具防御性和股息增长，适合退休组合或稳健型账户。` },
+    'VXUS': { title:'Vanguard 全球除美 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>全球发达市场（除美国）</em>，欧洲+日本+英国+加拿大+澳大利亚等约 20+ 国家，覆盖 9000+ 只股票。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>。VXUS 是「全球分散」的最佳工具——降低单一市场风险，同时捕捉欧/日/新兴市场复苏机会。`, viewFn:d=>`<em>欧洲/日本股市估值显著低于美股</em>（日经225除外）。欧洲央行降息+日本企业治理改革（半导体重估）+新兴市场消费升级——VXUS 在美股高估时提供天然对冲。` },
+    'SMH': { title:'VanEck 半导体 ETF', summaryFn:d=>`当前价格 <strong>$${d.price.toFixed(2)}</strong>，周涨跌 <strong>${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</strong>。<em>全球半导体龙头集中营</em>（NVDA+ASML+TSMC+AMD+INTC 权重>60%），是 AI 算力革命最直接的 ETF 工具。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。SMH 本质是「半导体行业 Beta」——买 SMH = 买全球芯片产业链。`, viewFn:d=>`<em>AI 推理侧芯片需求爆发——2025 年算力芯片短缺持续</em>。TSMC 3nm/2nm 产能被苹果/NVDA/AMD/高通抢空，半导体上行周期未完。SMH 是高风险偏好者的科技进攻利器。` },
+    'AMD': { title:'AMD：GPU 第二极崛起', summaryFn:d=>`MI300X 异军突起，正在 NVIDIA 垄断的 AI 训练芯片市场撕开一道口子。`, analysisFn:d=>`年化回报率 <strong>${d.ret.toFixed(1)}%</strong>，波动率极高 <strong>${d.vol.toFixed(1)}%</strong>（${d.volLevel}）。AMD GPU 在推理市场已具备竞争力（成本优势），MI300X 出货量超预期。`, viewFn:d=>`<em>AMD 是 AI 芯片格局的「颠覆变量」</em>——若 MI350/MI400 系列追赶上 NVDA，估值重估空间巨大。但竞争不确定性也高，属于高风险高回报标的。` },
+};
+
+function safeNum(v, fb=0) { const n=Number(v); return isNaN(n)?fb:n; }
+function safeStr(v) { return v===undefined||v===null?'':String(v); }
+function safeStars(n) { const s=Math.round(safeNum(n,0)); return Math.max(0,Math.min(5,s)); }
+
+function statusBadge(ms) {
+    const m={
+        "多头排列":'<span class="status-badge bullish">🟢 强劲牛市</span>',
+        "偏多":'<span class="status-badge neutral-bull">🟡 震荡蓄势</span>',
+        "中性":'<span class="status-badge neutral-bear">🟠 风险警示</span>',
+        "偏空":'<span class="status-badge neutral-bear">🟠 风险警示</span>',
+        "空头压制":'<span class="status-badge bearish">🔴 趋势走弱</span>',
     };
+    return m[ms]||'<span class="status-badge neutral-bear">⚪ 未知</span>';
+}
 
-    function safeNum(v, fb=0) { const n=Number(v); return isNaN(n)?fb:n; }
-    function safeStr(v) { return v===undefined||v===null?'':String(v); }
-    function safeStars(n) { const s=Math.round(safeNum(n,0)); return Math.max(0,Math.min(5,s)); }
+function buildSparklineSVG(prices, w=340, h=130) {
+    if (!prices || prices.length < 2) return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><text x="${w/2}" y="${h/2}" text-anchor="middle" fill="#555" font-size="12">暂无数据</text></svg>`;
+    const min=Math.min(...prices), max=Math.max(...prices), range=max-min||1;
+    const pad=8;
+    const pts=prices.map((p,i)=>{const x=pad+(i/(prices.length-1))*(w-2*pad);const y=h-pad-((p-min)/range)*(h-2*pad);return`${x},${y}`}).join(' ');
+    const areaPts=`${pad},${h-pad} ${pts} ${w-pad},${h-pad}`;
+    const lastPrice=prices[prices.length-1], firstPrice=prices[0];
+    const chgPct=((lastPrice-firstPrice)/firstPrice*100).toFixed(2);
+    const lc=lastPrice>=firstPrice?'#3fb950':'#f85149';
+    const fc=lastPrice>=firstPrice?'rgba(63,185,80,0.12)':'rgba(248,81,73,0.12)';
+    return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <defs><linearGradient id="gd" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="${fc}"/><stop offset="100%" stop-color="transparent"/></linearGradient></defs>
+        <polygon points="${areaPts}" fill="url(#gd)"/>
+        <polyline points="${pts}" fill="none" stroke="${lc}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="${pad+(prices.length-1)/(prices.length-1)*(w-2*pad)}" cy="${h-pad-((lastPrice-min)/range)*(h-2*pad)}" r="3.5" fill="${lc}" stroke="#0d1117" stroke-width="1.5"/>
+        <text x="${w-4}" y="14" text-anchor="end" fill="${lc}" font-size="11" font-weight="600">${chgPct>0?'+':''}${chgPct}%</text>
+    </svg>`;
+}
 
-    function statusBadge(ms) {
-        const m={"多头":'<span class="status-badge bullish">🟢 强劲牛市</span>',"偏多":'<span class="status-badge neutral-bull">🟡 震荡蓄势</span>',"中性":'<span class="status-badge neutral-bear">🟠 风险警示</span>',"偏空":'<span class="status-badge neutral-bear">🟠 风险警示</span>',"空头":'<span class="status-badge bearish">🔴 趋势走弱</span>'};
-        return m[ms]||'<span class="status-badge neutral-bear">⚪ 未知</span>';
-    }
+function getReportData(ticker, o) {
+    const price=safeNum(o.latest_close);
+    const chg=safeNum(o.change_pct);
+    const ret=safeNum(o.annual_return);
+    const vol=safeNum(o.volatility);
+    const score=safeNum(o.score);
+    const stars=safeStars(o.stars);
+    const dp=safeNum(o.data_points);
+    const hi=safeNum(o.high), lo=safeNum(o.low);
+    const history=(o.price_history||[]).map(p=>p.close);
+    const drawdown=hi>lo?((hi-lo)/hi*100).toFixed(1):'0.0';
+    const volLevel=vol>30?'极高':vol>25?'较高':vol>18?'适中':vol<12?'偏低':'正常';
+    const rpt=REPORTS[ticker]||REPORTS[Object.keys(REPORTS)[0]];
+    return {
+        price,chg,ret,vol,score,stars,dp,hi,lo,drawdown,volLevel,history,
+        title:rpt.title,
+        summary:rpt.summaryFn({price,chg,ret,vol,volLevel,dp,hi,lo,drawdown,score,stars}),
+        analysis:rpt.analysisFn({price,chg,ret,vol,volLevel,dp,hi,lo,drawdown,score,stars}),
+        view:rpt.viewFn({price,chg,ret,vol,volLevel,dp,hi,lo,drawdown,score,stars}),
+        verdict:score>=70?'🟢 核心持仓级':score>=50?'🟡 积极关注':'🔴 观望等待',
+    };
+}
 
-    function getLinks(ticker) {
-        const ex = EXCHANGE_MAP[ticker]||'NASDAQ';
-        return { tradingview:`https://www.tradingview.com/symbols/${ex}-${ticker}/`, seekingalpha:`https://seekingalpha.com/symbol/${ticker}`, yahoo:`https://finance.yahoo.com/quote/${ticker}/` };
-    }
-
-    // ═══ SVG 迷你走势图生成器 ═══
-    function buildSparklineSVG(prices, w=280, h=130, color='#58a6ff', fillOpacity=0.12) {
-        if (!prices || prices.length < 2) return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg"><text x="${w/2}" y="${h/2}" text-anchor="middle" fill="#555" font-size="12">暂无数据</text></svg>`;
-        const min = Math.min(...prices), max = Math.max(...prices);
-        const range = max - min || 1;
-        const pad = 8;
-        const pts = prices.map((p,i) => {
-            const x = pad + (i/(prices.length-1))*(w-2*pad);
-            const y = h-pad-((p-min)/range)*(h-2*pad);
-            return `${x},${y}`;
-        }).join(' ');
-        const areaPts = `${pad},${h-pad} ${pts} ${w-pad},${h-pad}`;
-        const lastPrice = prices[prices.length-1];
-        const firstPrice = prices[0];
-        const chgPct = ((lastPrice-firstPrice)/firstPrice*100).toFixed(2);
-        const lineColor = lastPrice >= firstPrice ? '#3fb950' : '#f85149';
-        const fillColor = lastPrice >= firstPrice ? 'rgba(63,185,80,'+fillOpacity+')' : 'rgba(248,81,73,'+fillOpacity+')';
-        return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <defs><linearGradient id="grad-${Math.random().toString(36).substr(2,6)}" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="${fillColor}"/><stop offset="100%" stop-color="${fillColor.replace(fillOpacity,'0')}"/></linearGradient></defs>
-            <polygon points="${areaPts}" fill="${fillColor}" />
-            <polyline points="${pts}" fill="none" stroke="${lineColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="${pad+(prices.length-1)/(prices.length-1)*(w-2*pad)}" cy="${h-pad-((lastPrice-min)/range)*(h-2*pad)}" r="3.5" fill="${lineColor}" stroke="#0d1117" stroke-width="1.5"/>
-            <text x="${w-4}" y="14" text-anchor="end" fill="${lineColor}" font-size="11" font-weight="600">${chgPct>0?'+':''}${chgPct}%</text>
-        </svg>`;
-    }
-
-    // ═══ 小型 Sparkline (用于 Overview 卡片) ═══
-    function buildMiniSpark(prices, w=200, h=60) {
-        if (!prices || prices.length < 2) return '';
-        const min=Math.min(...prices), max=Math.max(...prices), range=max-min||1;
-        const p=4;
-        const pts=prices.map((v,i)=>{const x=p+(i/(prices.length-1))*(w-2*p);const y=h-p-((v-min)/range)*(h-2*p);return`${x},${y}`}).join(' ');
-        const lc=prices[prices.length-1]>=prices[0]?'#3fb950':'#f85149';
-        return `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="${lc}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    }
-
-    // ═══ 研报内容生成器（基于真实数据 + 专业分析） ═══
-    function generateResearch(ticker, data) {
-        const price = safeNum(data.latest_close);
-        const chg = safeNum(data.change_pct);
-        const ret = safeNum(data.annual_return);
-        const vol = safeNum(data.volatility);
-        const score = safeNum(data.score);
-        const stars = safeStars(data.stars);
-        const dp = safeNum(data.data_points);
-        const maStatus = data.ma_status || '中性';
-        const hi = safeNum(data.high), lo = safeNum(data.low);
-
-        // 价格历史用于生成走势图
-        const history = (data.price_history || []).map(p => p.close);
-        const sparkSVG = buildSparklineSVG(history, 340, 140);
-
-        // 周波动率评估
-        const volLevel = vol > 30 ? '极高' : vol > 25 ? '较高' : vol > 18 ? '适中' : vol < 12 ? '偏低' : '正常';
-        const riskTag = vol > 30 ? '⚠️ 高波动警告' : vol > 20 ? '⚡ 中等波动' : '✅ 波动可控';
-
-        // 回撤估算
-        const drawdown = hi > lo ? (((hi-lo)/hi)*100).toFixed(1) : '0.0';
-
-        // 根据不同标的定制研报内容
-        const reports = {
-            'LLY': {
-                title: '礼来制药：GLP-1 双寡头之一',
-                summary: `当前股价 $${price.toFixed(2)}，周涨跌 <strong>${chg>=0?'+':''}${chg.toFixed(2)}%</strong>。作为<em>GLP-1 减肥/糖尿病双赛道绝对龙头</em>，礼来凭借 Zepbound® 和 Mounjaro® 双引擎驱动，2025-2026 年营收增速持续领跑医药板块。`,
-                analysis: `从技术面看，近期在 $${lo.toFixed(0)}-$${hi.toFixed(0)} 区间震荡整理。年化回报率 <strong>${ret.toFixed(1)}%</strong>，但波动率高达 <strong>${vol.toFixed(1)}%</strong>（${volLevel}），属于<strong>高成长高波动</strong>品种。近 ${dp} 个交易日数据显示，阶段性回撤约 ${drawdown}%，对于长线投资者而言是合理的估值消化期。`,
-                view: `GLP-1 市场远未触顶——诺和诺德(NVO)与礼来的双寡头格局至少维持至 2028 年。关键催化剂包括：<em>Zepbound 减肥适应症扩展、口服版 GLP-1 进度、中国区放量</em>。风险点在于估值偏高（PE 常驻 40x+）及潜在的政策压力。`,
-                case: `案例参考：2024 年 Q3 礼来上调全年营收指引后单日涨幅超 10%，显示市场对 GLP-1 需求的极度敏感。类似逻辑可复现于每次临床数据发布或 FDA 审批节点。`,
-                verdict: score >= 70 ? '🟢 核心持仓级 — 长线坚定持有' : score >= 50 ? '🟡 积极关注 — 回调分批建仓' : '🔴 观望 — 等待更好入场点',
-            },
-            'QQQ': {
-                title: 'Invesco QQQ：纳指 100 科技旗舰',
-                summary: `QQQ 当前 $${price.toFixed(2)}，周变动 <strong>${chg>=0?'+':''}${chg.toFixed(2)}%</strong>。<em>纳斯达克 100 指数</em>是美国科技股的核心载体，权重集中于 AAPL/MSFT/NVDA/META/GOOGL/AMZN 六大巨头（占比超 45%）。`,
-                analysis: `年化收益 <strong>${ret.toFixed(1)}%</strong>，波动率 <strong>${vol.toFixed(1)}%</strong>（${volLevel}）。QQQ 的本质是<strong>美国科技 Beta</strong>——买 QQQ 等于押注 AI 算力需求持续扩张 + 云计算渗透率提升 + 数字广告复苏三大趋势共振。近 ${dp} 日区间 $${lo.toFixed(0)}-$${hi.toFixed(0)}，回撤 ${drawdown}%。`,
-                view: `纳指 100 的结构性优势在于<strong>质量筛选机制</strong>：每季度调仓剔除弱势标的，自动实现优胜劣汰。历史回测表明，QQQ 在科技牛市的超额收益显著，但在利率快速上行周期中回撤也更深（如 2022 年 -33%）。当前宏观环境（Fed 降息预期 + AI CapEx 加速）对 QQQ 形成利好支撑。`,
-                case: `案例：2023 年初至今 QQQ 累计涨幅超 80%，核心驱动力即 NVDA/AI 算力链。对比同期 SPY 约 30% 的涨幅，科技 Alpha 效应极其明显。`,
-                verdict: score >= 70 ? '🟢 战略核心仓 — 科技多头标配' : score >= 50 ? '🟡 配置仓位 — 定投优于一次性买入' : '🔴 降低仓位 — 等待 tech correction',
-            },
-            'IWM': {
-                title: 'IWM：罗素 2000 小盘股风向标',
-                summary: `IWM 报价 $${price.toFixed(2)}，周涨跌 <strong>${chg>=0?'+':''}${chg.toFixed(2)}%</strong>。追踪<em>罗素 2000 指数</em>，覆盖美股市值排名 1001-3000 的小盘公司，是美国经济"毛细血管"的温度计。`,
-                analysis: `年化回报 <strong>${ret.toFixed(1)}%</strong>，波动率 <strong>${vol.toFixed(1)}%</strong>（${volLevel}）。小盘股的特征鲜明：<strong>高 Beta + 高弹性</strong>——牛市跑赢大盘，熊市跌幅更深。当前区间 $${lo.toFixed(0)}-$${hi.toFixed(0)}，阶段回撤 ${drawdown}%。`,
-                view: `IWM 的投资逻辑建立在两个前提上：<strong>① 美国经济软着陆 / 避免衰退</strong>（小盘对经济周期更敏感）；<strong>② 利率下行周期开启</strong>（小盘公司债务成本更高，降息直接改善盈利）。若这两者成立，IWM 具备显著的补涨空间——历史上小盘股在降息初期通常领先大盘 3-6 个月启动行情。`,
-                case: `历史案例：2003 年 Fed 开始降息后，罗素 2000 在随后 12 个月内跑赢 S&P 500 近 20 个百分点。类似的模式在 2020 年疫情复苏期间也曾出现。`,
-                verdict: score >= 70 ? '🟢 周期进攻型配置 — 降息受益标的' : score >= 50 ? '🟡 卫星仓位 — 小比例参与' : '🔴 规避 — 经济不确定性高时回避',
-            },
-        };
-
-        const rpt = reports[ticker] || {
-            title: `${ticker}: 综合评估`,
-            summary: `当前报价 $${price.toFixed(2)}，周涨跌 <strong>${chg>=0?'+':''}${chg.toFixed(2)}%</strong>。年化收益 ${ret.toFixed(1)}%，波动率 ${vol.toFixed(1)}%（${volLevel}）。`,
-            analysis: `近 ${dp} 个交易日运行区间 $${lo.toFixed(0)}-$${hi.toFixed(0)}，阶段最大回撤约 ${drawdown}%。综合评分 ${score}/100（${'⭐'.repeat(stars)}${'☆'.repeat(5-stars)}），趋势判定为「${maStatus}」。`,
-            view: `基于当前技术指标和基本面数据，该标的处于${score>=60?'相对合理':'需谨慎观察'}的估值水平。建议结合自身风险偏好和持仓周期进行决策。`,
-            case: '',
-            verdict: score >= 70 ? '🟢 推荐 — 符合核心持仓标准' : score >= 50 ? '🟡 观察 — 可少量配置' : '🔴 观望 — 暂不建议介入',
-        };
-
-        return { ...rpt, sparkSVG, price, chg, ret, vol, score, stars, dp, drawdown, maStatus, riskTag };
-    }
-
-    // ═══ 渲染：研报式 Top3 ═══
-    function renderResearch() {
-        const grid = document.getElementById('research-grid');
-        if (!grid || !TOP3 || !TOP3.length) { if(grid) grid.innerHTML='<div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:40px;">暂无数据</div>'; return; }
-
-        grid.innerHTML = TOP3.map((r, i) => {
-            const d = generateResearch(r.ticker, r);
-            const links = getLinks(r.ticker);
-            return `
-            <div class="research-card">
-                <div class="research-chart-area">${d.sparkSVG}</div>
-                <div class="research-body">
-                    <div class="research-header">
-                        <div class="research-ticker-group">
-                            <div class="research-ticker">${safeStr(r.ticker)}</div>
-                            <div class="research-name">${d.title.split('：')[0]}</div>
-                        </div>
-                        <div class="research-score-badge">
-                            <div class="research-score-val">${d.score.toFixed(0)}</div>
-                            <div class="research-score-label">综合评分</div>
-                        </div>
+function renderSectorPanel(sector) {
+    const cards = sector.tickers.map(ticker => {
+        const o = OVERVIEW.find(x=>x.ticker===ticker);
+        if (!o) return '';
+        const d = getReportData(ticker, o);
+        const sparkSVG = buildSparklineSVG(d.history);
+        const name = o.name || ticker;
+        return `
+        <div class="research-card">
+            <div class="research-chart-area">${sparkSVG}</div>
+            <div class="research-body">
+                <div class="research-header">
+                    <div>
+                        <div class="research-ticker">${ticker}</div>
+                        <div class="research-name">${d.title}</div>
                     </div>
-                    <div class="research-stars">${'⭐'.repeat(d.stars)}${'☆'.repeat(5-d.stars)}</div>
-                    <div class="research-content">
-                        <p style="margin-bottom:10px;">${d.summary}</p>
-                        <div class="research-highlight">
-                            <div class="hl-label">📊 深度分析</div>
-                            ${d.analysis}
-                        </div>
-                        <p style="margin-top:10px;"><strong>🎯 投资观点：</strong>${d.view}</p>
-                        ${d.case ? `<p style="margin-top:8px;font-size:12.5px;color:var(--text-secondary);"><em>📌 ${d.case}</em></p>` : ''}
-                    </div>
-                    <div class="research-metrics">
-                        <div class="research-metric"><div class="research-metric-val ${d.chg>=0?'up':'down'}">$${d.price.toFixed(2)}</div><div class="research-metric-label">最新价</div></div>
-                        <div class="research-metric"><div class="research-metric-val ${d.chg>=0?'up':'down'}">${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</div><div class="research-metric-label">周涨跌</div></div>
-                        <div class="research-metric"><div class="research-metric-val" style="color:var(--gold);">${d.drawdown}%</div><div class="research-metric-label">区间回撤</div></div>
+                    <div style="text-align:right;">
+                        <div class="research-score-val">${d.score.toFixed(0)}</div>
+                        <div class="research-score-label">综合评分</div>
                     </div>
                 </div>
-                <div class="research-footer">
-                    <div style="font-size:12px;color:var(--text-secondary);font-weight:600;">${d.verdict}</div>
-                    <div class="research-links">
-                        <a class="research-link-btn" href="${links.tradingview}" target="_blank">📈 图表</a>
-                        <a class="research-link-btn" href="${links.seekingalpha}" target="_blank">📰 研报</a>
-                        <a class="research-link-btn" href="/${r.ticker.toLowerCase()}/">详情 →</a>
+                <div class="research-stars">${'⭐'.repeat(d.stars)}${'☆'.repeat(5-d.stars)}</div>
+                <div class="research-content">
+                    <p style="margin-bottom:8px;">${d.summary}</p>
+                    <div class="research-highlight">
+                        <div class="hl-label">📊 深度分析</div>
+                        ${d.analysis}
                     </div>
+                    <p style="margin-top:8px;"><strong>🎯 投资观点：</strong>${d.view}</p>
                 </div>
-            </div>`;
-        }).join('');
-    }
-
-    // ═══ 渲染：全景看板（带迷你走势图） ═══
-    function renderOverview() {
-        const grid = document.getElementById('overview-grid');
-        if (!grid) return;
-
-        const sorted = [...OVERVIEW];
-        const vooIdx = sorted.findIndex(o => o.ticker === 'VOO');
-        if (vooIdx > -1) { const [v] = sorted.splice(vooIdx, 1); sorted.unshift(v); }
-
-        grid.innerHTML = sorted.map(o => {
-            const t = safeStr(o.ticker);
-            const chg = safeNum(o.change_pct);
-            const chgCls = chg >= 0 ? 'up' : 'down';
-            const stars = safeStars(o.stars);
-            const price = safeNum(o.latest_close);
-            const history = (o.price_history || []).map(p => p.close);
-            const miniSpark = buildMiniSpark(history, 200, 60);
-            const links = getLinks(t);
-            const ms = o.ma_status || '中性';
-            return `
-            <a href="/${t.toLowerCase()}/" style="text-decoration:none;color:inherit;display:block;">
-                <div class="overview-sparkline">${miniSpark||'<div style="color:#333;font-size:10px;padding-top:24px;">--</div>'}</div>
-                <div class="overview-info">
-                    <div class="overview-header">
-                        <div><div class="overview-ticker">${t}</div><div class="overview-name">${safeStr(o.name)}</div></div>
-                        <div class="overview-price"><div class="overview-price-val">$${price.toFixed(2)}</div><div class="overview-change ${chgCls}">${chg>=0?'+':''}${chg.toFixed(2)}%</div></div>
-                    </div>
-                    <div class="overview-stars">${'⭐'.repeat(stars)}${'☆'.repeat(5-stars)}</div>
-                    <div class="overview-status">${statusBadge(ms)}</div>
+                <div class="research-metrics">
+                    <div class="research-metric"><div class="research-metric-val">$${d.price.toFixed(2)}</div><div class="research-metric-label">最新价</div></div>
+                    <div class="research-metric"><div class="research-metric-val ${d.chg>=0?'up':'down'}">${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</div><div class="research-metric-label">周涨跌</div></div>
+                    <div class="research-metric"><div class="research-metric-val" style="color:var(--gold);">${d.drawdown}%</div><div class="research-metric-label">区间回撤</div></div>
                 </div>
-            </a>`;
-        }).join('');
-    }
+            </div>
+            <div class="research-footer">
+                <div style="font-size:12px;color:var(--text-secondary);font-weight:600;">${d.verdict}</div>
+                <a class="research-link-btn" href="/${ticker.toLowerCase()}/">📋 详情 →</a>
+            </div>
+        </div>`;
+    }).join('');
+    return `<div class="section-label">${sector.label} · 本周精选</div><div class="research-grid">${cards}</div>`;
+}
 
-    // ═══ 渲染：均线表 ═══
-    function renderMATable() {
-        const sec=document.getElementById('ma-section'), tbody=document.getElementById('ma-tbody');
-        const valid=OVERVIEW.filter(o=>o.ma20&&o.ma50&&o.ma200);
-        if(valid.length===0){sec.style.display='none';return;}
-        sec.style.display='block';
-        tbody.innerHTML=valid.map(o=>{
-            const dot=v=>o.latest_close>v?'<span class="ma-dot green"></span>':'<span class="ma-dot red"></span>';
-            const l=getLinks(o.ticker);
-            return `<tr><td><a href="${l.tradingview}" target="_blank" style="font-weight:600;color:var(--gold);">${o.ticker} ↗</a></td><td>${o.name}</td><td class="num">$${o.latest_close.toFixed(2)}</td><td class="num">${dot(o.ma20)} $${o.ma20.toFixed(2)}</td><td class="num">${dot(o.ma50)} $${o.ma50.toFixed(2)}</td><td class="num">${dot(o.ma200)} $${o.ma200.toFixed(2)}</td><td>${statusBadge(o.ma_status)}</td><td class="num" style="font-weight:700;">${o.score?o.score.toFixed(0):'-'}</td></tr>`;
-        }).join('');
-    }
+function initSectors() {
+    const nav = document.getElementById('sector-nav');
+    const content = document.getElementById('sector-content');
 
-    // ═══ 启动 ═══
-    function safeRender(fn,name){try{fn();}catch(e){console.error(`[${name}]`,e);}}
-    safeRender(renderResearch, 'renderResearch');
-    safeRender(renderOverview, 'renderOverview');
-    safeRender(renderMATable, 'renderMATable');
-    </script>
+    // 渲染按钮
+    nav.innerHTML = SECTORS.map(s =>
+        `<button class="sector-btn" data-id="${s.id}">${s.label}</button>`
+    ).join('');
+
+    // 渲染内容面板
+    content.innerHTML = SECTORS.map(s =>
+        `<div class="sector-panel" id="panel-${s.id}">${renderSectorPanel(s)}</div>`
+    ).join('');
+
+    // 默认展开第一个板块
+    let activeId = SECTORS[0].id;
+    document.querySelector(`.sector-btn[data-id="${activeId}"]`).classList.add('active');
+    document.getElementById(`panel-${activeId}`).classList.add('active');
+
+    // 点击事件
+    nav.addEventListener('click', e => {
+        const btn = e.target.closest('.sector-btn');
+        if (!btn) return;
+        const id = btn.dataset.id;
+        if (id === activeId) return;
+        document.querySelectorAll('.sector-btn').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.sector-panel').forEach(p=>p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`panel-${id}`).classList.add('active');
+        activeId = id;
+    });
+}
+
+try { initSectors(); } catch(e) { console.error('[initSectors]', e); }
+</script>
 </body>
 </html>
