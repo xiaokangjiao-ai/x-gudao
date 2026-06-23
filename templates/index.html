@@ -375,38 +375,80 @@ function renderSectorPanel(sector) {
             </div>
         </div>`}).join('');
     
-    // A股卡片
+    // A股卡片（从OVERVIEW获取实时数据）
     const aShareCards = (sector.aShares || []).map(code => {
+        const o = OVERVIEW.find(x=>x.ticker===code);
         const info = ASHARES[code] || {};
+        if (!o) {
+            // 无数据时显示占位符
+            return `
+            <div class="research-card" style="border-color:rgba(239,68,68,0.25);">
+                <div class="research-chart-area" style="background:linear-gradient(160deg,#1a0a0a 0%,#0d1220 100%);">
+                    <div style="text-align:center;color:#ef4444;font-size:48px;opacity:0.3;">🇨🇳</div>
+                </div>
+                <div class="research-body">
+                    <div class="research-header">
+                        <div>
+                            <div class="research-ticker" style="background:linear-gradient(135deg,#ef4444,#dc2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${code}</div>
+                            <div class="research-name">🇨🇳 ${info.name || 'A股标的'}</div>
+                        </div>
+                        <div class="score-wrap">
+                            <div class="research-score-val" style="color:#ef4444;">--</div>
+                            <div class="research-score-label">暂无数据</div>
+                        </div>
+                    </div>
+                    <div class="research-stars">☆☆☆☆☆</div>
+                    <div class="research-content">
+                        <p>${info.view || 'A股市场核心标的，数据接入中...'}</p>
+                    </div>
+                    <div class="research-metrics">
+                        <div class="research-metric"><div class="research-metric-val">--</div><div class="research-metric-label">最新价</div></div>
+                        <div class="research-metric"><div class="research-metric-val">--</div><div class="research-metric-label">周涨跌</div></div>
+                        <div class="research-metric"><div class="research-metric-val" style="color:#ef4444;">--</div><div class="research-metric-label">区间回撤</div></div>
+                    </div>
+                </div>
+                <div class="research-footer">
+                    <div class="verdict-tag wait">🔴 数据接入中</div>
+                    <span class="research-link-btn" style="opacity:0.4;cursor:not-allowed;">详情 →</span>
+                </div>
+            </div>`;
+        }
+        // 有数据时显示真实数据
+        const d = getReportData(code, o);
+        const sparkSVG = buildSparklineSVG(d.history);
+        const vClass = d.score>=70?'core':d.score>=50?'watch':'wait';
         return `
         <div class="research-card" style="border-color:rgba(239,68,68,0.25);">
-            <div class="research-chart-area" style="background:linear-gradient(160deg,#1a0a0a 0%,#0d1220 100%);">
-                <div style="text-align:center;color:#ef4444;font-size:48px;opacity:0.3;">🇨🇳</div>
-            </div>
+            <div class="research-chart-area" style="background:linear-gradient(160deg,#1a0a0a 0%,#0d1220 100%);">${sparkSVG}</div>
             <div class="research-body">
                 <div class="research-header">
                     <div>
                         <div class="research-ticker" style="background:linear-gradient(135deg,#ef4444,#dc2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${code}</div>
-                        <div class="research-name">🇨🇳 ${info.name || 'A股标的'}</div>
+                        <div class="research-name">🇨🇳 ${o.name || info.name || 'A股标的'}</div>
                     </div>
                     <div class="score-wrap">
-                        <div class="research-score-val" style="color:#ef4444;">--</div>
-                        <div class="research-score-label">暂无数据</div>
+                        <div class="research-score-val" style="color:#ef4444;">${d.score.toFixed(0)}</div>
+                        <div class="research-score-label">评分</div>
                     </div>
                 </div>
-                <div class="research-stars">☆☆☆☆☆</div>
+                <div class="research-stars">${'⭐'.repeat(d.stars)}${'☆'.repeat(5-d.stars)}</div>
                 <div class="research-content">
-                    <p>${info.view || 'A股市场核心标的，数据接入中...'}</p>
+                    <p style="margin-bottom:8px;">${d.summary}</p>
+                    <div class="research-highlight">
+                        <div class="hl-label">📊 深度分析</div>
+                        ${d.analysis}
+                    </div>
+                    <p style="margin-top:8px;"><strong>🎯 投资观点：</strong>${d.view}</p>
                 </div>
                 <div class="research-metrics">
-                    <div class="research-metric"><div class="research-metric-val">--</div><div class="research-metric-label">最新价</div></div>
-                    <div class="research-metric"><div class="research-metric-val">--</div><div class="research-metric-label">周涨跌</div></div>
-                    <div class="research-metric"><div class="research-metric-val" style="color:#ef4444;">--</div><div class="research-metric-label">区间回撤</div></div>
+                    <div class="research-metric"><div class="research-metric-val">¥${d.price.toFixed(2)}</div><div class="research-metric-label">最新价</div></div>
+                    <div class="research-metric"><div class="research-metric-val ${d.chg>=0?'up':'down'}">${d.chg>=0?'+':''}${d.chg.toFixed(2)}%</div><div class="research-metric-label">周涨跌</div></div>
+                    <div class="research-metric"><div class="research-metric-val" style="color:var(--gold-light);">${d.drawdown}%</div><div class="research-metric-label">区间回撤</div></div>
                 </div>
             </div>
             <div class="research-footer">
-                <div class="verdict-tag wait">🔴 数据接入中</div>
-                <span class="research-link-btn" style="opacity:0.4;cursor:not-allowed;">详情 →</span>
+                <div class="verdict-tag ${vClass}">${d.verdict}</div>
+                <a class="research-link-btn" href="/${code}/">详情 →</a>
             </div>
         </div>`;}).join('');
     
