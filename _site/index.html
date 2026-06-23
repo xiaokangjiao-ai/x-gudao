@@ -75,6 +75,8 @@
 
         /* ── 研报卡片网格 ── */
         .research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+        @media (max-width: 1100px) { .research-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 720px) { .research-grid { grid-template-columns: 1fr; } }
         .research-card {
             background: linear-gradient(145deg, var(--bg-card), rgba(21,28,44,0.7));
             border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;
@@ -178,13 +180,34 @@ const OVERVIEW = [{"ticker": "NVDA", "name": "NVDA", "category": "ETF", "latest_
 const TOP3 = [{"ticker": "LLY", "name": "LLY", "category": "ETF", "latest_close": 736.98, "change_pct": 2.34, "annual_return": 1.84, "volatility": 29.64, "high": 741.05, "low": 706.85, "data_points": 5, "price_history": [{"date": "2026-06-14", "open": 724.8236162632276, "high": 735.9846248841376, "low": 722.7577540965709, "close": 730.2792130254372, "volume": 24229463}, {"date": "2026-06-15", "open": 723.3208342343586, "high": 734.3936969449344, "low": 718.9118574914557, "close": 730.3399923020144, "volume": 23505546}, {"date": "2026-06-16", "open": 715.7166747682969, "high": 717.5996260134606, "low": 706.8475055128685, "close": 710.950743199679, "volume": 19579865}, {"date": "2026-06-17", "open": 720.7979157774256, "high": 727.4358111395851, "low": 716.5144909775848, "close": 720.1466256052211, "volume": 28964593}, {"date": "2026-06-18", "open": 723.3474954711004, "high": 741.0475895400892, "low": 718.551103897835, "close": 736.9766438858979, "volume": 20948117}], "ma20": 0, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 63, "stars": 3}, {"ticker": "QQQ", "name": "Invesco QQQ Trust (纳指100)", "category": "美国科技", "latest_close": 740.62, "change_pct": 2.51, "annual_return": 10.09, "volatility": 28.39, "high": 748.65, "low": 686.37, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 711.54, "high": 712.07, "low": 698.85, "close": 705.88, "volume": 49834549.723967}, {"date": "2026-05-19", "open": 699.81, "high": 706.49, "low": 695.25, "close": 701.53, "volume": 46827529.874472}, {"date": "2026-05-20", "open": 705.29, "high": 713.15, "low": 703.79, "close": 713.15, "volume": 36779222.541155}, {"date": "2026-05-21", "open": 708.99, "high": 717.12, "low": 706.77, "close": 714.51, "volume": 36415360.860435}, {"date": "2026-05-22", "open": 718.07, "high": 722.12, "low": 715.95, "close": 717.54, "volume": 33118575.05345}, {"date": "2026-05-26", "open": 725.96, "high": 731.17, "low": 724.16, "close": 730.28, "volume": 34254692.688505}, {"date": "2026-05-27", "open": 732.96, "high": 733.32, "low": 725.44, "close": 729.45, "volume": 35148674.176195}, {"date": "2026-05-28", "open": 729.73, "high": 736.6, "low": 726.41, "close": 735.6, "volume": 32839952.529603}, {"date": "2026-05-29", "open": 737.84, "high": 741.63, "low": 735.25, "close": 738.31, "volume": 37541668.803944}, {"date": "2026-06-01", "open": 737.04, "high": 745.65, "low": 735.99, "close": 742.74, "volume": 33890559.792122}, {"date": "2026-06-02", "open": 742.4, "high": 746.44, "low": 739.23, "close": 746.16, "volume": 30085237.969345}, {"date": "2026-06-03", "open": 747.31, "high": 748.65, "low": 741.01, "close": 744.21, "volume": 40270198.385922}, {"date": "2026-06-04", "open": 735.48, "high": 743.4988, "low": 732.62, "close": 740.61, "volume": 40782580.072971}, {"date": "2026-06-05", "open": 730.06, "high": 731.69, "low": 704.32, "close": 705.06, "volume": 99606571.98303}, {"date": "2026-06-08", "open": 717.81, "high": 723.03, "low": 713.07, "close": 716.07, "volume": 47401451.421172}, {"date": "2026-06-09", "open": 722.98, "high": 725.66, "low": 686.37, "close": 707.83, "volume": 91932171.420546}, {"date": "2026-06-10", "open": 701.66, "high": 711.28, "low": 692.93, "close": 693.69, "volume": 65334283.425864}, {"date": "2026-06-11", "open": 699.29, "high": 718.3721, "low": 695.0, "close": 717.12, "volume": 71798857.404739}, {"date": "2026-06-12", "open": 717.61, "high": 724.01, "low": 711.28, "close": 721.34, "volume": 51236021.374119}, {"date": "2026-06-15", "open": 738.1, "high": 744.7599, "low": 737.38, "close": 744.0, "volume": 46710216.449718}, {"date": "2026-06-16", "open": 742.25, "high": 744.22, "low": 729.64, "close": 729.86, "volume": 45348675.743651}, {"date": "2026-06-17", "open": 735.19, "high": 735.68, "low": 720.85, "close": 722.51, "volume": 51669322.33773}, {"date": "2026-06-18", "open": 737.2, "high": 741.82, "low": 732.51, "close": 740.62, "volume": 50154595.664066}], "ma20": 726.88, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "中等", "trend_category": "震荡", "score": 63, "stars": 3}, {"ticker": "IWM", "name": "IWM", "category": "ETF", "latest_close": 295.59, "change_pct": 1.97, "annual_return": 14.72, "volatility": 22.96, "high": 297.91, "low": 270.63, "data_points": 23, "price_history": [{"date": "2026-05-18", "open": 278.74, "high": 279.08, "low": 273.94, "close": 275.97, "volume": 27243341.326318}, {"date": "2026-05-19", "open": 273.805, "high": 275.075, "low": 270.63, "close": 273.0, "volume": 30276939.724735}, {"date": "2026-05-20", "open": 274.91, "high": 280.09, "low": 273.41, "close": 279.87, "volume": 31562006.939994}, {"date": "2026-05-21", "open": 278.66, "high": 283.68, "low": 277.15, "close": 282.49, "volume": 31680475.978186}, {"date": "2026-05-22", "open": 284.1, "high": 286.61, "low": 283.67, "close": 285.12, "volume": 23849296.785952}, {"date": "2026-05-26", "open": 288.39, "high": 290.55, "low": 287.74, "close": 290.51, "volume": 24506452.573967}, {"date": "2026-05-27", "open": 291.16, "high": 291.72, "low": 289.31, "close": 290.37, "volume": 24519854.370219}, {"date": "2026-05-28", "open": 289.64, "high": 292.74, "low": 287.98, "close": 292.03, "volume": 23710563.301043}, {"date": "2026-05-29", "open": 291.38, "high": 291.41, "low": 288.33, "close": 290.43, "volume": 26961014.572352}, {"date": "2026-06-01", "open": 288.37, "high": 290.61, "low": 286.27, "close": 288.98, "volume": 23826067.250533}, {"date": "2026-06-02", "open": 288.46, "high": 291.865, "low": 288.4, "close": 291.66, "volume": 18378829.72447}, {"date": "2026-06-03", "open": 289.99, "high": 290.01, "low": 286.78, "close": 287.67, "volume": 29167270.159052}, {"date": "2026-06-04", "open": 287.56, "high": 292.875, "low": 286.66, "close": 292.01, "volume": 24307765.171068}, {"date": "2026-06-05", "open": 289.1, "high": 289.395, "low": 280.15, "close": 281.65, "volume": 35812835.987069}, {"date": "2026-06-08", "open": 285.51, "high": 286.84, "low": 283.575, "close": 284.11, "volume": 27277379.569027}, {"date": "2026-06-09", "open": 287.18, "high": 290.87, "low": 277.62, "close": 285.02, "volume": 41761260.936943}, {"date": "2026-06-10", "open": 284.59, "high": 289.0, "low": 281.76, "close": 282.05, "volume": 39285001.7347}, {"date": "2026-06-11", "open": 284.44, "high": 291.06, "low": 284.07, "close": 290.41, "volume": 41468782.979752}, {"date": "2026-06-12", "open": 291.63, "high": 295.72, "low": 290.31, "close": 292.95, "volume": 34415247.456327}, {"date": "2026-06-15", "open": 296.56, "high": 297.91, "low": 293.92, "close": 294.64, "volume": 23888987.746338}, {"date": "2026-06-16", "open": 295.5, "high": 296.8, "low": 291.58, "close": 292.08, "volume": 23807721.490582}, {"date": "2026-06-17", "open": 292.47, "high": 295.82, "low": 288.93, "close": 289.88, "volume": 39920145.938608}, {"date": "2026-06-18", "open": 294.55, "high": 295.97, "low": 291.42, "close": 295.59, "volume": 32463155.71409}], "ma20": 288.98, "ma50": 0, "ma200": 0, "ma_status": "中性", "risk_level": "高风险", "trend_category": "震荡", "score": 63, "stars": 3}];
 
 const SECTORS = [
-    { id: 'tech',     label: '🔥 科技成长先锋',   tickers: ['NVDA', 'AAPL', 'MSFT'] },
-    { id: 'value',    label: '💎 价值旗舰',       tickers: ['GOOGL', 'AMZN', 'META'] },
-    { id: 'health',   label: '🏥 医疗防守',        tickers: ['LLY', 'BRK.B', 'BND'] },
-    { id: 'dividend', label: '💰 高股息',          tickers: ['SCHD', 'VOO', 'GLD'] },
-    { id: 'global',   label: '🌍 全球分散',        tickers: ['VXUS', 'QQQ', 'IWM'] },
-    { id: 'chip',     label: '💻 半导体',          tickers: ['SMH', 'NVDA', 'AAPL'] },
+    { id: 'tech',     label: '🔥 科技成长先锋',   tickers: ['NVDA', 'AAPL', 'MSFT'],  aShares: ['300750', '603259', '002475'] },
+    { id: 'value',    label: '💎 价值旗舰',       tickers: ['GOOGL', 'AMZN', 'META'], aShares: ['000858', '600519', '000333'] },
+    { id: 'health',   label: '🏥 医疗防守',        tickers: ['LLY', 'BRK.B', 'BND'],   aShares: ['300760', '000661', '002007'] },
+    { id: 'dividend', label: '💰 高股息',          tickers: ['SCHD', 'VOO', 'GLD'],    aShares: ['601398', '601288', '601318'] },
+    { id: 'global',   label: '🌍 全球分散',        tickers: ['VXUS', 'QQQ', 'IWM'],    aShares: ['600887', '000651', '601888'] },
+    { id: 'chip',     label: '💻 半导体',          tickers: ['SMH', 'NVDA', 'AAPL'],   aShares: ['002594', '603501', '688981'] },
 ];
+
+const ASHARES = {
+    '300750': { name: '宁德时代', view: '全球动力电池龙头，市占率超35%。新能源车渗透率持续提升，储能业务爆发增长，估值回归合理区间。' },
+    '603259': { name: '药明康德', view: '全球CRO/CDMO领军企业，海外收入占比高。地缘风险已充分定价，长期成长逻辑不变。' },
+    '002475': { name: '立讯精密', view: '果链核心供应商，Apple Vision Pro独家代工。汽车电子+通信业务双引擎驱动。' },
+    '000858': { name: '五粮液', view: '白酒次高端龙头，品牌力仅次于茅台。消费复苏预期下估值修复空间大，高股息+稳健增长。' },
+    '600519': { name: '贵州茅台', view: 'A股护城河最深的企业，90%+毛利率。提价预期+直销占比提升，长期复利机器。' },
+    '000333': { name: '美的集团', view: '白电龙头，全球化布局领先。高端品牌COLMO+机器人库卡业务打开第二增长曲线。' },
+    '300760': { name: '迈瑞医疗', view: '医疗器械绝对龙头，国产替代+海外拓展双轮驱动。监护仪/呼吸机全球市占率领先。' },
+    '000661': { name: '长春高新', view: '生长激素赛道龙头，儿科用药市占率超80%。新产品管线逐步兑现，估值处于历史低位。' },
+    '002007': { name: '华兰生物', view: '血制品+疫苗双主业。流感疫苗市占率领先，采浆量持续提升，业绩稳健增长。' },
+    '601398': { name: '工商银行', view: '国有大行龙头，股息率超6%。资产质量扎实，净息差触底，估值仅0.5xPB，极具安全边际。' },
+    '601288': { name: '农业银行', view: '三农金融领军者，股息率超6%。拨备覆盖率高达300%+，风险抵御能力强。' },
+    '601318': { name: '中国平安', view: '综合金融巨头，寿险改革成效初显。分红稳健，估值处于历史底部，赔率极佳。' },
+    '600887': { name: '伊利股份', view: '乳制品绝对龙头，市占率持续提升。海外并购+高端化升级，业绩增长稳健。' },
+    '000651': { name: '格力电器', view: '空调行业龙头，渠道改革深化。高股息+低估值，适合稳健投资者。' },
+    '601888': { name: '中国中免', view: '免税龙头，牌照护城河深厚。海南离岛免税持续放量，出境游复苏带来增量。' },
+    '002594': { name: '比亚迪', view: '新能源车销量冠军，垂直整合优势显著。刀片电池+DM-i混动技术领先，出海加速。' },
+    '603501': { name: '韦尔股份', view: 'CIS芯片龙头，汽车电子占比提升。智能手机复苏+自动驾驶驱动业绩修复。' },
+    '688981': { name: '中芯国际', view: '大陆晶圆代工龙头，国产替代核心标的。成熟制程产能利用率高，先进制程突破在即。' },
+};
 
 const REPORTS = {
     'NVDA': { title:'英伟达：AI算力绝对垄断',
@@ -351,7 +374,43 @@ function renderSectorPanel(sector) {
                 <a class="research-link-btn" href="/${ticker.toLowerCase()}/">详情 →</a>
             </div>
         </div>`}).join('');
-    return `<div class="section-label">${sector.label} · 本周精选</div><div class="research-grid">${cards}</div>`;
+    
+    // A股卡片
+    const aShareCards = (sector.aShares || []).map(code => {
+        const info = ASHARES[code] || {};
+        return `
+        <div class="research-card" style="border-color:rgba(239,68,68,0.25);">
+            <div class="research-chart-area" style="background:linear-gradient(160deg,#1a0a0a 0%,#0d1220 100%);">
+                <div style="text-align:center;color:#ef4444;font-size:48px;opacity:0.3;">🇨🇳</div>
+            </div>
+            <div class="research-body">
+                <div class="research-header">
+                    <div>
+                        <div class="research-ticker" style="background:linear-gradient(135deg,#ef4444,#dc2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${code}</div>
+                        <div class="research-name">🇨🇳 ${info.name || 'A股标的'}</div>
+                    </div>
+                    <div class="score-wrap">
+                        <div class="research-score-val" style="color:#ef4444;">--</div>
+                        <div class="research-score-label">暂无数据</div>
+                    </div>
+                </div>
+                <div class="research-stars">☆☆☆☆☆</div>
+                <div class="research-content">
+                    <p>${info.view || 'A股市场核心标的，数据接入中...'}</p>
+                </div>
+                <div class="research-metrics">
+                    <div class="research-metric"><div class="research-metric-val">--</div><div class="research-metric-label">最新价</div></div>
+                    <div class="research-metric"><div class="research-metric-val">--</div><div class="research-metric-label">周涨跌</div></div>
+                    <div class="research-metric"><div class="research-metric-val" style="color:#ef4444;">--</div><div class="research-metric-label">区间回撤</div></div>
+                </div>
+            </div>
+            <div class="research-footer">
+                <div class="verdict-tag wait">🔴 数据接入中</div>
+                <span class="research-link-btn" style="opacity:0.4;cursor:not-allowed;">详情 →</span>
+            </div>
+        </div>`;}).join('');
+    
+    return `<div class="section-label">${sector.label} · 本周精选</div><div class="research-grid">${cards}${aShareCards}</div>`;
 }
 
 function initSectors() {
