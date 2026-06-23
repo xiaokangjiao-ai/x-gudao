@@ -7,6 +7,8 @@ import sys
 import json
 import sqlite3
 import argparse
+import time
+import os
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -30,27 +32,51 @@ OUTPUT.mkdir(exist_ok=True)
 
 
 # ── 数据获取 ──────────────────────────────────────────────
-def fetch_from_yf(ticker: str, period: str = "5y") -> list:
-    """从Yahoo Finance获取历史数据"""
-    try:
-        df = yf.Ticker(ticker).history(period=period, auto_adjust=True)
-        if df.empty:
-            print(f"  [WARN] {ticker} 无数据")
-            return []
-        records = []
-        for date, row in df.iterrows():
-            records.append({
-                "date": date.strftime("%Y-%m-%d"),
-                "open": round(float(row["Open"]), 2),
-                "high": round(float(row["High"]), 2),
-                "low": round(float(row["Low"]), 2),
-                "close": round(float(row["Close"]), 2),
-                "volume": int(row["Volume"]),
-            })
-        return records
-    except Exception as e:
-        print(f"  [ERROR] {ticker}: {e}")
-        return []
+def fetch_from_yf(ticker: str, period: str = "1y", max_retries: int = 3) -> list:
+    """
+    从Yahoo Finance获取历史数据
+    支持代理（https_proxy环境变量）+ 自动重试
+    BRK.B特殊处理：yfinance依赖 '-' 代替 '.', 故自动替换后重试
+    """
+    def _do_fetch(symbol: str) -> list:
+        try:
+            df = yf.Ticker(symbol).history(period=period, auto_adjust=True)
+            if df.empty:
+                return None
+            records = []
+            for date, row in df.iterrows():
+                records.append({
+                    "date": date.strftime("%Y-%m-%d"),
+                    "open": round(float(row["Open"]), 2),
+                    "high": round(float(row["High"]), 2),
+                    "low": round(float(row["Low"]), 2),
+                    "close": round(float(row["Close"]), 2),
+                    "volume": int(row["Volume"]),
+                })
+            return records
+        except Exception as e:
+            return None
+
+    # 重试循环
+    last_err = None
+    for attempt in range(1, max_retries + 1):
+        result = _do_fetch(ticker)
+        if result is not None and len(result) > 0:
+            return result
+        # BRK.B特殊处理：使用BRK-B
+        if "." in ticker:
+            alt = ticker.replace(".", "-")
+            result = _do_fetch(alt)
+            if result is not None and len(result) > 0:
+                return result
+        # 非最后一次重试则等待
+        if attempt < max_retries:
+            wait = 2 ** attempt  # 指数退避：2s, 4s
+            print(f"  [RETRY] {ticker} 第{attempt}次失败，{wait}s后重试...")
+            time.sleep(wait)
+
+    print(f"  [ERROR] {ticker}: 获取失败，已重试{max_retries}次")
+    return []
 
 
 def fetch_from_db(ticker: str) -> list:
@@ -74,18 +100,25 @@ def fetch_from_db(ticker: str) -> list:
 
 def get_ticker_data(ticker: str, skip_fetch: bool = False) -> dict:
     """
-    获取单个标的完整数据（DB优先，YF兜底）
-    自动补全：MA20/50/200，年化收益，波动率等
+    获取单个标的完整数据
+    非skip-fetch模式：始终通过yfinance获取最新1年数据
+    skip-fetch模式：仅使用DB数据
     """
-    data = fetch_from_db(ticker)
-    source = "db" if data else "yf"
-    if not data and not skip_fetch:
-        print(f"  [FETCH] {ticker} ← Yahoo Finance (fallback)")
-        data = fetch_from_yf(ticker)
-    elif data:
-        print(f"  [FETCH] {ticker} ← SQLite ({len(data)}条)")
-    elif skip_fetch:
-        print(f"  [SKIP-FETCH] {ticker} 跳过网络获取")
+    data = []
+    if skip_fetch:
+        data = fetch_from_db(ticker)
+        if data:
+            print(f"  [SKIP-FETCH] {ticker} ← SQLite ({len(data)}条)")
+        else:
+            print(f"  [SKIP-FETCH] {ticker} DB无数据，跳过")
+    else:
+        print(f"  [FETCH] {ticker} ← Yahoo Finance (1y)")
+        data = fetch_from_yf(ticker, "1y")
+        if not data:
+            print(f"  [FALLBACK] {ticker} ← SQLite")
+            data = fetch_from_db(ticker)
+            if data:
+                print(f"  [DB] {ticker} ({len(data)}条)")
 
     if not data:
         return {}
@@ -234,67 +267,105 @@ def build_index_page(tickers_data: list) -> str:
         latest = d["latest_close"]
         ma20, ma50, ma200 = d["ma20"], d["ma50"], d["ma200"]
 
-        # 均线状态判定
+        # ═══ 均线状态判定（改进版：数据不足时用ma20乖离率补充）═══
+        ma20_bias = (latest - ma20) / ma20 if ma20 > 0 else 0
         if ma20 > 0 and ma50 > 0 and ma200 > 0:
             if latest > ma20 > ma50 > ma200:
                 ma_status = "多头"
             elif latest > ma20 and latest > ma50:
                 ma_status = "偏多"
-            elif latest < ma20 and latest < ma50:
+            elif latest < ma20 and latest < ma50 < ma200:
                 ma_status = "偏空"
             elif latest < ma200:
                 ma_status = "空头"
+            elif latest > ma20:
+                ma_status = "偏多"
+            else:
+                ma_status = "中性"
+        elif ma20 > 0:
+            # 缺少ma50/ma200时，基于ma20乖离率判断
+            if ma20_bias > 0.03:
+                ma_status = "偏多"
+            elif ma20_bias < -0.03:
+                ma_status = "偏空"
             else:
                 ma_status = "中性"
         else:
             ma_status = "中性"
 
-        # 四维评分 (0-100)
+        # ═══ 四维评分 (0-100) 改进版 ═══
         score_components = {}
 
-        # 1. 趋势分 (40分): 基于均线排列
-        trend_map = {"多头": 40, "偏多": 30, "中性": 20, "偏空": 10, "空头": 5}
-        score_components["trend"] = trend_map.get(ma_status, 20)
+        # 1. 趋势分 (40分): 基于均线排列 + 乖离率
+        if ma_status == "多头":
+            score_components["trend"] = 40 if ma20_bias < 0.08 else 32  # 超买扣分
+        elif ma_status == "偏多":
+            score_components["trend"] = 28
+        elif ma_status == "偏空":
+            score_components["trend"] = 14
+        elif ma_status == "空头":
+            score_components["trend"] = 6
+        else:
+            score_components["trend"] = 20
 
-        # 2. 波动率分 (20分): 低波动高分
-        vol = d["volatility"] or 0.3
-        if vol < 0.15:
+        # 2. 波动率分 (20分): 低波动高分，用实际百分位
+        vol = d["volatility"] or 0
+        if vol <= 5:
             score_components["volatility"] = 20
-        elif vol < 0.25:
-            score_components["volatility"] = 16
-        elif vol < 0.35:
-            score_components["volatility"] = 12
-        else:
+        elif vol <= 15:
+            score_components["volatility"] = 18
+        elif vol <= 25:
+            score_components["volatility"] = 15
+        elif vol <= 35:
+            score_components["volatility"] = 10
+        elif vol <= 45:
             score_components["volatility"] = 6
+        else:
+            score_components["volatility"] = 3
 
-        # 3. 收益分 (25分): 年化收益
-        ann_ret = d["annual_return"] or 0
-        if ann_ret >= 0.3:
+        # 3. 收益分 (25分): 优先用1年年化，否则用总年化
+        ann_ret = d.get("annual_return_1y", 0) or d.get("annual_return", 0) or 0
+        ann_ret_pct = ann_ret / 100  # 转小数
+        if ann_ret_pct >= 0.30:
             score_components["return"] = 25
-        elif ann_ret >= 0.15:
-            score_components["return"] = 20
-        elif ann_ret >= 0:
-            score_components["return"] = 14
-        elif ann_ret >= -0.1:
+        elif ann_ret_pct >= 0.20:
+            score_components["return"] = 22
+        elif ann_ret_pct >= 0.10:
+            score_components["return"] = 18
+        elif ann_ret_pct >= 0.05:
+            score_components["return"] = 15
+        elif ann_ret_pct >= 0:
+            score_components["return"] = 12
+        elif ann_ret_pct >= -0.10:
             score_components["return"] = 8
+        elif ann_ret_pct >= -0.25:
+            score_components["return"] = 4
         else:
-            score_components["return"] = 3
+            score_components["return"] = 1
 
-        # 4. 动量分 (15分): 日涨跌
-        day_chg = d["day_change"] or 0
-        if day_chg >= 3:
-            score_components["momentum"] = 15
-        elif day_chg >= 1:
-            score_components["momentum"] = 12
-        elif day_chg >= -1:
-            score_components["momentum"] = 9
-        elif day_chg >= -3:
-            score_components["momentum"] = 4
+        # 4. 动量分 (15分): 基于近5日涨跌幅均值
+        closes = [p["close"] for p in d["price_history"]]
+        if len(closes) >= 6:
+            recent_returns = [(closes[-i] - closes[-i-1]) / closes[-i-1] for i in range(1, 6)]
+            avg_momentum = sum(recent_returns) / len(recent_returns) * 100
         else:
-            score_components["momentum"] = 1
+            avg_momentum = d.get("day_change", 0) or 0
+
+        if avg_momentum >= 2:
+            score_components["momentum"] = 15
+        elif avg_momentum >= 1:
+            score_components["momentum"] = 13
+        elif avg_momentum >= 0:
+            score_components["momentum"] = 11
+        elif avg_momentum >= -1:
+            score_components["momentum"] = 8
+        elif avg_momentum >= -2:
+            score_components["momentum"] = 5
+        else:
+            score_components["momentum"] = 2
 
         total_score = sum(score_components.values())
-        stars = max(1, min(5, round(total_score / 20)))  # 1-5星
+        stars = max(1, min(5, round(total_score / 17.5)))  # 1-5星 (更细粒度)
 
         # ═══ 风险等级分类（基于金融常识 + 波动率）═══
         # 手动定义风险等级，因为算法无法准确捕捉金融常识
@@ -321,12 +392,12 @@ def build_index_page(tickers_data: list) -> str:
         }
         risk_level = risk_manual.get(d["ticker"], "中等")
 
-        # ═══ 趋势细分（引入均线乖离率）═══
+        # ═══ 趋势细分（基于均线乖离率）═══
         ma20_bias = (latest - ma20) / ma20 if ma20 > 0 else 0
         if ma_status == "多头":
-            if ma20_bias > 0.05:  # 乖离率>5%，可能超买
+            if ma20_bias > 0.08:
                 trend_category = "超买多头"
-            elif ma20_bias < 0.02:  # 乖离率<2%，初始突破
+            elif ma20_bias < 0.02:
                 trend_category = "初始多头"
             else:
                 trend_category = "稳健多头"
