@@ -1,1 +1,2 @@
-﻿
+# 禁用 Jekyll（GitHub Pages）
+# 这样 _site 文件夹会被正确部署
