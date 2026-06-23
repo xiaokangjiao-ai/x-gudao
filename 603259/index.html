@@ -148,17 +148,17 @@
                 <div class="side-title">📐 关键指标</div>
                 
                 <div class="indicator-row"><span class="indicator-name">最新收盘</span><span class="indicator-value">$106.31</span></div>
-                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" style="color: var(--green)">+1.31%</span></div>
-                <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--green)">+9.4%</span></div>
-                <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">17.63%</span></div>
+                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" style="color: var(--red)">-1.6%</span></div>
+                <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--red)">-3.23%</span></div>
+                <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">12.82%</span></div>
                 <div class="volatility-bar">
                     <div class="volatility-label">
                         <span>波动率</span>
-                        <span>17.63%</span>
+                        <span>12.82%</span>
                     </div>
                     <div class="volatility-track">
                         <div class="volatility-fill low" 
-                             style="width: 17.63%"></div>
+                             style="width: 12.82%"></div>
                     </div>
                 </div>
             </div>
@@ -182,7 +182,7 @@
     </footer>
 
     <script>
-    const FULL_DATA = [{"date": "2026-06-17", "open": 101.4, "high": 102.85, "low": 100.48, "close": 101.64, "volume": 27492287}, {"date": "2026-06-18", "open": 101.06, "high": 101.21, "low": 99.4, "close": 100.22, "volume": 14998198}, {"date": "2026-06-19", "open": 101.75, "high": 101.91, "low": 101.72, "close": 101.79, "volume": 25485352}, {"date": "2026-06-20", "open": 102.37, "high": 104.24, "low": 101.23, "close": 102.91, "volume": 40618593}, {"date": "2026-06-21", "open": 103.79, "high": 104.7, "low": 102.86, "close": 103.01, "volume": 43140146}, {"date": "2026-06-22", "open": 104.58, "high": 106.64, "low": 103.72, "close": 104.94, "volume": 15688208}, {"date": "2026-06-23", "open": 107.63, "high": 107.7, "low": 104.6, "close": 106.31, "volume": 26990848}];
+    const FULL_DATA = [{"date": "2026-06-18", "open": 107.76, "high": 108.91, "low": 106.18, "close": 108.07, "volume": 25604392}, {"date": "2026-06-19", "open": 109.92, "high": 110.34, "low": 106.81, "close": 108.33, "volume": 17113266}, {"date": "2026-06-20", "open": 108.48, "high": 110.84, "low": 107.35, "close": 109.1, "volume": 18124612}, {"date": "2026-06-21", "open": 109.92, "high": 110.43, "low": 108.4, "close": 109.59, "volume": 7543798}, {"date": "2026-06-22", "open": 108.29, "high": 109.85, "low": 107.12, "close": 108.91, "volume": 42277588}, {"date": "2026-06-23", "open": 109.67, "high": 110.14, "low": 107.26, "close": 108.04, "volume": 4039547}, {"date": "2026-06-24", "open": 106.65, "high": 107.35, "low": 105.68, "close": 106.31, "volume": 7988628}];
     const COMPARE = [{"ticker": "NVDA", "name": "NVDA", "price": 210.69, "return": -10.19}, {"ticker": "AAPL", "name": "AAPL", "price": 298.01, "return": 0.11}, {"ticker": "MSFT", "name": "MSFT", "price": 379.4, "return": -19.76}, {"ticker": "GOOGL", "name": "GOOGL", "price": 368.03, "return": -14.04}, {"ticker": "AMZN", "name": "AMZN", "price": 244.39, "return": -14.86}, {"ticker": "META", "name": "META", "price": 577.22, "return": -10.81}];
 
     function filterByPeriod(data, period) {
@@ -272,7 +272,7 @@
     }
 
     function updatePriceChange() {
-        const change = 1.31;
+        const change = -1.6;
         const el = document.getElementById('price-change');
         el.className = 'price-change ' + (change >= 0 ? 'up' : 'down');
         el.textContent = (change >= 0 ? '▲ +' : '▼ ') + change + '% 今日';
