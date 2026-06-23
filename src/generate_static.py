@@ -21,6 +21,17 @@ except ImportError as e:
     print(f"[ERROR] 缺少依赖: {e.name}，请运行: pip install jinja2 yfinance numpy")
     sys.exit(1)
 
+# ── A股数据模块 ──────────────────────────────────────────────
+# 动态导入ashare_fetcher（如果存在）
+ASHARE_AVAILABLE = False
+try:
+    sys.path.insert(0, str(Path(__file__).parent))
+    import ashare_fetcher
+    ASHARE_AVAILABLE = True
+    print("[INFO] A股数据模块已加载")
+except ImportError as e:
+    print(f"[WARN] A股数据模块加载失败: {e}")
+
 # ── 路径设置 ──────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent.resolve()
 TEMPLATES = ROOT / "templates"
@@ -98,27 +109,65 @@ def fetch_from_db(ticker: str) -> list:
         return []
 
 
+def is_ashare_code(ticker: str) -> bool:
+    """检查是否为A股代码（6位数字）"""
+    return len(ticker) == 6 and ticker.isdigit()
+
+
 def get_ticker_data(ticker: str, skip_fetch: bool = False) -> dict:
     """
     获取单个标的完整数据
     非skip-fetch模式：始终通过yfinance获取最新1年数据
     skip-fetch模式：仅使用DB数据
+    A股代码特殊处理：使用ashare_fetcher获取数据
     """
     data = []
-    if skip_fetch:
-        data = fetch_from_db(ticker)
-        if data:
-            print(f"  [SKIP-FETCH] {ticker} ← SQLite ({len(data)}条)")
+    
+    # ═══ A股特殊处理 ═══
+    if is_ashare_code(ticker):
+        print(f"  [FETCH] {ticker} ← A股数据源")
+        if ASHARE_AVAILABLE:
+            # 使用ashare_fetcher获取A股完整数据
+            ashare_result = ashare_fetcher.get_ashare_data(ticker, days=7)  # 获取7天数据（用户要求一周）
+            if ashare_result and ashare_result.get('history'):
+                # 转换历史数据为标准格式
+                data = []
+                for item in ashare_result['history']:
+                    data.append({
+                        "date": item.get("date", ""),
+                        "open": round(float(item.get("open", 0)), 2),
+                        "high": round(float(item.get("high", 0)), 2),
+                        "low": round(float(item.get("low", 0)), 2),
+                        "close": round(float(item.get("close", 0)), 2),
+                        "volume": int(item.get("volume", 0)),
+                    })
+                print(f"  [A股] {ticker} 获取到 {len(data)} 条K线数据")
+            else:
+                print(f"  [WARN] {ticker} A股数据获取失败")
         else:
-            print(f"  [SKIP-FETCH] {ticker} DB无数据，跳过")
-    else:
-        print(f"  [FETCH] {ticker} ← Yahoo Finance (1y)")
-        data = fetch_from_yf(ticker, "1y")
-        if not data:
-            print(f"  [FALLBACK] {ticker} ← SQLite")
+            print(f"  [WARN] {ticker} A股模块不可用，尝试SQLite...")
             data = fetch_from_db(ticker)
             if data:
                 print(f"  [DB] {ticker} ({len(data)}条)")
+        
+        if not data:
+            return {}
+    else:
+        # ═══ 美股/ETF处理 ═══
+        if skip_fetch:
+            data = fetch_from_db(ticker)
+            if data:
+                print(f"  [SKIP-FETCH] {ticker} ← SQLite ({len(data)}条)")
+            else:
+                print(f"  [SKIP-FETCH] {ticker} DB无数据，跳过")
+        else:
+            print(f"  [FETCH] {ticker} ← Yahoo Finance (1y)")
+            data = fetch_from_yf(ticker, "1y")
+            if not data:
+                print(f"  [FALLBACK] {ticker} ← SQLite")
+                data = fetch_from_db(ticker)
+                if data:
+                    print(f"  [DB] {ticker} ({len(data)}条)")
 
     if not data:
         return {}
