@@ -506,6 +506,8 @@ def main():
     elif WATCHLIST.exists():
         wl = json.loads(WATCHLIST.read_text(encoding="utf-8"))
         tickers = wl.get("tickers", [])
+        a_tickers = wl.get("a_tickers", [])
+        tickers = tickers + a_tickers  # 合并美股和A股
     else:
         print("[ERROR] 找不到 watchlist.json")
         sys.exit(1)
