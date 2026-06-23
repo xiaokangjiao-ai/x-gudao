@@ -249,6 +249,13 @@ def get_ticker_name(ticker: str) -> str:
         "VTI": "Vanguard Total Stock Market ETF", "VEA": "Vanguard FTSE Developed Markets ETF",
         "VWO": "Vanguard FTSE Emerging Markets ETF", "AGG": "iShares Core US Aggregate Bond ETF",
         "IEFA": "iShares Core MSCI EAFE ETF", "GLD": "SPDR Gold Shares",
+        # A股名称映射
+        "300750": "宁德时代", "603259": "药明康德", "002475": "立讯精密",
+        "000858": "五粮液", "600519": "贵州茅台", "000333": "美的集团",
+        "300760": "迈瑞医疗", "000661": "长春高新", "002007": "华兰生物",
+        "601398": "工商银行", "601288": "农业银行", "601318": "中国平安",
+        "600887": "伊利股份", "000651": "格力电器", "601888": "中国中免",
+        "002594": "比亚迪", "603501": "韦尔股份", "688981": "中芯国际",
     }
     return names.get(ticker, ticker)
 
@@ -259,6 +266,13 @@ def get_ticker_category(ticker: str) -> str:
         "QQQ": "美国科技", "VTI": "美国全市场",
         "VEA": "发达市场", "VWO": "新兴市场", "IEFA": "发达市场",
         "AGG": "债券", "GLD": "黄金",
+        # A股分类映射
+        "300750": "科技成长", "603259": "医药医疗", "002475": "科技成长",
+        "000858": "消费蓝筹", "600519": "消费蓝筹", "000333": "消费蓝筹",
+        "300760": "医药医疗", "000661": "医药医疗", "002007": "医药医疗",
+        "601398": "金融蓝筹", "601288": "金融蓝筹", "601318": "金融蓝筹",
+        "600887": "消费蓝筹", "000651": "消费蓝筹", "601888": "消费蓝筹",
+        "002594": "科技成长", "603501": "科技成长", "688981": "科技成长",
     }
     return cats.get(ticker, "ETF")
 
@@ -542,6 +556,20 @@ def build_compare_page(all_tickers_data: list) -> str:
     } for d in all_tickers_data], ensure_ascii=False))
 
 
+def build_about_page() -> str:
+    """生成关于我们页面"""
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader(str(TEMPLATES)))
+    tmpl = env.get_template("about.html")
+    return tmpl.render()
+
+
+def build_disclaimer_page() -> str:
+    """生成免责声明页面"""
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader(str(TEMPLATES)))
+    tmpl = env.get_template("disclaimer.html")
+    return tmpl.render()
+
+
 # ── 主流程 ──────────────────────────────────────────────
 def main():
     parser = argparse.ArgumentParser(description="x-gudao SSG 静态网站生成器")
@@ -596,7 +624,15 @@ def main():
     # screener 和 index 一样，只是去掉迷你图
     (OUTPUT / "screener.html").write_text(index_html, encoding="utf-8")  # 复用
 
-    print("[4/4] 生成各基金详情页 ...")
+    print("[4/6] 生成关于我们 about.html ...")
+    about_html = build_about_page()
+    (OUTPUT / "about.html").write_text(about_html, encoding="utf-8")
+
+    print("[5/6] 生成免责声明 disclaimer.html ...")
+    disclaimer_html = build_disclaimer_page()
+    (OUTPUT / "disclaimer.html").write_text(disclaimer_html, encoding="utf-8")
+
+    print("[6/6] 生成各基金详情页 ...")
     for d in all_data:
         ticker_dir = OUTPUT / d["ticker"].lower()
         ticker_dir.mkdir(exist_ok=True)
@@ -625,10 +661,13 @@ def main():
     (OUTPUT / "overview.json").write_text(json.dumps(overview, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(f"\n{'='*50}")
-    print(f"✅ 生成完成！共 {len(all_data)} 个页面")
+    print(f"✅ 生成完成！共 {len(all_data)} 个标的")
     print(f"📁 输出: {OUTPUT}")
     print(f"   首页: {OUTPUT / 'index.html'}")
     print(f"   对比: {OUTPUT / 'compare.html'}")
+    print(f"   筛选: {OUTPUT / 'screener.html'}")
+    print(f"   关于: {OUTPUT / 'about.html'}")
+    print(f"   免责: {OUTPUT / 'disclaimer.html'}")
     for d in all_data:
         print(f"   {d['ticker']}: {OUTPUT / d['ticker'].lower() / 'index.html'}")
     print(f"{'='*50}")
