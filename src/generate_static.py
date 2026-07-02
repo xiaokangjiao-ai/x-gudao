@@ -181,7 +181,7 @@ def get_ticker_data(ticker: str, skip_fetch: bool = False) -> dict:
                   datetime.strptime(data[0]["date"], "%Y-%m-%d")).days / 365.25
     if year_range < 0.5:
         year_range = 0.5
-    ann_return = round(((latest / data[0]["close"]) ** (1 / year_range) - 1) * 100, 2)
+    ann_return = round(((latest / data[0]["close"]) ** (1 / year_range) - 1) * 100, 2) if data[0]["close"] > 0 else 0
 
     # 波动率（年化）
     returns = [((closes[i] - closes[i - 1]) / closes[i - 1]) for i in range(1, len(closes))]
@@ -212,7 +212,7 @@ def get_ticker_data(ticker: str, skip_fetch: bool = False) -> dict:
     ma200_vals = ma_calc(data, 200)
 
     closes_1y = closes[-252:] if len(closes) >= 252 else closes
-    ann_return_1y = round(((closes[-1] / closes_1y[0]) ** (252 / len(closes_1y)) - 1) * 100, 2) if len(closes_1y) > 1 else 0
+    ann_return_1y = round(((closes[-1] / closes_1y[0]) ** (252 / len(closes_1y)) - 1) * 100, 2) if len(closes_1y) > 1 and closes_1y[0] > 0 else 0
 
     # 52周高低价
     recent = data[-252:] if len(data) >= 252 else data
@@ -225,7 +225,7 @@ def get_ticker_data(ticker: str, skip_fetch: bool = False) -> dict:
         "category": get_ticker_category(ticker),
         "data": data,
         "latest_close": round(latest, 2),
-        "day_change": round((latest - prev) / prev * 100, 2),
+        "day_change": round((latest - prev) / prev * 100, 2) if prev > 0 else 0,
         "annual_return": ann_return,
         "annual_return_1y": ann_return_1y,
         "volatility": volatility,
@@ -292,7 +292,7 @@ def calc_stats(data: list) -> dict:
     vol = round(np.std(returns) * np.sqrt(252) * 100, 2) if len(returns) > 1 else 0
 
     closes_1y = closes[-252:] if len(closes) >= 252 else closes
-    ret_1y = round(((closes[-1] / closes_1y[0]) ** (252 / len(closes_1y)) - 1) * 100, 2) if len(closes_1y) > 1 else 0
+    ret_1y = round(((closes[-1] / closes_1y[0]) ** (252 / len(closes_1y)) - 1) * 100, 2) if len(closes_1y) > 1 and closes_1y[0] > 0 else 0
 
     def ma(d, p):
         r = []
@@ -309,7 +309,7 @@ def calc_stats(data: list) -> dict:
         "low": round(low, 2),
         "annual_return": ann_ret,
         "annual_return_1y": ret_1y,
-        "day_change": round((latest - prev) / prev * 100, 2),
+        "day_change": round((latest - prev) / prev * 100, 2) if prev > 0 else 0,
         "volatility": vol,
         "ma20": ma20[-1] if ma20[-1] else 0,
         "ma50": ma50[-1] if ma50[-1] else 0,
