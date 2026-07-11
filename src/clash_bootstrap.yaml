@@ -1,0 +1,35 @@
+mixed-port: 7890
+allow-lan: false
+mode: global
+log-level: info
+proxies:
+  - name: trojan-a
+    type: trojan
+    server: 45.207.34.24
+    port: 443
+    password: igq9RWHaLz
+    sni: bing.com
+    skip-cert-verify: true
+    udp: false
+  - name: trojan-b
+    type: trojan
+    server: sub-az.cloud-services.top
+    port: 443
+    password: bdbb0424-d4b8-31eb-8f1f-7232e1b812da
+    sni: sub-az.cloud-services.top
+    skip-cert-verify: true
+    udp: false
+  - name: trojan-c
+    type: trojan
+    server: 111.229.196.37
+    port: 443
+    password: bdbb0424-d4b8-31eb-8f1f-7232e1b812da
+    sni: bing.com
+    skip-cert-verify: true
+    udp: false
+proxy-groups:
+  - name: PROXY
+    type: select
+    proxies: [trojan-b, trojan-c, trojan-a]
+rules:
+  - MATCH,PROXY

@@ -1,0 +1,64 @@
+'_BINARY:' 不是内部或外部命令，也不是可运行的程序
+或批处理文件。
+04:45:21.786588 http.c:938              == Info: Couldn't find host github.com in the .netrc file; using defaults
+04:45:21.789588 http.c:938              == Info:   Trying 127.0.0.1:7890...
+04:45:21.790587 http.c:938              == Info: CONNECT tunnel: HTTP/1.1 negotiated
+04:45:21.792084 http.c:938              == Info: allocate connect buffer
+04:45:21.793089 http.c:938              == Info: Establish HTTP proxy tunnel to github.com:443
+04:45:21.794089 http.c:885              => Send header, 0000000121 bytes (0x00000079)
+04:45:21.794978 http.c:897              => Send header: CONNECT github.com:443 HTTP/1.1
+04:45:21.794978 http.c:897              => Send header: Host: github.com:443
+04:45:21.795482 http.c:897              => Send header: User-Agent: git/2.47.1.windows.1
+04:45:21.795482 http.c:897              => Send header: Proxy-Connection: Keep-Alive
+04:45:21.795482 http.c:897              => Send header:
+04:45:21.796008 http.c:885              <= Recv header, 0000000037 bytes (0x00000025)
+04:45:21.796008 http.c:897              <= Recv header: HTTP/1.1 200 Connection established
+04:45:21.796008 http.c:885              <= Recv header, 0000000002 bytes (0x00000002)
+04:45:21.796008 http.c:897              <= Recv header:
+04:45:21.796537 http.c:938              == Info: CONNECT phase completed
+04:45:21.796537 http.c:938              == Info: CONNECT tunnel established, response 200
+04:45:21.796537 http.c:938              == Info: schannel: disabled automatic use of client certificate
+04:45:21.994186 http.c:938              == Info: Connected to 127.0.0.1 (127.0.0.1) port 7890
+04:45:21.994186 http.c:938              == Info: using HTTP/1.x
+04:45:21.994186 http.c:885              => Send header, 0000000205 bytes (0x000000cd)
+04:45:21.994692 http.c:897              => Send header: GET /xiaokangjiao-ai/x-gudao.git/info/refs?service=git-receive-pack HTTP/1.1
+04:45:21.994692 http.c:897              => Send header: Host: github.com
+04:45:21.994692 http.c:897              => Send header: User-Agent: git/2.47.1.windows.1
+04:45:21.995215 http.c:897              => Send header: Accept: */*
+04:45:21.995215 http.c:897              => Send header: Accept-Encoding: deflate, gzip, br, zstd
+04:45:21.995215 http.c:897              => Send header: Pragma: no-cache
+04:45:21.995215 http.c:897              => Send header:
+04:45:21.995215 http.c:938              == Info: Request completely sent off
+04:45:22.084528 http.c:938              == Info: schannel: remote party requests renegotiation
+04:45:22.084528 http.c:938              == Info: schannel: renegotiating SSL/TLS connection
+04:45:22.085168 http.c:938              == Info: schannel: SSL/TLS connection renegotiated
+04:45:22.085168 http.c:938              == Info: schannel: remote party requests renegotiation
+04:45:22.085168 http.c:938              == Info: schannel: renegotiating SSL/TLS connection
+04:45:22.086173 http.c:938              == Info: schannel: SSL/TLS connection renegotiated
+04:45:22.331606 http.c:885              <= Recv header, 0000000027 bytes (0x0000001b)
+04:45:22.331606 http.c:897              <= Recv header: HTTP/1.1 401 Unauthorized
+04:45:22.332110 http.c:885              <= Recv header, 0000000026 bytes (0x0000001a)
+04:45:22.332110 http.c:897              <= Recv header: Server: GitHub-Babel/3.0
+04:45:22.332110 http.c:885              <= Recv header, 0000000054 bytes (0x00000036)
+04:45:22.332110 http.c:897              <= Recv header: Content-Security-Policy: default-src 'none'; sandbox
+04:45:22.332110 http.c:885              <= Recv header, 0000000041 bytes (0x00000029)
+04:45:22.332110 http.c:897              <= Recv header: Content-Type: text/plain; charset=UTF-8
+04:45:22.332110 http.c:885              <= Recv header, 0000000040 bytes (0x00000028)
+04:45:22.333116 http.c:897              <= Recv header: www-authenticate: Basic realm="GitHub"
+04:45:22.333116 http.c:885              <= Recv header, 0000000020 bytes (0x00000014)
+04:45:22.333116 http.c:897              <= Recv header: Content-Length: 26
+04:45:22.333116 http.c:885              <= Recv header, 0000000037 bytes (0x00000025)
+04:45:22.333116 http.c:897              <= Recv header: Date: Thu, 09 Jul 2026 20:45:23 GMT
+04:45:22.333116 http.c:885              <= Recv header, 0000000023 bytes (0x00000017)
+04:45:22.333116 http.c:897              <= Recv header: X-Frame-Options: DENY
+04:45:22.334115 http.c:885              <= Recv header, 0000000073 bytes (0x00000049)
+04:45:22.334115 http.c:897              <= Recv header: Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+04:45:22.334115 http.c:885              <= Recv header, 0000000058 bytes (0x0000003a)
+04:45:22.334115 http.c:897              <= Recv header: X-GitHub-Request-Id: 19F0:CA97A:16D92C5:1831004:6A500862
+04:45:22.334115 http.c:885              <= Recv header, 0000000002 bytes (0x00000002)
+04:45:22.334115 http.c:897              <= Recv header:
+04:45:22.334115 http.c:938              == Info: Connection #0 to host 127.0.0.1 left intact
+fatal: User cancelled dialog.
+bash: line 1: /dev/tty: No such device or address
+error: failed to execute prompt script (exit code 1)
+fatal: could not read Username for 'https://github.com': No such file or directory
