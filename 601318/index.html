@@ -149,17 +149,17 @@
                 <div class="side-title">📐 关键指标</div>
                 
                 <div class="indicator-row"><span class="indicator-name">最新收盘</span><span class="indicator-value">$54.3</span></div>
-                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" style="color: var(--red)">-1.38%</span></div>
-                <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--red)">-11.28%</span></div>
-                <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">12.57%</span></div>
+                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" style="color: var(--green)">+0.7%</span></div>
+                <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--red)">-5.07%</span></div>
+                <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">18.48%</span></div>
                 <div class="volatility-bar">
                     <div class="volatility-label">
                         <span>波动率</span>
-                        <span>12.57%</span>
+                        <span>18.48%</span>
                     </div>
                     <div class="volatility-track">
                         <div class="volatility-fill low" 
-                             style="width: 12.57%"></div>
+                             style="width: 18.48%"></div>
                     </div>
                 </div>
             </div>
@@ -183,7 +183,7 @@
     </footer>
 
     <script>
-    const FULL_DATA = [{"date": "2026-07-17", "open": 57.6, "high": 58.68, "low": 57.53, "close": 57.65, "volume": 10302798}, {"date": "2026-07-18", "open": 57.82, "high": 58.95, "low": 57.8, "close": 57.84, "volume": 35973376}, {"date": "2026-07-19", "open": 56.15, "high": 57.15, "low": 56.12, "close": 56.77, "volume": 35092659}, {"date": "2026-07-20", "open": 56.8, "high": 56.97, "low": 56.03, "close": 56.43, "volume": 41842011}, {"date": "2026-07-21", "open": 54.73, "high": 55.64, "low": 54.68, "close": 55.37, "volume": 33541126}, {"date": "2026-07-22", "open": 54.66, "high": 55.82, "low": 54.65, "close": 55.06, "volume": 40513145}, {"date": "2026-07-23", "open": 54.58, "high": 54.76, "low": 54.03, "close": 54.3, "volume": 16921981}];
+    const FULL_DATA = [{"date": "2026-07-18", "open": 55.73, "high": 55.8, "low": 55.66, "close": 55.73, "volume": 31364253}, {"date": "2026-07-19", "open": 54.78, "high": 55.71, "low": 54.27, "close": 54.71, "volume": 6267442}, {"date": "2026-07-20", "open": 55.14, "high": 55.73, "low": 54.11, "close": 55.2, "volume": 7879009}, {"date": "2026-07-21", "open": 54.47, "high": 54.72, "low": 54.43, "close": 54.67, "volume": 45924932}, {"date": "2026-07-22", "open": 53.14, "high": 54.72, "low": 52.69, "close": 53.66, "volume": 26846964}, {"date": "2026-07-23", "open": 53.84, "high": 54.0, "low": 53.77, "close": 53.92, "volume": 13344266}, {"date": "2026-07-24", "open": 54.28, "high": 54.99, "low": 54.16, "close": 54.3, "volume": 13842526}];
     const COMPARE = [{"ticker": "NVDA", "name": "NVDA", "price": 195.55, "return": -22.63}, {"ticker": "AAPL", "name": "AAPL", "price": 312.66, "return": 10.2}, {"ticker": "MSFT", "name": "MSFT", "price": 386.74, "return": -16.62}, {"ticker": "GOOGL", "name": "GOOGL", "price": 366.46, "return": -14.77}, {"ticker": "AMZN", "name": "AMZN", "price": 244.16, "return": -15.02}, {"ticker": "META", "name": "META", "price": 600.29, "return": -3.54}];
 
     function filterByPeriod(data, period) {
@@ -273,7 +273,7 @@
     }
 
     function updatePriceChange() {
-        const change = -1.38;
+        const change = 0.7;
         const el = document.getElementById('price-change');
         el.className = 'price-change ' + (change >= 0 ? 'up' : 'down');
         el.textContent = (change >= 0 ? '▲ +' : '▼ ') + change + '% 今日';
