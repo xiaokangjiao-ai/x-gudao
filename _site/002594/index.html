@@ -128,7 +128,7 @@
                 </div>
             </div>
             <div class="stock-price-block">
-                <div class="current-price" id="current-price">$93.47</div>
+                <div class="current-price" id="current-price">$91.89</div>
                 <div class="price-change" id="price-change"></div>
             </div>
         </div>
@@ -148,18 +148,18 @@
             <div class="side-card">
                 <div class="side-title">📐 关键指标</div>
                 
-                <div class="indicator-row"><span class="indicator-name">最新收盘</span><span class="indicator-value">$93.47</span></div>
-                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" style="color: var(--red)">-1.95%</span></div>
-                <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--red)">-7.85%</span></div>
-                <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">22.04%</span></div>
+                <div class="indicator-row"><span class="indicator-name">最新收盘</span><span class="indicator-value">$91.89</span></div>
+                <div class="indicator-row"><span class="indicator-name">日涨跌幅</span><span class="indicator-value" style="color: var(--red)">-0.88%</span></div>
+                <div class="indicator-row"><span class="indicator-name">近1年收益</span><span class="indicator-value" style="color: var(--green)">+4.31%</span></div>
+                <div class="indicator-row"><span class="indicator-name">波动率(年化)</span><span class="indicator-value">17.22%</span></div>
                 <div class="volatility-bar">
                     <div class="volatility-label">
                         <span>波动率</span>
-                        <span>22.04%</span>
+                        <span>17.22%</span>
                     </div>
                     <div class="volatility-track">
-                        <div class="volatility-fill medium" 
-                             style="width: 22.04%"></div>
+                        <div class="volatility-fill low" 
+                             style="width: 17.22%"></div>
                     </div>
                 </div>
             </div>
@@ -183,7 +183,7 @@
     </footer>
 
     <script>
-    const FULL_DATA = [{"date": "2026-07-12", "open": 98.03, "high": 98.89, "low": 95.44, "close": 97.37, "volume": 31613015}, {"date": "2026-07-13", "open": 95.46, "high": 96.91, "low": 94.56, "close": 95.53, "volume": 39664527}, {"date": "2026-07-14", "open": 95.54, "high": 96.07, "low": 94.8, "close": 94.95, "volume": 15687513}, {"date": "2026-07-15", "open": 94.32, "high": 95.37, "low": 93.6, "close": 94.89, "volume": 10331974}, {"date": "2026-07-16", "open": 92.65, "high": 94.48, "low": 91.69, "close": 93.43, "volume": 23523528}, {"date": "2026-07-17", "open": 96.01, "high": 96.03, "low": 95.3, "close": 95.33, "volume": 20303883}, {"date": "2026-07-18", "open": 94.27, "high": 94.43, "low": 91.94, "close": 93.47, "volume": 29218379}];
+    const FULL_DATA = [{"date": "2026-07-20", "open": 90.5, "high": 90.78, "low": 89.86, "close": 89.97, "volume": 32535050}, {"date": "2026-07-21", "open": 90.65, "high": 92.31, "low": 90.52, "close": 91.71, "volume": 11463541}, {"date": "2026-07-22", "open": 92.27, "high": 92.94, "low": 91.54, "close": 92.16, "volume": 21298029}, {"date": "2026-07-23", "open": 93.39, "high": 93.95, "low": 93.02, "close": 93.43, "volume": 27366159}, {"date": "2026-07-24", "open": 93.66, "high": 93.72, "low": 92.18, "close": 93.69, "volume": 33533750}, {"date": "2026-07-25", "open": 92.07, "high": 93.64, "low": 91.15, "close": 92.71, "volume": 48108836}, {"date": "2026-07-26", "open": 92.5, "high": 92.53, "low": 90.28, "close": 91.89, "volume": 15670217}];
     const COMPARE = [{"ticker": "NVDA", "name": "NVDA", "price": 195.55, "return": -22.63}, {"ticker": "AAPL", "name": "AAPL", "price": 312.66, "return": 10.2}, {"ticker": "MSFT", "name": "MSFT", "price": 386.74, "return": -16.62}, {"ticker": "GOOGL", "name": "GOOGL", "price": 366.46, "return": -14.77}, {"ticker": "AMZN", "name": "AMZN", "price": 244.16, "return": -15.02}, {"ticker": "META", "name": "META", "price": 600.29, "return": -3.54}];
 
     function filterByPeriod(data, period) {
@@ -273,7 +273,7 @@
     }
 
     function updatePriceChange() {
-        const change = -1.95;
+        const change = -0.88;
         const el = document.getElementById('price-change');
         el.className = 'price-change ' + (change >= 0 ? 'up' : 'down');
         el.textContent = (change >= 0 ? '▲ +' : '▼ ') + change + '% 今日';
